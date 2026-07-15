@@ -430,7 +430,7 @@
       return card;
     }
 
-    function renderPage(page) {
+    function renderPage(page, scroll = false) {
       const container = document.getElementById('logs-container');
       const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
       const start = (page - 1) * PAGE_SIZE;
@@ -450,14 +450,16 @@
       document.getElementById('btn-next').disabled = page >= totalPages;
       document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
 
-      // Scroll to top of list smoothly
-      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Only scroll when navigating pages, not on initial load
+      if (scroll) {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function changePage(delta) {
       const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
       currentPage = Math.max(1, Math.min(totalPages, currentPage + delta));
-      renderPage(currentPage);
+      renderPage(currentPage, true);
     }
 
     async function loadLogs() {
