@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>WoW PvP Diminishing Returns (DR) Calculator - Meudayr</title>
+  <meta name="description" content="Calculate and visualize shared PvP Diminishing Returns (DR) categories for your 3v3 arena composition. Select specs to map Stuns, Incaps, Disorients, and more.">
+  <meta name="keywords" content="WoW PvP, DR Calculator, Diminishing Returns, 3v3 Arena, Crowd Control, WoW Addons, Meudayr">
+  <meta name="author" content="Meudayr">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <style>
+    /* Specific styles for DR Calculator page */
+    .calculator-header {
+      text-align: center;
+      padding: 60px 0 30px;
+    }
+    
+    .selector-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .selector-slot {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .slot-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    select {
+      background: #1f2229;
+      border: 1px solid #2d313c;
+      color: var(--text-main);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      outline: none;
+      font-size: 0.95rem;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      width: 100%;
+      transition: var(--transition);
+    }
+    
+    select:focus {
+      border-color: var(--primary);
+    }
+    
+    select:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    
+    /* Category Container styling */
+    .category-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 80px;
+    }
+    
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border: 1px dashed var(--card-border);
+      border-radius: var(--radius-lg);
+      color: var(--text-muted);
+    }
+    
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    
+    .spell-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .spell-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: #1c1e24;
+      border: 1px solid #282c35;
+      border-radius: var(--radius-md);
+    }
+    
+    .spell-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .spell-icon-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid #3d4251;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .spell-name-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .spell-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+    
+    .spell-source {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      width: fit-content;
+    }
+    
+    .spell-stats-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    
+    .spell-cd {
+      color: var(--text-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand" id="nav-brand-link">
+        <img src="assets/logo.png" alt="Meudayr Logo" id="nav-brand-logo">
+        <span>Meudayr</span>
+      </a>
+      <div class="nav-group">
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+          <a href="dr.html" class="nav-link active" id="nav-dr-link">DR Calculator</a>
+        </nav>
+        <div class="social-links">
+          <a href="https://github.com" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="nav-github-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Header -->
+    <section class="calculator-header">
+      <h1>3v3 DR Calculator</h1>
+      <p>Select three specs to view all available crowd controls grouped by their Diminishing Returns category.</p>
+    </section>
+
+    <!-- Selector Panel -->
+    <section class="selector-panel">
+      <!-- Player 1 Selector -->
+      <div class="selector-slot" id="slot-0">
+        <div class="slot-title">
+          <span>Player 1</span>
+          <span class="slot-color-indicator" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#25282f;"></span>
+        </div>
+        <select class="class-select" onchange="onClassChange(0, this.value)">
+          <option value="">Select Class</option>
+        </select>
+        <select class="spec-select" id="spec-select-0" onchange="onSpecChange(0, this.value)" disabled>
+          <option value="">Select Spec</option>
+        </select>
+      </div>
+
+      <!-- Player 2 Selector -->
+      <div class="selector-slot" id="slot-1">
+        <div class="slot-title">
+          <span>Player 2</span>
+          <span class="slot-color-indicator" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#25282f;"></span>
+        </div>
+        <select class="class-select" onchange="onClassChange(1, this.value)">
+          <option value="">Select Class</option>
+        </select>
+        <select class="spec-select" id="spec-select-1" onchange="onSpecChange(1, this.value)" disabled>
+          <option value="">Select Spec</option>
+        </select>
+      </div>
+
+      <!-- Player 3 Selector -->
+      <div class="selector-slot" id="slot-2">
+        <div class="slot-title">
+          <span>Player 3</span>
+          <span class="slot-color-indicator" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#25282f;"></span>
+        </div>
+        <select class="class-select" onchange="onClassChange(2, this.value)">
+          <option value="">Select Class</option>
+        </select>
+        <select class="spec-select" id="spec-select-2" onchange="onSpecChange(2, this.value)" disabled>
+          <option value="">Select Spec</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- DR Output Cards -->
+    <section class="category-cards" id="output-cards-container">
+      <div class="empty-state" id="calc-empty-state">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94-3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+        </svg>
+        <p>Select classes and specs above to calculate your team composition CC profile.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <p class="copyright">&copy; 2026 meudayr.com. All rights reserved. WoW, Wowhead, and spell assets are trademarks of Blizzard Entertainment and ZAM Network.</p>
+    </div>
+  </footer>
+
+  <!-- WoW PvP CC Database and Application Script -->
+  <script>
+    // WoW Class Colors
+    const CLASS_COLORS = {
+      "Death Knight": "#c41e3a",
+      "Demon Hunter": "#a330c9",
+      "Druid": "#ff7c0a",
+      "Evoker": "#33937f",
+      "Hunter": "#aad372",
+      "Mage": "#3fc7eb",
+      "Monk": "#00ff98",
+      "Paladin": "#f48cba",
+      "Priest": "#ffffff",
+      "Rogue": "#fff468",
+      "Shaman": "#0070dd",
+      "Warlock": "#8687ed",
+      "Warrior": "#c69b6d"
+    };
+
+    // Full PvP CC database
+    const DATABASE = {
+      "Death Knight": {
+        specs: ["Blood", "Frost", "Unholy"],
+        spells: [
+          { name: "Asphyxiate", category: "Stun", icon: "ability_deathknight_asphixiate", duration: "4s", cooldown: "45s", specFilter: ["Blood", "Frost", "Unholy"] },
+          { name: "Blinding Sleet", category: "Incapacitate", icon: "spell_frost_chillingblast", duration: "5s", cooldown: "1m", specFilter: ["Frost", "Unholy"] },
+          { name: "Strangulate", category: "Silence", icon: "spell_shadow_soulleech_3", duration: "3s", cooldown: "1m", specFilter: ["Blood", "Frost", "Unholy"] }
+        ]
+      },
+      "Demon Hunter": {
+        specs: ["Havoc", "Vengeance"],
+        spells: [
+          { name: "Chaos Nova", category: "Stun", icon: "spell_fire_felfirenova", duration: "4s", cooldown: "1m", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Fel Eruption", category: "Stun", icon: "ability_bossfellord_felspike", duration: "4s", cooldown: "30s", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Imprison", category: "Incapacitate", icon: "ability_demonhunter_imprison", duration: "4s", cooldown: "45s", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Sigil of Misery", category: "Disorient", icon: "ability_demonhunter_sigilofmisery", duration: "5s", cooldown: "1.5m", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Sigil of Silence", category: "Silence", icon: "ability_demonhunter_sigilofsilence", duration: "3s", cooldown: "1.5m", specFilter: ["Vengeance"] }
+        ]
+      },
+      "Druid": {
+        specs: ["Balance", "Feral", "Guardian", "Restoration"],
+        spells: [
+          { name: "Mighty Bash", category: "Stun", icon: "ability_druid_bash", duration: "4s", cooldown: "45s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Maim", category: "Stun", icon: "ability_druid_mangle", duration: "5s", cooldown: "20s", specFilter: ["Feral"] },
+          { name: "Rake Stun", category: "Stun", icon: "ability_druid_disembowel", duration: "4s", cooldown: "No CD", specFilter: ["Feral"] },
+          { name: "Cyclone", category: "Disorient", icon: "spell_nature_earthbind", duration: "6s", cooldown: "No CD", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Incapacitating Roar", category: "Incapacitate", icon: "ability_druid_demoralizingroar", duration: "3s", cooldown: "30s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Entangling Roots", category: "Root", icon: "spell_nature_stranglevines", duration: "8s", cooldown: "No CD", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Mass Entanglement", category: "Root", icon: "spell_druid_massentanglement", duration: "8s", cooldown: "30s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Solar Beam", category: "Silence", icon: "ability_vehicle_sonicshockwave", duration: "8s", cooldown: "1m", specFilter: ["Balance"] }
+        ]
+      },
+      "Evoker": {
+        specs: ["Devastation", "Preservation", "Augmentation"],
+        spells: [
+          { name: "Sleep Walk", category: "Incapacitate", icon: "ability_xavius_dreamsimulacrum", duration: "4s", cooldown: "15s", specFilter: ["Devastation", "Preservation", "Augmentation"] },
+          { name: "Landslide", category: "Root", icon: "ability_earthen_pillar", duration: "8s", cooldown: "1.5m", specFilter: ["Devastation", "Preservation", "Augmentation"] },
+          { name: "Terror of the Skies", category: "Stun", icon: "ability_evoker_deepbreath", duration: "3s", cooldown: "2m", specFilter: ["Devastation", "Preservation"] },
+          { name: "Upheaval", category: "Stun", icon: "ability_evoker_upheaval", duration: "3s", cooldown: "40s", specFilter: ["Augmentation"] }
+        ]
+      },
+      "Hunter": {
+        specs: ["Beast Mastery", "Marksmanship", "Survival"],
+        spells: [
+          { name: "Intimidation", category: "Stun", icon: "ability_devour", duration: "5s", cooldown: "1m", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
+          { name: "Freezing Trap", category: "Incapacitate", icon: "spell_frost_chainsofice", duration: "6s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
+          { name: "Scatter Shot", category: "Incapacitate", icon: "ability_golemstormbolt", duration: "4s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
+          { name: "Steel Trap", category: "Root", icon: "ability_hunter_steeltrap", duration: "8s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] }
+        ]
+      },
+      "Mage": {
+        specs: ["Arcane", "Fire", "Frost"],
+        spells: [
+          { name: "Polymorph", category: "Incapacitate", icon: "spell_nature_polymorph", duration: "6s", cooldown: "No CD", specFilter: ["Arcane", "Fire", "Frost"] },
+          { name: "Ring of Frost", category: "Incapacitate", icon: "spell_frost_ring-of-frost", duration: "6s", cooldown: "45s", specFilter: ["Arcane", "Fire", "Frost"] },
+          { name: "Dragon's Breath", category: "Disorient", icon: "inv_misc_head_dragon_01", duration: "4s", cooldown: "45s", specFilter: ["Fire"] },
+          { name: "Frost Nova", category: "Root", icon: "spell_frost_frostnova", duration: "8s", cooldown: "30s", specFilter: ["Arcane", "Fire", "Frost"] },
+          { name: "Ice Nova", category: "Root", icon: "spell_mage_icenova", duration: "2s", cooldown: "25s", specFilter: ["Frost"] }
+        ]
+      },
+      "Monk": {
+        specs: ["Brewmaster", "Windwalker", "Mistweaver"],
+        spells: [
+          { name: "Leg Sweep", category: "Stun", icon: "ability_monk_legsweep", duration: "3s", cooldown: "45s", specFilter: ["Brewmaster", "Windwalker", "Mistweaver"] },
+          { name: "Paralysis", category: "Incapacitate", icon: "ability_monk_paralysis", duration: "4s", cooldown: "45s", specFilter: ["Brewmaster", "Windwalker", "Mistweaver"] },
+          { name: "Song of Chi-Ji", category: "Incapacitate", icon: "inv_chaos_orb", duration: "4s", cooldown: "30s", specFilter: ["Brewmaster", "Windwalker", "Mistweaver"] },
+          { name: "Grapple Weapon", category: "Disarm", icon: "ability_warrior_disarm", duration: "6s", cooldown: "1m", specFilter: ["Brewmaster", "Windwalker", "Mistweaver"] }
+        ]
+      },
+      "Paladin": {
+        specs: ["Holy", "Protection", "Retribution"],
+        spells: [
+          { name: "Hammer of Justice", category: "Stun", icon: "spell_holy_sealofmight", duration: "6s", cooldown: "1m", specFilter: ["Holy", "Protection", "Retribution"] },
+          { name: "Blinding Light", category: "Disorient", icon: "ability_paladin_blindinglight", duration: "5s", cooldown: "1.5m", specFilter: ["Holy", "Protection", "Retribution"] },
+          { name: "Repentance", category: "Incapacitate", icon: "spell_holy_prayerofhealing", duration: "6s", cooldown: "15s", specFilter: ["Holy", "Protection", "Retribution"] }
+        ]
+      },
+      "Priest": {
+        specs: ["Discipline", "Holy", "Shadow"],
+        spells: [
+          { name: "Psychic Scream", category: "Disorient", icon: "spell_shadow_psychicscream", duration: "6s", cooldown: "1m", specFilter: ["Discipline", "Holy", "Shadow"] },
+          { name: "Psychic Horror", category: "Disorient", icon: "spell_shadow_psychichorrors", duration: "4s", cooldown: "45s", specFilter: ["Shadow"] },
+          { name: "Silence", category: "Silence", icon: "ability_priest_silence", duration: "4s", cooldown: "45s", specFilter: ["Shadow"] },
+          { name: "HW: Chastise", category: "Incapacitate", icon: "spell_priest_plea_yellow", duration: "4s", cooldown: "1m", specFilter: ["Holy"] },
+          { name: "Void Tendrils", category: "Root", icon: "spell_priest_voidtendrils", duration: "8s", cooldown: "1m", specFilter: ["Discipline", "Holy", "Shadow"] }
+        ]
+      },
+      "Rogue": {
+        specs: ["Assassination", "Outlaw", "Subtlety"],
+        spells: [
+          { name: "Kidney Shot", category: "Stun", icon: "ability_rogue_kidneyshot", duration: "6s", cooldown: "20s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Cheap Shot", category: "Stun", icon: "ability_cheapshot", duration: "4s", cooldown: "No CD", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Sap", category: "Incapacitate", icon: "ability_sap", duration: "6s", cooldown: "No CD", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Gouge", category: "Incapacitate", icon: "ability_gouge", duration: "4s", cooldown: "15s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Blind", category: "Disorient", icon: "spell_shadow_mindsteal", duration: "5s", cooldown: "2m", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Dismantle", category: "Disarm", icon: "ability_rogue_dismantle", duration: "6s", cooldown: "45s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Garrote (Silence)", category: "Silence", icon: "ability_rogue_garrote", duration: "3s", cooldown: "15s", specFilter: ["Assassination"] }
+        ]
+      },
+      "Shaman": {
+        specs: ["Elemental", "Enhancement", "Restoration"],
+        spells: [
+          { name: "Capacitor Totem", category: "Stun", icon: "spell_nature_brilliance", duration: "3s", cooldown: "45s", specFilter: ["Elemental", "Enhancement", "Restoration"] },
+          { name: "Lightning Lasso", category: "Stun", icon: "spell_nature_thorns", duration: "5s", cooldown: "30s", specFilter: ["Elemental", "Restoration"] },
+          { name: "Hex", category: "Incapacitate", icon: "spell_shaman_hex", duration: "6s", cooldown: "30s", specFilter: ["Elemental", "Enhancement", "Restoration"] },
+          { name: "Sundering", category: "Incapacitate", icon: "ability_rhyolith_lavapool", duration: "4s", cooldown: "40s", specFilter: ["Enhancement"] },
+          { name: "Earthgrab Totem", category: "Root", icon: "spell_nature_stranglevines", duration: "8s", cooldown: "30s", specFilter: ["Elemental", "Enhancement", "Restoration"] }
+        ]
+      },
+      "Warlock": {
+        specs: ["Affliction", "Demonology", "Destruction"],
+        spells: [
+          { name: "Fear", category: "Disorient", icon: "spell_shadow_possession", duration: "6s", cooldown: "No CD", specFilter: ["Affliction", "Demonology", "Destruction"] },
+          { name: "Howl of Terror", category: "Disorient", icon: "ability_warlock_howlofterror", duration: "6s", cooldown: "40s", specFilter: ["Affliction", "Demonology", "Destruction"] },
+          { name: "Mortal Coil", category: "Disorient", icon: "ability_warlock_mortalcoil", duration: "3s", cooldown: "45s", specFilter: ["Affliction", "Demonology", "Destruction"] },
+          { name: "Shadowfury", category: "Stun", icon: "ability_warlock_shadowfurytga", duration: "3s", cooldown: "1m", specFilter: ["Affliction", "Demonology", "Destruction"] },
+          { name: "Axe Toss", category: "Stun", icon: "ability_warrior_titansgrip", duration: "4s", cooldown: "30s", specFilter: ["Demonology"] }
+        ]
+      },
+      "Warrior": {
+        specs: ["Arms", "Fury", "Protection"],
+        spells: [
+          { name: "Storm Bolt", category: "Stun", icon: "warrior_talent_icon_stormbolt", duration: "4s", cooldown: "30s", specFilter: ["Arms", "Fury", "Protection"] },
+          { name: "Shockwave", category: "Stun", icon: "ability_warrior_shockwave", duration: "3s", cooldown: "40s", specFilter: ["Arms", "Fury", "Protection"] },
+          { name: "Intimidating Shout", category: "Disorient", icon: "ability_golemthunderclap", duration: "6s", cooldown: "1.5m", specFilter: ["Arms", "Fury", "Protection"] },
+          { name: "Disarm", category: "Disarm", icon: "ability_warrior_disarm", duration: "6s", cooldown: "45s", specFilter: ["Arms", "Fury", "Protection"] }
+        ]
+      }
+    };
+
+    // DR Categories
+    const CATEGORIES = ["Stun", "Incapacitate", "Disorient", "Silence", "Root", "Disarm"];
+
+    // App state
+    const selections = [
+      { className: "", specName: "" },
+      { className: "", specName: "" },
+      { className: "", specName: "" }
+    ];
+
+    // Initialize selectors
+    function init() {
+      const classSelects = document.querySelectorAll('.class-select');
+      classSelects.forEach((select, idx) => {
+        // Load classes
+        select.innerHTML = '<option value="">Select Class</option>';
+        Object.keys(DATABASE).sort().forEach(className => {
+          select.innerHTML += `<option value="${className}">${className}</option>`;
+        });
+      });
+    }
+
+    // Handle class select change
+    function onClassChange(slotIdx, className) {
+      selections[slotIdx].className = className;
+      selections[slotIdx].specName = "";
+      
+      const specSelect = document.getElementById(`spec-select-${slotIdx}`);
+      const colorIndicator = document.querySelector(`#slot-${slotIdx} .slot-color-indicator`);
+      
+      if (!className) {
+        specSelect.innerHTML = '<option value="">Select Spec</option>';
+        specSelect.disabled = true;
+        colorIndicator.style.background = "#25282f";
+      } else {
+        // Update color indicator
+        colorIndicator.style.background = CLASS_COLORS[className] || "#25282f";
+        
+        // Load specs
+        specSelect.disabled = false;
+        specSelect.innerHTML = '<option value="">Select Spec</option>';
+        DATABASE[className].specs.forEach(spec => {
+          specSelect.innerHTML += `<option value="${spec}">${spec}</option>`;
+        });
+      }
+      
+      calculateDR();
+    }
+
+    // Handle spec select change
+    function onSpecChange(slotIdx, specName) {
+      selections[slotIdx].specName = specName;
+      calculateDR();
+    }
+
+    // Dynamic DR Calculation and Rendering
+    function calculateDR() {
+      const container = document.getElementById('output-cards-container');
+      
+      // Check if we have at least one valid selection
+      const activeSelections = selections.filter(s => s.className && s.specName);
+      
+      if (activeSelections.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" id="calc-empty-state">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94-3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+            </svg>
+            <p>Select classes and specs above to calculate your team composition CC profile.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Compile CC list
+      const ccMap = {};
+      CATEGORIES.forEach(cat => {
+        ccMap[cat] = [];
+      });
+      
+      activeSelections.forEach(sel => {
+        const classData = DATABASE[sel.className];
+        if (classData && classData.spells) {
+          classData.spells.forEach(spell => {
+            if (spell.specFilter.includes(sel.specName)) {
+              ccMap[spell.category].push({
+                name: spell.name,
+                icon: spell.icon,
+                duration: spell.duration,
+                cooldown: spell.cooldown,
+                className: sel.className,
+                specName: sel.specName
+              });
+            }
+          });
+        }
+      });
+      
+      // Render cards
+      container.innerHTML = "";
+      
+      CATEGORIES.forEach(categoryName => {
+        const spells = ccMap[categoryName];
+        
+        // Determine category label text (fix "Disorient" to "Disorient (Fear)")
+        const labelText = categoryName === "Disorient" ? "Disorient (Fear)" : categoryName;
+        
+        // Build card HTML
+        let cardHTML = `
+          <div class="addon-card" style="padding: 24px;">
+            <div>
+              <div class="card-top" style="margin-bottom: 12px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
+                <h3 style="margin-bottom: 0; font-size: 1.15rem;">${labelText}</h3>
+                <span class="addon-game-badge" style="font-size: 0.7rem; background: rgba(255,255,255,0.02);">${spells.length} Spells</span>
+              </div>
+        `;
+        
+        if (spells.length === 0) {
+          cardHTML += `
+            <p style="color: var(--text-dark); font-size: 0.85rem; font-style: italic; margin-bottom: 0; padding: 12px 0;">No abilities in this category.</p>
+          `;
+        } else {
+          cardHTML += `<div class="spell-list">`;
+          spells.forEach(spell => {
+            const classColor = CLASS_COLORS[spell.className] || "#ffffff";
+            const wowheadUrl = `https://wow.zamimg.com/images/wow/icons/large/${spell.icon}.jpg`;
+            
+            cardHTML += `
+              <div class="spell-item">
+                <div class="spell-info">
+                  <img src="${wowheadUrl}" alt="${spell.name} Icon" class="spell-icon-img">
+                  <div class="spell-name-block">
+                    <span class="spell-name">${spell.name}</span>
+                    <span class="spell-source" style="color: ${classColor}; border-color: ${classColor}30; background: ${classColor}08;">
+                      ${spell.specName} ${spell.className}
+                    </span>
+                  </div>
+                </div>
+                <div class="spell-stats-meta">
+                  <span style="font-weight: 500; color: var(--text-main);">${spell.duration}</span>
+                  <span class="spell-cd">${spell.cooldown} CD</span>
+                </div>
+              </div>
+            `;
+          });
+          cardHTML += `</div>`;
+        }
+        
+        cardHTML += `
+            </div>
+          </div>
+        `;
+        
+        container.innerHTML += cardHTML;
+      });
+    }
+
+    // Start
+    window.onload = init;
+  </script>
+</body>
+</html>
