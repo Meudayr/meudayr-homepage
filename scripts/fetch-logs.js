@@ -11,6 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CLIENT_ID = process.env.WCL_CLIENT_ID;
 const CLIENT_SECRET = process.env.WCL_CLIENT_SECRET;
 const WCL_USER_ID = 323892; // Meudayr's WarcraftLogs user ID
+const REPORTS_PER_PAGE = 25;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   console.error('Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.');
@@ -35,15 +36,16 @@ async function getAccessToken() {
   }
 
   const data = await res.json();
+  console.log('Access token obtained successfully.');
   return data.access_token;
 }
 
-// Step 2: Query WarcraftLogs API for Meudayr's reports using his user ID
-async function fetchReports(token) {
+// Step 2: Query a single page of reports
+async function fetchReportsPage(token, page) {
   const query = `
     query {
       reportData {
-        reports(userID: ${WCL_USER_ID}, limit: 15) {
+        reports(userID: ${WCL_USER_ID}, limit: ${REPORTS_PER_PAGE}, page: ${page}) {
           data {
             code
             title
@@ -53,6 +55,10 @@ async function fetchReports(token) {
               name
             }
           }
+          total
+          per_page
+          current_page
+          has_more_pages
         }
       }
     }
@@ -78,7 +84,34 @@ async function fetchReports(token) {
     throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`);
   }
 
-  return json.data?.reportData?.reports?.data ?? [];
+  return json.data?.reportData?.reports ?? { data: [], has_more_pages: false, total: 0 };
+}
+
+// Step 3: Paginate through ALL reports
+async function fetchAllReports(token) {
+  let allReports = [];
+  let page = 1;
+  let hasMore = true;
+
+  while (hasMore) {
+    console.log(`  Fetching page ${page}...`);
+    const result = await fetchReportsPage(token, page);
+    const pageReports = result.data ?? [];
+
+    console.log(`  Page ${page}: got ${pageReports.length} reports. Total so far: ${allReports.length + pageReports.length} / ${result.total}`);
+    allReports = allReports.concat(pageReports);
+
+    hasMore = result.has_more_pages === true;
+    page++;
+
+    // Safety cap to avoid infinite loops
+    if (page > 20) {
+      console.log('Reached page limit of 20, stopping.');
+      break;
+    }
+  }
+
+  return allReports;
 }
 
 // Main
@@ -87,10 +120,15 @@ async function main() {
     console.log('Fetching WarcraftLogs access token...');
     const token = await getAccessToken();
 
-    console.log(`Querying reports for user ID ${WCL_USER_ID} (Meudayr)...`);
-    const reports = await fetchReports(token);
+    console.log(`Querying all reports for user ID ${WCL_USER_ID} (Meudayr)...`);
+    const reports = await fetchAllReports(token);
 
-    console.log(`Fetched ${reports.length} reports.`);
+    console.log(`Total reports fetched: ${reports.length}`);
+
+    if (reports.length === 0) {
+      console.warn('WARNING: 0 reports returned. Reports may be set to Private on WarcraftLogs.');
+      console.warn('Fix: Go to warcraftlogs.com and set each report\'s visibility to Public.');
+    }
 
     const output = {
       fetchedAt: new Date().toISOString(),
@@ -104,7 +142,7 @@ async function main() {
 
     const outPath = path.join(outDir, 'logs.json');
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-    console.log(`Wrote ${outPath}`);
+    console.log(`Successfully wrote ${reports.length} reports to ${outPath}`);
 
   } catch (err) {
     console.error('Error fetching logs:', err.message);
