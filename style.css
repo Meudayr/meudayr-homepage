@@ -125,6 +125,88 @@ header {
   margin: 0 auto;
 }
 
+/* Hero Tool Cards */
+.hero-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.hero-tool-card:hover {
+  border-color: var(--card-border-hover);
+  transform: translateX(4px);
+}
+
+.hero-tool-card:hover .hero-tool-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hero-tool-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(56, 142, 60, 0.1);
+  border: 1px solid rgba(56, 142, 60, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary);
+}
+
+.hero-tool-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.hero-tool-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.hero-tool-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.hero-tool-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.hero-tool-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
 .badge {
   display: inline-block;
   padding: 4px 12px;
