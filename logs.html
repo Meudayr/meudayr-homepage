@@ -270,6 +270,55 @@
       height: 86px;
       border-radius: var(--radius-lg);
     }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px 0 60px;
+    }
+
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .page-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .page-info {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      min-width: 90px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -318,6 +367,18 @@
         <div class="skeleton skeleton-card"></div>
       </div>
     </div>
+    <!-- Pagination controls -->
+    <div class="pagination" id="pagination" style="display:none;">
+      <button class="page-btn" id="btn-prev" onclick="changePage(-1)" disabled>
+        <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+        Prev
+      </button>
+      <span class="page-info" id="page-info"></span>
+      <button class="page-btn" id="btn-next" onclick="changePage(1)">
+        Next
+        <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </button>
+    </div>
   </main>
 
   <footer style="margin-top: auto; padding: 40px 0; border-top: 1px solid var(--card-border); text-align: center; color: var(--text-dark); font-size: 0.85rem;">
@@ -327,19 +388,87 @@
   </footer>
 
   <script>
+    const PAGE_SIZE = 15;
+    let allReports = [];
+    let currentPage = 1;
+
+    function buildCard(report, isFirst) {
+      const date = new Date(report.startTime);
+      const durationMs = report.endTime - report.startTime;
+      const durationMins = Math.round(durationMs / 60000);
+      const hours = Math.floor(durationMins / 60);
+      const mins = durationMins % 60;
+      const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+      const day = date.toLocaleDateString('en-US', { day: '2-digit' });
+      const month = date.toLocaleDateString('en-US', { month: 'short' });
+
+      const card = document.createElement('a');
+      card.className = 'log-card' + (isFirst ? ' latest' : '');
+      card.href = `https://www.warcraftlogs.com/reports/${report.code}`;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.innerHTML = `
+        <div class="log-date-badge">
+          <div class="log-date-day">${day}</div>
+          <div class="log-date-month">${month}</div>
+        </div>
+        <div class="log-info">
+          <div class="log-title">
+            ${isFirst ? '<span class="latest-tag">Latest</span> ' : ''}${report.title || 'Raid Night'}
+          </div>
+          <div class="log-meta">
+            ${report.zone ? `<span class="log-zone">${report.zone.name}</span>` : ''}
+            <span class="log-duration">
+              <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${durationStr}
+            </span>
+          </div>
+        </div>
+        <div class="log-arrow">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </div>`;
+      return card;
+    }
+
+    function renderPage(page) {
+      const container = document.getElementById('logs-container');
+      const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
+      const start = (page - 1) * PAGE_SIZE;
+      const pageReports = allReports.slice(start, start + PAGE_SIZE);
+
+      const grid = document.createElement('div');
+      grid.className = 'logs-grid';
+      pageReports.forEach((report, i) => {
+        grid.appendChild(buildCard(report, page === 1 && i === 0));
+      });
+
+      container.innerHTML = '';
+      container.appendChild(grid);
+
+      // Update pagination controls
+      document.getElementById('btn-prev').disabled = page <= 1;
+      document.getElementById('btn-next').disabled = page >= totalPages;
+      document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
+
+      // Scroll to top of list smoothly
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function changePage(delta) {
+      const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
+      currentPage = Math.max(1, Math.min(totalPages, currentPage + delta));
+      renderPage(currentPage);
+    }
+
     async function loadLogs() {
       const container = document.getElementById('logs-container');
       const skeletonGrid = document.getElementById('skeleton-grid');
 
       try {
-        // Fetch the pre-built static logs JSON (generated by GitHub Actions)
         const response = await fetch('data/logs.json?t=' + Date.now());
-
         if (!response.ok) throw new Error('Failed to fetch logs data.');
-
         const data = await response.json();
 
-        // Remove skeleton
         skeletonGrid.remove();
 
         if (!data.reports || data.reports.length === 0) {
@@ -361,55 +490,14 @@
           document.getElementById('last-updated-text').style.display = 'inline-flex';
         }
 
-        // Render cards
-        const grid = document.createElement('div');
-        grid.className = 'logs-grid';
+        allReports = data.reports;
+        currentPage = 1;
+        renderPage(1);
 
-        data.reports.forEach((report, index) => {
-          const startMs = report.startTime;
-          const endMs = report.endTime;
-          const date = new Date(startMs);
-          const durationMs = endMs - startMs;
-          const durationMins = Math.round(durationMs / 60000);
-          const hours = Math.floor(durationMins / 60);
-          const mins = durationMins % 60;
-          const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
-
-          const day = date.toLocaleDateString('en-US', { day: '2-digit' });
-          const month = date.toLocaleDateString('en-US', { month: 'short' });
-
-          const card = document.createElement('a');
-          card.className = 'log-card' + (index === 0 ? ' latest' : '');
-          card.href = `https://www.warcraftlogs.com/reports/${report.code}`;
-          card.target = '_blank';
-          card.rel = 'noopener noreferrer';
-          card.id = `log-card-${index}`;
-
-          card.innerHTML = `
-            <div class="log-date-badge">
-              <div class="log-date-day">${day}</div>
-              <div class="log-date-month">${month}</div>
-            </div>
-            <div class="log-info">
-              <div class="log-title">
-                ${index === 0 ? '<span class="latest-tag">Latest</span> ' : ''}${report.title || 'Raid Night'}
-              </div>
-              <div class="log-meta">
-                ${report.zone ? `<span class="log-zone">${report.zone.name}</span>` : ''}
-                <span class="log-duration">
-                  <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  ${durationStr}
-                </span>
-              </div>
-            </div>
-            <div class="log-arrow">
-              <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-            </div>`;
-
-          grid.appendChild(card);
-        });
-
-        container.appendChild(grid);
+        // Show pagination only if more than one page
+        if (allReports.length > PAGE_SIZE) {
+          document.getElementById('pagination').style.display = 'flex';
+        }
 
       } catch (err) {
         skeletonGrid.remove();
