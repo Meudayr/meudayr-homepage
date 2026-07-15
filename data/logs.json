@@ -1,6 +1,140 @@
 {
-  "fetchedAt": null,
+  "fetchedAt": "2026-07-15T03:07:01.594Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
-  "reports": []
+  "reports": [
+    {
+      "code": "MngT6pZX3R8rAYhj",
+      "title": "6/18",
+      "startTime": 1781826785474,
+      "endTime": 1781832455028,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "8CNfVBmJLwAQFa3h",
+      "title": "6/2",
+      "startTime": 1780413492937,
+      "endTime": 1780453491449,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "QHTqJAbBPxYLkZtD",
+      "title": "6/1",
+      "startTime": 1780331849119,
+      "endTime": 1780342408907,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "MfbgJ1NkYVv9Td47",
+      "title": "5/31",
+      "startTime": 1780255656578,
+      "endTime": 1780259640622,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "AKtrhZjFQVz7M1N3",
+      "title": "5/29",
+      "startTime": 1780100194130,
+      "endTime": 1780110392026,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "ztqJXfFZjPRWpQnD",
+      "title": "5/28",
+      "startTime": 1780009003062,
+      "endTime": 1780025545051,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "baCfjKwZyFRgxzD4",
+      "title": "5/27",
+      "startTime": 1779931430651,
+      "endTime": 1779937364027,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "LjYNM968TKzwxQcv",
+      "title": "5/27",
+      "startTime": 1779933102669,
+      "endTime": 1779933102669,
+      "zone": null
+    },
+    {
+      "code": "9QNThj3Rvc7WdqXY",
+      "title": "5/26",
+      "startTime": 1779812994463,
+      "endTime": 1779841013724,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "4jnXVB8qJW2cQ6FR",
+      "title": "5/25",
+      "startTime": 1779719302757,
+      "endTime": 1779723709951,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "7zpjn3KgYwmRGHab",
+      "title": "5/24",
+      "startTime": 1779671278210,
+      "endTime": 1779679843619,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "81LtfMTGvNpgrwqm",
+      "title": "5/23",
+      "startTime": 1779579110753,
+      "endTime": 1779586350765,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "GpQDLfgbWN8kdTzY",
+      "title": "5/22",
+      "startTime": 1779492473675,
+      "endTime": 1779496994961,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "BQmpxRPfrkhMndg1",
+      "title": "5/21",
+      "startTime": 1779405365897,
+      "endTime": 1779421453671,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    },
+    {
+      "code": "NqvdwtcY7gm4fPK6",
+      "title": "5/21",
+      "startTime": 1779369903261,
+      "endTime": 1779372315694,
+      "zone": {
+        "name": "Mythic+ Season 1"
+      }
+    }
+  ]
 }
