@@ -10,13 +10,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const CLIENT_ID = process.env.WCL_CLIENT_ID;
 const CLIENT_SECRET = process.env.WCL_CLIENT_SECRET;
+const WCL_USER_ID = 323892; // Meudayr's WarcraftLogs user ID
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   console.error('Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.');
   process.exit(1);
 }
 
-// Step 1: Get OAuth access token
+// Step 1: Get OAuth access token using client credentials flow
 async function getAccessToken() {
   const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
   const res = await fetch('https://www.warcraftlogs.com/oauth/token', {
@@ -37,21 +38,19 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-// Step 2: Query WarcraftLogs API for Meudayr's recent reports
+// Step 2: Query WarcraftLogs API for Meudayr's reports using his user ID
 async function fetchReports(token) {
   const query = `
     query {
-      characterData {
-        character(name: "Meudayr", serverSlug: "crushridge", serverRegion: "US") {
-          recentReports: reports(limit: 15) {
-            data {
-              code
-              title
-              startTime
-              endTime
-              zone {
-                name
-              }
+      reportData {
+        reports(userID: ${WCL_USER_ID}, limit: 15) {
+          data {
+            code
+            title
+            startTime
+            endTime
+            zone {
+              name
             }
           }
         }
@@ -79,7 +78,7 @@ async function fetchReports(token) {
     throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`);
   }
 
-  return json.data?.characterData?.character?.recentReports?.data ?? [];
+  return json.data?.reportData?.reports?.data ?? [];
 }
 
 // Main
@@ -88,7 +87,7 @@ async function main() {
     console.log('Fetching WarcraftLogs access token...');
     const token = await getAccessToken();
 
-    console.log('Querying reports for Meudayr on Crushridge-US...');
+    console.log(`Querying reports for user ID ${WCL_USER_ID} (Meudayr)...`);
     const reports = await fetchReports(token);
 
     console.log(`Fetched ${reports.length} reports.`);
