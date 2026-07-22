@@ -253,6 +253,7 @@ header {
   position: relative;
 }
 
+.hero h1::after,
 .section-title::after {
   content: '';
   display: block;
