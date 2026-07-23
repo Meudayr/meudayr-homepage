@@ -517,29 +517,31 @@
       }
     }
 
-    // Live Plex Status Checker
+    // Live Plex Status Checker via Cloudflare Function & Plex.tv API
     async function checkPlexStatus() {
       const pill = document.getElementById('nav-plex-link');
       const label = document.getElementById('plex-status-label');
       if (!pill || !label) return;
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
-
       try {
-        await fetch('https://plex.meudayr.com/login', {
-          method: 'GET',
-          mode: 'no-cors',
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        pill.className = 'plex-nav-pill online';
-        label.textContent = 'Online';
+        const res = await fetch('/api/plex-status');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.online) {
+            pill.className = 'plex-nav-pill online';
+            label.textContent = 'Online';
+          } else {
+            pill.className = 'plex-nav-pill offline';
+            label.textContent = 'Offline';
+          }
+          return;
+        }
       } catch (err) {
-        clearTimeout(timeoutId);
-        pill.className = 'plex-nav-pill offline';
-        label.textContent = 'Offline';
+        console.warn('Plex status check failed:', err);
       }
+
+      pill.className = 'plex-nav-pill offline';
+      label.textContent = 'Offline';
     }
 
     loadLogs();
