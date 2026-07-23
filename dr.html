@@ -573,31 +573,47 @@
       });
     }
 
-    // Live Plex Status Checker via Cloudflare Function & Plex.tv API
+    // Live Plex Status Checker via Plex.tv API
+    const PLEX_TOKEN = ""; // Paste your X-Plex-Token here to enable live server status
+
     async function checkPlexStatus() {
       const pill = document.getElementById('nav-plex-link');
       const label = document.getElementById('plex-status-label');
       if (!pill || !label) return;
 
+      if (!PLEX_TOKEN) {
+        pill.className = 'plex-nav-pill offline';
+        label.textContent = 'Setup Token';
+        pill.setAttribute('title', 'Add X-Plex-Token to enable live Plex server status');
+        return;
+      }
+
       try {
-        const res = await fetch('/api/plex-status');
+        const res = await fetch(`https://plex.tv/api/v2/resources?X-Plex-Token=${encodeURIComponent(PLEX_TOKEN)}&includeHttps=1`, {
+          headers: {
+            'Accept': 'application/json',
+            'X-Plex-Client-Identifier': 'meudayr-homepage'
+          }
+        });
+
         if (res.ok) {
-          const data = await res.json();
-          if (data.online) {
+          const resources = await res.json();
+          const server = resources.find(r => r.provides && r.provides.includes('server'));
+
+          if (server && server.presence) {
             pill.className = 'plex-nav-pill online';
             label.textContent = 'Online';
-          } else {
-            pill.className = 'plex-nav-pill offline';
-            label.textContent = 'Offline';
+            pill.setAttribute('title', `Plex Server: ${server.name || 'Online'}`);
+            return;
           }
-          return;
         }
       } catch (err) {
-        console.warn('Plex status check failed:', err);
+        console.warn('Plex.tv API status check failed:', err);
       }
 
       pill.className = 'plex-nav-pill offline';
       label.textContent = 'Offline';
+      pill.setAttribute('title', 'Plex Server: Offline');
     }
 
     // Start
