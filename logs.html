@@ -337,8 +337,9 @@
           <a href="logs.html" class="nav-link active" id="nav-logs-link">Logs</a>
         </nav>
         <div class="social-links">
-          <a href="https://plex.meudayr.com" class="social-icon plex-nav-icon" target="_blank" rel="noopener noreferrer" aria-label="Plex Server Status" id="nav-plex-link" title="Plex Server Status: Checking...">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <a href="https://plex.meudayr.com" class="plex-nav-pill checking" target="_blank" rel="noopener noreferrer" id="nav-plex-link" title="Open Plex Media Server">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="plex-nav-svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span class="plex-nav-text">Plex: <span id="plex-status-label">Checking...</span></span>
             <span class="plex-nav-dot" id="plex-nav-dot"></span>
           </a>
           <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="nav-github-link">
@@ -518,9 +519,9 @@
 
     // Live Plex Status Checker
     async function checkPlexStatus() {
-      const iconLink = document.getElementById('nav-plex-link');
-      const dot = document.getElementById('plex-nav-dot');
-      if (!dot) return;
+      const pill = document.getElementById('nav-plex-link');
+      const label = document.getElementById('plex-status-label');
+      if (!pill || !label) return;
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 4000);
@@ -532,12 +533,12 @@
           signal: controller.signal
         });
         clearTimeout(timeoutId);
-        dot.className = 'plex-nav-dot online';
-        if (iconLink) iconLink.setAttribute('title', 'Plex Server Status: Online');
+        pill.className = 'plex-nav-pill online';
+        label.textContent = 'Online';
       } catch (err) {
         clearTimeout(timeoutId);
-        dot.className = 'plex-nav-dot offline';
-        if (iconLink) iconLink.setAttribute('title', 'Plex Server Status: Offline');
+        pill.className = 'plex-nav-pill offline';
+        label.textContent = 'Offline';
       }
     }
 

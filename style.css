@@ -208,33 +208,70 @@ header {
   flex-shrink: 0;
 }
 
-/* Plex Nav Toolbar Styling */
-.social-icon.plex-nav-icon:hover {
-  background: rgba(229, 160, 13, 0.12);
+/* Plex Nav Toolbar Pill Styling */
+.plex-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  height: 36px;
+  white-space: nowrap;
+}
+
+.plex-nav-pill:hover {
   border-color: #e5a00d;
+  background: rgba(229, 160, 13, 0.08);
+  color: var(--text-main);
+}
+
+.plex-nav-svg {
+  width: 14px;
+  height: 14px;
   color: #e5a00d;
+  flex-shrink: 0;
+}
+
+.plex-nav-text {
+  color: var(--text-muted);
+}
+
+.plex-nav-pill.online .plex-nav-text {
+  color: var(--text-main);
 }
 
 .plex-nav-dot {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: 9px;
-  height: 9px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #94a3b8;
-  border: 2px solid #121418;
+  flex-shrink: 0;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.plex-nav-dot.online {
+.plex-nav-pill.online .plex-nav-dot {
   background: #4caf50;
   box-shadow: 0 0 6px rgba(76, 175, 80, 0.8);
 }
 
-.plex-nav-dot.offline {
+.plex-nav-pill.online {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.plex-nav-pill.offline .plex-nav-dot {
   background: #ef4444;
   box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+}
+
+.plex-nav-pill.offline {
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
 .badge {
