@@ -583,7 +583,7 @@
       const timeoutId = setTimeout(() => controller.abort(), 4000);
 
       try {
-        await fetch('https://plex.meudayr.com/identity', {
+        await fetch('https://plex.meudayr.com/login', {
           method: 'GET',
           mode: 'no-cors',
           signal: controller.signal
