@@ -766,6 +766,48 @@
       container.innerHTML = html;
     }
 
+    // Initialize Class Dropdowns
+    function init() {
+      const classSelects = document.querySelectorAll('.class-select');
+      classSelects.forEach((select) => {
+        select.innerHTML = '<option value="">Select Class</option>';
+        Object.keys(DATABASE).sort().forEach(className => {
+          select.innerHTML += `<option value="${className}">${className}</option>`;
+        });
+      });
+    }
+
+    // Handle Class Dropdown Change
+    function onClassChange(slotIdx, className) {
+      selections[slotIdx].className = className;
+      selections[slotIdx].specName = "";
+      
+      const specSelect = document.getElementById(`spec-select-${slotIdx}`);
+      
+      if (!className) {
+        specSelect.innerHTML = '<option value="">Select Spec</option>';
+        specSelect.disabled = true;
+      } else {
+        specSelect.disabled = false;
+        specSelect.innerHTML = '<option value="">Select Spec</option>';
+        if (DATABASE[className] && DATABASE[className].specs) {
+          DATABASE[className].specs.forEach(spec => {
+            specSelect.innerHTML += `<option value="${spec}">${spec}</option>`;
+          });
+        }
+      }
+      
+      updateSlotIcons(slotIdx);
+      calculateDR();
+    }
+
+    // Handle Spec Dropdown Change
+    function onSpecChange(slotIdx, specName) {
+      selections[slotIdx].specName = specName;
+      updateSlotIcons(slotIdx);
+      calculateDR();
+    }
+
     // Apply Meta Comp Presets
     function applyPreset(c1, s1, c2, s2, c3, s3) {
       setSlot(0, c1, s1);
