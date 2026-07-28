@@ -400,7 +400,7 @@
       <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Hunter', 'Marksmanship', 'Priest', 'Discipline')">🐾 Jungle</button>
       <button class="preset-pill" onclick="applyPreset('Warrior', 'Arms', 'Death Knight', 'Frost', 'Paladin', 'Holy')">⚔️ TSG</button>
       <button class="preset-pill" onclick="applyPreset('Shaman', 'Elemental', 'Warrior', 'Arms', 'Druid', 'Restoration')">⚡ Thunder</button>
-      <button class="preset-pill" onclick="applyPreset('Druid', 'Guardian', 'Druid', 'Feral', 'Shaman', 'Restoration')">🐻 Meudayr Special</button>
+      <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Shaman', 'Elemental', 'Priest', 'Discipline')">🐾 Meudayr Special</button>
     </div>
 
     <!-- Selector Panel -->
@@ -652,7 +652,15 @@
       const specSelect = document.getElementById(`spec-select-${slotIdx}`);
       const colorIndicator = document.querySelector(`#slot-${slotIdx} .slot-color-indicator`);
 
-      if (classSelect) classSelect.value = className;
+      if (classSelect) {
+        if (classSelect.options.length <= 1) {
+          classSelect.innerHTML = '<option value="">Select Class</option>';
+          Object.keys(DATABASE).sort().forEach(cn => {
+            classSelect.innerHTML += `<option value="${cn}">${cn}</option>`;
+          });
+        }
+        classSelect.value = className;
+      }
       if (colorIndicator) colorIndicator.style.background = CLASS_COLORS[className] || "#25282f";
 
       if (specSelect) {
@@ -769,6 +777,7 @@
             const wowheadUrl = `https://wow.zamimg.com/images/wow/icons/large/${spell.icon}.jpg`;
             const encodedSpell = encodeURIComponent(JSON.stringify(spell));
             const isInCustom = customChain.some(s => s.name === spell.name && s.className === spell.className);
+            const cdText = (spell.cooldown || "").toLowerCase().includes("cd") ? spell.cooldown : `${spell.cooldown} CD`;
 
             cardHTML += `
               <div class="spell-item">
@@ -786,7 +795,7 @@
                 </div>
                 <div class="spell-stats-meta">
                   <span style="font-weight: 500; color: var(--text-main);">${spell.duration}</span>
-                  <span class="spell-cd">${spell.cooldown} CD</span>
+                  <span class="spell-cd">${cdText}</span>
                 </div>
               </div>
             `;
@@ -813,10 +822,13 @@
       hardCategories.forEach(cat => {
         const spells = ccMap[cat];
         if (spells && spells.length > 0) {
-          // Sort by highest base duration
-          const bestSpell = spells.slice().sort((a,b) => parseSeconds(b.duration) - parseSeconds(a.duration))[0];
-          recommendedChain.push(bestSpell);
-          totalOptimalLockdown += parseSeconds(bestSpell.duration);
+          // Filter out out-of-combat abilities like Sap for in-combat chain calculations
+          const inCombatSpells = spells.filter(s => s.name.toLowerCase() !== 'sap');
+          if (inCombatSpells.length > 0) {
+            const bestSpell = inCombatSpells.slice().sort((a,b) => parseSeconds(b.duration) - parseSeconds(a.duration))[0];
+            recommendedChain.push(bestSpell);
+            totalOptimalLockdown += parseSeconds(bestSpell.duration);
+          }
         }
       });
 
