@@ -900,8 +900,7 @@
           let pct = 100;
           let effSec = baseSec;
           if (count === 1) { pct = 50; effSec = baseSec * 0.5; }
-          else if (count === 2) { pct = 25; effSec = baseSec * 0.25; }
-          else if (count >= 3) { pct = 0; effSec = 0; }
+          else if (count >= 2) { pct = 0; effSec = 0; }
 
           totalCustomLockdown += effSec;
 
