@@ -487,13 +487,13 @@
       "Warrior": "#c69b6d"
     };
 
-    // Full PvP CC database
+    // Full PvP CC database (Updated for Dragonflight / TWW / Midnight PvP CC duration reductions)
     const DATABASE = {
       "Death Knight": {
         specs: ["Blood", "Frost", "Unholy"],
         spells: [
-          { name: "Asphyxiate", category: "Stun", icon: "ability_deathknight_asphixiate", duration: "4s", cooldown: "45s", specFilter: ["Blood", "Frost", "Unholy"] },
-          { name: "Blinding Sleet", category: "Incapacitate", icon: "spell_frost_chillingblast", duration: "5s", cooldown: "1m", specFilter: ["Frost", "Unholy"] },
+          { name: "Asphyxiate", category: "Stun", icon: "ability_deathknight_asphixiate", duration: "3s", cooldown: "45s", specFilter: ["Blood", "Frost", "Unholy"] },
+          { name: "Blinding Sleet", category: "Incapacitate", icon: "spell_frost_chillingblast", duration: "4s", cooldown: "1m", specFilter: ["Frost", "Unholy"] },
           { name: "Strangulate", category: "Silence", icon: "spell_shadow_soulleech_3", duration: "3s", cooldown: "1m", specFilter: ["Blood", "Frost", "Unholy"] }
         ]
       },
@@ -501,9 +501,9 @@
         specs: ["Havoc", "Vengeance"],
         spells: [
           { name: "Chaos Nova", category: "Stun", icon: "spell_fire_felfirenova", duration: "4s", cooldown: "1m", specFilter: ["Havoc", "Vengeance"] },
-          { name: "Fel Eruption", category: "Stun", icon: "ability_bossfellord_felspike", duration: "4s", cooldown: "30s", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Fel Eruption", category: "Stun", icon: "ability_bossfellord_felspike", duration: "3s", cooldown: "30s", specFilter: ["Havoc", "Vengeance"] },
           { name: "Imprison", category: "Incapacitate", icon: "ability_demonhunter_imprison", duration: "4s", cooldown: "45s", specFilter: ["Havoc", "Vengeance"] },
-          { name: "Sigil of Misery", category: "Disorient", icon: "ability_demonhunter_sigilofmisery", duration: "5s", cooldown: "1.5m", specFilter: ["Havoc", "Vengeance"] },
+          { name: "Sigil of Misery", category: "Disorient", icon: "ability_demonhunter_sigilofmisery", duration: "4s", cooldown: "1.5m", specFilter: ["Havoc", "Vengeance"] },
           { name: "Sigil of Silence", category: "Silence", icon: "ability_demonhunter_sigilofsilence", duration: "3s", cooldown: "1.5m", specFilter: ["Vengeance"] }
         ]
       },
@@ -515,8 +515,8 @@
           { name: "Rake Stun", category: "Stun", icon: "ability_druid_disembowel", duration: "4s", cooldown: "No CD", specFilter: ["Feral"] },
           { name: "Cyclone", category: "Disorient", icon: "spell_nature_earthbind", duration: "6s", cooldown: "No CD", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
           { name: "Incapacitating Roar", category: "Incapacitate", icon: "ability_druid_demoralizingroar", duration: "3s", cooldown: "30s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
-          { name: "Entangling Roots", category: "Root", icon: "spell_nature_stranglevines", duration: "8s", cooldown: "No CD", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
-          { name: "Mass Entanglement", category: "Root", icon: "spell_druid_massentanglement", duration: "8s", cooldown: "30s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Entangling Roots", category: "Root", icon: "spell_nature_stranglevines", duration: "6s", cooldown: "No CD", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
+          { name: "Mass Entanglement", category: "Root", icon: "spell_druid_massentanglement", duration: "6s", cooldown: "30s", specFilter: ["Balance", "Feral", "Guardian", "Restoration"] },
           { name: "Solar Beam", category: "Silence", icon: "ability_vehicle_sonicshockwave", duration: "8s", cooldown: "1m", specFilter: ["Balance"] }
         ]
       },
@@ -524,7 +524,7 @@
         specs: ["Devastation", "Preservation", "Augmentation"],
         spells: [
           { name: "Sleep Walk", category: "Incapacitate", icon: "ability_xavius_dreamsimulacrum", duration: "4s", cooldown: "15s", specFilter: ["Devastation", "Preservation", "Augmentation"] },
-          { name: "Landslide", category: "Root", icon: "ability_earthen_pillar", duration: "8s", cooldown: "1.5m", specFilter: ["Devastation", "Preservation", "Augmentation"] },
+          { name: "Landslide", category: "Root", icon: "ability_earthen_pillar", duration: "6s", cooldown: "1.5m", specFilter: ["Devastation", "Preservation", "Augmentation"] },
           { name: "Terror of the Skies", category: "Stun", icon: "ability_evoker_deepbreath", duration: "3s", cooldown: "2m", specFilter: ["Devastation", "Preservation"] },
           { name: "Upheaval", category: "Stun", icon: "ability_evoker_upheaval", duration: "3s", cooldown: "40s", specFilter: ["Augmentation"] }
         ]
@@ -535,7 +535,7 @@
           { name: "Intimidation", category: "Stun", icon: "ability_devour", duration: "5s", cooldown: "1m", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
           { name: "Freezing Trap", category: "Incapacitate", icon: "spell_frost_chainsofice", duration: "6s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
           { name: "Scatter Shot", category: "Incapacitate", icon: "ability_golemstormbolt", duration: "4s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] },
-          { name: "Steel Trap", category: "Root", icon: "ability_hunter_steeltrap", duration: "8s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] }
+          { name: "Steel Trap", category: "Root", icon: "ability_hunter_steeltrap", duration: "6s", cooldown: "30s", specFilter: ["Beast Mastery", "Marksmanship", "Survival"] }
         ]
       },
       "Mage": {
@@ -544,7 +544,7 @@
           { name: "Polymorph", category: "Incapacitate", icon: "spell_nature_polymorph", duration: "6s", cooldown: "No CD", specFilter: ["Arcane", "Fire", "Frost"] },
           { name: "Ring of Frost", category: "Incapacitate", icon: "spell_frost_ring-of-frost", duration: "6s", cooldown: "45s", specFilter: ["Arcane", "Fire", "Frost"] },
           { name: "Dragon's Breath", category: "Disorient", icon: "inv_misc_head_dragon_01", duration: "4s", cooldown: "45s", specFilter: ["Fire"] },
-          { name: "Frost Nova", category: "Root", icon: "spell_frost_frostnova", duration: "8s", cooldown: "30s", specFilter: ["Arcane", "Fire", "Frost"] },
+          { name: "Frost Nova", category: "Root", icon: "spell_frost_frostnova", duration: "6s", cooldown: "30s", specFilter: ["Arcane", "Fire", "Frost"] },
           { name: "Ice Nova", category: "Root", icon: "spell_mage_icenova", duration: "2s", cooldown: "25s", specFilter: ["Frost"] }
         ]
       },
@@ -560,7 +560,7 @@
       "Paladin": {
         specs: ["Holy", "Protection", "Retribution"],
         spells: [
-          { name: "Hammer of Justice", category: "Stun", icon: "spell_holy_sealofmight", duration: "6s", cooldown: "1m", specFilter: ["Holy", "Protection", "Retribution"] },
+          { name: "Hammer of Justice", category: "Stun", icon: "spell_holy_sealofmight", duration: "5s", cooldown: "1m", specFilter: ["Holy", "Protection", "Retribution"] },
           { name: "Blinding Light", category: "Disorient", icon: "ability_paladin_blindinglight", duration: "5s", cooldown: "1.5m", specFilter: ["Holy", "Protection", "Retribution"] },
           { name: "Repentance", category: "Incapacitate", icon: "spell_holy_prayerofhealing", duration: "6s", cooldown: "15s", specFilter: ["Holy", "Protection", "Retribution"] }
         ]
@@ -572,13 +572,13 @@
           { name: "Psychic Horror", category: "Disorient", icon: "spell_shadow_psychichorrors", duration: "4s", cooldown: "45s", specFilter: ["Shadow"] },
           { name: "Silence", category: "Silence", icon: "ability_priest_silence", duration: "4s", cooldown: "45s", specFilter: ["Shadow"] },
           { name: "HW: Chastise", category: "Incapacitate", icon: "spell_priest_plea_yellow", duration: "4s", cooldown: "1m", specFilter: ["Holy"] },
-          { name: "Void Tendrils", category: "Root", icon: "spell_priest_voidtendrils", duration: "8s", cooldown: "1m", specFilter: ["Discipline", "Holy", "Shadow"] }
+          { name: "Void Tendrils", category: "Root", icon: "spell_priest_voidtendrils", duration: "6s", cooldown: "1m", specFilter: ["Discipline", "Holy", "Shadow"] }
         ]
       },
       "Rogue": {
         specs: ["Assassination", "Outlaw", "Subtlety"],
         spells: [
-          { name: "Kidney Shot", category: "Stun", icon: "ability_rogue_kidneyshot", duration: "6s", cooldown: "20s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
+          { name: "Kidney Shot", category: "Stun", icon: "ability_rogue_kidneyshot", duration: "5s", cooldown: "30s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
           { name: "Cheap Shot", category: "Stun", icon: "ability_cheapshot", duration: "4s", cooldown: "No CD", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
           { name: "Sap", category: "Incapacitate", icon: "ability_sap", duration: "6s", cooldown: "No CD", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
           { name: "Gouge", category: "Incapacitate", icon: "ability_gouge", duration: "4s", cooldown: "15s", specFilter: ["Assassination", "Outlaw", "Subtlety"] },
@@ -594,7 +594,7 @@
           { name: "Lightning Lasso", category: "Stun", icon: "spell_nature_thorns", duration: "5s", cooldown: "30s", specFilter: ["Elemental", "Restoration"] },
           { name: "Hex", category: "Incapacitate", icon: "spell_shaman_hex", duration: "6s", cooldown: "30s", specFilter: ["Elemental", "Enhancement", "Restoration"] },
           { name: "Sundering", category: "Incapacitate", icon: "ability_rhyolith_lavapool", duration: "4s", cooldown: "40s", specFilter: ["Enhancement"] },
-          { name: "Earthgrab Totem", category: "Root", icon: "spell_nature_stranglevines", duration: "8s", cooldown: "30s", specFilter: ["Elemental", "Enhancement", "Restoration"] }
+          { name: "Earthgrab Totem", category: "Root", icon: "spell_nature_stranglevines", duration: "6s", cooldown: "30s", specFilter: ["Elemental", "Enhancement", "Restoration"] }
         ]
       },
       "Warlock": {
