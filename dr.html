@@ -831,18 +831,6 @@
         }
       });
 
-      // Detect DR conflicts (where multiple players bring spells in the same category)
-      const conflicts = [];
-      CATEGORIES.forEach(cat => {
-        const spells = ccMap[cat];
-        if (spells && spells.length > 1) {
-          const uniqueClasses = [...new Set(spells.map(s => s.className))];
-          if (uniqueClasses.length > 1) {
-            conflicts.push(`<strong>${cat} DR Share:</strong> ${spells.map(s => `${s.name} (${s.className})`).join(', ')} share the same ${cat} DR category.`);
-          }
-        }
-      });
-
       // Build HTML
       let html = `<div class="chain-planner-panel">`;
 
@@ -879,20 +867,6 @@
           if (idx < recommendedChain.length - 1) {
             html += `<div class="chain-arrow-icon">➔</div>`;
           }
-        });
-        html += `</div>`;
-      }
-
-      // Render DR Conflict Banners if any
-      if (conflicts.length > 0) {
-        html += `<div style="display: flex; flex-direction: column; gap: 8px;">`;
-        conflicts.forEach(conflictMsg => {
-          html += `
-            <div class="dr-conflict-banner">
-              <span>⚠️</span>
-              <span>${conflictMsg}</span>
-            </div>
-          `;
         });
         html += `</div>`;
       }
