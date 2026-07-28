@@ -394,12 +394,12 @@
     <!-- Popular Meta Comps Presets Bar -->
     <div class="presets-bar">
       <span class="preset-label">Meta Comps:</span>
-      <button class="preset-pill" onclick="applyPreset('Rogue', 'Subtlety', 'Mage', 'Frost', 'Priest', 'Discipline')">⚡ RMP</button>
-      <button class="preset-pill" onclick="applyPreset('Hunter', 'Survival', 'Paladin', 'Retribution', 'Priest', 'Discipline')">🏹 Cupid</button>
-      <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Hunter', 'Marksmanship', 'Priest', 'Discipline')">🐾 Jungle</button>
-      <button class="preset-pill" onclick="applyPreset('Warrior', 'Arms', 'Death Knight', 'Frost', 'Paladin', 'Holy')">⚔️ TSG</button>
-      <button class="preset-pill" onclick="applyPreset('Shaman', 'Elemental', 'Warrior', 'Arms', 'Druid', 'Restoration')">⚡ Thunder</button>
-      <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Shaman', 'Elemental', 'Priest', 'Discipline')">🐾 Meudayr Special</button>
+      <button class="preset-pill" onclick="applyPreset('Rogue', 'Subtlety', 'Mage', 'Frost', 'Priest', 'Discipline')">RMP</button>
+      <button class="preset-pill" onclick="applyPreset('Hunter', 'Survival', 'Paladin', 'Retribution', 'Priest', 'Discipline')">Cupid</button>
+      <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Hunter', 'Marksmanship', 'Priest', 'Discipline')">Jungle</button>
+      <button class="preset-pill" onclick="applyPreset('Warrior', 'Arms', 'Death Knight', 'Frost', 'Paladin', 'Holy')">TSG</button>
+      <button class="preset-pill" onclick="applyPreset('Shaman', 'Elemental', 'Warrior', 'Arms', 'Druid', 'Restoration')">Thunder</button>
+      <button class="preset-pill" onclick="applyPreset('Druid', 'Feral', 'Shaman', 'Elemental', 'Priest', 'Discipline')">Meudayr Special</button>
     </div>
 
     <!-- Selector Panel -->
@@ -838,10 +838,10 @@
       html += `
         <div class="chain-header-row">
           <div class="chain-title">
-            <span>⚡ Recommended CC Chain (Non-DR Lockdown)</span>
+            <span>Recommended CC Chain (Non-DR Lockdown)</span>
           </div>
           <div class="total-lockdown-badge">
-            ⏱️ ${totalOptimalLockdown.toFixed(1)}s Total Lockdown
+            ${totalOptimalLockdown.toFixed(1)}s Total Lockdown
           </div>
         </div>
       `;
@@ -876,7 +876,7 @@
         <div class="custom-builder-section">
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
             <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">
-              🎯 Custom Chain Builder (${customChain.length} Spells Added)
+              Custom Chain Builder (${customChain.length} Spells Added)
             </div>
             ${customChain.length > 0 ? `<button onclick="clearCustomChain()" style="background: none; border: 1px solid var(--card-border); color: var(--text-muted); border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; cursor: pointer;">Clear Chain</button>` : ''}
           </div>
