@@ -555,12 +555,35 @@
       state.isLoading = true;
       renderUI();
 
+      // 1. Try server-side Cloudflare Functions API (/api/deals)
+      try {
+        const apiUrl = `/api/deals?category=${encodeURIComponent(state.selectedCategory)}&q=${encodeURIComponent(state.selectedQuery)}&includeArchive=${state.includeArchive ? 'true' : 'false'}`;
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(apiUrl, { signal: controller.signal });
+        clearTimeout(tid);
+
+        if (res.ok) {
+          const data = await res.json();
+          const serverDeals = Array.isArray(data) ? data : (data && Array.isArray(data.deals) ? data.deals : []);
+          if (serverDeals.length > 0) {
+            state.allDeals = serverDeals;
+            state.isLoading = false;
+            renderUI();
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Server API /api/deals not reachable, falling back to client-side proxies:', e);
+      }
+
+      // 2. Try client-side multi-proxy RSS fetcher + baseline fallbacks
       try {
         const deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive);
         state.allDeals = deals;
       } catch (e) {
         console.error('Error fetching live deals:', e);
-        state.allDeals = [];
+        state.allDeals = FALLBACK_DEALS[state.selectedCategory] || [];
       }
 
       state.isLoading = false;
