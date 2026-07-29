@@ -566,15 +566,177 @@
         const res = await fetch(apiUrl);
         if (res.ok) {
           const data = await res.json();
-          if (data && Array.isArray(data.deals)) {
+          if (data && Array.isArray(data.deals) && data.deals.length > 0) {
             deals = data.deals;
           }
         }
       } catch (e) {}
 
+      // Client-side RSS fallback if serverless endpoint is 404/empty
+      if (deals.length === 0) {
+        deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive);
+      }
+
       state.allDeals = deals;
       state.isLoading = false;
       renderUI();
+    }
+
+    async function fetchClientSideDeals(category, query, includeArchive) {
+      const SUBREDDITS = {
+        gaming_pcs: ['buildapcsales', 'prebuilts'],
+        laptops: ['laptopdeals', 'buildapcsales'],
+        vacuums: ['RobotVacuums', 'deals'],
+        tvs: ['OLED', 'Monitors'],
+        consoles: ['GameDeals', 'consoles'],
+        appliances: ['Appliances', 'CostcoDeals', 'deals']
+      };
+
+      const SEARCH_QUERIES = {
+        gaming_pcs: ['gaming desktop'],
+        laptops: ['laptop', 'macbook'],
+        vacuums: ['vacuum'],
+        tvs: ['oled tv', 'gaming monitor'],
+        consoles: ['ps5', 'xbox', 'nintendo switch', 'video game'],
+        appliances: ['refrigerator', 'washer dryer', 'dishwasher']
+      };
+
+      const deals = [];
+      const sqList = SEARCH_QUERIES[category] || [query];
+
+      // Fetch Slickdeals
+      for (const sq of sqList) {
+        try {
+          const sdUrl = `https://slickdeals.net/newsearch.php?mode=popdeals&searchmode=4&q=${encodeURIComponent(sq)}&rss=1`;
+          const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(sdUrl)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 'ok' && Array.isArray(data.items)) {
+              data.items.forEach((item, idx) => {
+                const title = item.title || '';
+                const titleLower = title.toLowerCase();
+                if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
+                
+                const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
+                const minPrice = category === 'appliances' ? 90 : 5;
+                if (!salePrice || salePrice < minPrice) return;
+
+                const store = detectStoreName(item.content || item.description || '', title, item.link || '');
+                const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+
+                deals.push({
+                  id: `sd_cs_${idx}_${Math.random().toString(36).substr(2,4)}`,
+                  title,
+                  productName,
+                  store,
+                  originalPrice,
+                  salePrice,
+                  discountPercentage,
+                  url: item.link || '',
+                  redditThreadUrl: item.link || '',
+                  source: 'Slickdeals Active Deal',
+                  upvotes: undefined,
+                  postedTimeAgo: 'Active Hot Deal',
+                  isArchive: false,
+                  isHot: discountPercentage > 15
+                });
+              });
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Fetch Subreddits
+      const subs = SUBREDDITS[category] || ['buildapcsales', 'deals'];
+      for (const sub of subs) {
+        try {
+          const redditUrl = `https://www.reddit.com/r/${sub}/.rss`;
+          const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(redditUrl)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 'ok' && Array.isArray(data.items)) {
+              data.items.forEach((item, idx) => {
+                const title = item.title || '';
+                const titleLower = title.toLowerCase();
+                if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
+
+                const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
+                const minPrice = category === 'appliances' ? 90 : 10;
+                if (!salePrice || salePrice < minPrice) return;
+
+                const store = detectStoreName(item.content || item.description || '', title, item.link || '');
+                const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+
+                deals.push({
+                  id: `rd_cs_${sub}_${idx}`,
+                  title,
+                  productName,
+                  store,
+                  originalPrice,
+                  salePrice,
+                  discountPercentage,
+                  url: item.link || `https://www.reddit.com/r/${sub}/`,
+                  redditThreadUrl: item.link || `https://www.reddit.com/r/${sub}/`,
+                  source: `Reddit r/${sub}`,
+                  upvotes: undefined,
+                  postedTimeAgo: 'Recent Post',
+                  isArchive: false,
+                  isHot: discountPercentage > 15
+                });
+              });
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Deduplicate
+      const seen = new Set();
+      return deals.filter(d => {
+        const normKey = d.title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 45);
+        if (seen.has(normKey)) return false;
+        seen.add(normKey);
+        return true;
+      });
+    }
+
+    function detectStoreName(descText, title, link) {
+      const fullText = `${descText} ${title} ${link}`.toLowerCase();
+      if (fullText.includes('best buy') || fullText.includes('bestbuy')) return 'Best Buy';
+      if (fullText.includes('amazon')) return 'Amazon';
+      if (fullText.includes('walmart')) return 'Walmart';
+      if (fullText.includes('ebay')) return 'eBay';
+      if (fullText.includes('costco')) return 'Costco';
+      if (fullText.includes('target')) return 'Target';
+      if (fullText.includes("sam's club") || fullText.includes('sams club') || fullText.includes('samsclub')) return "Sam's Club";
+      if (fullText.includes('home depot') || fullText.includes('homedepot')) return 'Home Depot';
+      if (fullText.includes('lowes') || fullText.includes("lowe's")) return "Lowe's";
+      if (fullText.includes('micro center') || fullText.includes('microcenter')) return 'Micro Center';
+      if (fullText.includes('newegg')) return 'Newegg';
+      if (fullText.includes('lenovo')) return 'Lenovo';
+      if (fullText.includes('dell')) return 'Dell';
+      if (fullText.includes('hp ') || fullText.includes('hp.com')) return 'HP';
+      if (fullText.includes('apple')) return 'Apple Store';
+      if (fullText.includes('woot')) return 'Woot!';
+      if (fullText.includes('b&h') || fullText.includes('bhphoto')) return 'B&H Photo';
+      return 'Retailer Deal';
+    }
+
+    function parseExplicitPricesFromTitle(title) {
+      const matches = title.match(/\$(\d+(?:,\d{3})*(?:\.\d{1,2})?)/g) || [];
+      const numbers = matches.map(m => parseFloat(m.replace('$', '').replace(/,/g, '')));
+      if (numbers.length === 0) return { salePrice: 0, originalPrice: 0, discountPercentage: 0 };
+      let salePrice = numbers[0];
+      let originalPrice = 0;
+      if (numbers.length > 1) {
+        for (let i = 1; i < numbers.length; i++) {
+          if (numbers[i] > salePrice) { originalPrice = numbers[i]; break; }
+        }
+      }
+      let discountPercentage = 0;
+      if (originalPrice > salePrice) {
+        discountPercentage = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
+      } else { originalPrice = 0; }
+      return { salePrice, originalPrice, discountPercentage };
     }
 
     function getProcessedDeals() {
