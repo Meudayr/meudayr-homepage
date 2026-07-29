@@ -711,6 +711,74 @@
       return [];
     }
 
+    // ── Relevance filter ────────────────────────────────────────────────────
+    const GLOBAL_REJECT_KEYWORDS = [
+      'shoe', 'sneaker', 'boot', 'apparel', 'shirt', 'pant', 'short',
+      'jacket', 'hoodie', 'sock', 'bra', 'underwear', 'clothing'
+    ];
+    const DESKTOP_REJECT_PERIPHERAL = [
+      'monitor', 'headset', 'mouse', 'keyboard', 'backpack', 'bag',
+      'sleeve', 'dock', 'cable', 'mount', 'hub', 'adapter'
+    ];
+    const LAPTOP_REJECT_ACCESSORY = [
+      'backpack', 'bag', 'sleeve', 'case', 'skin', 'cover', 'charger',
+      'stand', 'docking station', 'dock', 'cable', 'protector', 'mount',
+      'hub', 'adapter', 'power bank', 'cooler pad', 'wrist rest'
+    ];
+    const VACUUM_REJECT = [
+      'foodsaver', 'preserver', 'sealer', 'battery', 'bogo',
+      'paint sprayer', 'fan', 'separator', 'baking soda',
+      'cat litter', 'swiffer', 'mat', 'mop kit'
+    ];
+    const TV_REJECT = ['mount', 'cable', 'stand', 'arm', 'cart', 'sync box', 'backlight'];
+    const APPLIANCE_REJECT = [
+      'baking soda', 'vent', 'coupling', 'connector', 'duct', 'filter',
+      'cleaner', 'mat', 'cover', 'pad', 'hose', 'cord', 'lint',
+      'thermometer', 'container', 'milk', 'pan', 'pot', 'smoker',
+      'hair dryer', 'bottle', 'knife', 'spoon', 'fork', 'shelf',
+      'light bulb', 'rack', 'tray', 'almond', 'food storage'
+    ];
+
+    function isRelevantToCategory(title, cat) {
+      const t = title.toLowerCase();
+      if (GLOBAL_REJECT_KEYWORDS.some(k => t.includes(k))) return false;
+
+      if (cat === 'gaming_pcs') {
+        if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
+        if (DESKTOP_REJECT_PERIPHERAL.some(k => t.includes(k))) return false;
+        if (/\[ssd|\[cpu\]|\[gpu\]|\[motherboard\]|\[ram\]/i.test(title)) return false;
+        return /\[prebuilt\]|desktop|prebuilt|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion tower|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo tower/i.test(title);
+      }
+
+      if (cat === 'laptops') {
+        if (LAPTOP_REJECT_ACCESSORY.some(k => t.includes(k))) return false;
+        return /laptop|macbook|chromebook|notebook|vivobook|zenbook|thinkpad|zephyrus|g14|g16|\bgram\b|\bswift\b|legion 5|legion 7|omnibook|flow z|tuf a|rog zephyrus/i.test(title);
+      }
+
+      if (cat === 'vacuums') {
+        if (VACUUM_REJECT.some(k => t.includes(k))) return false;
+        return /vacuum|\bvac\b|roborock|roomba|dyson|dreame|shark|eufy|tineco|bissell/i.test(title);
+      }
+
+      if (cat === 'tvs') {
+        if (TV_REJECT.some(k => t.includes(k))) return false;
+        return /\btv\b|oled|qled|uhd|smart tv|\bmonitor\b|curved monitor|gaming monitor|\bdisplay\b/i.test(title);
+      }
+
+      if (cat === 'consoles') {
+        if (t.includes('gaming pc') || t.includes('prebuilt') || t.includes('graphics card')) return false;
+        return /\bps5\b|\bps4\b|xbox|nintendo|\bswitch\b|\bgame\b|playstation|console|controller|steam deck|\bvr\b|meta quest|\bpsvr\b/i.test(title);
+      }
+
+      if (cat === 'appliances') {
+        if (APPLIANCE_REJECT.some(k => t.includes(k))) return false;
+        return /refrigerator|\bfridge\b|freezer|\bwasher\b|washing machine|\bdryer\b|laundry tower|dishwasher|electric range|gas range|cooktop|wall oven|microwave/i.test(title);
+      }
+
+      return true;
+    }
+    // ── End relevance filter ────────────────────────────────────────────────
+
     async function fetchClientSideDeals(category, query, includeArchive) {
       const SUBREDDITS = {
         gaming_pcs: ['buildapcsales', 'prebuilts'],
@@ -742,6 +810,7 @@
             const title = item.title || '';
             const titleLower = title.toLowerCase();
             if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
+            if (!isRelevantToCategory(title, category)) return;
 
             const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
             const store = detectStoreName(item.content || item.description || '', title, item.link || '');
@@ -777,6 +846,7 @@
             const title = item.title || '';
             const titleLower = title.toLowerCase();
             if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
+            if (!isRelevantToCategory(title, category)) return;
 
             const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
             const store = detectStoreName(item.content || item.description || '', title, item.link || '');
@@ -802,11 +872,7 @@
         } catch (e) {}
       }
 
-      // Fallback baseline deals if live feeds failed or hit zero
-      const fallbacks = FALLBACK_DEALS[category] || [];
-      fallbacks.forEach(fb => {
-        deals.push(fb);
-      });
+      // (Fallback hardcoded deals removed — live RSS feeds are functional)
 
       // Deduplicate
       const seen = new Set();
