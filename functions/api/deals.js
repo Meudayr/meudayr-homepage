@@ -324,6 +324,14 @@ async function fetchRedditSubreddit(subreddit, query, category) {
 }
 
 export async function onRequest(context) {
+  return handleDealsRequest(context);
+}
+
+export async function onRequestGet(context) {
+  return handleDealsRequest(context);
+}
+
+async function handleDealsRequest(context) {
   const url = new URL(context.request.url);
   const query = url.searchParams.get('q') || 'gaming pc';
   const category = url.searchParams.get('category') || 'gaming_pcs';
