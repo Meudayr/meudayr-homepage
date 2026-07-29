@@ -549,29 +549,14 @@
       state.isLoading = true;
       renderUI();
 
-      const q = encodeURIComponent(state.selectedQuery);
-      const c = encodeURIComponent(state.selectedCategory);
-      const inc = state.includeArchive ? 'true' : 'false';
-
-      let deals = [];
-      const apiUrl = `/api/deals?q=${q}&category=${c}&includeArchive=${inc}`;
-
       try {
-        const res = await fetch(apiUrl);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && Array.isArray(data.deals) && data.deals.length > 0) {
-            deals = data.deals;
-          }
-        }
-      } catch (e) {}
-
-      // Client-side RSS fallback
-      if (deals.length === 0) {
-        deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive);
+        const deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive);
+        state.allDeals = deals;
+      } catch (e) {
+        console.error('Error fetching live deals:', e);
+        state.allDeals = [];
       }
 
-      state.allDeals = deals;
       state.isLoading = false;
       renderUI();
     }
