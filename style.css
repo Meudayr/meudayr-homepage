@@ -82,9 +82,10 @@ header {
 }
 
 .brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  height: 52px;
+  width: auto;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .brand span {
@@ -125,6 +126,154 @@ header {
   margin: 0 auto;
 }
 
+/* Hero Tool Cards */
+.hero-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.hero-tool-card:hover {
+  border-color: var(--card-border-hover);
+  transform: translateX(4px);
+}
+
+.hero-tool-card:hover .hero-tool-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hero-tool-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(56, 142, 60, 0.1);
+  border: 1px solid rgba(56, 142, 60, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary);
+}
+
+.hero-tool-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.hero-tool-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.hero-tool-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.hero-tool-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.hero-tool-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+/* Plex Nav Toolbar Pill Styling */
+.plex-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  height: 36px;
+  white-space: nowrap;
+}
+
+.plex-nav-pill:hover {
+  border-color: #e5a00d;
+  background: rgba(229, 160, 13, 0.08);
+  color: var(--text-main);
+}
+
+.plex-nav-svg {
+  width: 14px;
+  height: 14px;
+  color: #e5a00d;
+  flex-shrink: 0;
+}
+
+.plex-nav-text {
+  color: var(--text-muted);
+}
+
+.plex-nav-pill.online .plex-nav-text {
+  color: var(--text-main);
+}
+
+.plex-nav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94a3b8;
+  flex-shrink: 0;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plex-nav-pill.online .plex-nav-dot {
+  background: #4caf50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.8);
+}
+
+.plex-nav-pill.online {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.plex-nav-pill.offline .plex-nav-dot {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+}
+
+.plex-nav-pill.offline {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 .badge {
   display: inline-block;
   padding: 4px 12px;
@@ -141,7 +290,7 @@ header {
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -1px;
@@ -162,13 +311,15 @@ header {
 
 .section-title {
   font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -1px;
   margin-bottom: 40px;
   text-align: center;
   position: relative;
 }
 
+.hero h1::after,
 .section-title::after {
   content: '';
   display: block;
@@ -333,6 +484,7 @@ footer {
   color: var(--text-muted);
   transition: var(--transition);
   text-decoration: none;
+  position: relative;
 }
 
 .social-icon:hover {
@@ -354,9 +506,70 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero {
-    padding: 60px 0 40px;
+  header {
+    padding: 16px 0;
   }
+
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand {
+    gap: 10px;
+    font-size: 1.3rem;
+  }
+
+  .brand img {
+    height: 44px;
+  }
+
+  .nav-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 2px 4px;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .plex-nav-pill {
+    height: 32px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+
+  .social-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero {
+    padding: 50px 0 35px;
+  }
+
   .addons-grid {
     grid-template-columns: 1fr;
   }

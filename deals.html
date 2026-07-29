@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>Deal Finder - Meudayr</title>
+  <meta name="description" content="Track community-sourced deals on tech and home goods. Live feeds from Slickdeals and Reddit across gaming PCs, laptops, TVs, monitors, consoles, vacuums, and appliances.">
+  <meta name="keywords" content="Meudayr, deal finder, tech deals, home deals, Slickdeals, Reddit deals, gaming PC deals, laptop deals">
+  <meta name="author" content="Meudayr">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Deal Finder - Meudayr">
+  <meta property="og:description" content="Community-sourced deal tracking for tech and home goods.">
+  <meta property="og:image" content="https://meudayr.com/assets/logo.png">
+  <meta property="og:url" content="https://meudayr.com/deals.html">
+  <meta property="og:type" content="website">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <style>
+    .deals-page-container {
+      padding: 40px 0 80px;
+    }
+
+    /* Category Navigation Bar Header */
+    .category-hero-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      margin-bottom: 32px;
+      text-align: center;
+      position: relative;
+    }
+
+    .category-hero-panel h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .category-hero-panel p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 560px;
+      margin: 0 auto 24px auto;
+      line-height: 1.5;
+    }
+
+    /* Category Buttons */
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .category-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border-radius: 24px;
+      padding: 8px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .category-btn:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .category-btn.active {
+      background: rgba(56, 142, 60, 0.18);
+      border-color: var(--primary);
+      color: #81c784;
+      box-shadow: 0 4px 14px rgba(56, 142, 60, 0.25);
+    }
+
+    /* Section Control Header */
+    .deals-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .deals-section-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .deals-section-subtitle {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: 10px;
+    }
+
+    .rescan-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .rescan-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--card-border-hover);
+    }
+
+    .rescan-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-chip-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .filter-chip-btn:hover {
+      color: var(--text-main);
+      border-color: var(--card-border-hover);
+    }
+
+    .filter-chip-btn.active-hot {
+      background: rgba(244, 63, 94, 0.2);
+      border-color: #f43f5e;
+      color: #fb7185;
+    }
+
+    .filter-chip-btn.active-archive {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    .chip-segment-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .segment-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .segment-btn:hover {
+      color: var(--text-main);
+    }
+
+    .segment-btn.active {
+      background: rgba(56, 142, 60, 0.25);
+      color: #81c784;
+    }
+
+    .counter-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Deals Stream */
+    .deals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .deal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .deal-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+    }
+
+    .deal-main-info {
+      flex: 1 1 500px;
+    }
+
+    .deal-tags {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tag-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+    }
+
+    .tag-store {
+      background: rgba(192, 157, 82, 0.12);
+      border-color: rgba(192, 157, 82, 0.25);
+      color: var(--accent);
+    }
+
+    .tag-source {
+      background: rgba(56, 142, 60, 0.12);
+      border-color: rgba(56, 142, 60, 0.25);
+      color: #81c784;
+    }
+
+    .tag-hot {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: rgba(244, 63, 94, 0.3);
+      color: #fb7185;
+      font-weight: 700;
+    }
+
+    .tag-time {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+    }
+
+    .deal-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .deal-action-panel {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .deal-upvotes {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .deal-price-wrapper {
+      text-align: right;
+    }
+
+    .deal-price {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #4caf50;
+      display: block;
+    }
+
+    .deal-orig-price {
+      font-size: 0.8rem;
+      color: var(--text-dark);
+      text-decoration: line-through;
+      margin-right: 4px;
+    }
+
+    .deal-discount {
+      font-size: 0.78rem;
+      color: #fb7185;
+      font-weight: 700;
+    }
+
+    .deal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .deal-btn:hover {
+      background: #43a047;
+    }
+
+    .deal-btn.reddit {
+      background: #4f46e5;
+    }
+
+    .deal-btn.reddit:hover {
+      background: #6366f1;
+    }
+
+    /* Loading / Empty States */
+    .empty-state {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-display);
+      color: var(--text-main);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand" id="nav-brand-link">
+        <img src="assets/logo.png" alt="Meudayr Logo" id="nav-brand-logo">
+        <span>Meudayr</span>
+      </a>
+      <div class="nav-group">
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+          <a href="deals.html" class="nav-link active" id="nav-deals-link">Deal Finder</a>
+          <a href="dr.html" class="nav-link" id="nav-dr-link">DR Calculator</a>
+          <a href="logs.html" class="nav-link" id="nav-logs-link">Logs</a>
+        </nav>
+        <div class="social-links">
+          <a href="https://plex.meudayr.com" class="plex-nav-pill checking" target="_blank" rel="noopener noreferrer" id="nav-plex-link" title="Open Plex Media Server">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="plex-nav-svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span class="plex-nav-text">Plex: <span id="plex-status-label">Checking...</span></span>
+            <span class="plex-nav-dot" id="plex-nav-dot"></span>
+          </a>
+          <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="nav-github-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="deals-page-container">
+      <div class="container">
+        <!-- Category Navigation Bar Header -->
+        <div class="category-hero-panel">
+          <h1>Track Community Sourced Deals on Tech &amp; Home</h1>
+          <p>Preset category feeds from curated sources.</p>
+
+          <div class="category-chips" id="category-bar">
+            <button class="category-btn active" data-cat="gaming_pcs" data-query="gaming pc">💻 Gaming PCs &amp; Desktops</button>
+            <button class="category-btn" data-cat="laptops" data-query="laptop">💻 Laptops</button>
+            <button class="category-btn" data-cat="vacuums" data-query="vacuum">🧹 Vacuums</button>
+            <button class="category-btn" data-cat="tvs" data-query="tv monitor">🖥️ TVs &amp; Monitors</button>
+            <button class="category-btn" data-cat="consoles" data-query="console game">🎮 Game Consoles &amp; Games</button>
+            <button class="category-btn" data-cat="appliances" data-query="appliance">📦 Home Appliances</button>
+          </div>
+        </div>
+
+        <!-- Section Title & Refresh Control -->
+        <div class="deals-section-header">
+          <h2 class="deals-section-title">
+            Active Deals <span class="deals-section-subtitle" id="timeframe-subtitle">— Last 4 Days</span>
+          </h2>
+          <button class="rescan-btn" id="rescan-btn">Re-scan Live Deals</button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-label">
+              <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18H14V16H10V18M3,6V8H21V6H3M6,13H18V11H6V13Z"/></svg>
+              <span>Feed Filters:</span>
+            </div>
+
+            <button class="filter-chip-btn" id="btn-hot-only">
+              🔥 <span>Hot Deals Only</span>
+            </button>
+
+            <button class="filter-chip-btn" id="btn-archive">
+              📦 <span>Include 7 Day Archive</span>
+            </button>
+
+            <!-- Source Filter Segment -->
+            <div class="chip-segment-group">
+              <button class="segment-btn active" data-source="all">All Sources</button>
+              <button class="segment-btn" data-source="slickdeals">Slickdeals Only</button>
+              <button class="segment-btn" data-source="reddit">Reddit Only</button>
+            </div>
+
+            <!-- Price Sort Segment -->
+            <div class="chip-segment-group">
+              <button class="segment-btn" id="btn-sort-asc">Price ↑</button>
+              <button class="segment-btn" id="btn-sort-desc">Price ↓</button>
+            </div>
+          </div>
+
+          <div class="counter-text" id="deal-counter">Showing 0 of 0 deals</div>
+        </div>
+
+        <!-- Deals Stream List -->
+        <div class="deals-list" id="deals-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="social-links" id="footer-social-links">
+        <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="footer-github-link">
+          <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+        </a>
+      </div>
+      <p class="copyright" id="footer-copyright">&copy; 2026 meudayr.com. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // State management
+    let state = {
+      selectedCategory: 'gaming_pcs',
+      selectedQuery: 'gaming pc',
+      allDeals: [],
+      filterHotOnly: false,
+      includeArchive: false,
+      sourceFilter: 'all',
+      sortBy: 'hottest', // 'hottest' | 'price-asc' | 'price-desc'
+      isLoading: false
+    };
+
+    function formatCurrency(val) {
+      if (typeof val !== 'number' || isNaN(val) || val <= 0) return '';
+      const hasCents = val % 1 !== 0;
+      return val.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: hasCents ? 2 : 0,
+        maximumFractionDigits: 2
+      });
+    }
+
+    async function loadDeals() {
+      state.isLoading = true;
+      renderUI();
+
+      const q = encodeURIComponent(state.selectedQuery);
+      const c = encodeURIComponent(state.selectedCategory);
+      const inc = state.includeArchive ? 'true' : 'false';
+
+      // Primary: Cloudflare Pages Function at /api/deals
+      // Fallback: Local dev proxy or public proxy
+      let deals = [];
+      const endpoints = [
+        `/api/deals?q=${q}&category=${c}&includeArchive=${inc}`,
+        `http://localhost:3001/api/deals/search?q=${q}&category=${c}&includeArchive=${inc}`
+      ];
+
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && Array.isArray(data.deals)) {
+              deals = data.deals;
+              break;
+            }
+          }
+        } catch (e) {}
+      }
+
+      state.allDeals = deals;
+      state.isLoading = false;
+      renderUI();
+    }
+
+    function getProcessedDeals() {
+      let list = [...state.allDeals];
+
+      if (state.filterHotOnly) {
+        list = list.filter(d => d.isHot);
+      }
+
+      if (state.sourceFilter === 'slickdeals') {
+        list = list.filter(d => d.source.toLowerCase().includes('slickdeals'));
+      } else if (state.sourceFilter === 'reddit') {
+        list = list.filter(d => d.source.toLowerCase().includes('reddit'));
+      }
+
+      if (state.sortBy === 'price-asc') {
+        list.sort((a, b) => a.salePrice - b.salePrice);
+      } else if (state.sortBy === 'price-desc') {
+        list.sort((a, b) => b.salePrice - a.salePrice);
+      } else {
+        list.sort((a, b) => {
+          const upA = typeof a.upvotes === 'number' ? a.upvotes : 0;
+          const upB = typeof b.upvotes === 'number' ? b.upvotes : 0;
+          const scoreA = (a.isHot ? 1000 : 0) + (upA * 5) + ((a.discountPercentage || 0) * 3);
+          const scoreB = (b.isHot ? 1000 : 0) + (upB * 5) + ((b.discountPercentage || 0) * 3);
+          return scoreB - scoreA;
+        });
+      }
+
+      return list;
+    }
+
+    function renderUI() {
+      // Subtitle
+      document.getElementById('timeframe-subtitle').textContent = state.includeArchive ? '— Last 7 Days' : '— Last 4 Days';
+
+      // Rescan button
+      const rescanBtn = document.getElementById('rescan-btn');
+      rescanBtn.disabled = state.isLoading;
+      rescanBtn.textContent = state.isLoading ? 'Scanning Active Deals...' : 'Re-scan Live Deals';
+
+      // Toggles
+      const hotBtn = document.getElementById('btn-hot-only');
+      hotBtn.className = `filter-chip-btn ${state.filterHotOnly ? 'active-hot' : ''}`;
+
+      const archBtn = document.getElementById('btn-archive');
+      archBtn.className = `filter-chip-btn ${state.includeArchive ? 'active-archive' : ''}`;
+
+      // Source segments
+      document.querySelectorAll('.chip-segment-group button[data-source]').forEach(btn => {
+        btn.className = `segment-btn ${btn.dataset.source === state.sourceFilter ? 'active' : ''}`;
+      });
+
+      // Price Sort buttons
+      const sortAscBtn = document.getElementById('btn-sort-asc');
+      const sortDescBtn = document.getElementById('btn-sort-desc');
+      sortAscBtn.className = `segment-btn ${state.sortBy === 'price-asc' ? 'active' : ''}`;
+      sortDescBtn.className = `segment-btn ${state.sortBy === 'price-desc' ? 'active' : ''}`;
+
+      // Container & Counter
+      const container = document.getElementById('deals-container');
+      const counter = document.getElementById('deal-counter');
+
+      if (state.isLoading) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="spinner"></span>
+            <h3 style="margin-top:14px;">Scanning Slickdeals &amp; Reddit for active deals...</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Parsing live prices, upvote scores, and unexpired threads.</p>
+          </div>
+        `;
+        counter.textContent = 'Scanning live deals...';
+        return;
+      }
+
+      const displayDeals = getProcessedDeals();
+      counter.innerHTML = `Showing <strong>${displayDeals.length}</strong> of ${state.allDeals.length} deals`;
+
+      if (displayDeals.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3 style="color:#ef4444;">No active deals matching your selected filters right now.</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Try disabling "Hot Deals Only" or enabling "Include 7 Day Archive".</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = displayDeals.map(deal => {
+        const isSlickdeals = deal.source.toLowerCase().includes('slickdeals');
+        const hasExplicitMsrp = deal.originalPrice > deal.salePrice;
+        const upvotesNum = typeof deal.upvotes === 'number' ? deal.upvotes : 0;
+        const hasUpvotes = typeof deal.upvotes === 'number' && !isNaN(deal.upvotes);
+
+        return `
+          <div class="deal-card">
+            <div class="deal-main-info">
+              <div class="deal-tags">
+                <span class="tag-badge tag-store">${deal.store || 'Retailer Deal'}</span>
+                <span class="tag-badge tag-source">${deal.source}</span>
+                ${deal.postedTimeAgo ? `<span class="tag-time">⏱️ ${deal.postedTimeAgo}</span>` : ''}
+                ${deal.isHot ? `<span class="tag-badge tag-hot">🔥 HOT DEAL</span>` : ''}
+              </div>
+              <h3 class="deal-title">${deal.title}</h3>
+            </div>
+
+            <div class="deal-action-panel">
+              ${hasUpvotes ? `
+                <div class="deal-upvotes" title="Community Upvotes">
+                  👍 <span>${upvotesNum}</span>
+                </div>
+              ` : ''}
+
+              <div class="deal-price-wrapper">
+                <span class="deal-price">${formatCurrency(deal.salePrice)}</span>
+                ${hasExplicitMsrp ? `
+                  <span class="deal-orig-price">${formatCurrency(deal.originalPrice)}</span>
+                  <span class="deal-discount">${deal.discountPercentage}% OFF</span>
+                ` : ''}
+              </div>
+
+              <a href="${deal.url}" target="_blank" rel="noopener noreferrer" class="deal-btn ${isSlickdeals ? '' : 'reddit'}">
+                <span>${isSlickdeals ? 'Open Deal on Slickdeals' : 'Open Deal on Reddit'}</span>
+                ↗
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Event Listeners
+    document.getElementById('category-bar').addEventListener('click', (e) => {
+      const btn = e.target.closest('.category-btn');
+      if (!btn) return;
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.selectedCategory = btn.dataset.cat;
+      state.selectedQuery = btn.dataset.query;
+      loadDeals();
+    });
+
+    document.getElementById('rescan-btn').addEventListener('click', loadDeals);
+
+    document.getElementById('btn-hot-only').addEventListener('click', () => {
+      state.filterHotOnly = !state.filterHotOnly;
+      renderUI();
+    });
+
+    document.getElementById('btn-archive').addEventListener('click', () => {
+      state.includeArchive = !state.includeArchive;
+      loadDeals();
+    });
+
+    document.querySelectorAll('.chip-segment-group button[data-source]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.sourceFilter = btn.dataset.source;
+        renderUI();
+      });
+    });
+
+    document.getElementById('btn-sort-asc').addEventListener('click', () => {
+      state.sortBy = (state.sortBy === 'price-asc') ? 'hottest' : 'price-asc';
+      renderUI();
+    });
+
+    document.getElementById('btn-sort-desc').addEventListener('click', () => {
+      state.sortBy = (state.sortBy === 'price-desc') ? 'hottest' : 'price-desc';
+      renderUI();
+    });
+
+    // Initial load
+    loadDeals();
+
+    // Plex Status Checker
+    const PLEX_TOKEN = "ypFBiUJSYfzyDDivAGhu";
+    async function checkPlexStatus() {
+      const pill = document.getElementById('nav-plex-link');
+      const label = document.getElementById('plex-status-label');
+      if (!pill || !label) return;
+      if (!PLEX_TOKEN) { pill.className = 'plex-nav-pill offline'; label.textContent = 'Setup Token'; return; }
+      try {
+        const res = await fetch(`https://plex.tv/api/v2/resources?X-Plex-Token=${encodeURIComponent(PLEX_TOKEN)}&includeHttps=1`, {
+          headers: { 'Accept': 'application/json', 'X-Plex-Client-Identifier': 'meudayr-homepage' }
+        });
+        if (res.ok) {
+          const resources = await res.json();
+          const server = resources.find(r => r.provides && r.provides.includes('server'));
+          if (server && server.presence) {
+            pill.className = 'plex-nav-pill online';
+            label.textContent = 'Online';
+            pill.setAttribute('title', `Plex Server: ${server.name || 'Online'}`);
+            return;
+          }
+        }
+      } catch (err) {}
+      pill.className = 'plex-nav-pill offline';
+      label.textContent = 'Offline';
+    }
+    checkPlexStatus();
+  </script>
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"133069cd271c4644883fdeab13752b57","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
