@@ -562,23 +562,20 @@
       // Primary: Cloudflare Pages Function at /api/deals
       // Fallback: Local dev proxy or public proxy
       let deals = [];
-      const endpoints = [
-        `/api/deals?q=${q}&category=${c}&includeArchive=${inc}`,
-        `http://localhost:3001/api/deals/search?q=${q}&category=${c}&includeArchive=${inc}`
-      ];
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = isLocalhost
+        ? `http://localhost:3001/api/deals/search?q=${q}&category=${c}&includeArchive=${inc}`
+        : `/api/deals?q=${q}&category=${c}&includeArchive=${inc}`;
 
-      for (const ep of endpoints) {
-        try {
-          const res = await fetch(ep);
-          if (res.ok) {
-            const data = await res.json();
-            if (data && Array.isArray(data.deals)) {
-              deals = data.deals;
-              break;
-            }
+      try {
+        const res = await fetch(apiUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.deals)) {
+            deals = data.deals;
           }
-        } catch (e) {}
-      }
+        }
+      } catch (e) {}
 
       state.allDeals = deals;
       state.isLoading = false;
