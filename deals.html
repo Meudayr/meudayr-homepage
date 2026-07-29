@@ -586,19 +586,19 @@
       const SUBREDDITS = {
         gaming_pcs: ['buildapcsales', 'prebuilts'],
         laptops: ['laptopdeals', 'buildapcsales'],
-        vacuums: ['RobotVacuums', 'deals'],
-        tvs: ['OLED', 'Monitors'],
-        consoles: ['GameDeals', 'consoles'],
-        appliances: ['Appliances', 'CostcoDeals', 'deals']
+        vacuums: ['deals', 'buildapcsales'],
+        tvs: ['buildapcsales', 'deals'],
+        consoles: ['GameDeals', 'buildapcsales'],
+        appliances: ['deals', 'buildapcsales']
       };
 
       const SEARCH_QUERIES = {
-        gaming_pcs: ['gaming desktop'],
+        gaming_pcs: ['gaming desktop', 'gaming pc'],
         laptops: ['laptop', 'macbook'],
         vacuums: ['vacuum'],
-        tvs: ['oled tv', 'gaming monitor'],
+        tvs: ['oled tv', 'gaming monitor', '4k tv'],
         consoles: ['ps5', 'xbox', 'nintendo switch', 'video game'],
-        appliances: ['refrigerator', 'washer dryer', 'dishwasher']
+        appliances: ['refrigerator', 'washer dryer', 'dishwasher', 'appliance']
       };
 
       const deals = [];
@@ -618,9 +618,6 @@
                 if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
                 
                 const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
-                const minPrice = category === 'appliances' ? 90 : 5;
-                if (!salePrice || salePrice < minPrice) return;
-
                 const store = detectStoreName(item.content || item.description || '', title, item.link || '');
                 const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
 
@@ -638,7 +635,7 @@
                   upvotes: undefined,
                   postedTimeAgo: 'Active Hot Deal',
                   isArchive: false,
-                  isHot: discountPercentage > 15
+                  isHot: discountPercentage > 15 || salePrice > 500
                 });
               });
             }
@@ -661,9 +658,6 @@
                 if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
 
                 const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
-                const minPrice = category === 'appliances' ? 90 : 10;
-                if (!salePrice || salePrice < minPrice) return;
-
                 const store = detectStoreName(item.content || item.description || '', title, item.link || '');
                 const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
 
@@ -851,7 +845,7 @@
               ` : ''}
 
               <div class="deal-price-wrapper">
-                <span class="deal-price">${formatCurrency(deal.salePrice)}</span>
+                <span class="deal-price">${deal.salePrice > 0 ? formatCurrency(deal.salePrice) : '<span style="font-size:0.88rem;color:var(--text-muted);font-weight:600;">See Deal</span>'}</span>
                 ${hasExplicitMsrp ? `
                   <span class="deal-orig-price">${formatCurrency(deal.originalPrice)}</span>
                   <span class="deal-discount">${deal.discountPercentage}% OFF</span>
