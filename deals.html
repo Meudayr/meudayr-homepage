@@ -728,8 +728,11 @@
       'light bulb', 'almond', 'food storage'
     ];
 
+    const NON_DEAL_PATTERNS = /^(what|whats|what's|why|how|help|issue|problem|bug|glitch|buying|saved up|question|recommendation|looking for|anyone|should i|is this|thoughts on|advice|is it|advertisement)\b/i;
+
     function isRelevantToCategory(title, cat) {
       const t = title.toLowerCase();
+      if (NON_DEAL_PATTERNS.test(title.trim())) return false;
       if (GLOBAL_REJECT_KEYWORDS.some(k => t.includes(k))) return false;
 
       if (cat === 'gaming_pcs') {
@@ -778,6 +781,7 @@
     function timeAgo(date) {
       if (!date || isNaN(date.getTime())) return null;
       const diffMs = Date.now() - date.getTime();
+      if (diffMs <= 0) return 'Just now';
       const diffMins = Math.floor(diffMs / 60000);
       if (diffMins < 60) return `${diffMins}m ago`;
       const diffHrs = Math.floor(diffMins / 60);
@@ -790,11 +794,11 @@
       const MAX_AGE_DAYS = includeArchive ? 7 : 4;
       const cutoff = new Date(Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
       const SUBREDDITS = {
-        gaming_pcs: ['buildapcsales', 'prebuilts', 'pcmasterrace'],
-        laptops: ['laptopdeals', 'buildapcsales', 'laptops'],
+        gaming_pcs: ['buildapcsales', 'prebuilts', 'deals'],
+        laptops: ['laptopdeals', 'buildapcsales', 'deals'],
         vacuums: ['deals', 'frugal', 'Appliances'],
         tvs: ['buildapcsales', 'deals', '4kTV'],
-        monitors: ['Monitors', 'buildapcsales', 'deals'],
+        monitors: ['buildapcsales', 'deals'],
         consoles: ['GameDeals', 'buildapcsales', 'consoledeals'],
         appliances: ['Appliances', 'deals', 'frugal', 'HomeImprovement']
       };
