@@ -457,12 +457,13 @@
           <p>Preset category feeds from curated sources.</p>
 
           <div class="category-chips" id="category-bar">
-            <button class="category-btn active" data-cat="gaming_pcs" data-query="gaming pc">💻 Gaming PCs &amp; Desktops</button>
-            <button class="category-btn" data-cat="laptops" data-query="laptop">💻 Laptops</button>
-            <button class="category-btn" data-cat="vacuums" data-query="vacuum">🧹 Vacuums</button>
-            <button class="category-btn" data-cat="tvs" data-query="tv monitor">🖥️ TVs &amp; Monitors</button>
-            <button class="category-btn" data-cat="consoles" data-query="console game">🎮 Game Consoles &amp; Games</button>
-            <button class="category-btn" data-cat="appliances" data-query="appliance">📦 Home Appliances</button>
+            <button class="category-btn active" data-cat="gaming_pcs" data-query="gaming pc">Gaming PCs &amp; Desktops</button>
+            <button class="category-btn" data-cat="laptops" data-query="laptop">Laptops</button>
+            <button class="category-btn" data-cat="vacuums" data-query="vacuum">Vacuums</button>
+            <button class="category-btn" data-cat="tvs" data-query="oled tv">TVs</button>
+            <button class="category-btn" data-cat="monitors" data-query="gaming monitor">Monitors</button>
+            <button class="category-btn" data-cat="consoles" data-query="console game">Game Consoles &amp; Games</button>
+            <button class="category-btn" data-cat="appliances" data-query="appliance">Home Appliances</button>
           </div>
         </div>
 
@@ -487,7 +488,7 @@
             </button>
 
             <button class="filter-chip-btn" id="btn-archive">
-              📦 <span>Include 7 Day Archive</span>
+              <span>Include 7 Day Archive</span>
             </button>
 
             <!-- Source Filter Segment -->
@@ -762,7 +763,12 @@
 
       if (cat === 'tvs') {
         if (TV_REJECT.some(k => t.includes(k))) return false;
-        return /\btv\b|oled|qled|uhd|smart tv|\bmonitor\b|curved monitor|gaming monitor|\bdisplay\b/i.test(title);
+        return /\btv\b|\btelevision\b|oled tv|qled|uhd tv|smart tv/i.test(title);
+      }
+
+      if (cat === 'monitors') {
+        if (TV_REJECT.some(k => t.includes(k))) return false;
+        return /\bmonitor\b|curved monitor|gaming monitor|\bdisplay\b|ultrawide|\binch.*monitor|hz.*monitor/i.test(title);
       }
 
       if (cat === 'consoles') {
@@ -785,6 +791,7 @@
         laptops: ['laptopdeals', 'buildapcsales'],
         vacuums: ['deals', 'buildapcsales'],
         tvs: ['buildapcsales', 'deals'],
+        monitors: ['Monitors', 'buildapcsales'],
         consoles: ['GameDeals', 'buildapcsales'],
         appliances: ['deals', 'buildapcsales']
       };
@@ -793,7 +800,8 @@
         gaming_pcs: ['gaming desktop', 'gaming pc'],
         laptops: ['laptop', 'macbook'],
         vacuums: ['vacuum'],
-        tvs: ['oled tv', 'gaming monitor', '4k tv'],
+        tvs: ['oled tv', '4k tv', 'qled tv'],
+        monitors: ['gaming monitor', '4k monitor', 'oled monitor'],
         consoles: ['ps5', 'xbox', 'nintendo switch', 'video game'],
         appliances: ['refrigerator', 'washer dryer', 'dishwasher', 'appliance']
       };
