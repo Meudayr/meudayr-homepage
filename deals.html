@@ -815,77 +815,86 @@
       // Fetch Slickdeals
       for (const sq of sqList) {
         try {
-          const sdUrl = `https://slickdeals.net/newsearch.php?mode=popdeals&searchmode=4&q=${encodeURIComponent(sq)}&rss=1`;
-          const items = await fetchRSSFeed(sdUrl, isRescan);
-          items.forEach((item, idx) => {
-            const title = item.title || '';
-            const titleLower = title.toLowerCase();
-            if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
-            // Drop items older than the cutoff (if pubDate is available)
-            if (item.pubDate && item.pubDate < cutoff) return;
-            if (!isRelevantToCategory(title, category)) return;
+          // Search popdeals (title only and full search)
+          const sdUrls = [
+            `https://slickdeals.net/newsearch.php?mode=popdeals&searchmode=4&q=${encodeURIComponent(sq)}&rss=1`,
+            `https://slickdeals.net/newsearch.php?mode=popdeals&searchmode=1&q=${encodeURIComponent(sq)}&rss=1`
+          ];
+          for (const sdUrl of sdUrls) {
+            const items = await fetchRSSFeed(sdUrl, isRescan);
+            items.forEach((item, idx) => {
+              const title = item.title || '';
+              const titleLower = title.toLowerCase();
+              if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
+              if (item.pubDate && item.pubDate < cutoff) return;
+              if (!isRelevantToCategory(title, category)) return;
 
-            const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
-            const store = detectStoreName(item.content || item.description || '', title, item.link || '');
-            const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
-            const ago = timeAgo(item.pubDate);
+              const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
+              const store = detectStoreName(item.content || item.description || '', title, item.link || '');
+              const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+              const ago = timeAgo(item.pubDate);
 
-            deals.push({
-              id: `sd_${idx}_${Math.random().toString(36).substr(2,4)}`,
-              title,
-              productName,
-              store,
-              originalPrice,
-              salePrice,
-              discountPercentage,
-              url: item.link || '',
-              redditThreadUrl: item.link || '',
-              source: 'Slickdeals Active Deal',
-              upvotes: undefined,
-              postedTimeAgo: ago || 'Active Hot Deal',
-              isArchive: false,
-              isHot: discountPercentage > 15 || salePrice > 500
+              deals.push({
+                id: `sd_${idx}_${Math.random().toString(36).substr(2,4)}`,
+                title,
+                productName,
+                store,
+                originalPrice,
+                salePrice,
+                discountPercentage,
+                url: item.link || '',
+                redditThreadUrl: item.link || '',
+                source: 'Slickdeals Active Deal',
+                upvotes: undefined,
+                postedTimeAgo: ago || 'Active Hot Deal',
+                isArchive: false,
+                isHot: discountPercentage > 15 || salePrice > 500
+              });
             });
-          });
+          }
         } catch (e) { console.warn('[SD fetch]', sq, e); }
       }
 
-      // Fetch Subreddits
+      // Fetch Subreddits (Hot & New feeds to catch recent posts)
       const subs = SUBREDDITS[category] || ['buildapcsales', 'deals'];
       for (const sub of subs) {
         try {
-          const redditUrl = `https://www.reddit.com/r/${sub}/.rss`;
-          const items = await fetchRSSFeed(redditUrl, isRescan);
-          items.forEach((item, idx) => {
-            const title = item.title || '';
-            const titleLower = title.toLowerCase();
-            if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
-            // Drop items older than the cutoff (if pubDate is available)
-            if (item.pubDate && item.pubDate < cutoff) return;
-            if (!isRelevantToCategory(title, category)) return;
+          const redditUrls = [
+            `https://www.reddit.com/r/${sub}/.rss`,
+            `https://www.reddit.com/r/${sub}/new/.rss`
+          ];
+          for (const redditUrl of redditUrls) {
+            const items = await fetchRSSFeed(redditUrl, isRescan);
+            items.forEach((item, idx) => {
+              const title = item.title || '';
+              const titleLower = title.toLowerCase();
+              if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
+              if (item.pubDate && item.pubDate < cutoff) return;
+              if (!isRelevantToCategory(title, category)) return;
 
-            const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
-            const store = detectStoreName(item.content || item.description || '', title, item.link || '');
-            const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
-            const ago = timeAgo(item.pubDate);
+              const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
+              const store = detectStoreName(item.content || item.description || '', title, item.link || '');
+              const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+              const ago = timeAgo(item.pubDate);
 
-            deals.push({
-              id: `rd_${sub}_${idx}`,
-              title,
-              productName,
-              store,
-              originalPrice,
-              salePrice,
-              discountPercentage,
-              url: item.link || `https://www.reddit.com/r/${sub}/`,
-              redditThreadUrl: item.link || `https://www.reddit.com/r/${sub}/`,
-              source: `Reddit r/${sub}`,
-              upvotes: undefined,
-              postedTimeAgo: ago || 'Recent Post',
-              isArchive: false,
-              isHot: discountPercentage > 15
+              deals.push({
+                id: `rd_${sub}_${idx}_${Math.random().toString(36).substr(2,4)}`,
+                title,
+                productName,
+                store,
+                originalPrice,
+                salePrice,
+                discountPercentage,
+                url: item.link || `https://www.reddit.com/r/${sub}/`,
+                redditThreadUrl: item.link || `https://www.reddit.com/r/${sub}/`,
+                source: `Reddit r/${sub}`,
+                upvotes: undefined,
+                postedTimeAgo: ago || 'Recent Post',
+                isArchive: false,
+                isHot: discountPercentage > 15
+              });
             });
-          });
+          }
         } catch (e) { console.warn('[Reddit fetch]', sub, e); }
       }
 
