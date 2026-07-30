@@ -633,7 +633,9 @@
             const title = item.querySelector('title')?.textContent || '';
             const link = item.querySelector('link')?.textContent || '';
             const description = item.querySelector('description')?.textContent || '';
-            items.push({ title, link, description, content: description });
+            const pubDateStr = item.querySelector('pubDate')?.textContent || '';
+            const pubDate = pubDateStr ? new Date(pubDateStr) : null;
+            items.push({ title, link, description, content: description, pubDate });
           });
           return items;
         }
@@ -645,7 +647,9 @@
             let link = entry.querySelector('link[rel="alternate"]')?.getAttribute('href');
             if (!link) link = entry.querySelector('link')?.getAttribute('href') || entry.querySelector('link')?.textContent || '';
             const content = entry.querySelector('content, summary')?.textContent || '';
-            items.push({ title, link, description: content, content });
+            const pubDateStr = entry.querySelector('published, updated')?.textContent || '';
+            const pubDate = pubDateStr ? new Date(pubDateStr) : null;
+            items.push({ title, link, description: content, content, pubDate });
           });
           return items;
         }
@@ -779,7 +783,21 @@
     }
     // ── End relevance filter ────────────────────────────────────────────────
 
+    // Format a date into a human-readable relative time string
+    function timeAgo(date) {
+      if (!date || isNaN(date.getTime())) return null;
+      const diffMs = Date.now() - date.getTime();
+      const diffMins = Math.floor(diffMs / 60000);
+      if (diffMins < 60) return `${diffMins}m ago`;
+      const diffHrs = Math.floor(diffMins / 60);
+      if (diffHrs < 24) return `${diffHrs}h ago`;
+      const diffDays = Math.floor(diffHrs / 24);
+      return `${diffDays}d ago`;
+    }
+
     async function fetchClientSideDeals(category, query, includeArchive) {
+      const MAX_AGE_DAYS = includeArchive ? 7 : 4;
+      const cutoff = new Date(Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
       const SUBREDDITS = {
         gaming_pcs: ['buildapcsales', 'prebuilts'],
         laptops: ['laptopdeals', 'buildapcsales'],
@@ -812,11 +830,14 @@
             const title = item.title || '';
             const titleLower = title.toLowerCase();
             if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
+            // Drop items older than the cutoff (if pubDate is available)
+            if (item.pubDate && item.pubDate < cutoff) return;
             if (!isRelevantToCategory(title, category)) return;
 
             const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
             const store = detectStoreName(item.content || item.description || '', title, item.link || '');
             const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+            const ago = timeAgo(item.pubDate);
 
             deals.push({
               id: `sd_${idx}_${Math.random().toString(36).substr(2,4)}`,
@@ -830,7 +851,7 @@
               redditThreadUrl: item.link || '',
               source: 'Slickdeals Active Deal',
               upvotes: undefined,
-              postedTimeAgo: 'Active Hot Deal',
+              postedTimeAgo: ago || 'Active Hot Deal',
               isArchive: false,
               isHot: discountPercentage > 15 || salePrice > 500
             });
@@ -848,11 +869,14 @@
             const title = item.title || '';
             const titleLower = title.toLowerCase();
             if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
+            // Drop items older than the cutoff (if pubDate is available)
+            if (item.pubDate && item.pubDate < cutoff) return;
             if (!isRelevantToCategory(title, category)) return;
 
             const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
             const store = detectStoreName(item.content || item.description || '', title, item.link || '');
             const productName = title.split('-')[0].replace(/\[.*?\]/g, '').trim() || title.slice(0, 45);
+            const ago = timeAgo(item.pubDate);
 
             deals.push({
               id: `rd_${sub}_${idx}`,
@@ -866,7 +890,7 @@
               redditThreadUrl: item.link || `https://www.reddit.com/r/${sub}/`,
               source: `Reddit r/${sub}`,
               upvotes: undefined,
-              postedTimeAgo: 'Recent Post',
+              postedTimeAgo: ago || 'Recent Post',
               isArchive: false,
               isHot: discountPercentage > 15
             });
