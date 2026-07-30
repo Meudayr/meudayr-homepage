@@ -850,6 +850,7 @@
       }
 
       // Fetch Subreddits
+      const subs = SUBREDDITS[category] || ['buildapcsales', 'deals'];
       for (const sub of subs) {
         try {
           const redditUrl = `https://www.reddit.com/r/${sub}/.rss`;
