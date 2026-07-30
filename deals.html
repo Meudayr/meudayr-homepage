@@ -652,13 +652,17 @@
         if (res.ok) {
           const data = await res.json();
           if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
-            return data.items.map(i => ({
-              title: i.title || '',
-              link: i.link || '',
-              description: i.content || i.description || '',
-              content: i.content || i.description || '',
-              pubDate: i.pubDate ? new Date(i.pubDate) : null
-            }));
+            return data.items.map(i => {
+              // rss2json returns "2026-07-28 14:23:00" (no T, no tz) — fix for Firefox/Safari
+              const rawDate = (i.pubDate || '').replace(' ', 'T');
+              return {
+                title: i.title || '',
+                link: i.link || '',
+                description: i.content || i.description || '',
+                content: i.content || i.description || '',
+                pubDate: rawDate ? new Date(rawDate) : null
+              };
+            });
           }
         }
       } catch (e) {}
@@ -676,7 +680,7 @@
             if (items.length > 0) return items;
           }
         }
-      } catch (e) {}
+      } catch (e) { console.warn('[AllOrigins]', e); }
 
       // Strategy 3: CodeTabs proxy
       try {
@@ -689,7 +693,7 @@
           const items = parseXMLFeed(text);
           if (items.length > 0) return items;
         }
-      } catch (e) {}
+      } catch (e) { console.warn('[CodeTabs]', e); }
 
       return [];
     }
@@ -728,8 +732,10 @@
 
       if (cat === 'gaming_pcs') {
         if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
-        if (DESKTOP_REJECT_PERIPHERAL.some(k => t.includes(k))) return false;
-        if (/\[ssd|\[cpu\]|\[gpu\]|\[motherboard\]|\[ram\]/i.test(title)) return false;
+        // Reject standalone peripheral/accessory titles (word-boundary checked)
+        const pcReject = /\b(headset|mouse|keyboard|backpack|sleeve|cable|hub|adapter)\b/i;
+        if (pcReject.test(title)) return false;
+        if (/\[ssd\]|\[cpu\]|\[gpu\]|\[motherboard\]|\[ram\]/i.test(title)) return false;
         return /\[prebuilt\]|desktop|prebuilt|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion tower|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo tower/i.test(title);
       }
 
@@ -840,11 +846,10 @@
               isHot: discountPercentage > 15 || salePrice > 500
             });
           });
-        } catch (e) {}
+        } catch (e) { console.warn('[SD fetch]', sq, e); }
       }
 
       // Fetch Subreddits
-      const subs = SUBREDDITS[category] || ['buildapcsales', 'deals'];
       for (const sub of subs) {
         try {
           const redditUrl = `https://www.reddit.com/r/${sub}/.rss`;
@@ -879,7 +884,7 @@
               isHot: discountPercentage > 15
             });
           });
-        } catch (e) {}
+        } catch (e) { console.warn('[Reddit fetch]', sub, e); }
       }
 
       // (Fallback hardcoded deals removed — live RSS feeds are functional)
