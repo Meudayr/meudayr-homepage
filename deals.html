@@ -552,12 +552,12 @@
       });
     }
 
-    async function loadDeals() {
+    async function loadDeals(isRescan = false) {
       state.isLoading = true;
       renderUI();
 
       try {
-        const deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive);
+        const deals = await fetchClientSideDeals(state.selectedCategory, state.selectedQuery, state.includeArchive, isRescan);
         state.allDeals = deals;
       } catch (e) {
         console.error('Error fetching live deals:', e);
@@ -642,18 +642,20 @@
       return [];
     }
 
-    async function fetchRSSFeed(targetUrl) {
+    async function fetchRSSFeed(targetUrl, isRescan = false) {
+      const fetchOpts = isRescan ? { cache: 'no-store' } : {};
+      const urlWithCb = isRescan ? targetUrl + (targetUrl.includes('?') ? '&' : '?') + `_t=${Date.now()}` : targetUrl;
+
       // Strategy 1: rss2json
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
-        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(targetUrl)}`, { signal: controller.signal });
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlWithCb)}`, { signal: controller.signal, ...fetchOpts });
         clearTimeout(tid);
         if (res.ok) {
           const data = await res.json();
           if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
             return data.items.map(i => {
-              // rss2json returns "2026-07-28 14:23:00" (no T, no tz) — fix for Firefox/Safari
               const rawDate = (i.pubDate || '').replace(' ', 'T');
               return {
                 title: i.title || '',
@@ -665,13 +667,13 @@
             });
           }
         }
-      } catch (e) {}
+      } catch (e) { console.warn('[rss2json]', e); }
 
       // Strategy 2: AllOrigins proxy
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
-        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, { signal: controller.signal });
+        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(urlWithCb)}`, { signal: controller.signal, ...fetchOpts });
         clearTimeout(tid);
         if (res.ok) {
           const data = await res.json();
@@ -686,7 +688,7 @@
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
-        const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`, { signal: controller.signal });
+        const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlWithCb)}`, { signal: controller.signal, ...fetchOpts });
         clearTimeout(tid);
         if (res.ok) {
           const text = await res.text();
@@ -715,15 +717,15 @@
     const VACUUM_REJECT = [
       'foodsaver', 'preserver', 'sealer', 'battery', 'bogo',
       'paint sprayer', 'fan', 'separator', 'baking soda',
-      'cat litter', 'swiffer', 'mat', 'mop kit'
+      'cat litter', 'swiffer'
     ];
     const TV_REJECT = ['mount', 'cable', 'stand', 'arm', 'cart', 'sync box', 'backlight'];
     const APPLIANCE_REJECT = [
-      'baking soda', 'vent', 'coupling', 'connector', 'duct', 'filter',
-      'cleaner', 'mat', 'cover', 'pad', 'hose', 'cord', 'lint',
+      'baking soda', 'vent', 'coupling', 'connector',
+      'cleaner', 'mat', 'cover', 'pad', 'lint',
       'thermometer', 'container', 'milk', 'pan', 'pot', 'smoker',
-      'hair dryer', 'bottle', 'knife', 'spoon', 'fork', 'shelf',
-      'light bulb', 'rack', 'tray', 'almond', 'food storage'
+      'hair dryer', 'bottle', 'knife', 'spoon', 'fork',
+      'light bulb', 'almond', 'food storage'
     ];
 
     function isRelevantToCategory(title, cat) {
@@ -732,16 +734,15 @@
 
       if (cat === 'gaming_pcs') {
         if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
-        // Reject standalone peripheral/accessory titles (word-boundary checked)
         const pcReject = /\b(headset|mouse|keyboard|backpack|sleeve|cable|hub|adapter)\b/i;
         if (pcReject.test(title)) return false;
         if (/\[ssd\]|\[cpu\]|\[gpu\]|\[motherboard\]|\[ram\]/i.test(title)) return false;
-        return /\[prebuilt\]|desktop|prebuilt|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion tower|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo tower/i.test(title);
+        return /\[pre-?built\]|\[desktop\]|desktop|pre-?built|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo|alienware|victus|dell xps/i.test(title);
       }
 
       if (cat === 'laptops') {
         if (LAPTOP_REJECT_ACCESSORY.some(k => t.includes(k))) return false;
-        return /laptop|macbook|chromebook|notebook|vivobook|zenbook|thinkpad|zephyrus|g14|g16|\bgram\b|\bswift\b|legion 5|legion 7|omnibook|flow z|tuf a|rog zephyrus/i.test(title);
+        return /laptop|macbook|chromebook|notebook|vivobook|zenbook|thinkpad|zephyrus|g14|g16|\bgram\b|\bswift\b|legion|omnibook|flow z|tuf|rog|ideapad|pavilion|inspiron|alienware|blade|surface/i.test(title);
       }
 
       if (cat === 'vacuums') {
@@ -785,27 +786,27 @@
       return `${diffDays}d ago`;
     }
 
-    async function fetchClientSideDeals(category, query, includeArchive) {
+    async function fetchClientSideDeals(category, query, includeArchive, isRescan = false) {
       const MAX_AGE_DAYS = includeArchive ? 7 : 4;
       const cutoff = new Date(Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
       const SUBREDDITS = {
-        gaming_pcs: ['buildapcsales', 'prebuilts'],
-        laptops: ['laptopdeals', 'buildapcsales'],
-        vacuums: ['deals', 'buildapcsales'],
-        tvs: ['buildapcsales', 'deals'],
-        monitors: ['Monitors', 'buildapcsales'],
-        consoles: ['GameDeals', 'buildapcsales'],
-        appliances: ['deals', 'buildapcsales']
+        gaming_pcs: ['buildapcsales', 'prebuilts', 'pcmasterrace'],
+        laptops: ['laptopdeals', 'buildapcsales', 'laptops'],
+        vacuums: ['deals', 'frugal', 'Appliances'],
+        tvs: ['buildapcsales', 'deals', '4kTV'],
+        monitors: ['Monitors', 'buildapcsales', 'deals'],
+        consoles: ['GameDeals', 'buildapcsales', 'consoledeals'],
+        appliances: ['Appliances', 'deals', 'frugal', 'HomeImprovement']
       };
 
       const SEARCH_QUERIES = {
-        gaming_pcs: ['gaming desktop', 'gaming pc'],
-        laptops: ['laptop', 'macbook'],
-        vacuums: ['vacuum'],
+        gaming_pcs: ['gaming desktop', 'gaming pc', 'prebuilt pc'],
+        laptops: ['laptop', 'macbook', 'gaming laptop'],
+        vacuums: ['vacuum', 'roborock', 'dyson vacuum', 'robot vacuum'],
         tvs: ['oled tv', '4k tv', 'qled tv'],
         monitors: ['gaming monitor', '4k monitor', 'oled monitor'],
-        consoles: ['ps5', 'xbox', 'nintendo switch', 'video game'],
-        appliances: ['refrigerator', 'washer dryer', 'dishwasher', 'appliance']
+        consoles: ['ps5', 'xbox', 'nintendo switch', 'video game', 'steam deck'],
+        appliances: ['refrigerator', 'washer dryer', 'dishwasher', 'appliance', 'freezer']
       };
 
       const deals = [];
@@ -815,7 +816,7 @@
       for (const sq of sqList) {
         try {
           const sdUrl = `https://slickdeals.net/newsearch.php?mode=popdeals&searchmode=4&q=${encodeURIComponent(sq)}&rss=1`;
-          const items = await fetchRSSFeed(sdUrl);
+          const items = await fetchRSSFeed(sdUrl, isRescan);
           items.forEach((item, idx) => {
             const title = item.title || '';
             const titleLower = title.toLowerCase();
@@ -854,7 +855,7 @@
       for (const sub of subs) {
         try {
           const redditUrl = `https://www.reddit.com/r/${sub}/.rss`;
-          const items = await fetchRSSFeed(redditUrl);
+          const items = await fetchRSSFeed(redditUrl, isRescan);
           items.forEach((item, idx) => {
             const title = item.title || '';
             const titleLower = title.toLowerCase();
@@ -1080,7 +1081,7 @@
       loadDeals();
     });
 
-    document.getElementById('rescan-btn').addEventListener('click', loadDeals);
+    document.getElementById('rescan-btn').addEventListener('click', () => loadDeals(true));
 
     document.getElementById('btn-hot-only').addEventListener('click', () => {
       state.filterHotOnly = !state.filterHotOnly;
