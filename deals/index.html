@@ -673,7 +673,8 @@
               title: i.title || '',
               link: i.link || '',
               description: i.content || i.description || '',
-              content: i.content || i.description || ''
+              content: i.content || i.description || '',
+              pubDate: i.pubDate ? new Date(i.pubDate) : null
             }));
           }
         }
