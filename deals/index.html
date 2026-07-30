@@ -735,7 +735,9 @@
         if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
         const pcReject = /\b(headset|mouse|keyboard|backpack|sleeve|cable|hub|adapter)\b/i;
         if (pcReject.test(title)) return false;
-        if (/\[ssd\]|\[cpu\]|\[gpu\]|\[motherboard\]|\[ram\]/i.test(title)) return false;
+        // Reject standalone components and component Reddit tags ([Other], [CPU], [GPU], [Motherboard], [RAM], [SSD])
+        const componentReject = /\b(processor|motherboard|mobo|graphics card|video card|power supply|psu|thermal paste|barebone|ram kit|memory kit|combo|cpu cooler|air cooler)\b|\[(cpu|gpu|motherboard|ram|ssd|other|fan|case)\]/i;
+        if (componentReject.test(title)) return false;
         return /\[pre-?built\]|\[desktop\]|desktop|pre-?built|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo|alienware|victus|dell xps/i.test(title);
       }
 
