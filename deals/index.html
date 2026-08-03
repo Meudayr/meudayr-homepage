@@ -57,7 +57,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .category-btn {
@@ -65,14 +65,14 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-muted);
       border-radius: 24px;
-      padding: 8px 18px;
-      font-size: 0.88rem;
+      padding: 6px 14px;
+      font-size: 0.82rem;
       font-weight: 600;
       font-family: var(--font-sans);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: var(--transition);
     }
 
@@ -451,13 +451,27 @@
           <p>Preset category feeds from curated sources.</p>
 
           <div class="category-chips" id="category-bar">
-            <button class="category-btn active" data-cat="gaming_pcs" data-query="gaming pc">Gaming PCs &amp; Desktops</button>
+            <button class="category-btn active" data-cat="gaming_pcs" data-query="gaming pc">Gaming PCs</button>
             <button class="category-btn" data-cat="laptops" data-query="laptop">Laptops</button>
-            <button class="category-btn" data-cat="vacuums" data-query="vacuum">Vacuums</button>
-            <button class="category-btn" data-cat="tvs" data-query="oled tv">TVs</button>
+            <button class="category-btn" data-cat="pc_components" data-query="components">PC Components</button>
             <button class="category-btn" data-cat="monitors" data-query="gaming monitor">Monitors</button>
-            <button class="category-btn" data-cat="consoles" data-query="console game">Game Consoles &amp; Games</button>
-            <button class="category-btn" data-cat="appliances" data-query="appliance">Home Appliances</button>
+            <button class="category-btn" data-cat="consoles" data-query="console game">Consoles &amp; Games</button>
+            <button class="category-btn" data-cat="tvs" data-query="oled tv">TVs</button>
+            <button class="category-btn" data-cat="appliances" data-query="appliance">Appliances</button>
+            <button class="category-btn" data-cat="vacuums" data-query="vacuum">Vacuums</button>
+          </div>
+
+          <!-- PC Components Subcategory Bar (hidden by default) -->
+          <div class="category-chips" id="subcategory-bar" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <button class="category-btn active" data-sub="all">All Components</button>
+            <button class="category-btn" data-sub="cpu">CPU</button>
+            <button class="category-btn" data-sub="gpu">GPU</button>
+            <button class="category-btn" data-sub="motherboard">Motherboard</button>
+            <button class="category-btn" data-sub="ram">RAM</button>
+            <button class="category-btn" data-sub="storage">Storage</button>
+            <button class="category-btn" data-sub="psu">Power Supply</button>
+            <button class="category-btn" data-sub="case">Cases</button>
+            <button class="category-btn" data-sub="cooling">Cooling</button>
           </div>
         </div>
 
@@ -527,6 +541,7 @@
     let state = {
       selectedCategory: 'gaming_pcs',
       selectedQuery: 'gaming pc',
+      selectedSubcategory: 'all',
       allDeals: [],
       filterHotOnly: false,
       includeArchive: false,
@@ -607,7 +622,8 @@
         const rssItems = doc.querySelectorAll('item');
         if (rssItems.length > 0) {
           rssItems.forEach(item => {
-            const title = item.querySelector('title')?.textContent || '';
+            let title = item.querySelector('title')?.textContent || '';
+            title = title.replace(/^<!\[CDATA\[/i, '').replace(/\]\]>$/i, '').trim();
             const link = item.querySelector('link')?.textContent || '';
             const description = item.querySelector('description')?.textContent || '';
             const pubDateStr = item.querySelector('pubDate')?.textContent || '';
@@ -640,7 +656,20 @@
       const fetchOpts = isRescan ? { cache: 'no-store' } : {};
       const urlWithCb = isRescan ? targetUrl + (targetUrl.includes('?') ? '&' : '?') + `_t=${Date.now()}` : targetUrl;
 
-      // Strategy 1: rss2json
+      // Strategy 1: proxy.cors.sh (high reliability for Cloudflare-protected feeds like Slickdeals)
+      try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(`https://proxy.cors.sh/${urlWithCb}`, { signal: controller.signal, ...fetchOpts });
+        clearTimeout(tid);
+        if (res.ok) {
+          const text = await res.text();
+          const items = parseXMLFeed(text);
+          if (items.length > 0) return items;
+        }
+      } catch (e) { console.warn('[cors.sh]', e); }
+
+      // Strategy 2: rss2json
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
@@ -651,8 +680,10 @@
           if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
             return data.items.map(i => {
               const rawDate = (i.pubDate || '').replace(' ', 'T');
+              let title = i.title || '';
+              title = title.replace(/^<!\[CDATA\[/i, '').replace(/\]\]>$/i, '').trim();
               return {
-                title: i.title || '',
+                title: title,
                 link: i.link || '',
                 description: i.content || i.description || '',
                 content: i.content || i.description || '',
@@ -663,7 +694,7 @@
         }
       } catch (e) { console.warn('[rss2json]', e); }
 
-      // Strategy 2: AllOrigins proxy
+      // Strategy 3: AllOrigins proxy
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
@@ -678,7 +709,7 @@
         }
       } catch (e) { console.warn('[AllOrigins]', e); }
 
-      // Strategy 3: CodeTabs proxy
+      // Strategy 4: CodeTabs proxy
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 3500);
@@ -724,12 +755,32 @@
 
     const QUESTION_OR_DISCUSSION_PATTERNS = /\b(what|whats|what's|why|how|help|need help|issue|problem|bug|glitch|buying|saved up|question|recommendation|looking for|looking to|anyone|should i|is this|thoughts on|advice|is it|advertisement|good deal|best prebuilt|any good|worth it|which one|first pc|first gaming|prebuilt for|suggestions|suggest)\b/i;
 
-    function isRelevantToCategory(title, cat) {
+    function isRelevantToCategory(title, cat, subcat) {
       const t = title.toLowerCase();
       // Deal posts state specs/prices — question marks indicate user questions
       if (t.includes('?')) return false;
       if (QUESTION_OR_DISCUSSION_PATTERNS.test(title)) return false;
       if (GLOBAL_REJECT_KEYWORDS.some(k => t.includes(k))) return false;
+
+      if (cat === 'pc_components') {
+        // STRICTLY reject ANY peripherals, complete PCs, or non-PC outliers
+        const notComponentReject = /\b(headset|mouse|keyboard|monitor|display|laptop|macbook|ipad|tablet|watch|chromebook|notebook|mini pc|desktop pc|pre-?built|gaming pc|gaming desktop|gaming rig|cyberpower|skytech|powerspec|omen|legion|abs|ibuypower|alienware|chair|desk|backpack|cable|hub|adapter|tv|console|memory foam|paper|chainsaw|folio|luggage|battery|tote|ice chest|lunch bag|lunch box|compressor|refrigerator|camping|beverage|wine|cooler bag|soft cooler|hard cooler|yeti|igloo|ozark|zenbook|vivobook|thinkpad|ideapad|yoga|surface|spectre|envy|pavilion|xps|inspiron|latitude|gram|swift|aspire|nitro|predator|blade|stealth|raider|rog|zephyrus|strix|tuf|2-in-1|galaxy book|omni)\b/i;
+        if (notComponentReject.test(title)) return false;
+
+        if (subcat === 'cpu') return /\b(cpu|processor|ryzen|intel core|i3|i5|i7|i9|threadripper)\b/i.test(title) || /\[cpu\]/i.test(title);
+        if (subcat === 'gpu') return /\b(gpu|graphics card|video card|rtx|radeon|gtx|rx \d{4})\b/i.test(title) || /\[gpu\]/i.test(title);
+        if (subcat === 'motherboard') return /\b(motherboard|mobo|z690|b650|x670|z790|b550|am4|am5|lga)\b/i.test(title) || /\[motherboard\]/i.test(title);
+        if (subcat === 'ram') return /\b(ram|desktop memory|laptop memory|ddr4|ddr5|sodimm|dimm)\b/i.test(title) || /\[ram\]/i.test(title);
+        if (subcat === 'storage') return /\b(ssd|nvme|hdd|hard drive|solid state drive|m\.2|sata)\b/i.test(title) || /\[ssd\]|\[hdd\]|\[nvme\]/i.test(title);
+        if (subcat === 'psu') return /\b(power supply|psu|atx 3\.0|80\+ gold|850w|1000w|750w)\b/i.test(title) || /\[psu\]/i.test(title);
+        if (subcat === 'case') return /\b(pc case|computer case|atx mid tower|mini itx|micro atx|desktop case|chassis)\b/i.test(title) || /\[case\]/i.test(title);
+        if (subcat === 'cooling') return /\b(cpu cooler|liquid cooler|water cooler|aio|case fan|cpu fan|heatsink|noctua|kraken|thermalright)\b/i.test(title) || /\[cooler\]|\[fan\]/i.test(title);
+
+        // 'all' subcategory
+        const validTag = /\[(cpu|gpu|motherboard|mobo|ram|ssd|hdd|nvme|case|cooler|psu|power supply|video card)\]/i;
+        const validKeyword = /\b(processor|cpu|motherboard|mobo|graphics card|video card|gpu|power supply|psu|ram|desktop memory|laptop memory|hdd|ssd|nvme|cpu cooler|liquid cooler|water cooler|case fan|cpu fan|heatsink|pc case|computer case|mid tower|full tower|mini itx|micro atx|chassis|aio|ddr4|ddr5)\b/i;
+        return validTag.test(title) || validKeyword.test(title);
+      }
 
       if (cat === 'gaming_pcs') {
         if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
@@ -806,6 +857,7 @@
       const cutoff = new Date(Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
       const SUBREDDITS = {
         gaming_pcs: ['buildapcsales', 'deals'],
+        pc_components: ['buildapcsales', 'deals'],
         laptops: ['laptopdeals', 'buildapcsales', 'deals'],
         vacuums: ['deals', 'frugal', 'Appliances'],
         tvs: ['buildapcsales', 'deals', '4kTV'],
@@ -816,6 +868,17 @@
 
       const SEARCH_QUERIES = {
         gaming_pcs: ['gaming desktop', 'gaming pc', 'prebuilt pc'],
+        pc_components: {
+          all: ['pc components', 'cpu', 'gpu', 'motherboard', 'ram', 'ssd', 'psu', 'case', 'cooler'],
+          cpu: ['cpu', 'processor', 'ryzen', 'intel core'],
+          gpu: ['gpu', 'graphics card', 'video card', 'rtx', 'radeon'],
+          motherboard: ['motherboard', 'mobo'],
+          ram: ['ram', 'memory', 'ddr4', 'ddr5'],
+          storage: ['ssd', 'nvme', 'hdd', 'hard drive'],
+          psu: ['power supply', 'psu'],
+          case: ['pc case', 'computer chassis'],
+          cooling: ['cpu cooler', 'aio', 'liquid cooler', 'case fan']
+        },
         laptops: ['laptop', 'macbook', 'gaming laptop'],
         vacuums: ['vacuum', 'roborock', 'dyson vacuum', 'robot vacuum'],
         tvs: ['oled tv', '4k tv', 'qled tv'],
@@ -825,7 +888,12 @@
       };
 
       const deals = [];
-      const sqList = SEARCH_QUERIES[category] || [query];
+      let sqList;
+      if (category === 'pc_components') {
+        sqList = SEARCH_QUERIES.pc_components[state.selectedSubcategory] || SEARCH_QUERIES.pc_components.all;
+      } else {
+        sqList = SEARCH_QUERIES[category] || [query];
+      }
 
       // Fetch Slickdeals
       for (const sq of sqList) {
@@ -841,7 +909,7 @@
               const titleLower = title.toLowerCase();
               if (titleLower.includes('expired') || titleLower.includes('sold out') || titleLower.includes('dead deal')) return;
               if (item.pubDate && item.pubDate < cutoff) return;
-              if (!isRelevantToCategory(title, category)) return;
+              if (!isRelevantToCategory(title, category, state.selectedSubcategory)) return;
 
               const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
               const store = detectStoreName(item.content || item.description || '', title, item.link || '');
@@ -884,7 +952,7 @@
               const titleLower = title.toLowerCase();
               if (titleLower.includes('weekly request') || titleLower.includes('meta') || titleLower.includes('expired') || titleLower.includes('sold out')) return;
               if (item.pubDate && item.pubDate < cutoff) return;
-              if (!isRelevantToCategory(title, category)) return;
+              if (!isRelevantToCategory(title, category, state.selectedSubcategory)) return;
 
               const { salePrice, originalPrice, discountPercentage } = parseExplicitPricesFromTitle(title);
               const store = detectStoreName(item.content || item.description || '', title, item.link || '');
@@ -1090,10 +1158,17 @@
     document.getElementById('category-bar').addEventListener('click', (e) => {
       const btn = e.target.closest('.category-btn');
       if (!btn) return;
-      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#category-bar .category-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.selectedCategory = btn.dataset.cat;
       state.selectedQuery = btn.dataset.query;
+      
+      const subBar = document.getElementById('subcategory-bar');
+      if (state.selectedCategory === 'pc_components') {
+        subBar.style.display = 'flex';
+      } else {
+        subBar.style.display = 'none';
+      }
       
       if (state.selectedCategory === 'vacuums' || state.selectedCategory === 'appliances') {
         state.includeArchive = true;
@@ -1101,6 +1176,15 @@
         state.includeArchive = false;
       }
       
+      loadDeals();
+    });
+
+    document.getElementById('subcategory-bar').addEventListener('click', (e) => {
+      const btn = e.target.closest('.category-btn');
+      if (!btn) return;
+      document.querySelectorAll('#subcategory-bar .category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.selectedSubcategory = btn.dataset.sub;
       loadDeals();
     });
 
