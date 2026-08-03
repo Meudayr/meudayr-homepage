@@ -739,12 +739,25 @@
 
       if (cat === 'gaming_pcs') {
         if (t.includes('laptop') || t.includes('macbook') || t.includes('notebook')) return false;
-        const pcReject = /\b(headset|mouse|keyboard|backpack|sleeve|cable|hub|adapter)\b/i;
-        if (pcReject.test(title)) return false;
-        // Reject standalone components and component Reddit tags ([Other], [CPU], [GPU], [Motherboard], [RAM], [SSD])
-        const componentReject = /\b(processor|motherboard|mobo|graphics card|video card|power supply|psu|thermal paste|barebone|ram kit|memory kit|combo|cpu cooler|air cooler)\b|\[(cpu|gpu|motherboard|ram|ssd|other|fan|case)\]/i;
-        if (componentReject.test(title)) return false;
-        return /\[pre-?built\]|\[desktop\]|desktop|pre-?built|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo|alienware|victus|dell xps/i.test(title);
+
+        // Reject Reddit component tags always
+        const componentTagReject = /\[(cpu|gpu|motherboard|mobo|ram|memory|ssd|hdd|nvme|other|fan|case|cooler|psu|power supply|video card|networking|controller|router|barebone|monitor)\]/i;
+        if (componentTagReject.test(title)) return false;
+        
+        // Strong PC indicators
+        const isExplicitPC = /\[pre-?built\]|pre-?built|\bgaming pc\b|\bgaming desktop\b|\bgaming rig\b|cyberpower|skytech|powerspec|ibuypower|alienware/i.test(title);
+
+        if (!isExplicitPC) {
+            // Weak indicator - reject if it contains component/accessory words
+            const componentTerms = /\b(processor|cpu|motherboard|mobo|graphics card|video card|gpu|power supply|psu|ram|memory|hdd|ssd|nvme|cooler|heatsink|case|chassis|barebone|mouse|keyboard|headset|monitor|hard drive|solid state drive)\b/i;
+            if (componentTerms.test(title)) return false;
+        } else {
+            // Strong indicator - only reject true accessories
+            const accessoryReject = /\b(headset|backpack|sleeve|cable|hub|adapter|chair|desk|monitor|display)\b/i;
+            if (accessoryReject.test(title) && !/\bbundle\b/i.test(title)) return false;
+        }
+
+        return /\[pre-?built\]|\[desktop\]|\bdesktop\b|pre-?built|gaming pc|gaming rig|tower|cyberpower|skytech|powerspec|omen|legion|\babs\b|ibuypower|\bmsi\b|\brog\b|yeyian|lenovo|alienware|victus|dell xps/i.test(title);
       }
 
       if (cat === 'laptops') {
@@ -804,7 +817,7 @@
         tvs: ['buildapcsales', 'deals', '4kTV'],
         monitors: ['buildapcsales', 'deals'],
         consoles: ['GameDeals', 'buildapcsales', 'consoledeals'],
-        appliances: ['Appliances', 'deals', 'frugal', 'HomeImprovement']
+        appliances: ['deals', 'frugal']
       };
 
       const SEARCH_QUERIES = {
@@ -1095,6 +1108,13 @@
       btn.classList.add('active');
       state.selectedCategory = btn.dataset.cat;
       state.selectedQuery = btn.dataset.query;
+      
+      if (state.selectedCategory === 'vacuums' || state.selectedCategory === 'appliances') {
+        state.includeArchive = true;
+      } else {
+        state.includeArchive = false;
+      }
+      
       loadDeals();
     });
 
