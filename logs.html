@@ -597,7 +597,35 @@
     const _p2 = "yzAQ1FChtntr6DffRYmE52YP9RH5UT3hTg6OTNzdcQANZ547R2HIG3H2XAO";
     const GH_PAT = [_p1, _p2].join('_');
 
-    async function fetchRawLogs() {
+    async function fetchLatestLogsFromGitHub() {
+      // 1. Direct GitHub REST API - strictly uncached git object tree
+      try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/contents/data/logs.json', {
+          headers: {
+            'Authorization': 'Bearer ' + GH_PAT,
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'MeudayrApp'
+          },
+          signal: controller.signal
+        });
+        clearTimeout(tid);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.content) {
+            const decoded = atob(data.content.replace(/\s/g, ''));
+            const json = JSON.parse(decoded);
+            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+              return json;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('GitHub API fetch error:', e);
+      }
+
+      // 2. Fallback to raw URL
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 4000);
@@ -613,6 +641,7 @@
           }
         }
       } catch (e) {}
+
       return null;
     }
 
@@ -654,10 +683,10 @@
       let hasNewLog = false;
 
       if (dispatched) {
-        // Poll for new data for up to ~18 seconds (6 attempts x 3s)
-        for (let attempt = 0; attempt < 6; attempt++) {
-          await new Promise(r => setTimeout(r, 3000));
-          const check = await fetchRawLogs();
+        // Poll for new data for up to ~20 seconds (8 attempts x 2.5s)
+        for (let attempt = 0; attempt < 8; attempt++) {
+          await new Promise(r => setTimeout(r, 2500));
+          const check = await fetchLatestLogsFromGitHub();
           if (check && check.reports && check.reports.length > 0) {
             freshData = check;
             if (prevTopCode && check.reports[0].code !== prevTopCode) {
@@ -668,7 +697,7 @@
         }
       } else {
         await new Promise(r => setTimeout(r, 700));
-        freshData = await fetchRawLogs();
+        freshData = await fetchLatestLogsFromGitHub();
         if (freshData && freshData.reports && freshData.reports.length > 0 && prevTopCode) {
           hasNewLog = freshData.reports[0].code !== prevTopCode;
         }
