@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-20T18:27:44.155Z",
+  "fetchedAt": "2026-08-20T18:41:57.118Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -10,7 +10,15 @@
       "endTime": 1787246654782,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Murder Row",
+        "Altar of Fangs"
+      ],
+      "bosses": [
+        "Felonious Mage",
+        "Altar of Fangs"
+      ]
     },
     {
       "code": "q6Zh9kjpLJXYDgWb",
@@ -19,7 +27,23 @@
       "endTime": 1787195885844,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Kings' Rest",
+        "Temple of Sethraliss",
+        "Den of Nalorakk",
+        "Voidscar Arena",
+        "Murder Row"
+      ],
+      "bosses": [
+        "Kings' Rest",
+        "Temple of Sethraliss",
+        "Den of Nalorakk",
+        "Spirit of Hunger",
+        "Voidscar Arena",
+        "Felonious Mage",
+        "Murder Row"
+      ]
     },
     {
       "code": "agGVXPRkFhvWZ6H9",
@@ -28,14 +52,63 @@
       "endTime": 1787105951248,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "The Blinding Vale",
+        "Ruby Life Pools",
+        "Voidscar Arena",
+        "Murder Row"
+      ],
+      "bosses": [
+        "The Blinding Vale",
+        "Primal Juggernaut",
+        "Ruby Life Pools",
+        "Voidscar Arena",
+        "Murder Row"
+      ]
     },
     {
       "code": "g67qmGZWVLN4rzAx",
       "title": "m+",
       "startTime": 1786759772954,
       "endTime": 1786763114578,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Voidscar Arena",
+        "Temple of Sethraliss",
+        "Kings' Rest"
+      ],
+      "bosses": [
+        "Dominated Brawler",
+        "Brutal Overseer",
+        "Aegyra the Unyielding",
+        "Taz'Rah",
+        "Watchful Harrower",
+        "Atroxus",
+        "Devouring Brutalizer",
+        "Charonus",
+        "Sandfury Stonefist",
+        "Adderis and Aspix",
+        "Aspix",
+        "Sand-Sworn Rider",
+        "Merektha",
+        "Agitated Nimbus",
+        "Galvazzt",
+        "Loose Spark",
+        "Twisted Hexxer",
+        "Avatar of Sethraliss",
+        "Animated Guardian",
+        "Shadow-Borne Champion",
+        "The Golden Serpent",
+        "King A'akul",
+        "Purification Construct",
+        "Mchimba the Embalmer",
+        "Royal Berserker",
+        "Ghostly Brute",
+        "The Council of Tribes",
+        "Shadow of Zul",
+        "King Dazar"
+      ]
     },
     {
       "code": "MngT6pZX3R8rAYhj",
@@ -44,7 +117,16 @@
       "endTime": 1781832455028,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Sporefall"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Spore Strider",
+        "Rotmire"
+      ]
     },
     {
       "code": "8CNfVBmJLwAQFa3h",
@@ -53,7 +135,24 @@
       "endTime": 1780453491449,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Skyreach",
+        "The Voidspire",
+        "Pit of Saron",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Skyreach",
+        "Imperator Averzian",
+        "Stronghold Enforcer",
+        "Vorasius",
+        "Pit of Saron",
+        "Lightfrenzy Demolisher",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "QHTqJAbBPxYLkZtD",
@@ -62,7 +161,17 @@
       "endTime": 1780342408907,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Skyreach",
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Skyreach",
+        "Nexus-Point Xenas"
+      ]
     },
     {
       "code": "MfbgJ1NkYVv9Td47",
@@ -71,7 +180,15 @@
       "endTime": 1780259640622,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Skyreach"
+      ]
     },
     {
       "code": "AKtrhZjFQVz7M1N3",
@@ -80,7 +197,18 @@
       "endTime": 1780110392026,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Shadowguard Champion",
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "ztqJXfFZjPRWpQnD",
@@ -89,7 +217,50 @@
       "endTime": 1780025545051,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "The Dreamrift",
+        "The Voidspire",
+        "Isle of Quel'Danas"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Underrift Moth",
+        "Rift Potadpole",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Darkspawn",
+        "Stronghold Enforcer",
+        "Ezzorak / Vaelgor",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Vaelgor & Ezzorak",
+        "Vaelgor",
+        "Unbound Wraith",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "War Chaplain Senn",
+        "Crown of the Cosmos",
+        "Alleria Windrunner",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "Gladius Morinas",
+        "L'ura",
+        "Midnight Falls",
+        "Galnannix",
+        "Louisbraille",
+        "Vyrilianna",
+        "Amydh",
+        "Deadtreemz",
+        "Revalation",
+        "Omnifarious",
+        "Antíseptic",
+        "Bloodd"
+      ]
     },
     {
       "code": "baCfjKwZyFRgxzD4",
@@ -98,14 +269,30 @@
       "endTime": 1779937364027,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron",
+        "The Seat of the Triumvirate",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Pit of Saron",
+        "The Seat of the Triumvirate",
+        "Unknown",
+        "Shadowguard Defender",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "LjYNM968TKzwxQcv",
       "title": "5/27",
       "startTime": 1779933102669,
       "endTime": 1779933102669,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "9QNThj3Rvc7WdqXY",
@@ -114,7 +301,18 @@
       "endTime": 1779841013724,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "The Dreamrift",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Skyreach"
+      ]
     },
     {
       "code": "4jnXVB8qJW2cQ6FR",
@@ -123,7 +321,13 @@
       "endTime": 1779723709951,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "7zpjn3KgYwmRGHab",
@@ -132,7 +336,17 @@
       "endTime": 1779679843619,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Skyreach",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Skyreach",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "81LtfMTGvNpgrwqm",
@@ -141,7 +355,20 @@
       "endTime": 1779586350765,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Nexus-Point Xenas",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Unknown",
+        "Nexus-Point Xenas",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "GpQDLfgbWN8kdTzY",
@@ -150,7 +377,15 @@
       "endTime": 1779496994961,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "BQmpxRPfrkhMndg1",
@@ -159,7 +394,37 @@
       "endTime": 1779421453671,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "The Dreamrift",
+        "The Voidspire",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Ezzorak / Vaelgor / Vorasius",
+        "Vorasius",
+        "Tiny Blister",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Vaelgor & Ezzorak",
+        "Ezzorak",
+        "Unbound Wraith",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "General Amias Bellamy",
+        "Crown of the Cosmos",
+        "Alleria Windrunner",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Midnight Falls",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "NqvdwtcY7gm4fPK6",
@@ -168,7 +433,13 @@
       "endTime": 1779372315694,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas"
+      ]
     },
     {
       "code": "FqRGThkXdBLZyCxK",
@@ -177,7 +448,19 @@
       "endTime": 1779330509615,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate",
+        "Maisara Caverns",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate",
+        "Maisara Caverns",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "V6mWFkNcCfnjwd4H",
@@ -186,7 +469,30 @@
       "endTime": 1779253639785,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Nexus-Point Xenas",
+        "The Voidspire"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Nexus-Point Xenas",
+        "Imperator Averzian",
+        "Darkspawn",
+        "Ezzorak / Vaelgor",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Devouring Darkcaller",
+        "Vaelgor & Ezzorak",
+        "Ezzorak",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "General Amias Bellamy",
+        "Crown of the Cosmos"
+      ]
     },
     {
       "code": "q4M1bP7YDd6FHZCz",
@@ -195,7 +501,17 @@
       "endTime": 1779153140068,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "pMDZXgTabCxWPHYy",
@@ -204,7 +520,28 @@
       "endTime": 1779074331612,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "The Seat of the Triumvirate",
+        "Pit of Saron",
+        "Windrunner Spire",
+        "Skyreach",
+        "Maisara Caverns",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "The Seat of the Triumvirate",
+        "Devouring Tyrant",
+        "Pit of Saron",
+        "Windrunner Spire",
+        "Skyreach",
+        "Maisara Caverns",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "hLcnmA81VpXbDjTd",
@@ -213,7 +550,18 @@
       "endTime": 1778981128705,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron",
+        "The Seat of the Triumvirate",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Pit of Saron",
+        "Quarry Tormentor",
+        "The Seat of the Triumvirate",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "2y1vxJbhDK3aZVz7",
@@ -222,7 +570,90 @@
       "endTime": 1778908289183,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Amirdrassil, the Dream's Hope",
+        "Aberrus, the Shadowed Crucible",
+        "Windrunner Spire",
+        "Vault of the Incarnates",
+        "Pit of Saron",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Devouring Tyrant",
+        "Zaqali Juggernaut",
+        "Gnarlroot",
+        "Zaqali Flamemancer",
+        "Igira the Cruel",
+        "Ancient Core Hound",
+        "Flamewaker Infernoguard",
+        "Volcoross",
+        "Larodar, Keeper of the Flame",
+        "Seed of Life",
+        "Keeper of the Dream",
+        "Stalwart Bristlebruin",
+        "Council of Dreams",
+        "Nymue",
+        "Nymue, Weaver of the Cycle",
+        "Smolderon",
+        "Tindral Sageswift, Seer of the Flame",
+        "Fyrakk the Blazing",
+        "Fyrakk",
+        "Sundered Scaleguard",
+        "Kazzara, the Hellforged",
+        "Essence of Shadow / Eternal Blaze",
+        "The Amalgamation Chamber",
+        "Shadowflame Amalgamation",
+        "Failed Prototype",
+        "Oozing Sludge",
+        "The Forgotten Experiments",
+        "Rionthus",
+        "Sundered Champion",
+        "Assault of the Zaqali",
+        "Warlord Kagni",
+        "Rashok",
+        "Rashok, the Elder",
+        "Colossal Draconic Golem",
+        "The Vigilant Steward, Zskarn",
+        "Voracious Magma Worm",
+        "Magmorax",
+        "Drazos Blackwing",
+        "Echo of Neltharion",
+        "Whisper in the Dark",
+        "Scalecommander Sarkareth",
+        "Sarkareth",
+        "Windrunner Spire",
+        "Volcanius",
+        "Smoldering Colossus",
+        "Eranog",
+        "Iskakx",
+        "Terros",
+        "Frostbreath Arachnid",
+        "Sennarth, The Cold Breath",
+        "Primal Stormsentry",
+        "Kurog Grimtotem",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Raszageth",
+        "Pit of Saron",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Lightwrought"
+      ]
     },
     {
       "code": "t6Yp7nzCZRmGAPDW",
@@ -231,7 +662,41 @@
       "endTime": 1778814822069,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Dreamrift",
+        "The Voidspire",
+        "Isle of Quel'Danas"
+      ],
+      "bosses": [
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Underrift Moth",
+        "Imperator Averzian",
+        "Abyssal Voidshaper",
+        "Stronghold Enforcer",
+        "Vaelgor / Ezzorak",
+        "Vorasius",
+        "Tiny Blister",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Vaelgor & Ezzorak",
+        "Vaelgor",
+        "Commander Venel Lightblood",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "General Amias Bellamy",
+        "Crown of the Cosmos",
+        "Morium",
+        "Alleria Windrunner",
+        "Belo'ren",
+        "Netherwyrm",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Midnight Falls",
+        "Unknown",
+        "Tenebrous Striker"
+      ]
     },
     {
       "code": "14FfqpWDXL3KmTkP",
@@ -240,7 +705,16 @@
       "endTime": 1778786106020,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Skyreach",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Skyreach",
+        "Solar Zealot",
+        "Maisara Caverns"
+      ]
     },
     {
       "code": "pRXKknVNGtYZqTPd",
@@ -249,7 +723,32 @@
       "endTime": 1778728839761,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron",
+        "Skyreach",
+        "Black Rook Hold Arena",
+        "Cage of Carnage",
+        "Enigma Crucible",
+        "The Seat of the Triumvirate",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Pit of Saron",
+        "Skyreach",
+        "Black Rook Hold Arena",
+        "Shearkhan",
+        "Cage of Carnage",
+        "Skoegull",
+        "Enigma Crucible",
+        "Falseyxo",
+        "The Seat of the Triumvirate",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "zjb9r7QNdTgJ4Da1",
@@ -258,7 +757,41 @@
       "endTime": 1778632694678,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "The Voidspire",
+        "The Dreamrift",
+        "Isle of Quel'Danas",
+        "Pit of Saron",
+        "Magisters' Terrace",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Imperator Averzian",
+        "Imperator Averzian / Vorasius",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Vaelgor / Ezzorak",
+        "Vaelgor & Ezzorak",
+        "Unknown",
+        "Celestial Behemoth",
+        "Lightblinded Vanguard",
+        "War Chaplain Senn",
+        "Crown of the Cosmos",
+        "Alleria Windrunner",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Midnight Falls",
+        "Pit of Saron",
+        "Magisters' Terrace",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "fbCXzmyp18ZHjFWt",
@@ -267,7 +800,32 @@
       "endTime": 1778554621453,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "Ruins of Lordaeron",
+        "Tol'viron Arena",
+        "Nagrand Arena",
+        "Cage of Carnage",
+        "Hook Point",
+        "Mugambala",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "Ruins of Lordaeron",
+        "Dragindeznut",
+        "Tol'viron Arena",
+        "Nagrand Arena",
+        "Cage of Carnage",
+        "Hook Point",
+        "Beautifulday",
+        "Mugambala",
+        "Fhana",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "2LF1jJa7DWkxVpCK",
@@ -276,7 +834,21 @@
       "endTime": 1778471047029,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Nexus-Point Xenas"
+      ]
     },
     {
       "code": "GfFhkZDJQBMAdNKV",
@@ -285,7 +857,30 @@
       "endTime": 1778384110531,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Pit of Saron",
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Pit of Saron",
+        "Shadowguard Champion",
+        "Slicky",
+        "Tumblestone",
+        "Firedealer",
+        "Kailys",
+        "Escanxr",
+        "Aristodemas",
+        "Nexus-Point Xenas"
+      ]
     },
     {
       "code": "tgw97Z3LGMQkpbB2",
@@ -294,7 +889,17 @@
       "endTime": 1778345228573,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Skyreach"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Skyreach"
+      ]
     },
     {
       "code": "B9WpCZGT6DAv43tr",
@@ -303,7 +908,15 @@
       "endTime": 1778343234236,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "6HLx27KpQPGdF1VB",
@@ -312,7 +925,15 @@
       "endTime": 1778343234236,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "CNpz9GqJ36MT1Zjf",
@@ -321,7 +942,21 @@
       "endTime": 1778298976887,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Skyreach",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Skyreach",
+        "Solar Zealot",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "Devouring Tyrant"
+      ]
     },
     {
       "code": "rvxtTmBJzqAKfGbN",
@@ -330,7 +965,16 @@
       "endTime": 1778284668326,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Skyreach",
+        "Solar Zealot"
+      ]
     },
     {
       "code": "td3LKx7J1G6qrCpA",
@@ -339,7 +983,25 @@
       "endTime": 1778211450304,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "The Dreamrift",
+        "Isle of Quel'Danas",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Rift Potadpole",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Erasure Warden",
+        "Midnight Falls",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "BJDf6dLXW1VjMGkC",
@@ -348,7 +1010,17 @@
       "endTime": 1778124741594,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Maisara Caverns",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Maisara Caverns",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "BQNRKnzC9TZhjvgL",
@@ -357,7 +1029,22 @@
       "endTime": 1778037107305,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "The Seat of the Triumvirate",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "The Seat of the Triumvirate",
+        "Shadowguard Champion",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "9jqGDPp1yhMYVmcz",
@@ -366,7 +1053,22 @@
       "endTime": 1778034910326,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Pit of Saron",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "The Seat of the Triumvirate",
+        "Shadowguard Champion"
+      ]
     },
     {
       "code": "TRgCDHqbxn1mXLyM",
@@ -375,7 +1077,22 @@
       "endTime": 1777948451944,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Skyreach",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Tol'viron Arena",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Skyreach",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Tol'viron Arena",
+        "Anklelover",
+        "Maisara Caverns"
+      ]
     },
     {
       "code": "q8FbfvanVRP9TdG2",
@@ -384,7 +1101,19 @@
       "endTime": 1777859576582,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Skyreach"
+      ]
     },
     {
       "code": "GnVN8ZcRLWpFgfkH",
@@ -393,7 +1122,42 @@
       "endTime": 1777776626334,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Ashamane's Fall",
+        "Nagrand Arena",
+        "Empyrean Domain",
+        "Dalaran Arena",
+        "Enigma Crucible",
+        "Cage of Carnage",
+        "Hook Point",
+        "Maldraxxus Coliseum",
+        "Tol'viron Arena",
+        "Pit of Saron",
+        "Black Rook Hold Arena",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Ashamane's Fall",
+        "Nagrand Arena",
+        "Empyrean Domain",
+        "Dalaran Arena",
+        "Enigma Crucible",
+        "Cage of Carnage",
+        "Hugmeimtrial",
+        "Hook Point",
+        "Maldraxxus Coliseum",
+        "Kwishaderach",
+        "Theblackspy",
+        "Tol'viron Arena",
+        "Pit of Saron",
+        "Black Rook Hold Arena",
+        "Drupith",
+        "Unknown",
+        "Deufringer",
+        "Dungeoneer's Training Dummy",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "YGfQFgBbjDmw3V2a",
@@ -402,7 +1166,25 @@
       "endTime": 1777605768310,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "The Dreamrift",
+        "Isle of Quel'Danas"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Voidbound Emissary",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Midnight Falls",
+        "Doomsayer",
+        "Lalana",
+        "Dltdjr"
+      ]
     },
     {
       "code": "7GfDXyMBtbpLPmTj",
@@ -411,7 +1193,15 @@
       "endTime": 1777520608746,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "Maisara Caverns"
+      ]
     },
     {
       "code": "9Yxg6vrdNMmb1nwC",
@@ -420,7 +1210,22 @@
       "endTime": 1777518178710,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Skyreach",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Voidbound Emissary",
+        "Skyreach",
+        "Nexus-Point Xenas",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "zLyA9YhgJwncK16j",
@@ -429,7 +1234,29 @@
       "endTime": 1777347455243,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Pit of Saron",
+        "The Dreamrift",
+        "Isle of Quel'Danas",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Pit of Saron",
+        "Colossal Horror",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Belo'ren",
+        "Unknown",
+        "Belo'ren, Child of Al'ar",
+        "Gladius Morinas",
+        "L'ura",
+        "Midnight Falls",
+        "Reinforced Golem",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "cPf17zpX93GDCbnV",
@@ -438,7 +1265,28 @@
       "endTime": 1777317878868,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "The Seat of the Triumvirate",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "The Seat of the Triumvirate",
+        "Hollowsoul Shredder",
+        "Rehab",
+        "Turnip Punching Bag",
+        "Solar Zealot",
+        "Maisara Caverns",
+        "Unknown"
+      ]
     },
     {
       "code": "Vp7B9Cc8rnPZh6zG",
@@ -447,7 +1295,22 @@
       "endTime": 1777171787557,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Skyreach",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "The Seat of the Triumvirate",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Skyreach",
+        "Maisara Caverns",
+        "Bound Defender"
+      ]
     },
     {
       "code": "pvF6NaQdfCAP91kK",
@@ -456,7 +1319,19 @@
       "endTime": 1776192014185,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Pit of Saron",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Pit of Saron",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "HT9vGpjdz2kW61X3",
@@ -465,7 +1340,15 @@
       "endTime": 1776131243325,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "knp46XxYmjPRBqQc",
@@ -474,7 +1357,25 @@
       "endTime": 1776047652710,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Mugambala",
+        "Skyreach",
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "The Voidspire"
+      ],
+      "bosses": [
+        "Mugambala",
+        "Brownshugar",
+        "Skyreach",
+        "Magisters' Terrace",
+        "Windrunner Spire",
+        "Pit of Saron",
+        "Crown of the Cosmos",
+        "Alleria Windrunner"
+      ]
     },
     {
       "code": "DHYVTtLXAgrmRpJ2",
@@ -483,7 +1384,13 @@
       "endTime": 1776007105417,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "HDPRvrWYyVGJhwf7",
@@ -492,7 +1399,24 @@
       "endTime": 1775965753988,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Skyreach",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Hook Point",
+        "Pit of Saron",
+        "Windrunner Spire"
+      ],
+      "bosses": [
+        "Skyreach",
+        "Solar Zealot",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Hook Point",
+        "Pit of Saron",
+        "Windrunner Spire"
+      ]
     },
     {
       "code": "8MP4n3tzHFZChbXK",
@@ -501,7 +1425,26 @@
       "endTime": 1775881915982,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron",
+        "Windrunner Spire",
+        "Skyreach",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Pit of Saron",
+        "Quarry Tormentor",
+        "Windrunner Spire",
+        "Skyreach",
+        "Nexus-Point Xenas",
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "fwCjLhNBdYqvp16P",
@@ -510,7 +1453,37 @@
       "endTime": 1775791735175,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Isle of Quel'Danas",
+        "The Dreamrift",
+        "The Voidspire"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Belo'ren",
+        "Belo'ren, Child of Al'ar",
+        "L'ura",
+        "Midnight Falls",
+        "Colossal Horror",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Darkspawn",
+        "Ezzorak / Vaelgor / Vorasius",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Stronghold Enforcer",
+        "Vaelgor & Ezzorak",
+        "Commander Venel Lightblood",
+        "General Amias Bellamy",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "Crown of the Cosmos"
+      ]
     },
     {
       "code": "XyFdh8LkwYm9J7Q1",
@@ -519,7 +1492,43 @@
       "endTime": 1775705104823,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "The Voidspire",
+        "Harandar",
+        "Pit of Saron",
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Imperator Averzian",
+        "Darkspawn",
+        "Stronghold Enforcer",
+        "Ezzorak / Vaelgor / Vorasius",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Vaelgor & Ezzorak",
+        "Ezzorak",
+        "Commander Venel Lightblood",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "War Chaplain Senn",
+        "Crown of the Cosmos",
+        "Alleria Windrunner",
+        "Roving Thornmaw",
+        "Dionaea",
+        "Pit of Saron",
+        "Magisters' Terrace",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Skyreach"
+      ]
     },
     {
       "code": "WRTGFrnkhm6LVZHf",
@@ -528,7 +1537,25 @@
       "endTime": 1775620495053,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Dreamrift",
+        "Isle of Quel'Danas",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Nexus-Point Xenas",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "L'ura",
+        "Midnight Falls",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Nexus-Point Xenas",
+        "Skyreach"
+      ]
     },
     {
       "code": "KDLCNbvcJrFg93nY",
@@ -537,7 +1564,22 @@
       "endTime": 1775533985062,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "Skyreach",
+        "Windrunner Spire",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Algeth'ar Academy",
+        "Magisters' Terrace",
+        "Skyreach",
+        "Windrunner Spire",
+        "Voidbound Emissary",
+        "Maisara Caverns"
+      ]
     },
     {
       "code": "bpyJDcnLXNhjR12Z",
@@ -546,7 +1588,15 @@
       "endTime": 1775526197867,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Algeth'ar Academy"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Algeth'ar Academy"
+      ]
     },
     {
       "code": "Wa3Hw4cjNJp9R6TK",
@@ -555,7 +1605,13 @@
       "endTime": 1775435348891,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Pit of Saron"
+      ],
+      "bosses": [
+        "Pit of Saron"
+      ]
     },
     {
       "code": "a7Y8FtAkvVXrZ9xJ",
@@ -564,7 +1620,34 @@
       "endTime": 1775100174905,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Voidspire",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Maisara Caverns",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Imperator Averzian",
+        "Ezzorak / Vaelgor",
+        "Wild Ultradon",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Stronghold Enforcer",
+        "Vaelgor & Ezzorak",
+        "Ezzorak",
+        "Unbound Wraith",
+        "Harrower",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Maisara Caverns",
+        "Magisters' Terrace"
+      ]
     },
     {
       "code": "vwLc3GzxDaW8nr4H",
@@ -573,7 +1656,51 @@
       "endTime": 1775019913348,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Maisara Caverns",
+        "The Seat of the Triumvirate",
+        "The Battle for Gilneas",
+        "Nexus-Point Xenas",
+        "Skyreach",
+        "Magisters' Terrace",
+        "Pit of Saron",
+        "Windrunner Spire",
+        "Enigma Crucible",
+        "Mugambala",
+        "Black Rook Hold Arena",
+        "Ruins of Lordaeron",
+        "Nagrand Arena",
+        "Tol'viron Arena",
+        "The Robodrome",
+        "Hook Point"
+      ],
+      "bosses": [
+        "Maisara Caverns",
+        "The Seat of the Triumvirate",
+        "Kyara Bladeturner",
+        "Rondi Lavadrinker",
+        "Taga Stoneaxe",
+        "Perek Tidesweeper",
+        "Nexus-Point Xenas",
+        "Skyreach",
+        "Magisters' Terrace",
+        "Pit of Saron",
+        "Windrunner Spire",
+        "Enigma Crucible",
+        "Mugambala",
+        "Black Rook Hold Arena",
+        "Rococo",
+        "Ruins of Lordaeron",
+        "Nagrand Arena",
+        "Tol'viron Arena",
+        "Lemonheads",
+        "Frozenwithin",
+        "The Robodrome",
+        "Palidegg",
+        "Freakk",
+        "Hook Point"
+      ]
     },
     {
       "code": "67Tp24gJhFzYfKmq",
@@ -582,7 +1709,17 @@
       "endTime": 1774927904675,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "Skyreach",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Skyreach",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "7taLr3yvcgkXKqwG",
@@ -591,7 +1728,26 @@
       "endTime": 1774841372209,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Skyreach",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Pit of Saron",
+        "Algeth'ar Academy",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Skyreach",
+        "The Seat of the Triumvirate",
+        "Unknown"
+      ]
     },
     {
       "code": "y8Fr2wxa37vqbXWn",
@@ -600,7 +1756,17 @@
       "endTime": 1774754633881,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Nexus-Point Xenas",
+        "Pit of Saron",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Nexus-Point Xenas",
+        "Pit of Saron",
+        "Skyreach"
+      ]
     },
     {
       "code": "HYh9GjCykxDm8BZ1",
@@ -609,7 +1775,27 @@
       "endTime": 1774670253083,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Magisters' Terrace",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Pit of Saron",
+        "Nexus-Point Xenas",
+        "Maisara Caverns",
+        "Tol'viron Arena",
+        "Enigma Crucible"
+      ],
+      "bosses": [
+        "Magisters' Terrace",
+        "Skyreach",
+        "Algeth'ar Academy",
+        "Pit of Saron",
+        "Nexus-Point Xenas",
+        "Maisara Caverns",
+        "Tol'viron Arena",
+        "Enigma Crucible"
+      ]
     },
     {
       "code": "BfX1gcQ79d4MkzH2",
@@ -618,7 +1804,42 @@
       "endTime": 1774582738122,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Murder Row",
+        "The Voidspire",
+        "The Dreamrift",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Bribed Guard",
+        "Imperator Averzian",
+        "Darkspawn",
+        "Abyssal Voidshaper",
+        "Stronghold Enforcer",
+        "Gladius Slauros",
+        "Ezzorak / Vaelgor",
+        "Vorasius",
+        "Invasive Consumptor",
+        "Blinky",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Devouring Darkcaller",
+        "Vaelgor & Ezzorak",
+        "Vaelgor",
+        "Celestial Behemoth",
+        "Lightblinded Vanguard",
+        "Commander Venel Lightblood",
+        "Crown of the Cosmos",
+        "Alleria Windrunner",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Obscurion Obliterator",
+        "Maisara Caverns",
+        "Bound Defender"
+      ]
     },
     {
       "code": "PCn2vYZhj3xQKFqa",
@@ -627,7 +1848,18 @@
       "endTime": 1774571804697,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Windrunner Spire",
+        "Murder Row",
+        "The Voidspire"
+      ],
+      "bosses": [
+        "Windrunner Spire",
+        "Bribed Guard",
+        "Imperator Averzian",
+        "Darkspawn"
+      ]
     },
     {
       "code": "ykDF18tYLhd2R3p9",
@@ -636,14 +1868,30 @@
       "endTime": 1774490310352,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Maisara Caverns",
+        "The Seat of the Triumvirate"
+      ],
+      "bosses": [
+        "Maisara Caverns",
+        "Unknown",
+        "The Seat of the Triumvirate"
+      ]
     },
     {
       "code": "k3JVHGczWr9ANQ7t",
       "title": "3/25",
       "startTime": 1774462312183,
       "endTime": 1774463411970,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Maldraxxus Coliseum"
+      ],
+      "bosses": [
+        "Maldraxxus Coliseum",
+        "Vigr"
+      ]
     },
     {
       "code": "Wk812tBfXDc94NFn",
@@ -652,7 +1900,35 @@
       "endTime": 1774409119791,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Voidspire",
+        "The Dreamrift",
+        "Harandar",
+        "Algeth'ar Academy",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Skyreach",
+        "Nexus-Point Xenas"
+      ],
+      "bosses": [
+        "Ezzorak / Vaelgor",
+        "Darkspawn",
+        "Vaelgor & Ezzorak",
+        "Commander Venel Lightblood",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Stronghold Enforcer",
+        "Vorasius",
+        "The Wing of Akil'zon",
+        "Harried Hawkstrider",
+        "Algeth'ar Academy",
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Skyreach",
+        "Nexus-Point Xenas"
+      ]
     },
     {
       "code": "k4GvMyp2F6bKadXJ",
@@ -661,14 +1937,70 @@
       "endTime": 1774379187792,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Voidspire",
+        "The Dreamrift"
+      ],
+      "bosses": [
+        "Ezzorak / Vaelgor",
+        "Darkspawn",
+        "Vaelgor & Ezzorak",
+        "Commander Venel Lightblood",
+        "Chimaerus",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Stronghold Enforcer",
+        "Wild Ultradon"
+      ]
     },
     {
       "code": "NjG8mJXkz97BYqfQ",
       "title": "taylor",
       "startTime": 1774055446698,
       "endTime": 1774062818485,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Windrunner Spire",
+        "Algeth'ar Academy",
+        "Nexus-Point Xenas",
+        "Pit of Saron"
+      ],
+      "bosses": [
+        "Flesh Behemoth",
+        "Derelict Duo",
+        "Latch",
+        "Dutiful Groundskeeper",
+        "Apex Lynx",
+        "Bloated Lasher",
+        "Emberdawn",
+        "Commander Kroluk",
+        "Restless Heart",
+        "Aggravated Skitterfly",
+        "Vile Lasher",
+        "Overgrown Ancient",
+        "Guardian Sentry",
+        "Alpha Eagle",
+        "Crawth",
+        "Vicious Ravager",
+        "Spellbound Battleaxe",
+        "Vexamus",
+        "Algeth'ar Echoknight",
+        "Echo of Doragosa",
+        "Circuit Seer",
+        "Chief Corewright Kasreth",
+        "Kasreth",
+        "Corewarden Nysarra",
+        "Lingering Image",
+        "Lothraxion",
+        "Ymirjar Graveblade",
+        "Dreadpulse Lich",
+        "Ick and Krick",
+        "Quarry Tormentor",
+        "Forgemaster Garfrost",
+        "Glacieth",
+        "Scourgelord Tyrannus"
+      ]
     },
     {
       "code": "hjDqT2tC9JMnxyrp",
@@ -677,14 +2009,53 @@
       "endTime": 1773977405977,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "Mugambala",
+        "The Dreamrift",
+        "The Voidspire"
+      ],
+      "bosses": [
+        "Mugambala",
+        "Overipedd",
+        "Chimaerus",
+        "Colossal Horror",
+        "Chimaerus, the Undreamt God",
+        "Imperator Averzian",
+        "Voidmaw",
+        "Stronghold Enforcer",
+        "Ezzorak / Vaelgor",
+        "Vorasius",
+        "Blinky",
+        "Terrace Watcher",
+        "Oblivion Engine",
+        "Fallen-King Salhadaar",
+        "Gladius Slauros",
+        "Vaelgor & Ezzorak",
+        "Ezzorak",
+        "Celestial Behemoth",
+        "Harrower",
+        "Lightblinded Vanguard",
+        "War Chaplain Senn",
+        "Crown of the Cosmos",
+        "Alleria Windrunner"
+      ]
     },
     {
       "code": "PgbCf6GcAHnQyLVZ",
       "title": "NORMAL RAID 3/19 MINI",
       "startTime": 1773964737791,
       "endTime": 1773966638996,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Mugambala",
+        "The Dreamrift"
+      ],
+      "bosses": [
+        "Mugambala",
+        "Overipedd",
+        "Chimaerus"
+      ]
     },
     {
       "code": "G3VJndrFyQkR7HPm",
@@ -693,63 +2064,480 @@
       "endTime": 1773927261819,
       "zone": {
         "name": "VS / DR / MQD"
-      }
+      },
+      "dungeons": [
+        "The Voidspire",
+        "The Dreamrift"
+      ],
+      "bosses": [
+        "Imperator Averzian",
+        "Darkspawn",
+        "Stronghold Enforcer",
+        "Devouring Darkcaller",
+        "Vorasius",
+        "Training Dummy",
+        "Fallen-King Salhadaar",
+        "Chimaerus",
+        "Colossal Horror",
+        "Chimaerus, the Undreamt God"
+      ]
     },
     {
       "code": "RQCJHtXZgYVr83WG",
       "title": "tay",
       "startTime": 1773876067801,
       "endTime": 1773886073735,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "The Tiger's Peak",
+        "Tol'viron Arena",
+        "Dalaran Arena",
+        "Algeth'ar Academy",
+        "Windrunner Spire",
+        "Skyreach",
+        "The Seat of the Triumvirate",
+        "Pit of Saron",
+        "Maisara Caverns"
+      ],
+      "bosses": [
+        "The Tiger's Peak",
+        "Tol'viron Arena",
+        "Dalaran Arena",
+        "Vile Lasher",
+        "Overgrown Ancient",
+        "Guardian Sentry",
+        "Alpha Eagle",
+        "Crawth",
+        "Vicious Ravager",
+        "Spellbound Battleaxe",
+        "Vexamus",
+        "Algeth'ar Echoknight",
+        "Echo of Doragosa",
+        "Spellguard Magus",
+        "Flesh Behemoth",
+        "Derelict Duo",
+        "Bloated Lasher",
+        "Emberdawn",
+        "Phalanx Breaker",
+        "Commander Kroluk",
+        "Restless Heart",
+        "Dread Raven",
+        "Ranjit",
+        "Adept of the Dawn",
+        "Solar Elemental",
+        "Araknath",
+        "Suntalon Tamer",
+        "Rukhran",
+        "High Sage Viryx",
+        "Merciless Subjugator",
+        "Zuraal the Ascended",
+        "Rift Warden",
+        "Umbral War-Adept",
+        "Saprish",
+        "Void-Infused Destroyer",
+        "Viceroy Nezhar",
+        "L'ura",
+        "Unknown",
+        "Ymirjar Graveblade",
+        "Rotting Ghoul",
+        "Ick and Krick",
+        "Forgemaster Garfrost",
+        "Glacieth",
+        "Scourgelord Tyrannus",
+        "Hex Guardian",
+        "Hulking Juggernaut",
+        "Muro'jin and Nekraxx",
+        "Nekraxx",
+        "Rokh'zal",
+        "Vordaza",
+        "Bound Defender",
+        "Rak'tul, Vessel of Souls"
+      ]
     },
     {
       "code": "Bd2LM39znWqjHvaY",
       "title": "taylor wants to know",
       "startTime": 1773797596263,
       "endTime": 1773804091401,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Arcane Sentry",
+        "Arcanotron Custos",
+        "Runed Spellbreaker",
+        "Seranel Sunlash",
+        "Shadowrift Voidcaller",
+        "Devouring Tyrant",
+        "Gemellus",
+        "Degentrius",
+        "Dread Souleater",
+        "Hex Guardian",
+        "Frenzied Berserker",
+        "Hulking Juggernaut",
+        "Ritual Hexxer",
+        "Muro'jin and Nekraxx",
+        "Rokh'zal",
+        "Vordaza",
+        "Bound Defender",
+        "Rak'tul, Vessel of Souls",
+        "Rak'tul",
+        "Vile Lasher",
+        "Overgrown Ancient",
+        "Guardian Sentry",
+        "Alpha Eagle",
+        "Crawth",
+        "Vicious Ravager",
+        "Vexamus",
+        "Spellbound Battleaxe",
+        "Algeth'ar Echoknight",
+        "Echo of Doragosa",
+        "Dread Raven",
+        "Adept of the Dawn",
+        "Solar Elemental",
+        "Suntalon Tamer",
+        "Adorned Bladetalon",
+        "Ranjit",
+        "Araknath",
+        "Rukhran",
+        "High Sage Viryx"
+      ]
     },
     {
       "code": "fLtgYGcRKhjkzry6",
       "title": "taylor wants to know",
       "startTime": 1773797596263,
       "endTime": 1773804091401,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Magisters' Terrace",
+        "Maisara Caverns",
+        "Algeth'ar Academy",
+        "Skyreach"
+      ],
+      "bosses": [
+        "Arcane Sentry",
+        "Arcanotron Custos",
+        "Runed Spellbreaker",
+        "Seranel Sunlash",
+        "Shadowrift Voidcaller",
+        "Devouring Tyrant",
+        "Gemellus",
+        "Degentrius",
+        "Dread Souleater",
+        "Hex Guardian",
+        "Frenzied Berserker",
+        "Hulking Juggernaut",
+        "Ritual Hexxer",
+        "Muro'jin and Nekraxx",
+        "Rokh'zal",
+        "Vordaza",
+        "Bound Defender",
+        "Rak'tul, Vessel of Souls",
+        "Rak'tul",
+        "Vile Lasher",
+        "Overgrown Ancient",
+        "Guardian Sentry",
+        "Alpha Eagle",
+        "Crawth",
+        "Vicious Ravager",
+        "Vexamus",
+        "Spellbound Battleaxe",
+        "Algeth'ar Echoknight",
+        "Echo of Doragosa",
+        "Dread Raven",
+        "Adept of the Dawn",
+        "Solar Elemental",
+        "Suntalon Tamer",
+        "Adorned Bladetalon",
+        "Ranjit",
+        "Araknath",
+        "Rukhran",
+        "High Sage Viryx"
+      ]
     },
     {
       "code": "bR2JvQNkL1P8GKwH",
       "title": "3/10 M+ aug hype",
       "startTime": 1773185689870,
       "endTime": 1773198458919,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Maisara Caverns",
+        "Windrunner Spire",
+        "Den of Nalorakk",
+        "Magisters' Terrace",
+        "Murder Row",
+        "Nexus-Point Xenas",
+        "Voidscar Arena",
+        "The Blinding Vale"
+      ],
+      "bosses": [
+        "Dread Souleater",
+        "Hulking Juggernaut",
+        "Hex Guardian",
+        "Muro'jin and Nekraxx",
+        "Muro'jin",
+        "Rokh'zal",
+        "Vordaza",
+        "Bound Defender",
+        "Rak'tul, Vessel of Souls",
+        "Rak'tul",
+        "Flesh Behemoth",
+        "Derelict Duo",
+        "Kalis",
+        "Spellguard Magus",
+        "Bloated Lasher",
+        "Emberdawn",
+        "Commander Kroluk",
+        "Restless Heart",
+        "Spirit of Hunger",
+        "The Hoardmonger",
+        "The Winter Squall",
+        "Avatar of Determination",
+        "Sentinel of Winter",
+        "Grizzled Warbringer",
+        "Loa Speaker Nanea",
+        "Nalorakk",
+        "Tormented Shade",
+        "Arcane Sentry",
+        "Blazing Pyromancer",
+        "Arcanotron Custos",
+        "Runed Spellbreaker",
+        "Seranel Sunlash",
+        "Devouring Tyrant",
+        "Gemellus",
+        "Degentrius",
+        "Bribed Captain",
+        "Bribed Guard",
+        "Kystia Manaheart",
+        "Influentual Reviewer",
+        "Rowdy Patron",
+        "Keen Taskmaster",
+        "Zaen Bladesorrow",
+        "Lithiel Cinderfury",
+        "Felmaster Lucsei",
+        "Xathuux the Annihilator",
+        "Shivan Punisher",
+        "Defiled Golem",
+        "Shadowguard Defender",
+        "Circuit Seer",
+        "Corespark Pylon",
+        "Unknown",
+        "Chief Corewright Kasreth",
+        "Kasreth",
+        "Corewarden Nysarra",
+        "Lingering Image",
+        "Lothraxion",
+        "Brutok",
+        "Taz'Rah",
+        "Watchful Harrower",
+        "Atroxus",
+        "Obliron",
+        "Charonus",
+        "Virid Grovekeeper",
+        "Lightblossom Trinity",
+        "Sporeblight Belcher",
+        "Ikuzz the Light Hunter",
+        "Luminous Thornmaw",
+        "Lightwarden Ruia",
+        "Potatoad Matriarch",
+        "Ziekett"
+      ]
     },
     {
       "code": "MbT4D8RgWVrf1Kdn",
       "title": "3/9",
       "startTime": 1773101496760,
       "endTime": 1773111439887,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Murder Row",
+        "Windrunner Spire",
+        "Magisters' Terrace",
+        "The Blinding Vale"
+      ],
+      "bosses": [
+        "Bribed Guard",
+        "Bribed Captain",
+        "Massive Felwyrm",
+        "Kystia Manaheart",
+        "Rowdy Patron",
+        "Influentual Reviewer",
+        "Keen Taskmaster",
+        "Zaen Bladesorrow",
+        "Lithiel Cinderfury",
+        "Xathuux the Annihilator",
+        "Defiled Golem",
+        "Wrathguard Flayer",
+        "Spellguard Magus",
+        "Flesh Behemoth",
+        "Derelict Duo",
+        "Kalis",
+        "Dutiful Groundskeeper",
+        "Apex Lynx",
+        "Bloated Lasher",
+        "Emberdawn",
+        "Phalanx Breaker",
+        "Haunting Grunt",
+        "Phantasmal Mystic",
+        "Commander Kroluk",
+        "Restless Heart",
+        "Arcane Sentry",
+        "Arcanotron Custos",
+        "Seranel Sunlash",
+        "Devouring Tyrant",
+        "Gemellus",
+        "Degentrius",
+        "Sporeblight Belcher",
+        "Virid Grovekeeper",
+        "Lightblossom Trinity",
+        "Ikuzz the Light Hunter",
+        "Overgrown Hydra",
+        "Luminous Thornmaw",
+        "Lightwarden Ruia",
+        "Potatoad Matriarch",
+        "Ziekett",
+        "Ziekket"
+      ]
     },
     {
       "code": "Z4WkPTD1zxqa9FMh",
       "title": "3/5",
       "startTime": 1772760063856,
       "endTime": 1772769015872,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Murder Row",
+        "Nexus-Point Xenas",
+        "Den of Nalorakk",
+        "Magisters' Terrace"
+      ],
+      "bosses": [
+        "Bribed Captain",
+        "Bribed Guard",
+        "Kystia Manaheart",
+        "Influentual Reviewer",
+        "Rowdy Patron",
+        "Keen Taskmaster",
+        "Zaen Bladesorrow",
+        "Forbidden Freight",
+        "Lithiel Cinderfury",
+        "Xathuux the Annihilator",
+        "Defiled Golem",
+        "Circuit Seer",
+        "Mana Battery",
+        "Chief Corewright Kasreth",
+        "Kasreth",
+        "Corewarden Nysarra",
+        "Lingering Image",
+        "Lothraxion",
+        "Spirit of Hunger",
+        "The Hoardmonger",
+        "The Winter Squall",
+        "Avatar of Determination",
+        "Frigid Mauler",
+        "Sentinel of Winter",
+        "Loa Speaker Nanea",
+        "Nalorakk",
+        "Massive Felwyrm",
+        "Wrathguard Flayer",
+        "Arcane Sentry",
+        "Blazing Pyromancer",
+        "Arcanotron Custos",
+        "Runed Spellbreaker",
+        "Seranel Sunlash",
+        "Devouring Tyrant",
+        "Gemellus",
+        "Hollowsoul Shredder",
+        "Degentrius"
+      ]
     },
     {
       "code": "cWR4Q9qma1Gv3PZN",
       "title": "3/5",
       "startTime": 1772760063856,
       "endTime": 1772767541706,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Murder Row",
+        "Nexus-Point Xenas",
+        "Den of Nalorakk"
+      ],
+      "bosses": [
+        "Bribed Captain",
+        "Bribed Guard",
+        "Kystia Manaheart",
+        "Influentual Reviewer",
+        "Rowdy Patron",
+        "Keen Taskmaster",
+        "Zaen Bladesorrow",
+        "Forbidden Freight",
+        "Lithiel Cinderfury",
+        "Xathuux the Annihilator",
+        "Defiled Golem",
+        "Circuit Seer",
+        "Mana Battery",
+        "Chief Corewright Kasreth",
+        "Kasreth",
+        "Corewarden Nysarra",
+        "Lingering Image",
+        "Lothraxion",
+        "Spirit of Hunger",
+        "The Hoardmonger",
+        "The Winter Squall",
+        "Avatar of Determination",
+        "Frigid Mauler",
+        "Sentinel of Winter",
+        "Loa Speaker Nanea",
+        "Nalorakk",
+        "Massive Felwyrm",
+        "Wrathguard Flayer"
+      ]
     },
     {
       "code": "G86TMHxj1R3wgPzD",
       "title": "3/5",
       "startTime": 1772760063856,
       "endTime": 1772764755157,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Murder Row",
+        "Nexus-Point Xenas",
+        "Den of Nalorakk"
+      ],
+      "bosses": [
+        "Bribed Captain",
+        "Bribed Guard",
+        "Kystia Manaheart",
+        "Influentual Reviewer",
+        "Rowdy Patron",
+        "Keen Taskmaster",
+        "Zaen Bladesorrow",
+        "Forbidden Freight",
+        "Lithiel Cinderfury",
+        "Xathuux the Annihilator",
+        "Defiled Golem",
+        "Circuit Seer",
+        "Mana Battery",
+        "Chief Corewright Kasreth",
+        "Kasreth",
+        "Corewarden Nysarra",
+        "Lingering Image",
+        "Lothraxion",
+        "Spirit of Hunger",
+        "The Hoardmonger",
+        "The Winter Squall",
+        "Avatar of Determination",
+        "Frigid Mauler",
+        "Sentinel of Winter",
+        "Loa Speaker Nanea",
+        "Nalorakk"
+      ]
     },
     {
       "code": "6N3QDqrv9FAbX8fM",
@@ -758,7 +2546,13 @@
       "endTime": 1760061849128,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Dimensius, the All-Devouring"
+      ]
     },
     {
       "code": "h3K6LD8m19AvpqRr",
@@ -767,7 +2561,25 @@
       "endTime": 1760024795249,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Ilyssa Darksorrow / Adarus Duskblaze",
+        "The Bone Melter",
+        "Fractillus",
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Volatile Mana"
+      ]
     },
     {
       "code": "6tBMRK3PH9n4pmAh",
@@ -776,7 +2588,40 @@
       "endTime": 1759460626671,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Void Manifestation",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Adarus Duskblaze",
+        "Ilyssa Darksorrow",
+        "The Bone Melter",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Nexus-King Salhadaar",
+        "Shadowguard Juggernaut",
+        "Dark Heart",
+        "Dimensius, the All-Devouring",
+        "Dimensius"
+      ]
     },
     {
       "code": "pTCPJVkDb2anN7Wr",
@@ -785,7 +2630,35 @@
       "endTime": 1758855706235,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Watcher Gaz'Kreth",
+        "Unstable Mana",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "Velaryn Bloodwrath",
+        "The Soul Hunters",
+        "The Bone Melter",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Nexus-King Salhadaar",
+        "Dark Heart",
+        "Dimensius, the All-Devouring"
+      ]
     },
     {
       "code": "8VLwZzm3PDNY7RqT",
@@ -794,7 +2667,15 @@
       "endTime": 1758677283299,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Priory of the Sacred Flame",
+        "Tazavesh, the Veiled Market"
+      ],
+      "bosses": [
+        "Priory of the Sacred Flame",
+        "Tazavesh: Streets of Wonder"
+      ]
     },
     {
       "code": "MNpvYTyZwHBCPfV9",
@@ -803,7 +2684,13 @@
       "endTime": 1758587952821,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Ara-Kara, City of Echoes"
+      ],
+      "bosses": [
+        "Ara-Kara, City of Echoes"
+      ]
     },
     {
       "code": "MTWXKk78mrw2QGtx",
@@ -812,7 +2699,39 @@
       "endTime": 1758250083150,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Mana Feeder",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Dubious Shardling",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Unknown",
+        "Voidveil Manta",
+        "Ilyssa Darksorrow",
+        "The Bone Melter",
+        "Crystalline Golem",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Nexus-King Salhadaar"
+      ]
     },
     {
       "code": "MTGyPmNA2WjqKaxg",
@@ -821,7 +2740,16 @@
       "endTime": 1758161199376,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Ara-Kara, City of Echoes",
+        "Priory of the Sacred Flame"
+      ],
+      "bosses": [
+        "Ara-Kara, City of Echoes",
+        "Unknown",
+        "Priory of the Sacred Flame"
+      ]
     },
     {
       "code": "gMF12b7fPcKzT6Zp",
@@ -830,7 +2758,13 @@
       "endTime": 1757986841658,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Eco-Dome Al'dani"
+      ],
+      "bosses": [
+        "Eco-Dome Al'dani"
+      ]
     },
     {
       "code": "yv4rQRD3VKxFG6dH",
@@ -839,7 +2773,13 @@
       "endTime": 1757896507801,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Eco-Dome Al'dani"
+      ],
+      "bosses": [
+        "Eco-Dome Al'dani"
+      ]
     },
     {
       "code": "YBTh4jCQ3gnxMzkD",
@@ -848,7 +2788,36 @@
       "endTime": 1757647226818,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Adarus Duskblaze",
+        "The Bone Melter",
+        "Phase Stalker",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Shadowguard Juggernaut",
+        "Nexus-King Salhadaar"
+      ]
     },
     {
       "code": "LW8KqXJQn6bjyMdk",
@@ -857,7 +2826,15 @@
       "endTime": 1757469577000,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Ara-Kara, City of Echoes"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Ara-Kara, City of Echoes"
+      ]
     },
     {
       "code": "WaC24YzMTpy8wVPt",
@@ -866,7 +2843,18 @@
       "endTime": 1757207554338,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "The Dawnbreaker",
+        "Operation: Floodgate",
+        "Tazavesh, the Veiled Market"
+      ],
+      "bosses": [
+        "The Dawnbreaker",
+        "Rasha'nan",
+        "Operation: Floodgate",
+        "Tazavesh: Streets of Wonder"
+      ]
     },
     {
       "code": "q6GMFbjWgxcnv78Z",
@@ -875,7 +2863,36 @@
       "endTime": 1757041084627,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Shadowguard Technomancer",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "Voidveil Manta",
+        "The Soul Hunters",
+        "Adarus Duskblaze",
+        "Adarus Duskblaze / Velaryn Bloodwrath",
+        "The Bone Melter",
+        "Crystalline Golem",
+        "Fractillus"
+      ]
     },
     {
       "code": "aTKBdMQ8xpwbAWy9",
@@ -884,7 +2901,17 @@
       "endTime": 1756953130824,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Tazavesh, the Veiled Market",
+        "Ara-Kara, City of Echoes"
+      ],
+      "bosses": [
+        "Tazavesh: Streets of Wonder",
+        "Ara-Kara, City of Echoes",
+        "Blood Overseer",
+        "Tazavesh: So'leah's Gambit"
+      ]
     },
     {
       "code": "TLtJ6B8dDnymR9MQ",
@@ -893,7 +2920,15 @@
       "endTime": 1756496687079,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Tazavesh, the Veiled Market"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Tazavesh: Streets of Wonder"
+      ]
     },
     {
       "code": "Am719g6NqF3Y4rVz",
@@ -902,7 +2937,13 @@
       "endTime": 1756484937009,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Halls of Atonement"
+      ],
+      "bosses": [
+        "Halls of Atonement"
+      ]
     },
     {
       "code": "wtK8q1FnrxQLZfhD",
@@ -911,7 +2952,46 @@
       "endTime": 1756438068307,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Manaforge Omega",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Influx Warden",
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forge Sentinel",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Adarus Duskblaze",
+        "The Bone Melter",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Shadowguard Juggernaut",
+        "Nexus-King Salhadaar",
+        "Dark Heart",
+        "Dimensius, the All-Devouring",
+        "Revalation",
+        "Unknown",
+        "Traplord",
+        "Kelpfist",
+        "Graveember",
+        "Agathena"
+      ]
     },
     {
       "code": "xTyvMDgVw78f3nRW",
@@ -920,7 +3000,23 @@
       "endTime": 1756351130397,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Halls of Atonement",
+        "Eco-Dome Al'dani",
+        "Priory of the Sacred Flame",
+        "Tazavesh, the Veiled Market",
+        "The Dawnbreaker"
+      ],
+      "bosses": [
+        "Halls of Atonement",
+        "Eco-Dome Al'dani",
+        "Burrowing Creeper",
+        "Priory of the Sacred Flame",
+        "Tazavesh: So'leah's Gambit",
+        "The Dawnbreaker",
+        "Rasha'nan"
+      ]
     },
     {
       "code": "3VdQtK7c8pZ1rNT9",
@@ -929,7 +3025,19 @@
       "endTime": 1756263854050,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Priory of the Sacred Flame",
+        "Halls of Atonement"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Voidbound Emissary",
+        "Priory of the Sacred Flame",
+        "Halls of Atonement",
+        "Stoneborn Slasher"
+      ]
     },
     {
       "code": "DjzPwcnrHC9GtQAm",
@@ -938,7 +3046,15 @@
       "endTime": 1756237143052,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Halls of Atonement",
+        "Tazavesh, the Veiled Market"
+      ],
+      "bosses": [
+        "Halls of Atonement",
+        "Tazavesh: Streets of Wonder"
+      ]
     },
     {
       "code": "dgjGHLaBbDtR68Zx",
@@ -947,7 +3063,20 @@
       "endTime": 1756176207578,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Priory of the Sacred Flame",
+        "Halls of Atonement",
+        "The Dawnbreaker",
+        "Eco-Dome Al'dani"
+      ],
+      "bosses": [
+        "Priory of the Sacred Flame",
+        "Halls of Atonement",
+        "The Dawnbreaker",
+        "Rasha'nan",
+        "Eco-Dome Al'dani"
+      ]
     },
     {
       "code": "JL3WKMm2fGzbwyAh",
@@ -956,7 +3085,15 @@
       "endTime": 1756171485079,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Priory of the Sacred Flame",
+        "Halls of Atonement"
+      ],
+      "bosses": [
+        "Priory of the Sacred Flame",
+        "Halls of Atonement"
+      ]
     },
     {
       "code": "TD4rLbq3GNQJAjMK",
@@ -965,7 +3102,13 @@
       "endTime": 1756168573289,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Priory of the Sacred Flame"
+      ],
+      "bosses": [
+        "Priory of the Sacred Flame"
+      ]
     },
     {
       "code": "kMKhYcz7F6WZjNbd",
@@ -974,7 +3117,17 @@
       "endTime": 1756129588293,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forge Sentinel",
+        "Forgeweaver Araz"
+      ]
     },
     {
       "code": "NFP6kR92vYALnrjb",
@@ -983,7 +3136,14 @@
       "endTime": 1756079956172,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Eco-Dome Al'dani"
+      ],
+      "bosses": [
+        "Eco-Dome Al'dani",
+        "Wastelander Phaseblade"
+      ]
     },
     {
       "code": "hmqyVvXxT7ZB9KMg",
@@ -992,7 +3152,18 @@
       "endTime": 1755924034277,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Eco-Dome Al'dani",
+        "The Dawnbreaker"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Eco-Dome Al'dani",
+        "The Dawnbreaker",
+        "Nightfall Ritualist"
+      ]
     },
     {
       "code": "K3agpxyQLVc6nwJX",
@@ -1001,7 +3172,15 @@
       "endTime": 1756064008491,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Tazavesh, the Veiled Market",
+        "Priory of the Sacred Flame"
+      ],
+      "bosses": [
+        "Tazavesh: Streets of Wonder",
+        "Priory of the Sacred Flame"
+      ]
     },
     {
       "code": "Vjqbz1tZkyDdGgrm",
@@ -1010,7 +3189,18 @@
       "endTime": 1755924034277,
       "zone": {
         "name": "Mythic+ Season 3"
-      }
+      },
+      "dungeons": [
+        "Operation: Floodgate",
+        "Eco-Dome Al'dani",
+        "The Dawnbreaker"
+      ],
+      "bosses": [
+        "Operation: Floodgate",
+        "Eco-Dome Al'dani",
+        "The Dawnbreaker",
+        "Nightfall Ritualist"
+      ]
     },
     {
       "code": "nMBNWZ7CPwx2j6Fm",
@@ -1019,7 +3209,38 @@
       "endTime": 1755831650298,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Plexus Sentinel",
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Burrowing Creeper",
+        "The Soul Hunters",
+        "Adarus Duskblaze / Velaryn Bloodwrath",
+        "The Bone Melter",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Nexus-King Salhadaar",
+        "Dark Heart",
+        "Dimensius, the All-Devouring",
+        "Influx Warden",
+        "Dadcolvin"
+      ]
     },
     {
       "code": "PKrRjMZqwFGTXcCf",
@@ -1028,28 +3249,77 @@
       "endTime": 1755575119772,
       "zone": {
         "name": "Manaforge Omega"
-      }
+      },
+      "dungeons": [
+        "Manaforge Omega",
+        "Priory of the Sacred Flame"
+      ],
+      "bosses": [
+        "Darkmage Zadus",
+        "Waygate Watcher",
+        "Shadowguard Infuser",
+        "Loom'ithar",
+        "Netherfang Soulbarker",
+        "Shadowguard Weavemaster",
+        "Nascent Darkmage",
+        "Soulbinder Naazindhri",
+        "Forge Sentinel",
+        "Shadowguard Darkmage",
+        "Unstable Mana",
+        "Watcher Gaz'Kreth",
+        "Forgeweaver Araz",
+        "Velaryn Bloodwrath",
+        "The Soul Hunters",
+        "Adarus Duskblaze",
+        "The Bone Melter",
+        "Crystalline Golem",
+        "Fractillus",
+        "Enforcer Jak'tull",
+        "Nexus-King Salhadaar",
+        "Dimensius, the All-Devouring",
+        "Dimensius",
+        "Priory of the Sacred Flame",
+        "Orb of Ascendance"
+      ]
     },
     {
       "code": "DWh1KRwBbzG9Pxpf",
       "title": "FIRST FORGE WOOO",
       "startTime": 1755563922784,
       "endTime": 1755563944935,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Manaforge Omega"
+      ],
+      "bosses": [
+        "Darkmage Zadus"
+      ]
     },
     {
       "code": "Fv2VL73wZ4gkzmqd",
       "title": "M+",
       "startTime": 1755272335919,
       "endTime": 1755276489174,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Cage of Carnage",
+        "Tol'viron Arena"
+      ],
+      "bosses": [
+        "Cage of Carnage",
+        "Mahabhuta",
+        "Tol'viron Arena",
+        "Higgs"
+      ]
     },
     {
       "code": "aTvbVwQJcpPRHGZj",
       "title": "M+",
       "startTime": 1755316205322,
       "endTime": 1755316205322,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "z3JgDCH1VMTdW9vm",
@@ -1058,7 +3328,53 @@
       "endTime": 1747969227506,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Cage of Carnage",
+        "The Tiger's Peak",
+        "Dastardly Duos",
+        "Liberation of Undermine",
+        "Isle of Dorn",
+        "Ruins of Lordaeron",
+        "Enigma Crucible",
+        "Nagrand Arena",
+        "Maldraxxus Coliseum",
+        "Ashamane's Fall"
+      ],
+      "bosses": [
+        "Cage of Carnage",
+        "The Tiger's Peak",
+        "Deathstare",
+        "Unknown",
+        "Stix Bunkjunker / The Geargrinder",
+        "Vexie and the Geargrinders",
+        "The Geargrinder",
+        "Vexie Fullthrottle",
+        "King Flamespite",
+        "Cauldron of Carnage",
+        "Flarendo",
+        "Skiggy Muckheimer",
+        "Rik Reverb",
+        "Stix Bunkjunker",
+        "Globikus",
+        "Sprocketmonger Lockenstock",
+        "Princeguard Demolisher",
+        "One-Armed Bandit",
+        "Mug'Zee, Heads of Security",
+        "Mug'Zee",
+        "Chrome King Gallywix",
+        "Beahon",
+        "Carleone",
+        "Kelpfist",
+        "Ruins of Lordaeron",
+        "Enigma Crucible",
+        "Nagrand Arena",
+        "Eve",
+        "Maldraxxus Coliseum",
+        "Rantoñ",
+        "Ashamane's Fall",
+        "Cello"
+      ]
     },
     {
       "code": "81tBa32j9PnTmhHA",
@@ -1067,7 +3383,25 @@
       "endTime": 1747364888435,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Chrome King Gallywix",
+        "Professor Boomspark",
+        "Cauldron of Carnage",
+        "Flarendo",
+        "Darkfuse Brute",
+        "Stagehand",
+        "Rik Reverb",
+        "Stix Bunkjunker",
+        "Pplopp",
+        "Boniver",
+        "Illiskank",
+        "Kelpfist"
+      ]
     },
     {
       "code": "dKb3BJNxCYjrM7pQ",
@@ -1076,14 +3410,40 @@
       "endTime": 1747356843758,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Bleevus Vermancer",
+        "Mug'Zee, Heads of Security"
+      ]
     },
     {
       "code": "A62qBbHJfx9hgQKR",
       "title": "yuppers",
       "startTime": 1747351492146,
       "endTime": 1747356481573,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Enigma Crucible",
+        "Dalaran Arena",
+        "Black Rook Hold Arena",
+        "Cage of Carnage",
+        "Mugambala",
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Enigma Crucible",
+        "Dalaran Arena",
+        "Black Rook Hold Arena",
+        "Fatcire",
+        "Cage of Carnage",
+        "Nhthree",
+        "Mugambala",
+        "Hadoka",
+        "Bleevus Vermancer"
+      ]
     },
     {
       "code": "tHNmKqfChcrpWxTM",
@@ -1092,7 +3452,14 @@
       "endTime": 1747102772413,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Chrome King Gallywix",
+        "Unknown"
+      ]
     },
     {
       "code": "WbhHQYV62Mfvjpc9",
@@ -1101,7 +3468,21 @@
       "endTime": 1745895457274,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Gallagio Security",
+        "One-Armed Bandit",
+        "Bleevus Vermancer",
+        "Mug'Zee",
+        "Mug'Zee, Heads of Security",
+        "Chrome King Gallywix",
+        "Unknown",
+        "Jaesin"
+      ]
     },
     {
       "code": "VBar6qRXKj7A4DGM",
@@ -1110,7 +3491,23 @@
       "endTime": 1744945109576,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Geargrinder Biker",
+        "Vexie and the Geargrinders",
+        "Stix Bunkjunker / Vexie Fullthrottle",
+        "Gallagio Security",
+        "Unknown",
+        "One-Armed Bandit",
+        "Bleevus Vermancer",
+        "Princeguard Demolisher",
+        "Mug'Zee, Heads of Security",
+        "Cement Shoes",
+        "Chrome King Gallywix"
+      ]
     },
     {
       "code": "h23m8RFPNqtdxcyv",
@@ -1119,7 +3516,28 @@
       "endTime": 1744342287620,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Stix Bunkjunker",
+        "Junkyard Hobgoblin",
+        "Globikus",
+        "Sprocketmonger Lockenstock",
+        "Darkfuse Shredder",
+        "Princeguard Demolisher",
+        "One-Armed Bandit",
+        "Princeguard Muscle",
+        "Bleevus Vermancer",
+        "Mug'Zee",
+        "Mug'Zee, Heads of Security",
+        "Unknown",
+        "Cleave Training Dummy",
+        "Kelpfist",
+        "Crystalmaw"
+      ]
     },
     {
       "code": "Dg17dWn8KcRLpZGz",
@@ -1128,7 +3546,21 @@
       "endTime": 1744333805595,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Vexie and the Geargrinders",
+        "Vexie Fullthrottle",
+        "Professor Boomspark",
+        "Cauldron of Carnage",
+        "Torq",
+        "Darkfuse Shredder",
+        "Stagehand",
+        "Rik Reverb",
+        "Stix Bunkjunker"
+      ]
     },
     {
       "code": "drnpJVPaDzTwmfA7",
@@ -1137,7 +3569,27 @@
       "endTime": 1743735646182,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Stix Bunkjunker",
+        "Vexie and the Geargrinders",
+        "Stix Bunkjunker / Vexie Fullthrottle",
+        "Mechanized Peacekeeper",
+        "Professor Boomspark",
+        "Cauldron of Carnage",
+        "Flarendo",
+        "Rik Reverb",
+        "Junkyard Hyena",
+        "Junkyard Hobgoblin",
+        "Darkfuse Shredder",
+        "Sprocketmonger Lockenstock",
+        "Geargrinder Rager",
+        "Gallagio Security",
+        "One-Armed Bandit"
+      ]
     },
     {
       "code": "anKbdj3Af2vtXr7D",
@@ -1146,7 +3598,25 @@
       "endTime": 1743475856435,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Rik Reverb",
+        "Stix Bunkjunker",
+        "Darkfuse Melter",
+        "Unknown",
+        "Geargrinder Rager",
+        "Junkyard Hobgoblin",
+        "Sprocketmonger Lockenstock",
+        "Darkfuse Shredder",
+        "Greater Acid Slime",
+        "Junkyard Shredder",
+        "Blazing Fueldemon",
+        "Darkfuse Scrapper",
+        "Globikus"
+      ]
     },
     {
       "code": "HYBQTpvn1cV8f4WJ",
@@ -1155,7 +3625,47 @@
       "endTime": 1742525752791,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Liberation of Undermine",
+        "Dastardly Duos"
+      ],
+      "bosses": [
+        "Vexie and the Geargrinders",
+        "Vexie Fullthrottle",
+        "King Flamespite",
+        "Cauldron of Carnage",
+        "Flarendo",
+        "Mechanized Peacekeeper",
+        "Rik Reverb",
+        "Stix Bunkjunker",
+        "Greater Acid Slime",
+        "Sprocketmonger Lockenstock",
+        "Darkfuse Shredder",
+        "Darkfuse Brute",
+        "Gallagio Security",
+        "Gallagio Dealer",
+        "One-Armed Bandit",
+        "Princeguard Muscle",
+        "Bleevus Vermancer",
+        "Mug'Zee",
+        "Mug'Zee, Heads of Security",
+        "The Junkmaker",
+        "Chrome King Gallywix",
+        "Cheburashka",
+        "Stix Bunkjunker / The Geargrinder",
+        "Darkfuse Houndmaster",
+        "Stagehand",
+        "Darkfuse Crossfire",
+        "Andinaras",
+        "Castaspell",
+        "Nitro",
+        "Chocolatte",
+        "Lesstyping",
+        "Freidafondle",
+        "Nightseeker",
+        "Unknown"
+      ]
     },
     {
       "code": "GgBzKAw6k2fPQZdH",
@@ -1164,7 +3674,13 @@
       "endTime": 1742013400029,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Operation: Mechagon"
+      ],
+      "bosses": [
+        "Operation: Mechagon"
+      ]
     },
     {
       "code": "37bMdDpyht6vnCBJ",
@@ -1173,7 +3689,21 @@
       "endTime": 1742007296110,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Operation: Mechagon",
+        "Isle of Dorn",
+        "The Rookery",
+        "Cinderbrew Meadery"
+      ],
+      "bosses": [
+        "Operation: Mechagon",
+        "Kelpfist",
+        "Falil",
+        "Brawny",
+        "The Rookery",
+        "Cinderbrew Meadery"
+      ]
     },
     {
       "code": "XZK3hnytcW7BxV1m",
@@ -1182,7 +3712,51 @@
       "endTime": 1741922584144,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Dastardly Duos",
+        "Liberation of Undermine",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Tally Doublespeak",
+        "Carvil",
+        "Gallagio Garbage",
+        "Emboldened Browbeater",
+        "Bawlfawndler",
+        "Felicious",
+        "Crawdaddy",
+        "Stix Bunkjunker",
+        "The Geargrinder",
+        "Vexie and the Geargrinders",
+        "Vexie Fullthrottle",
+        "Guk Boomdog",
+        "Cauldron of Carnage",
+        "Flarendo",
+        "Darkfuse Stunner",
+        "Mechanized Peacekeeper",
+        "Skiggy Muckheimer",
+        "Rik Reverb",
+        "Blazing Fueldemon",
+        "Darkfuse Shredder",
+        "Globikus",
+        "Sprocketmonger Lockenstock",
+        "Crawler Mine",
+        "Darkfuse Brute",
+        "Darkfuse Melter",
+        "Gallagio Security",
+        "Melbo the Magnificent",
+        "One-Armed Bandit",
+        "Bleevus Vermancer",
+        "Princeguard Demolisher",
+        "Mug'Zee",
+        "Mug'Zee, Heads of Security",
+        "The Junkmaker",
+        "Chrome King Gallywix",
+        "Stix Bunkjunker / The Geargrinder",
+        "Professor Boomspark",
+        "Wedges"
+      ]
     },
     {
       "code": "MyHcDNQ3m4Wwkqaf",
@@ -1191,7 +3765,87 @@
       "endTime": 1741321983426,
       "zone": {
         "name": "Liberation of Undermine"
-      }
+      },
+      "dungeons": [
+        "Ruins of Lordaeron",
+        "Hallowfall",
+        "Excavation Site 9",
+        "Isle of Dorn",
+        "Dastardly Duos",
+        "Nokhudon Proving Grounds",
+        "Mugambala",
+        "Enigma Crucible",
+        "Maldraxxus Coliseum",
+        "The Tiger's Peak",
+        "Ashamane's Fall",
+        "Nagrand Arena",
+        "Hook Point",
+        "Cage of Carnage",
+        "Black Rook Hold Arena",
+        "Liberation of Undermine"
+      ],
+      "bosses": [
+        "Ruins of Lordaeron",
+        "Gavrhin",
+        "Droghung",
+        "Disturbed Earthgorger",
+        "Unknown",
+        "Galvanized Lurker",
+        "Morganatau",
+        "Talandalt",
+        "Enveloping Bloodeater",
+        "Gozzic's Bloody Shredder",
+        "Zalath",
+        "Roal",
+        "Gorged Lashroom",
+        "Deepflayer Hunter",
+        "Waste Flayer",
+        "Maddened Eyestalk",
+        "Underpin's Bodyguard's Intern",
+        "Underpin's Adoring Fan",
+        "Hideous Amalgamation",
+        "Malfunctioning Pummeler",
+        "Dark Walker",
+        "Bilgewater Assessor",
+        "Abyssal Tentacle",
+        "Aggressively Lost Hobgoblin",
+        "Tainted Feaster",
+        "Xel'anegh the Many",
+        "Cleave Training Dummy",
+        "Omnizen",
+        "Alorack",
+        "Geomancer Keeri",
+        "Briz",
+        "Acidic Wastefiend",
+        "Backup Assassin",
+        "S.A.L.",
+        "Xanddoria",
+        "Gatgloop",
+        "Darkfuse Strike Breaker",
+        "Dockmaster Skeez",
+        "Darkfuse Riot Negotiator",
+        "Nokhudon Proving Grounds",
+        "Purohueso",
+        "Chocolatte",
+        "Mugambala",
+        "Enigma Crucible",
+        "Bloodfueled Junker",
+        "Maldraxxus Coliseum",
+        "The Tiger's Peak",
+        "Ashamane's Fall",
+        "Nagrand Arena",
+        "Darkfuse Smashcaster",
+        "Hook Point",
+        "Cage of Carnage",
+        "Black Rook Hold Arena",
+        "Megalogoat",
+        "Zeinhord",
+        "Wolfdude",
+        "Havince",
+        "Mug'Zee, Heads of Security",
+        "The Junkmaker",
+        "Chrome King Gallywix"
+      ]
     },
     {
       "code": "ptvbwkjF4R7c8mAN",
@@ -1200,7 +3854,21 @@
       "endTime": 1730253689383,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Broodtwister Ovi'nax",
+        "The Silken Court",
+        "Anub'arash",
+        "Queen Ansurek",
+        "Unknown"
+      ]
     },
     {
       "code": "BDVa6xrh8wYyCJNf",
@@ -1209,7 +3877,37 @@
       "endTime": 1729823218518,
       "zone": {
         "name": "Blackrock Depths"
-      }
+      },
+      "dungeons": [
+        "Blackrock Depths",
+        "Hallowfall",
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Emperor Dagran Thaurissan",
+        "Unknown",
+        "Scarab Captain Vul'akan",
+        "Kaheti Vanguard",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Foreseer Xix'amon",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Broodtwister Ovi'nax",
+        "Nexus-Princess Ky'veza",
+        "Blood Parasite",
+        "Court Attendant",
+        "The Silken Court",
+        "Queen's Guard Ge'zah",
+        "Queen Ansurek",
+        "Chamber Expeller"
+      ]
     },
     {
       "code": "T136Ct9FDNPKmLAG",
@@ -1218,7 +3916,41 @@
       "endTime": 1729653662124,
       "zone": {
         "name": "Blackrock Depths"
-      }
+      },
+      "dungeons": [
+        "Blackrock Depths",
+        "Ahn'Qiraj: The Fallen Kingdom"
+      ],
+      "bosses": [
+        "Lord Roccor",
+        "Unknown",
+        "Archavon the Stone Watcher",
+        "Anvilrage Warden",
+        "Fireguard Destroyer",
+        "High Interrogator Gerstahn",
+        "Bael'Gar",
+        "Houndmaster Grebmar",
+        "Lord Incendius",
+        "Fineous Darkvire",
+        "Chiseled War Construct",
+        "Twilight Bodyguard",
+        "Prototype Toxic Golem",
+        "Prototype Electric Golem",
+        "Golem Lord Argelmach",
+        "Grim Patron",
+        "Twilight Emissary",
+        "Prototype Fire Golem",
+        "Arcanotron Mk. II",
+        "The Seven",
+        "Anger'rel",
+        "General Angerforge",
+        "Harbinger of Flames",
+        "Flamewalker",
+        "Ambassador Flamelash",
+        "Dark Iron Imperial Guard",
+        "Emperor Dagran Thaurissan",
+        "Pyromancer Loregrain"
+      ]
     },
     {
       "code": "JDhxXCV6ckYTKbva",
@@ -1227,7 +3959,14 @@
       "endTime": 1729218065904,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Queen Ansurek",
+        "Unknown"
+      ]
     },
     {
       "code": "HcJaZ9jfyqvQw3gz",
@@ -1236,7 +3975,33 @@
       "endTime": 1729045520372,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Spider",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Royal Whisperer",
+        "The Silken Court",
+        "Skeinspinner Takazj / Anub'arash",
+        "Broodtwister Ovi'nax",
+        "Queen Ansurek",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Nexus-Princess Ky'veza",
+        "Unknown",
+        "Anub'arash",
+        "Queen's Guard Ge'zah",
+        "Chamber Expeller"
+      ]
     },
     {
       "code": "8M2a73CXgAjtpz64",
@@ -1245,7 +4010,37 @@
       "endTime": 1728441875068,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace",
+        "Hallowfall"
+      ],
+      "bosses": [
+        "Unknown",
+        "Foreseer Xix'amon",
+        "Prime Slime",
+        "Skipper",
+        "The Bloodbound Horror",
+        "Broodtwister Ovi'nax",
+        "Nexus-Princess Ky'veza",
+        "The Silken Court",
+        "Anub'arash",
+        "Queen Ansurek",
+        "Chitin Knight",
+        "Ulgrax the Devourer",
+        "Spider",
+        "Xur'khun the Defiled",
+        "Blood Collector",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Palace Guardian",
+        "Royal Whisperer",
+        "Blight Swarmer"
+      ]
     },
     {
       "code": "vmD6TpKyHq47rzGY",
@@ -1254,7 +4049,22 @@
       "endTime": 1728011725097,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace",
+        "Isle of Dorn",
+        "Mists of Tirna Scithe"
+      ],
+      "bosses": [
+        "The Silken Court",
+        "Anub'arash",
+        "Queen's Guard Re'zah",
+        "Queen Ansurek",
+        "Panterra",
+        "Sillis",
+        "Mists of Tirna Scithe",
+        "Buttonsmash"
+      ]
     },
     {
       "code": "X2CvLqYJdbfhK8wy",
@@ -1263,7 +4073,38 @@
       "endTime": 1727839147588,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Ulgrax the Devourer",
+        "Foreseer Xix'amon",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Royal Silkwing",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Palace Guardian",
+        "Royal Whisperer",
+        "Nexus-Princess Ky'veza",
+        "Broodtwister Ovi'nax",
+        "The Silken Court",
+        "Anub'arash",
+        "Queen's Guard Ge'zah",
+        "Queen Ansurek",
+        "Scarab Captain Vul'akan",
+        "Spider",
+        "Xur'khun the Defiled",
+        "Prime Slime",
+        "Chitin Knight",
+        "Crystalmaw",
+        "Training Dummy"
+      ]
     },
     {
       "code": "NPdTfcBKLrXg7hGt",
@@ -1272,7 +4113,20 @@
       "endTime": 1727405182766,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Nexus-Princess Ky'veza",
+        "Broodtwister Ovi'nax",
+        "Blight Swarmer",
+        "Court Attendant",
+        "The Silken Court",
+        "Kelpfist",
+        "Lorax"
+      ]
     },
     {
       "code": "b3WmJGNfjXqYhn6v",
@@ -1281,28 +4135,113 @@
       "endTime": 1727233124581,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Palace Guardian",
+        "Nexus-Princess Ky'veza",
+        "Broodtwister Ovi'nax",
+        "Court Attendant",
+        "The Silken Court",
+        "Queen's Guard Re'zah",
+        "Queen Ansurek",
+        "Scarab Captain Vul'akan",
+        "Kaheti Vanguard",
+        "Spider",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Foreseer Xix'amon",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Royal Whisperer"
+      ]
     },
     {
       "code": "WFyA2Lmq3jJKDaXc",
       "title": "Palace 3 normal",
       "startTime": 1727223489245,
       "endTime": 1727223508714,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Sureki Ironweaver"
+      ]
     },
     {
       "code": "hQx67CPk9tZFw3Hg",
       "title": "Palace 3 normal",
       "startTime": 1727208074851,
       "endTime": 1727209787692,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Mugambala",
+        "Hook Point",
+        "Isle of Dorn",
+        "The Tiger's Peak",
+        "Nagrand Arena",
+        "Ashamane's Fall"
+      ],
+      "bosses": [
+        "Mugambala",
+        "Unknown",
+        "Hook Point",
+        "PvP Training Dummy",
+        "The Tiger's Peak",
+        "Nagrand Arena",
+        "Nishanasath",
+        "Cleave Training Dummy",
+        "Training Dummy",
+        "Ashamane's Fall"
+      ]
     },
     {
       "code": "97mT1CY6wfJWGcnX",
       "title": "M+",
       "startTime": 1726970234670,
       "endTime": 1726975538781,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Ashamane's Fall",
+        "The Robodrome",
+        "Black Rook Hold Arena",
+        "Dalaran Arena",
+        "Empyrean Domain",
+        "Maldraxxus Coliseum",
+        "Enigma Crucible",
+        "Hook Point",
+        "The Tiger's Peak",
+        "Isle of Dorn"
+      ],
+      "bosses": [
+        "Ashamane's Fall",
+        "The Robodrome",
+        "Black Rook Hold Arena",
+        "Dalaran Arena",
+        "Prosperd",
+        "Empyrean Domain",
+        "Pizzawarrior",
+        "Xxann",
+        "Maldraxxus Coliseum",
+        "Enigma Crucible",
+        "Hook Point",
+        "The Tiger's Peak",
+        "Sleepeatpvp",
+        "Hkten",
+        "Feathers",
+        "Javweeaboo",
+        "Leftee"
+      ]
     },
     {
       "code": "3qfAJ6MHDxNc84Pw",
@@ -1311,7 +4250,40 @@
       "endTime": 1726802889113,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Enigma Crucible",
+        "Hallowfall",
+        "Nerub-ar Palace",
+        "The Tiger's Peak",
+        "Hook Point",
+        "Black Rook Hold Arena"
+      ],
+      "bosses": [
+        "Enigma Crucible",
+        "Dragonmog",
+        "Unknown",
+        "Foreseer Xix'amon",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Palace Guardian",
+        "Royal Whisperer",
+        "Queen's Guard Ge'zah",
+        "Nexus-Princess Ky'veza",
+        "Ky'veza's Burn Book",
+        "The Tiger's Peak",
+        "Tokingsh",
+        "Hook Point",
+        "Mart",
+        "Black Rook Hold Arena"
+      ]
     },
     {
       "code": "6bTLQYah48XnCvmM",
@@ -1320,7 +4292,42 @@
       "endTime": 1726628322571,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "The Tiger's Peak",
+        "Hallowfall",
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "The Tiger's Peak",
+        "Unknown",
+        "Spider",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Congealed Mass",
+        "Foreseer Xix'amon",
+        "Prime Slime",
+        "Parasitic Worm",
+        "Regurgitating Monstrosity",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Palace Guardian",
+        "Broodtwister Ovi'nax",
+        "Royal Whisperer",
+        "Nexus-Princess Ky'veza",
+        "The Silken Court",
+        "Queen's Guard Ge'zah",
+        "Queen Ansurek",
+        "Rampant",
+        "Scarab Captain Vul'akan",
+        "Kaheti Vanguard"
+      ]
     },
     {
       "code": "QcZKtA3zd4yx7Cp6",
@@ -1329,14 +4336,79 @@
       "endTime": 1726196580650,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Frenzied Leaper",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Congealed Mass",
+        "Foreseer Xix'amon",
+        "Regurgitating Monstrosity",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Unknown",
+        "Venommaster Nezarox",
+        "Rasha'nan"
+      ]
     },
     {
       "code": "cwdQkMB3pLZ9tj7N",
       "title": "Nerub'ar night dos",
       "startTime": 1726151735348,
       "endTime": 1726187923505,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Black Rook Hold Arena",
+        "Nokhudon Proving Grounds",
+        "Isle of Dorn",
+        "Ruins of Lordaeron",
+        "Dalaran Arena",
+        "Ashamane's Fall",
+        "Tol'viron Arena",
+        "Empyrean Domain",
+        "The Robodrome",
+        "Enigma Crucible",
+        "Hook Point",
+        "The Tiger's Peak",
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Black Rook Hold Arena",
+        "Rosoline",
+        "Nokhudon Proving Grounds",
+        "Garmund",
+        "Frozenforge",
+        "Ruins of Lordaeron",
+        "Allegedlyblu",
+        "Dalaran Arena",
+        "Nyzstra",
+        "Ashamane's Fall",
+        "Tol'viron Arena",
+        "Kéròóth",
+        "Deadtreemz",
+        "Disturbed Mudspawn",
+        "Leftlanehog",
+        "Nome",
+        "Garebearmonk",
+        "Diananight",
+        "Empyrean Domain",
+        "The Robodrome",
+        "Enigma Crucible",
+        "Moøndancer",
+        "Hook Point",
+        "Dealindealer",
+        "Drgndeeznts",
+        "The Tiger's Peak",
+        "Frenzied Leaper"
+      ]
     },
     {
       "code": "Fz1PjHpc67wWBfyQ",
@@ -1345,28 +4417,102 @@
       "endTime": 1726023239409,
       "zone": {
         "name": "Nerub-ar Palace"
-      }
+      },
+      "dungeons": [
+        "Hook Point",
+        "Dalaran Arena",
+        "Nagrand Arena",
+        "Ashamane's Fall",
+        "Isle of Dorn",
+        "Enigma Crucible",
+        "Hallowfall",
+        "Nerub-ar Palace"
+      ],
+      "bosses": [
+        "Hook Point",
+        "Dalaran Arena",
+        "Nagrand Arena",
+        "Ashamane's Fall",
+        "Deathgríp",
+        "Gbg",
+        "Enigma Crucible",
+        "Bïcho",
+        "Unknown",
+        "Reveries",
+        "Jedel",
+        "Wymonath",
+        "Scarab Captain Vul'akan",
+        "Kaheti Vanguard",
+        "Spider",
+        "Ulgrax the Devourer",
+        "Xur'khun the Defiled",
+        "Congealed Mass",
+        "Foreseer Xix'amon",
+        "Prime Slime",
+        "The Bloodbound Horror",
+        "Caustic Skyrazor",
+        "Sureki Ironweaver",
+        "Chitin Knight",
+        "Sikran",
+        "Sikran, Captain of the Sureki",
+        "Venommaster Nezarox",
+        "Rasha'nan",
+        "Broodtwister Ovi'nax",
+        "Royal Whisperer",
+        "Nexus-Princess Ky'veza",
+        "Blood Parasite",
+        "The Silken Court",
+        "Glowmite",
+        "Anub'arash",
+        "Queen's Guard Ge'zah",
+        "Queen Ansurek"
+      ]
     },
     {
       "code": "zcjvYdJ4mN3aRLgh",
       "title": "BFD 12/17",
       "startTime": 1702864286576,
       "endTime": 1702864286576,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "wpka2y6Z8bdGWCPc",
       "title": "Dawno dorito 2",
       "startTime": 1690767478596,
       "endTime": 1690772254912,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Dawn of the Infinite"
+      ],
+      "bosses": [
+        "Epoch Ripper",
+        "Iridikron",
+        "Valow, Timesworn Keeper",
+        "Tyr, the Infinite Keeper",
+        "Infinite Watchkeeper",
+        "Infinite Protector",
+        "Infinite Saboteur",
+        "Infinite Timebender",
+        "Morchie",
+        "Temporal Deviation",
+        "Loose Time",
+        "Pendule",
+        "Anduin Lothar",
+        "Time-Lost Battlefield",
+        "Infinite Slayer",
+        "Chrono-Lord Deios"
+      ]
     },
     {
       "code": "VM97pNzYZktALByr",
       "title": "Dawno dorito",
       "startTime": 1690767513486,
       "endTime": 1690767513486,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "tPYp1Jbgrk8zfFAQ",
@@ -1375,14 +4521,51 @@
       "endTime": 1690599463091,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Neltharion's Lair",
+        "Neltharus"
+      ],
+      "bosses": [
+        "Rockback Gnasher",
+        "Rokmora",
+        "Ularogg Cragshaper",
+        "Naraxas",
+        "Emberhusk Dominator",
+        "Dargrul",
+        "Cleave Training Dummy",
+        "Neltharus"
+      ]
     },
     {
       "code": "FKMYrqdJbH9x8Rnf",
       "title": "Mega Dungo Pt 3",
       "startTime": 1690246912313,
       "endTime": 1690257413333,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Dawn of the Infinite",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Infinite Twilight Magus",
+        "Valow, Timesworn Keeper",
+        "Tyr, the Infinite Keeper",
+        "Tyr's Vanguard",
+        "Infinite Watchkeeper",
+        "Infinite Protector",
+        "Infinite Saboteur",
+        "Infinite Riftmage",
+        "Infinite Timebender",
+        "Morchie",
+        "Pendule",
+        "Anduin Lothar",
+        "Time-Lost Battlefield",
+        "Alliance Archer",
+        "Infinite Slayer",
+        "Chrono-Lord Deios",
+        "Timmer"
+      ]
     },
     {
       "code": "43p17j9zZQHLnAJX",
@@ -1391,21 +4574,96 @@
       "endTime": 1690171898546,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Neltharus",
+        "Amirdrassil",
+        "Freehold",
+        "Mechagon",
+        "Brackenhide Hollow",
+        "Neltharion's Lair",
+        "Ulderoth"
+      ],
+      "bosses": [
+        "Chargath, Bane of Scales",
+        "Qalashi Hunter",
+        "Qalashi Lavabearer",
+        "Forgemaster Gorek",
+        "Irontorch Commander",
+        "High Thaumaturge Fural",
+        "Magmatusk",
+        "Qalashi Warden",
+        "Warlord Sargha",
+        "Animated Duelist",
+        "Cleave Training Dummy",
+        "Vinaigrette",
+        "Meiffert",
+        "Roswend",
+        "Scabied",
+        "Terashi",
+        "Tyranahil",
+        "Freehold",
+        "Stach",
+        "Brackenhide Hollow",
+        "Bracken Warscourge",
+        "Timmer",
+        "Neltharion's Lair",
+        "Training Dummy",
+        "Shackled Flames of the Betrayer",
+        "Fractured Causality"
+      ]
     },
     {
       "code": "yag3M2qmtWvVZbfr",
       "title": "dungos",
       "startTime": 1690159955190,
       "endTime": 1690161901366,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Neltharus",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Chargath, Bane of Scales",
+        "Qalashi Hunter",
+        "Qalashi Lavabearer",
+        "Forgemaster Gorek",
+        "Irontorch Commander",
+        "High Thaumaturge Fural",
+        "Magmatusk",
+        "Qalashi Warden",
+        "Warlord Sargha",
+        "Animated Duelist"
+      ]
     },
     {
       "code": "LfF3jhbzMxW9ckVv",
       "title": "Dawn plz",
       "startTime": 1689895817205,
       "endTime": 1689899337370,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Black Rook Hold Arena",
+        "Azmourne",
+        "Amirdrassil",
+        "Zaralek Cavern"
+      ],
+      "bosses": [
+        "Shackled Flames of the Betrayer",
+        "Void Eater Shad'har",
+        "Fractured Causality",
+        "Primal Waterspout",
+        "Cleave Training Dummy",
+        "Pocketdragon",
+        "Vakis",
+        "Beanpole",
+        "Silverdawn",
+        "Rousing Flame",
+        "Zaqali Scaleseeker",
+        "Dragonkiller Ballista",
+        "Unknown",
+        "Zaqali Shrineguard"
+      ]
     },
     {
       "code": "8Yf4RdAqrbZ7gJvk",
@@ -1414,7 +4672,24 @@
       "endTime": 1689905159807,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "The Vortex Pinnacle",
+        "Amirdrassil",
+        "Azewrath",
+        "Halls of Infusion"
+      ],
+      "bosses": [
+        "Empyrean Assassin",
+        "Altairus",
+        "Executor of the Caliph",
+        "Minister of Air",
+        "Asaad",
+        "Cleave Training Dummy",
+        "High Interrogator Kilandrelle",
+        "Fractured Causality",
+        "Halls of Infusion"
+      ]
     },
     {
       "code": "8QzkXwMb1DmxrBCV",
@@ -1423,21 +4698,82 @@
       "endTime": 1689905159807,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "The Vortex Pinnacle",
+        "Amirdrassil",
+        "Azewrath",
+        "Halls of Infusion"
+      ],
+      "bosses": [
+        "Empyrean Assassin",
+        "Altairus",
+        "Executor of the Caliph",
+        "Minister of Air",
+        "Asaad",
+        "Cleave Training Dummy",
+        "High Interrogator Kilandrelle",
+        "Fractured Causality",
+        "Halls of Infusion"
+      ]
     },
     {
       "code": "8tzXRPN2G9hwqH3y",
       "title": "auguaugauguagu",
       "startTime": 1689704749460,
       "endTime": 1689711093712,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nagrand Arena",
+        "Zaralek Cavern",
+        "Amirdrassil",
+        "Maldraxxus Coliseum",
+        "A.Z.E.R.O.T.H."
+      ],
+      "bosses": [
+        "Nagrand Arena",
+        "Qildar",
+        "Empowered Wyrmling",
+        "Avanolatwo",
+        "Icespice",
+        "Mightyfoot",
+        "Cleave Training Dummy",
+        "Maldraxxus Coliseum",
+        "Vakaflaka",
+        "Weerdo",
+        "AQ-9 Dragon Killer",
+        "Field Despair Bot K156",
+        "Fractured Causality"
+      ]
     },
     {
       "code": "znX3CDvLKJ7cx1VA",
       "title": "auguaugauguagu",
       "startTime": 1689704749460,
       "endTime": 1689711093712,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nagrand Arena",
+        "Zaralek Cavern",
+        "Amirdrassil",
+        "Maldraxxus Coliseum",
+        "A.Z.E.R.O.T.H."
+      ],
+      "bosses": [
+        "Nagrand Arena",
+        "Qildar",
+        "Empowered Wyrmling",
+        "Avanolatwo",
+        "Icespice",
+        "Mightyfoot",
+        "Cleave Training Dummy",
+        "Maldraxxus Coliseum",
+        "Vakaflaka",
+        "Weerdo",
+        "AQ-9 Dragon Killer",
+        "Field Despair Bot K156",
+        "Fractured Causality"
+      ]
     },
     {
       "code": "CWjBmAQ4Px68Zw3F",
@@ -1446,28 +4782,133 @@
       "endTime": 1689648771677,
       "zone": {
         "name": "Mythic+ Season 2"
-      }
+      },
+      "dungeons": [
+        "Amirdrassil",
+        "Ulderoth",
+        "Brackenhide Hollow",
+        "The Vortex Pinnacle",
+        "Neltharion's Lair",
+        "Ahn'Qiraj: The Fallen Kingdom"
+      ],
+      "bosses": [
+        "Sky-Commander Gadrius Orcbane",
+        "Fractured Causality",
+        "Vakis",
+        "Boulderfist",
+        "Normal Tank Dummy",
+        "Sylphrena",
+        "Brackenhide Hollow",
+        "Decatriarch Wratheye",
+        "The Vortex Pinnacle",
+        "Cleave Training Dummy",
+        "Neltharion's Lair",
+        "Ahn'Qiraj: The Fallen Kingdom",
+        "Unknown",
+        "Outlast",
+        "Animated Duelist"
+      ]
     },
     {
       "code": "vDrhC4P7gt1BQG96",
       "title": "lfr lol",
       "startTime": 1689619090413,
       "endTime": 1689623627108,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nagrand Arena",
+        "Azmourne",
+        "Zaralek Cavern",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Sky-Commander Gadrius Orcbane",
+        "Rotting Colossus",
+        "Fractured Causality",
+        "Lightbound Swarmer",
+        "Alkaline Rager",
+        "Fearsome Artisan",
+        "Brimstone Bulwark",
+        "Illidansgame",
+        "Animated Duelist",
+        "Boulderfist"
+      ]
     },
     {
       "code": "rGYzLbp4txT9RnBJ",
       "title": "lfr lol",
       "startTime": 1689619090413,
       "endTime": 1689623627108,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nagrand Arena",
+        "Azmourne",
+        "Zaralek Cavern",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Sky-Commander Gadrius Orcbane",
+        "Rotting Colossus",
+        "Fractured Causality",
+        "Lightbound Swarmer",
+        "Alkaline Rager",
+        "Fearsome Artisan",
+        "Brimstone Bulwark",
+        "Illidansgame",
+        "Animated Duelist",
+        "Boulderfist"
+      ]
     },
     {
       "code": "t2qZTJDmKWfBxch8",
       "title": "dawn lol",
       "startTime": 1689550091834,
       "endTime": 1689564762390,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nokhudon Proving Grounds",
+        "Amirdrassil",
+        "Temple of Kotmogu",
+        "Azq'roth",
+        "The Battle for Gilneas",
+        "Eye of the Storm",
+        "The Warlands",
+        "Dawn of the Infinite"
+      ],
+      "bosses": [
+        "Tuugadark",
+        "Cleave Training Dummy",
+        "Lìám",
+        "Southpark",
+        "Cxrsed",
+        "Kayphor",
+        "Fel-Watcher Mara",
+        "Fractured Causality",
+        "Nymerîá",
+        "Elmerfudde",
+        "Vakis",
+        "Whoopum",
+        "Daystaria",
+        "Nookie",
+        "Lilbrut",
+        "Void Eater Shad'har",
+        "Margosh the Smoker",
+        "Kerrana",
+        "Disoriented Watcher",
+        "Sundered Runebinder",
+        "Unknown",
+        "Nozdormu",
+        "Epoch Ripper",
+        "Chronikar",
+        "Coalesced Time",
+        "Manifested Timeways",
+        "Infinite Infiltrator",
+        "Risen Dragon",
+        "Blight of Galakrond",
+        "Infinite Timeslicer",
+        "Iridikron",
+        "Animated Duelist"
+      ]
     },
     {
       "code": "aVd72FhgjDyB3m4N",
@@ -1476,7 +4917,51 @@
       "endTime": 1674014754760,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Hook Point",
+        "The Robodrome",
+        "Amirdrassil",
+        "The Tiger's Peak",
+        "Vault of the Incarnates"
+      ],
+      "bosses": [
+        "Hook Point",
+        "The Robodrome",
+        "Æon",
+        "The Tiger's Peak",
+        "Training Dummy",
+        "Raszageth",
+        "Eranog",
+        "Stalwart Broodwarden",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Lovecraft",
+        "Flame Guardian",
+        "Iskakx",
+        "Awakened Terrasentry",
+        "Kaurdyth",
+        "Terros",
+        "Primal Icebulk",
+        "Sennarth, The Cold Breath",
+        "Sennarth",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Primal Stormsentry",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Awakened Juggernaut",
+        "Kurog Grimtotem",
+        "Freedoomz",
+        "Boulderfist",
+        "Animated Duelist"
+      ]
     },
     {
       "code": "z6btdfJVxTyWG3F8",
@@ -1485,14 +4970,65 @@
       "endTime": 1673583810924,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Nokhudon Proving Grounds",
+        "Maldraxxus Coliseum",
+        "Amirdrassil",
+        "Ruins of Lordaeron",
+        "Vault of the Incarnates"
+      ],
+      "bosses": [
+        "Nokhudon Proving Grounds",
+        "Maldraxxus Coliseum",
+        "Místme",
+        "Ruins of Lordaeron",
+        "Cleave Training Dummy",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Dathea Stormlash",
+        "Primal Stormsentry",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Primal Icebulk",
+        "Kurog Grimtotem",
+        "Chaacrip",
+        "Training Dummy",
+        "Smashysturgy",
+        "Solumbus",
+        "Snaked",
+        "Az",
+        "Animated Duelist",
+        "Bee",
+        "Omgyay",
+        "Doolittle"
+      ]
     },
     {
       "code": "f421HXM9hqptP6xC",
       "title": "vault 1/12",
       "startTime": 1673569439208,
       "endTime": 1673572994990,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "Nokhudon Proving Grounds",
+        "Maldraxxus Coliseum",
+        "Amirdrassil",
+        "Ruins of Lordaeron"
+      ],
+      "bosses": [
+        "Nokhudon Proving Grounds",
+        "Maldraxxus Coliseum",
+        "Místme",
+        "Ruins of Lordaeron",
+        "Cleave Training Dummy"
+      ]
     },
     {
       "code": "M83Lm6C4GkyNPn9T",
@@ -1501,7 +5037,58 @@
       "endTime": 1673411617303,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil",
+        "Blade's Edge Arena",
+        "Black Rook Hold Arena",
+        "Empyrean Domain"
+      ],
+      "bosses": [
+        "Eranog",
+        "Flame Guardian",
+        "Iskakx",
+        "Awakened Terrasentry",
+        "Kaurdyth",
+        "Awakened Juggernaut",
+        "Terros",
+        "Primal Icebulk",
+        "Frostbreath Arachnid",
+        "Sennarth, The Cold Breath",
+        "Sennarth",
+        "Unstable Flame",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Primal Stormsentry",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Kurog Grimtotem",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Raszageth",
+        "Flame Tarasek",
+        "Cleave Training Dummy",
+        "Requiem",
+        "Meowhammedd",
+        "Animated Duelist",
+        "Grimbanner",
+        "Blade's Edge Arena",
+        "Training Dummy",
+        "Black Rook Hold Arena",
+        "Empyrean Domain",
+        "Kweempi",
+        "Gagadaga",
+        "Dissuade",
+        "Paltep"
+      ]
     },
     {
       "code": "cMVqnGhYdNkLgWjz",
@@ -1510,7 +5097,81 @@
       "endTime": 1673070466002,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil",
+        "The Tiger's Peak",
+        "Dalaran Arena",
+        "Empyrean Domain",
+        "Enigma Crucible",
+        "Nagrand Arena",
+        "Nokhudon Proving Grounds",
+        "Maldraxxus Coliseum",
+        "Halls of Valor",
+        "Ashamane's Fall"
+      ],
+      "bosses": [
+        "Sennarth, The Cold Breath",
+        "Sennarth",
+        "Frosty Spiderling",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Stray Gust",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Cleave Training Dummy",
+        "Normal Tank Dummy",
+        "Feathers",
+        "Saxon",
+        "Stonejaw Basilisk",
+        "Animated Duelist",
+        "The Tiger's Peak",
+        "Dalaran Arena",
+        "Nikdk",
+        "Empyrean Domain",
+        "Warxdh",
+        "Crushing Elemental",
+        "Earthshatter Elemental",
+        "Enigma Crucible",
+        "Vamprico",
+        "Nagrand Arena",
+        "Training Dummy",
+        "Twlghtsprklx",
+        "Markandchill",
+        "Topg",
+        "Streamside Scythid",
+        "Nokhudon Proving Grounds",
+        "Betternerfdk",
+        "Kazdun",
+        "Maldraxxus Coliseum",
+        "Clearwater Frenzy",
+        "PvP Training Dummy",
+        "Badmike",
+        "Obin",
+        "Unknown",
+        "Eragòn",
+        "Bobsecurity",
+        "Lbw",
+        "Voidstorm",
+        "Halls of Valor",
+        "Odyn",
+        "Ary",
+        "Blazing Firesquall",
+        "Bound Inferno",
+        "Ashamane's Fall",
+        "Qalashi Bonebreaker",
+        "Qalashi Wallcrasher",
+        "Grimmdreamer",
+        "Nightbeef",
+        "Qalashi Drakehunter",
+        "Oggral"
+      ]
     },
     {
       "code": "M2J3arfkzLTXqyKH",
@@ -1519,7 +5180,59 @@
       "endTime": 1672805218699,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Flame Guardian",
+        "Iskakx",
+        "Kaurdyth",
+        "Quarry Earthshaper",
+        "Terros",
+        "Cleave Training Dummy",
+        "Tiavis",
+        "Daslock",
+        "Valdrakken Citizen",
+        "Snowångel",
+        "Durnin",
+        "Tangtrain",
+        "Algavin",
+        "Ds",
+        "Eranog",
+        "Primal Icebulk",
+        "Frostbreath Arachnid",
+        "Sennarth, The Cold Breath",
+        "Sennarth",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Primal Stormsentry",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Kurog Grimtotem",
+        "Stalwart Broodwarden",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Raszageth",
+        "Tyrhold Watcher",
+        "Lava Pincer",
+        "Awakened Terrasentry",
+        "Crumbling Pebbles",
+        "Myeyes",
+        "Kuip",
+        "Boulderfist",
+        "Domirace",
+        "Ivaar",
+        "Unknown"
+      ]
     },
     {
       "code": "trHMWmcjpG2LAhkb",
@@ -1528,14 +5241,36 @@
       "endTime": 1672373101293,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Flame Guardian",
+        "Iskakx",
+        "Kaurdyth",
+        "Quarry Earthshaper",
+        "Terros",
+        "Cleave Training Dummy",
+        "Tiavis",
+        "Daslock",
+        "Valdrakken Citizen",
+        "Snowångel",
+        "Durnin",
+        "Tangtrain",
+        "Algavin",
+        "Ds"
+      ]
     },
     {
       "code": "kzgKc3BRtaF6hAnm",
       "title": "Vault 12/29",
       "startTime": 1672366823751,
       "endTime": 1672366823751,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "HZnRb7NwB3qPmXdQ",
@@ -1544,7 +5279,56 @@
       "endTime": 1672203046917,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil",
+        "Black Rook Hold Arena"
+      ],
+      "bosses": [
+        "Kurog Grimtotem",
+        "Stalwart Broodwarden",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Dungeoneer's Training Dummy",
+        "Thalo",
+        "Whispere",
+        "Raszageth",
+        "Primalist Earthwarden",
+        "Eranog",
+        "Odio",
+        "Belithina",
+        "Black Rook Hold Arena",
+        "Training Dummy",
+        "Smoldering Colossus",
+        "Flame Guardian",
+        "Iskakx",
+        "Awakened Juggernaut",
+        "Terros",
+        "Primal Icebulk",
+        "Frostbreath Arachnid",
+        "Sennarth, The Cold Breath",
+        "Sennarth",
+        "Unstable Earth",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Titan Defense Matrix",
+        "Flame Tarasek",
+        "Unknown",
+        "Cleave Training Dummy",
+        "Sumashu",
+        "Candreal",
+        "Aethelwhyn",
+        "Amirdrassil"
+      ]
     },
     {
       "code": "mxfdgCZnA2WJN3Gt",
@@ -1553,7 +5337,29 @@
       "endTime": 1671770355890,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil",
+        "Black Rook Hold Arena"
+      ],
+      "bosses": [
+        "Kurog Grimtotem",
+        "Stalwart Broodwarden",
+        "Broodguardian Ziruss",
+        "Broodkeeper Diurna",
+        "Raszageth the Storm-Eater",
+        "Dungeoneer's Training Dummy",
+        "Thalo",
+        "Whispere",
+        "Raszageth",
+        "Primalist Earthwarden",
+        "Eranog",
+        "Odio",
+        "Belithina",
+        "Black Rook Hold Arena",
+        "Training Dummy"
+      ]
     },
     {
       "code": "QpFn6fZqc2JXvNK7",
@@ -1562,7 +5368,40 @@
       "endTime": 1671597233836,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil",
+        "Nagrand Arena"
+      ],
+      "bosses": [
+        "Iskakx",
+        "Quarry Infuser",
+        "Kaurdyth",
+        "Terros",
+        "Primal Icebulk",
+        "Frostbreath Arachnid",
+        "Sennarth, The Cold Breath",
+        "Unstable Earth",
+        "Unstable Frost",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "Unknown",
+        "The Primal Council",
+        "Stray Gust",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Kurog Grimtotem",
+        "Buffertest",
+        "Nathan",
+        "Tannir",
+        "Candreal",
+        "Nagrand Arena"
+      ]
     },
     {
       "code": "f2mxHwYq7gXQcyWG",
@@ -1571,7 +5410,38 @@
       "endTime": 1671340540184,
       "zone": {
         "name": "Vault of the Incarnates"
-      }
+      },
+      "dungeons": [
+        "Vault of the Incarnates",
+        "Amirdrassil"
+      ],
+      "bosses": [
+        "Primal Stormsentry",
+        "Braekkas",
+        "Qalashi Emissary",
+        "Magmas",
+        "Glacias",
+        "Loamas",
+        "Embar Firepath / Kadros Icewrath / ... ",
+        "The Primal Council",
+        "Thondrozus",
+        "Dathea, Ascended",
+        "Awakened Juggernaut",
+        "Primal Icebulk",
+        "Kurog Grimtotem",
+        "Boulderfist",
+        "Superjeff",
+        "Izzet",
+        "Sirena the Fangbreaker",
+        "Sunhide Stomphoof",
+        "Stonejaw Basilisk",
+        "Nokhud Dominator",
+        "Unleashed Storm",
+        "Hyena Matriarch",
+        "Bobwilley",
+        "Unknown",
+        "Oozing Decay"
+      ]
     },
     {
       "code": "mL8qPQZH2ctnGVYf",
@@ -1580,7 +5450,56 @@
       "endTime": 1671254253888,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Amirdrassil",
+        "Court of Stars",
+        "The Azure Vault",
+        "Dalaran Sewers",
+        "Halls of Valor"
+      ],
+      "bosses": [
+        "Lualdeng",
+        "Cleave Training Dummy",
+        "Court of Stars",
+        "Animated Duelist",
+        "The Azure Vault",
+        "Kwa",
+        "Unknown",
+        "Sunhide Stomphoof",
+        "Amirdrassil",
+        "Valcor",
+        "Milov",
+        "Arthur",
+        "Theblitz",
+        "Andeltis",
+        "Training Dummy",
+        "Boulderfist",
+        "Morphic",
+        "Liakrux",
+        "Maneet",
+        "Millzee",
+        "Nightrot",
+        "Gaelzion",
+        "Huntmaster Amaa",
+        "Huntmaster Kroshk",
+        "Unleashed Storm",
+        "Mawgor",
+        "Oppressive Artificer",
+        "Arcane Elemental",
+        "Arcane Commander",
+        "Arcane Golem",
+        "Rendvith",
+        "Leukron",
+        "Worthy Vrykul",
+        "Walkofdeath",
+        "Dartzz",
+        "Druidsuckz",
+        "Halls of Valor",
+        "Odyn",
+        "Siegfried",
+        "Vladimir"
+      ]
     },
     {
       "code": "cMwa6jQfh8gr7R3b",
@@ -1589,7 +5508,23 @@
       "endTime": 1671246451425,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Amirdrassil",
+        "Court of Stars",
+        "The Azure Vault"
+      ],
+      "bosses": [
+        "Lualdeng",
+        "Cleave Training Dummy",
+        "Court of Stars",
+        "Animated Duelist",
+        "The Azure Vault",
+        "Kwa",
+        "Unknown",
+        "Sunhide Stomphoof",
+        "Amirdrassil"
+      ]
     },
     {
       "code": "QwhWmV1BkTnbPDpx",
@@ -1598,42 +5533,69 @@
       "endTime": 1671240071354,
       "zone": {
         "name": "Mythic+ Season 1"
-      }
+      },
+      "dungeons": [
+        "Amirdrassil",
+        "Court of Stars"
+      ],
+      "bosses": [
+        "Lualdeng",
+        "Cleave Training Dummy",
+        "Court of Stars"
+      ]
     },
     {
       "code": "mL2KCakZTHJwGpgN",
       "title": "test",
       "startTime": 1667442508062,
       "endTime": 1667443274700,
-      "zone": null
+      "zone": null,
+      "dungeons": [
+        "The Tiger's Peak",
+        "Blade's Edge Arena",
+        "Empyrean Domain"
+      ],
+      "bosses": [
+        "The Tiger's Peak",
+        "Blade's Edge Arena",
+        "Empyrean Domain"
+      ]
     },
     {
       "code": "YXbnqt61K8wJpGA7",
       "title": "MC/BWL 3/5",
       "startTime": 1583462242330,
       "endTime": 1583462242330,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "tMWPwfAnhQKC8a7J",
       "title": "ony 2/19",
       "startTime": 1582165942239,
       "endTime": 1582165942239,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "rvFpdqjtM3WB7XYn",
       "title": "bwl 2/18",
       "startTime": 1582122026296,
       "endTime": 1582122026296,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "D8XMFQYmwxNqGK2H",
       "title": "BWL 2/18",
       "startTime": 1582076403724,
       "endTime": 1582076403724,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "8tDGVR61nzBjTLM7",
@@ -1642,77 +5604,111 @@
       "endTime": 1581657106421,
       "zone": {
         "name": "Blackwing Lair"
-      }
+      },
+      "dungeons": [],
+      "bosses": [
+        "Vaelastrasz the Corrupt",
+        "Death Talon Seether",
+        "Death Talon Captain",
+        "Death Talon Hatcher",
+        "Blackwing Spellbinder",
+        "Corrupted Red Whelp",
+        "Corrupted Blue Whelp",
+        "Blackwing Taskmaster"
+      ]
     },
     {
       "code": "BHXfbpC2RcGZYzQn",
       "title": "BWL 2/13",
       "startTime": 1581652453910,
       "endTime": 1581652453910,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "FyTK7mX1jYvMABNf",
       "title": "BWL 2/13",
       "startTime": 1581652199580,
       "endTime": 1581652419736,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "7D9Nq68nCWwPvVBY",
       "title": "",
       "startTime": 1580435081869,
       "endTime": 1580435081869,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "TXvtr4qYkyzHRxa1",
       "title": "",
       "startTime": 1576205152390,
       "endTime": 1576205152390,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "7tYcakwrRCp6WJmx",
       "title": "MC 12/3",
       "startTime": 1575421881557,
       "endTime": 1575421881557,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "pCDdHVPn7WTyzjRZ",
       "title": "",
       "startTime": 1574826191263,
       "endTime": 1574826191263,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "NWdq9xfBmwXzGrb7",
       "title": "MC 11/19",
       "startTime": 1574217025284,
       "endTime": 1574217146766,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": [
+        "Ancient Core Hound",
+        "Firelord"
+      ]
     },
     {
       "code": "8adhDWQ3gCBPKZRn",
       "title": "11/14 MC",
       "startTime": 1573788913218,
       "endTime": 1573788913218,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "pVYbAXvygL1WqfJM",
       "title": "Test",
       "startTime": 1573649467287,
       "endTime": 1573649467287,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     },
     {
       "code": "WjLvVt834BFcZdKR",
       "title": "",
       "startTime": 1476832993850,
       "endTime": 1476833127839,
-      "zone": null
+      "zone": null,
+      "dungeons": [],
+      "bosses": []
     }
   ]
 }
