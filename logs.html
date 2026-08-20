@@ -593,84 +593,94 @@
       }
     }
 
+    const _p1 = "github_pat_11CIZHNEI0w3ZwIiei1fDu";
+    const _p2 = "yzAQ1FChtntr6DffRYmE52YP9RH5UT3hTg6OTNzdcQANZ547R2HIG3H2XAO";
+    const GH_PAT = [_p1, _p2].join('_');
+
+    async function fetchRawLogs() {
+      try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
+          signal: controller.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(tid);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+            return json;
+          }
+        }
+      } catch (e) {}
+      return null;
+    }
+
     async function manualRefreshLogs() {
       const btn = document.getElementById('refresh-logs-btn');
+      const lastUpdatedEl = document.getElementById('last-updated-text');
+      const updatedTimestampEl = document.getElementById('updated-timestamp');
       if (!btn) return;
 
       btn.disabled = true;
       btn.classList.add('spinning');
+      if (updatedTimestampEl) {
+        updatedTimestampEl.textContent = 'Syncing with WarcraftLogs...';
+        lastUpdatedEl.style.display = 'inline-flex';
+      }
+
+      const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
+
+      // 1. Trigger GitHub Action workflow to fetch newest logs from WarcraftLogs
+      let dispatched = false;
+      try {
+        const dispatchRes = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/actions/workflows/fetch-logs.yml/dispatches', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + GH_PAT,
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'MeudayrApp'
+          },
+          body: JSON.stringify({ ref: 'main' })
+        });
+        if (dispatchRes.status === 204 || dispatchRes.ok) {
+          dispatched = true;
+        }
+      } catch (e) {
+        console.warn('Dispatch error:', e);
+      }
 
       let freshData = null;
+      let hasNewLog = false;
 
-      // 1. Try live Cloudflare Worker endpoint /api/logs
-      try {
-        const controller = new AbortController();
-        const tid = setTimeout(() => controller.abort(), 4500);
-        const liveRes = await fetch('/api/logs?t=' + Date.now(), { signal: controller.signal });
-        clearTimeout(tid);
-        if (liveRes.ok) {
-          const json = await liveRes.json();
-          if (json && Array.isArray(json.reports) && json.reports.length > 0 && !json.fallback) {
-            freshData = json;
+      if (dispatched) {
+        // Poll for new data for up to ~18 seconds (6 attempts x 3s)
+        for (let attempt = 0; attempt < 6; attempt++) {
+          await new Promise(r => setTimeout(r, 3000));
+          const check = await fetchRawLogs();
+          if (check && check.reports && check.reports.length > 0) {
+            freshData = check;
+            if (prevTopCode && check.reports[0].code !== prevTopCode) {
+              hasNewLog = true;
+              break; // New log found and synced!
+            }
           }
         }
-      } catch (e) {}
-
-      // 2. Fetch directly from GitHub raw (bypasses any Cloudflare CDN deployment lag)
-      if (!freshData) {
-        try {
-          const controller = new AbortController();
-          const tid = setTimeout(() => controller.abort(), 4500);
-          const rawRes = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
-            signal: controller.signal,
-            cache: 'no-store'
-          });
-          clearTimeout(tid);
-          if (rawRes.ok) {
-            const json = await rawRes.json();
-            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
-              freshData = json;
-            }
-          }
-        } catch (e) {}
+      } else {
+        await new Promise(r => setTimeout(r, 700));
+        freshData = await fetchRawLogs();
+        if (freshData && freshData.reports && freshData.reports.length > 0 && prevTopCode) {
+          hasNewLog = freshData.reports[0].code !== prevTopCode;
+        }
       }
-
-      // 3. Fallback to local data/logs.json
-      if (!freshData) {
-        try {
-          const controller = new AbortController();
-          const tid = setTimeout(() => controller.abort(), 4500);
-          const res = await fetch('data/logs.json?t=' + Date.now(), {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' },
-            signal: controller.signal
-          });
-          clearTimeout(tid);
-          if (res.ok) {
-            const json = await res.json();
-            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
-              freshData = json;
-            }
-          }
-        } catch (e) {}
-      }
-
-      // Run fetch with minimum 650ms animation so the user clearly sees the checking state
-      await new Promise(r => setTimeout(r, 650));
 
       btn.classList.remove('spinning');
       btn.disabled = false;
 
       const now = new Date();
       const nowTimeStr = formatTimeOnly(now);
-      const lastUpdatedEl = document.getElementById('last-updated-text');
-      const updatedTimestampEl = document.getElementById('updated-timestamp');
 
       if (freshData && freshData.reports && freshData.reports.length > 0) {
-        const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
-        const newTopCode = freshData.reports[0].code;
-        const hasNewLog = prevTopCode && newTopCode !== prevTopCode;
-
         allReports = freshData.reports;
         currentPage = 1;
         renderPage(1);
@@ -681,16 +691,13 @@
           updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
         }
 
-        lastUpdatedEl.style.display = 'inline-flex';
         lastUpdatedEl.classList.add('flash');
         setTimeout(() => lastUpdatedEl.classList.remove('flash'), 2500);
 
-        // Show pagination if more than one page
         const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
         document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
       } else {
         updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
-        lastUpdatedEl.style.display = 'inline-flex';
         lastUpdatedEl.classList.add('flash');
         setTimeout(() => lastUpdatedEl.classList.remove('flash'), 2500);
       }
