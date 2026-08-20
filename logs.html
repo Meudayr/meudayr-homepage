@@ -656,6 +656,9 @@
         } catch (e) {}
       }
 
+      // Run fetch with minimum 650ms animation so the user clearly sees the checking state
+      await new Promise(r => setTimeout(r, 650));
+
       btn.classList.remove('spinning');
       btn.disabled = false;
 
