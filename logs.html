@@ -602,13 +602,14 @@
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 5000);
-        const res = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/contents/data/logs.json', {
+        const res = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/contents/data/logs.json?ref=main&t=' + Date.now(), {
           headers: {
             'Authorization': 'Bearer ' + GH_PAT,
             'Accept': 'application/vnd.github.v3+json',
             'User-Agent': 'MeudayrApp'
           },
-          signal: controller.signal
+          signal: controller.signal,
+          cache: 'no-store'
         });
         clearTimeout(tid);
         if (res.ok) {
