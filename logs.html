@@ -379,6 +379,121 @@
       min-width: 90px;
       text-align: center;
     }
+
+    /* Search Bar */
+    .logs-search-wrapper {
+      max-width: 480px;
+      margin: 24px auto 32px;
+      padding: 0 16px;
+    }
+
+    .logs-search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 50px;
+      padding: 6px 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      transition: var(--transition);
+    }
+
+    .logs-search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 4px 24px rgba(56, 142, 60, 0.25);
+      background: #17191f;
+    }
+
+    .search-icon {
+      width: 17px;
+      height: 17px;
+      color: var(--text-dark);
+      flex-shrink: 0;
+      margin-right: 10px;
+      transition: color 0.2s ease;
+    }
+
+    .logs-search-box:focus-within .search-icon {
+      color: var(--primary);
+    }
+
+    #logs-search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      padding: 6px 0;
+    }
+
+    #logs-search-input::placeholder {
+      color: var(--text-dark);
+      font-size: 0.85rem;
+    }
+
+    .search-clear-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0;
+      margin-left: 8px;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .search-clear-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: var(--text-main);
+    }
+
+    .search-clear-btn svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .search-results-count {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      margin-top: 10px;
+    }
+
+    .search-results-count strong {
+      color: var(--text-main);
+    }
+
+    .search-results-count em {
+      color: var(--primary);
+      font-style: normal;
+    }
+
+    .clear-search-link {
+      margin-top: 14px;
+      background: rgba(56, 142, 60, 0.12);
+      border: 1px solid rgba(56, 142, 60, 0.3);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .clear-search-link:hover {
+      background: rgba(56, 142, 60, 0.22);
+    }
   </style>
 </head>
 <body>
@@ -430,6 +545,31 @@
       </div>
     </section>
 
+    <!-- Search Bar -->
+    <div class="logs-search-wrapper">
+      <div class="logs-search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="logs-search-input" 
+          placeholder="Search by title, date, or zone (e.g. '8/20', 'Midnight', 'test')..." 
+          autocomplete="off"
+          spellcheck="false"
+          oninput="handleSearchInput(event)"
+        >
+        <button id="logs-search-clear" class="search-clear-btn" style="display: none;" onclick="clearSearch()" aria-label="Clear search">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div id="search-results-count" class="search-results-count" style="display: none;"></div>
+    </div>
+
     <!-- Log cards will be rendered here -->
     <div id="logs-container">
       <!-- Skeleton loading state -->
@@ -464,7 +604,22 @@
   <script>
     const PAGE_SIZE = 15;
     let allReports = [];
+    let currentSearchQuery = '';
     let currentPage = 1;
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, function(m) {
+        switch (m) {
+          case '&': return '&amp;';
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '"': return '&quot;';
+          case "'": return '&#39;';
+          default: return m;
+        }
+      });
+    }
 
     function formatZoneName(name, startTime) {
       if (!name) return '';
@@ -482,6 +637,81 @@
         return `${expansion} Season ${seasonNum}`;
       }
       return name;
+    }
+
+    function matchesSearch(report, query) {
+      if (!query) return true;
+      const q = query.trim().toLowerCase();
+      if (!q) return true;
+
+      // 1. Check title
+      const title = (report.title || '').toLowerCase();
+      if (title.includes(q)) return true;
+
+      // 2. Check zone / season names
+      const rawZone = (report.zone?.name || '').toLowerCase();
+      if (rawZone.includes(q)) return true;
+      const formattedZone = formatZoneName(report.zone?.name, report.startTime).toLowerCase();
+      if (formattedZone.includes(q)) return true;
+
+      // 3. Check dates across common formats
+      const date = new Date(report.startTime);
+      if (!isNaN(date.getTime())) {
+        const monthNamesShort = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+        const monthNamesLong = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+        const m = date.getMonth();
+        const dNum = date.getDate();
+        const y = date.getFullYear();
+
+        const dateStrings = [
+          (m + 1) + '/' + dNum,
+          (m + 1) + '/' + dNum + '/' + y,
+          (m + 1) + '/' + dNum + '/' + String(y).slice(2),
+          (m + 1) + '-' + dNum,
+          (m + 1) + '-' + dNum + '-' + y,
+          monthNamesShort[m] + ' ' + dNum,
+          monthNamesLong[m] + ' ' + dNum,
+          monthNamesShort[m] + ' ' + y,
+          monthNamesLong[m] + ' ' + y,
+          String(y)
+        ];
+
+        if (dateStrings.some(ds => ds.includes(q))) return true;
+      }
+
+      return false;
+    }
+
+    function getFilteredReports() {
+      if (!currentSearchQuery.trim()) {
+        return allReports;
+      }
+      return allReports.filter(r => matchesSearch(r, currentSearchQuery));
+    }
+
+    function handleSearchInput(e) {
+      currentSearchQuery = e.target.value || '';
+      const clearBtn = document.getElementById('logs-search-clear');
+      if (clearBtn) {
+        clearBtn.style.display = currentSearchQuery.length > 0 ? 'flex' : 'none';
+      }
+      currentPage = 1;
+      renderPage(1);
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('logs-search-input');
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+      currentSearchQuery = '';
+      const clearBtn = document.getElementById('logs-search-clear');
+      if (clearBtn) {
+        clearBtn.style.display = 'none';
+      }
+      currentPage = 1;
+      renderPage(1);
     }
 
     function buildCard(report, isFirst) {
@@ -525,23 +755,62 @@
 
     function renderPage(page, scroll = false) {
       const container = document.getElementById('logs-container');
-      const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
+      const filtered = getFilteredReports();
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+      const paginationEl = document.getElementById('pagination');
+      const resultsCountEl = document.getElementById('search-results-count');
+
+      // Update search result indicator
+      if (currentSearchQuery.trim()) {
+        resultsCountEl.style.display = 'block';
+        resultsCountEl.innerHTML = `Found <strong>${filtered.length}</strong> log${filtered.length === 1 ? '' : 's'} matching "<em>${escapeHtml(currentSearchQuery.trim())}</em>"`;
+      } else {
+        resultsCountEl.style.display = 'none';
+      }
+
+      if (filtered.length === 0) {
+        if (currentSearchQuery.trim()) {
+          container.innerHTML = `
+            <div class="state-box">
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+              <div class="state-title">No Matching Logs</div>
+              <p>No combat logs found matching "<strong>${escapeHtml(currentSearchQuery.trim())}</strong>".</p>
+              <button class="clear-search-link" onclick="clearSearch()">Clear Search</button>
+            </div>`;
+        } else {
+          container.innerHTML = `
+            <div class="state-box">
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              <div class="state-title">No Logs Found</div>
+              <p>No public combat logs found yet. Click "Refresh Logs" or check back later!</p>
+            </div>`;
+        }
+        if (paginationEl) paginationEl.style.display = 'none';
+        return;
+      }
+
       const start = (page - 1) * PAGE_SIZE;
-      const pageReports = allReports.slice(start, start + PAGE_SIZE);
+      const pageReports = filtered.slice(start, start + PAGE_SIZE);
 
       const grid = document.createElement('div');
       grid.className = 'logs-grid';
       pageReports.forEach((report, i) => {
-        grid.appendChild(buildCard(report, page === 1 && i === 0));
+        const isLatest = page === 1 && i === 0 && !currentSearchQuery.trim();
+        grid.appendChild(buildCard(report, isLatest));
       });
 
       container.innerHTML = '';
       container.appendChild(grid);
 
-      // Update pagination controls
-      document.getElementById('btn-prev').disabled = page <= 1;
-      document.getElementById('btn-next').disabled = page >= totalPages;
-      document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
+      // Pagination controls
+      if (filtered.length > PAGE_SIZE) {
+        paginationEl.style.display = 'flex';
+        document.getElementById('btn-prev').disabled = page <= 1;
+        document.getElementById('btn-next').disabled = page >= totalPages;
+        document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
+      } else {
+        paginationEl.style.display = 'none';
+      }
 
       // Only scroll when navigating pages, not on initial load
       if (scroll) {
@@ -550,7 +819,8 @@
     }
 
     function changePage(delta) {
-      const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
+      const filtered = getFilteredReports();
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
       currentPage = Math.max(1, Math.min(totalPages, currentPage + delta));
       renderPage(currentPage, true);
     }
@@ -595,11 +865,6 @@
         allReports = data.reports;
         currentPage = 1;
         renderPage(1);
-
-        // Show pagination only if more than one page
-        if (allReports.length > PAGE_SIZE) {
-          document.getElementById('pagination').style.display = 'flex';
-        }
 
       } catch (err) {
         if (skeletonGrid) skeletonGrid.remove();
