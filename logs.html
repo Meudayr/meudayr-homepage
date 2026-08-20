@@ -49,8 +49,13 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--text-dark);
+      transition: color 0.3s ease;
+    }
+
+    .last-updated.flash {
+      color: #81c784;
     }
 
     .last-updated .dot {
@@ -532,6 +537,15 @@
       renderPage(currentPage, true);
     }
 
+    function formatLogDateTime(date) {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+        ' at ' + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function formatTimeOnly(date) {
+      return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+
     async function loadLogs() {
       const container = document.getElementById('logs-container');
       const skeletonGrid = document.getElementById('skeleton-grid');
@@ -556,9 +570,7 @@
         // Show last updated timestamp
         if (data.fetchedAt) {
           const ts = new Date(data.fetchedAt);
-          const formatted = ts.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
-            ' at ' + ts.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-          document.getElementById('updated-timestamp').textContent = 'Updated ' + formatted;
+          document.getElementById('updated-timestamp').textContent = 'Last synced ' + formatLogDateTime(ts);
           document.getElementById('last-updated-text').style.display = 'inline-flex';
         }
 
@@ -650,23 +662,37 @@
       btn.classList.remove('spinning');
 
       if (freshData && freshData.reports && freshData.reports.length > 0) {
+        const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
+        const newTopCode = freshData.reports[0].code;
+        const hasNewLog = prevTopCode && newTopCode !== prevTopCode;
+
         allReports = freshData.reports;
         currentPage = 1;
         renderPage(1);
 
-        if (freshData.fetchedAt) {
+        const now = new Date();
+        const nowTimeStr = formatTimeOnly(now);
+        const lastUpdatedEl = document.getElementById('last-updated-text');
+        const updatedTimestampEl = document.getElementById('updated-timestamp');
+
+        if (freshData.live) {
+          updatedTimestampEl.textContent = `Live synced just now (at ${nowTimeStr})`;
+        } else if (freshData.fetchedAt) {
           const ts = new Date(freshData.fetchedAt);
-          const formatted = ts.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
-            ' at ' + ts.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-          document.getElementById('updated-timestamp').textContent = (freshData.live ? 'Live Updated ' : 'Updated ') + formatted;
-          document.getElementById('last-updated-text').style.display = 'inline-flex';
+          updatedTimestampEl.textContent = `Checked at ${nowTimeStr} • Data synced ${formatLogDateTime(ts)}`;
+        } else {
+          updatedTimestampEl.textContent = `Checked at ${nowTimeStr}`;
         }
+
+        lastUpdatedEl.style.display = 'inline-flex';
+        lastUpdatedEl.classList.add('flash');
+        setTimeout(() => lastUpdatedEl.classList.remove('flash'), 2500);
 
         // Show pagination if more than one page
         const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
         document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
 
-        btnText.textContent = 'Up to Date ✓';
+        btnText.textContent = hasNewLog ? 'New Log Loaded! 🎉' : 'Up to Date ✓';
         setTimeout(() => {
           btnText.textContent = 'Refresh Logs';
           btn.disabled = false;
