@@ -1,8 +1,17 @@
 {
-  "fetchedAt": "2026-08-20T16:28:44.300Z",
+  "fetchedAt": "2026-08-20T17:30:09.821Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
+    {
+      "code": "rc1f7L3BW6zjmnkP",
+      "title": "8/20 m+",
+      "startTime": 1787244022420,
+      "endTime": 1787246654782,
+      "zone": {
+        "name": "Mythic+ Season 2"
+      }
+    },
     {
       "code": "q6Zh9kjpLJXYDgWb",
       "title": "8/19 M+",
