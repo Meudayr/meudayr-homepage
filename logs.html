@@ -692,13 +692,13 @@
         const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
         document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
 
-        btnText.textContent = hasNewLog ? 'New Log Loaded! 🎉' : 'Up to Date ✓';
+        btnText.textContent = hasNewLog ? 'New Log Loaded! 🎉' : 'No new logs found';
         setTimeout(() => {
           btnText.textContent = 'Refresh Logs';
           btn.disabled = false;
         }, 3000);
       } else {
-        btnText.textContent = 'Refresh Failed';
+        btnText.textContent = 'No new logs found';
         setTimeout(() => {
           btnText.textContent = 'Refresh Logs';
           btn.disabled = false;
