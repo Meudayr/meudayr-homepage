@@ -683,9 +683,9 @@
       let hasNewLog = false;
 
       if (dispatched) {
-        // Poll for new data for up to ~20 seconds (8 attempts x 2.5s)
-        for (let attempt = 0; attempt < 8; attempt++) {
-          await new Promise(r => setTimeout(r, 2500));
+        // Poll for new data for up to ~45 seconds (15 attempts x 3s)
+        for (let attempt = 0; attempt < 15; attempt++) {
+          await new Promise(r => setTimeout(r, 3000));
           const check = await fetchLatestLogsFromGitHub();
           if (check && check.reports && check.reports.length > 0) {
             freshData = check;
