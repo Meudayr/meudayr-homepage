@@ -466,6 +466,24 @@
     let allReports = [];
     let currentPage = 1;
 
+    function formatZoneName(name, startTime) {
+      if (!name) return '';
+      const match = name.match(/^Mythic\+\s+Season\s+(\d+)/i);
+      if (match) {
+        const seasonNum = match[1];
+        const year = startTime ? new Date(startTime).getFullYear() : new Date().getFullYear();
+        let expansion = 'Midnight';
+        if (year >= 2026) expansion = 'Midnight';
+        else if (year >= 2024) expansion = 'The War Within';
+        else if (year >= 2022) expansion = 'Dragonflight';
+        else if (year >= 2020) expansion = 'Shadowlands';
+        else if (year >= 2018) expansion = 'Battle for Azeroth';
+        else if (year >= 2016) expansion = 'Legion';
+        return `${expansion} Season ${seasonNum}`;
+      }
+      return name;
+    }
+
     function buildCard(report, isFirst) {
       const date = new Date(report.startTime);
       const durationMs = report.endTime - report.startTime;
@@ -475,6 +493,7 @@
       const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
       const day = date.toLocaleDateString('en-US', { day: '2-digit' });
       const month = date.toLocaleDateString('en-US', { month: 'short' });
+      const zoneName = report.zone ? formatZoneName(report.zone.name, report.startTime) : '';
 
       const card = document.createElement('a');
       card.className = 'log-card' + (isFirst ? ' latest' : '');
@@ -488,10 +507,10 @@
         </div>
         <div class="log-info">
           <div class="log-title">
-            ${isFirst ? '<span class="latest-tag">Latest</span> ' : ''}${report.title || 'Raid Night'}
+            ${isFirst ? '<span class="latest-tag">Latest</span> ' : ''}${report.title || 'Combat Log'}
           </div>
           <div class="log-meta">
-            ${report.zone ? `<span class="log-zone">${report.zone.name}</span>` : ''}
+            ${zoneName ? `<span class="log-zone">${zoneName}</span>` : ''}
             <span class="log-duration">
               <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               ${durationStr}
