@@ -54,6 +54,12 @@ async function fetchReportsPage(token, page) {
             zone {
               name
             }
+            fights {
+              name
+              gameZone {
+                name
+              }
+            }
           }
           total
           per_page
@@ -96,7 +102,31 @@ async function fetchAllReports(token) {
   while (hasMore) {
     console.log(`  Fetching page ${page}...`);
     const result = await fetchReportsPage(token, page);
-    const pageReports = result.data ?? [];
+    const rawReports = result.data ?? [];
+
+    const pageReports = rawReports.map(r => {
+      const dungeonSet = new Set();
+      const bossSet = new Set();
+      if (Array.isArray(r.fights)) {
+        r.fights.forEach(f => {
+          if (f.gameZone && f.gameZone.name) {
+            dungeonSet.add(f.gameZone.name);
+          }
+          if (f.name && f.name !== 'Trash' && f.name !== 'Trash Mob') {
+            bossSet.add(f.name);
+          }
+        });
+      }
+      return {
+        code: r.code,
+        title: r.title,
+        startTime: r.startTime,
+        endTime: r.endTime,
+        zone: r.zone,
+        dungeons: Array.from(dungeonSet),
+        bosses: Array.from(bossSet)
+      };
+    });
 
     console.log(`  Page ${page}: got ${pageReports.length} reports. Total so far: ${allReports.length + pageReports.length} / ${result.total}`);
     allReports = allReports.concat(pageReports);

@@ -247,6 +247,25 @@
       flex-shrink: 0;
     }
 
+    .log-dungeons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .dungeon-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
     /* Arrow */
     .log-arrow {
       color: var(--text-muted);
@@ -679,6 +698,14 @@
         if (dateStrings.some(ds => ds.includes(q))) return true;
       }
 
+      // 4. Check individual dungeons and bosses in report
+      if (Array.isArray(report.dungeons)) {
+        if (report.dungeons.some(d => d && d.toLowerCase().includes(q))) return true;
+      }
+      if (Array.isArray(report.bosses)) {
+        if (report.bosses.some(b => b && b.toLowerCase().includes(q))) return true;
+      }
+
       return false;
     }
 
@@ -724,6 +751,9 @@
       const day = date.toLocaleDateString('en-US', { day: '2-digit' });
       const month = date.toLocaleDateString('en-US', { month: 'short' });
       const zoneName = report.zone ? formatZoneName(report.zone.name, report.startTime) : '';
+      const dungeonsHtml = (report.dungeons && report.dungeons.length > 0)
+        ? `<div class="log-dungeons">${report.dungeons.map(d => `<span class="dungeon-tag">${escapeHtml(d)}</span>`).join('')}</div>`
+        : '';
 
       const card = document.createElement('a');
       card.className = 'log-card' + (isFirst ? ' latest' : '');
@@ -746,6 +776,7 @@
               ${durationStr}
             </span>
           </div>
+          ${dungeonsHtml}
         </div>
         <div class="log-arrow">
           <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
