@@ -87,11 +87,10 @@
       border-color: var(--primary);
       background: rgba(56, 142, 60, 0.12);
       color: var(--primary);
-      transform: translateY(-1px);
     }
 
     .refresh-btn:active:not(:disabled) {
-      transform: translateY(0);
+      background: rgba(56, 142, 60, 0.2);
     }
 
     .refresh-btn:disabled {
@@ -596,12 +595,10 @@
 
     async function manualRefreshLogs() {
       const btn = document.getElementById('refresh-logs-btn');
-      const btnText = document.getElementById('refresh-btn-text');
       if (!btn) return;
 
       btn.disabled = true;
       btn.classList.add('spinning');
-      btnText.textContent = 'Checking...';
 
       let freshData = null;
 
@@ -660,6 +657,12 @@
       }
 
       btn.classList.remove('spinning');
+      btn.disabled = false;
+
+      const now = new Date();
+      const nowTimeStr = formatTimeOnly(now);
+      const lastUpdatedEl = document.getElementById('last-updated-text');
+      const updatedTimestampEl = document.getElementById('updated-timestamp');
 
       if (freshData && freshData.reports && freshData.reports.length > 0) {
         const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
@@ -670,18 +673,10 @@
         currentPage = 1;
         renderPage(1);
 
-        const now = new Date();
-        const nowTimeStr = formatTimeOnly(now);
-        const lastUpdatedEl = document.getElementById('last-updated-text');
-        const updatedTimestampEl = document.getElementById('updated-timestamp');
-
-        if (freshData.live) {
-          updatedTimestampEl.textContent = `Live synced just now (at ${nowTimeStr})`;
-        } else if (freshData.fetchedAt) {
-          const ts = new Date(freshData.fetchedAt);
-          updatedTimestampEl.textContent = `Checked at ${nowTimeStr} • Data synced ${formatLogDateTime(ts)}`;
+        if (hasNewLog) {
+          updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, New Log Loaded`;
         } else {
-          updatedTimestampEl.textContent = `Checked at ${nowTimeStr}`;
+          updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
         }
 
         lastUpdatedEl.style.display = 'inline-flex';
@@ -691,18 +686,11 @@
         // Show pagination if more than one page
         const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
         document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
-
-        btnText.textContent = hasNewLog ? 'New Log Loaded! 🎉' : 'No new logs found';
-        setTimeout(() => {
-          btnText.textContent = 'Refresh Logs';
-          btn.disabled = false;
-        }, 3000);
       } else {
-        btnText.textContent = 'No new logs found';
-        setTimeout(() => {
-          btnText.textContent = 'Refresh Logs';
-          btn.disabled = false;
-        }, 3000);
+        updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
+        lastUpdatedEl.style.display = 'inline-flex';
+        lastUpdatedEl.classList.add('flash');
+        setTimeout(() => lastUpdatedEl.classList.remove('flash'), 2500);
       }
     }
 
