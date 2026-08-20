@@ -1,49 +1,8 @@
 {
-  "fetchedAt": "2026-08-20T18:21:19.399Z",
+  "fetchedAt": "2026-08-20T18:27:14.246Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
-    {
-      "code": "4rX8mT7V9kZQY6fx",
-      "title": "8/20 m+ test 5",
-      "startTime": 1787250058570,
-      "endTime": 1787250058570,
-      "zone": null
-    },
-    {
-      "code": "KTmq4xcwr19YbMfP",
-      "title": "8/20 m+ test 4",
-      "startTime": 1787250049298,
-      "endTime": 1787250049298,
-      "zone": null
-    },
-    {
-      "code": "F1mHxXM7dKpGYhZv",
-      "title": "8/20 m+ test 4",
-      "startTime": 1787244022420,
-      "endTime": 1787246654782,
-      "zone": {
-        "name": "Mythic+ Season 2"
-      }
-    },
-    {
-      "code": "FTqPpCcNGVBXHRj1",
-      "title": "8/20 m+ test 3",
-      "startTime": 1787244022420,
-      "endTime": 1787246654782,
-      "zone": {
-        "name": "Mythic+ Season 2"
-      }
-    },
-    {
-      "code": "3T6pjg7R2aG1BCc8",
-      "title": "8/20 m+ test 2",
-      "startTime": 1787244022420,
-      "endTime": 1787246654782,
-      "zone": {
-        "name": "Mythic+ Season 2"
-      }
-    },
     {
       "code": "rc1f7L3BW6zjmnkP",
       "title": "8/20 m+",
