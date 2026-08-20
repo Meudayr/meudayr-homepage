@@ -600,24 +600,42 @@
       btn.disabled = true;
       btn.classList.add('spinning');
 
-      // 1. Fetch the latest logs directly from GitHub raw (bypasses any Cloudflare CDN deployment lag)
+      let freshData = null;
+
+      // 1. Try live Cloudflare Worker endpoint /api/logs
       try {
         const controller = new AbortController();
         const tid = setTimeout(() => controller.abort(), 4500);
-        const rawRes = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
-          signal: controller.signal,
-          cache: 'no-store'
-        });
+        const liveRes = await fetch('/api/logs?t=' + Date.now(), { signal: controller.signal });
         clearTimeout(tid);
-        if (rawRes.ok) {
-          const json = await rawRes.json();
-          if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+        if (liveRes.ok) {
+          const json = await liveRes.json();
+          if (json && Array.isArray(json.reports) && json.reports.length > 0 && !json.fallback) {
             freshData = json;
           }
         }
       } catch (e) {}
 
-      // 2. Fallback to local data/logs.json
+      // 2. Fetch directly from GitHub raw (bypasses any Cloudflare CDN deployment lag)
+      if (!freshData) {
+        try {
+          const controller = new AbortController();
+          const tid = setTimeout(() => controller.abort(), 4500);
+          const rawRes = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
+            signal: controller.signal,
+            cache: 'no-store'
+          });
+          clearTimeout(tid);
+          if (rawRes.ok) {
+            const json = await rawRes.json();
+            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+              freshData = json;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 3. Fallback to local data/logs.json
       if (!freshData) {
         try {
           const controller = new AbortController();
