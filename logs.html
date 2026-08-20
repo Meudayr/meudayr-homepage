@@ -706,6 +706,11 @@
         if (report.bosses.some(b => b && b.toLowerCase().includes(q))) return true;
       }
 
+      // 5. Check players in report (indexed for search, not displayed in UI)
+      if (Array.isArray(report.players)) {
+        if (report.players.some(p => p && p.toLowerCase().includes(q))) return true;
+      }
+
       return false;
     }
 

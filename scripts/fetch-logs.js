@@ -60,6 +60,11 @@ async function fetchReportsPage(token, page) {
                 name
               }
             }
+            masterData {
+              actors(type: "Player") {
+                name
+              }
+            }
           }
           total
           per_page
@@ -107,6 +112,8 @@ async function fetchAllReports(token) {
     const pageReports = rawReports.map(r => {
       const dungeonSet = new Set();
       const bossSet = new Set();
+      const playerSet = new Set();
+
       if (Array.isArray(r.fights)) {
         r.fights.forEach(f => {
           if (f.gameZone && f.gameZone.name) {
@@ -117,6 +124,15 @@ async function fetchAllReports(token) {
           }
         });
       }
+
+      if (r.masterData && Array.isArray(r.masterData.actors)) {
+        r.masterData.actors.forEach(a => {
+          if (a.name && typeof a.name === 'string') {
+            playerSet.add(a.name);
+          }
+        });
+      }
+
       return {
         code: r.code,
         title: r.title,
@@ -124,7 +140,8 @@ async function fetchAllReports(token) {
         endTime: r.endTime,
         zone: r.zone,
         dungeons: Array.from(dungeonSet),
-        bosses: Array.from(bossSet)
+        bosses: Array.from(bossSet),
+        players: Array.from(playerSet)
       };
     });
 
