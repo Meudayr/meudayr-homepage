@@ -4,15 +4,6 @@
   "server": "Crushridge-US",
   "reports": [
     {
-      "code": "rc1f7L3BW6zjmnkP",
-      "title": "8/20 m+",
-      "startTime": 1787244022420,
-      "endTime": 1787246654782,
-      "zone": {
-        "name": "Mythic+ Season 2"
-      }
-    },
-    {
       "code": "q6Zh9kjpLJXYDgWb",
       "title": "8/19 M+",
       "startTime": 1787184936518,

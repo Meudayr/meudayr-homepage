@@ -6,11 +6,6 @@ on:
     - cron: '35,40,45,50 0,1 * * 5' # 8:35, 8:40, 8:45, 8:50 PM EST/EDT on Thursday
     - cron: '0,30 1,2 * * 5' # 9:00, 9:30 PM EST/EDT on Thursday
   workflow_dispatch:          # Allows you to trigger it manually from GitHub
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'data/logs.json'
 
 jobs:
   fetch-logs:
