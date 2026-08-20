@@ -600,29 +600,28 @@
       btn.disabled = true;
       btn.classList.add('spinning');
 
-      let freshData = null;
-
-      // 1. Try live Cloudflare Functions endpoint /api/logs
+      // 1. Fetch the latest logs directly from GitHub raw (bypasses any Cloudflare CDN deployment lag)
       try {
         const controller = new AbortController();
-        const tid = setTimeout(() => controller.abort(), 6000);
-        const liveRes = await fetch('/api/logs?t=' + Date.now(), { signal: controller.signal });
+        const tid = setTimeout(() => controller.abort(), 4500);
+        const rawRes = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
+          signal: controller.signal,
+          cache: 'no-store'
+        });
         clearTimeout(tid);
-        if (liveRes.ok) {
-          const json = await liveRes.json();
+        if (rawRes.ok) {
+          const json = await rawRes.json();
           if (json && Array.isArray(json.reports) && json.reports.length > 0) {
             freshData = json;
           }
         }
-      } catch (e) {
-        console.warn('Live logs endpoint check:', e.message);
-      }
+      } catch (e) {}
 
-      // 2. If not obtained via live endpoint, try cache-busted data/logs.json
+      // 2. Fallback to local data/logs.json
       if (!freshData) {
         try {
           const controller = new AbortController();
-          const tid = setTimeout(() => controller.abort(), 5000);
+          const tid = setTimeout(() => controller.abort(), 4500);
           const res = await fetch('data/logs.json?t=' + Date.now(), {
             cache: 'no-store',
             headers: { 'Cache-Control': 'no-cache' },
@@ -631,24 +630,6 @@
           clearTimeout(tid);
           if (res.ok) {
             const json = await res.json();
-            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
-              freshData = json;
-            }
-          }
-        } catch (e) {}
-      }
-
-      // 3. Fallback to raw GitHub file if CDN cache is stubborn
-      if (!freshData) {
-        try {
-          const controller = new AbortController();
-          const tid = setTimeout(() => controller.abort(), 5000);
-          const rawRes = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
-            signal: controller.signal
-          });
-          clearTimeout(tid);
-          if (rawRes.ok) {
-            const json = await rawRes.json();
             if (json && Array.isArray(json.reports) && json.reports.length > 0) {
               freshData = json;
             }
