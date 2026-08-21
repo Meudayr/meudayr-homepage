@@ -1,17 +1,42 @@
 {
-  "fetchedAt": "2026-08-21T00:18:42.709Z",
+  "fetchedAt": "2026-08-21T00:46:50.821Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
     {
       "code": "37zmpRDFbL2KQwJa",
       "title": "8/20 raid",
-      "startTime": 1787271498582,
-      "endTime": 1787271498582,
-      "zone": null,
-      "dungeons": [],
-      "bosses": [],
-      "players": []
+      "startTime": 1787271685444,
+      "endTime": 1787272979755,
+      "zone": {
+        "name": "The Venomous Abyss"
+      },
+      "dungeons": [
+        "The Tidebound Grotto"
+      ],
+      "bosses": [
+        "Tidebound Brute",
+        "Nymrissa Wavecaller"
+      ],
+      "players": [
+        "Meudayr",
+        "Ferarro",
+        "Cileb",
+        "Ve",
+        "Bovurfel",
+        "Yuliana",
+        "Asomyrh",
+        "Gerfquake",
+        "Bizarostormy",
+        "Maplefudge",
+        "Wubadead",
+        "Mollenkoffee",
+        "Roken",
+        "Tollee",
+        "Wehab",
+        "Revalation",
+        "Söulreäper"
+      ]
     },
     {
       "code": "DG3VP9NABpW6aQX7",
