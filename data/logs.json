@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T11:23:45.679Z",
+  "fetchedAt": "2026-08-21T11:28:12.079Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -595,11 +595,11 @@
       "zone": null,
       "dungeons": [
         "Voidscar Arena",
-        "Voidscar Arena Heroic",
+        "Voidscar Arena Mythic",
         "Temple of Sethraliss",
-        "Temple of Sethraliss Heroic",
+        "Temple of Sethraliss Mythic",
         "Kings' Rest",
-        "Kings' Rest Heroic"
+        "Kings' Rest Mythic"
       ],
       "bosses": [
         "Dominated Brawler",
@@ -650,7 +650,7 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -665,8 +665,8 @@
       "dungeons": [
         "Windrunner Spire +12",
         "Sporefall",
-        "Sporefall Normal",
-        "Sporefall Heroic"
+        "Sporefall Heroic",
+        "Sporefall Mythic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -717,8 +717,8 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal",
-        "Heroic"
+        "Heroic",
+        "Mythic"
       ],
       "keyLevels": [
         12
@@ -735,7 +735,7 @@
       "dungeons": [
         "Skyreach +18",
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire LFR",
         "Pit of Saron +13",
         "Nexus-Point Xenas +17",
         "Skyreach +17",
@@ -1022,7 +1022,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "LFR"
       ],
       "keyLevels": [
         18,
@@ -1193,11 +1193,11 @@
       "dungeons": [
         "Nexus-Point Xenas +18",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire Heroic",
         "Isle of Quel'Danas",
-        "Isle of Quel'Danas Normal",
+        "Isle of Quel'Danas Heroic",
         "Nexus-Point Xenas +12"
       ],
       "bosses": [
@@ -2053,7 +2053,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         18,
@@ -2134,7 +2134,7 @@
       "dungeons": [
         "Nexus-Point Xenas +11",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "Nexus-Point Xenas +12",
         "Nexus-Point Xenas +13",
         "Skyreach +12"
@@ -2199,7 +2199,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         11,
@@ -2408,9 +2408,9 @@
       "dungeons": [
         "Nexus-Point Xenas +18",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire Heroic",
         "Magisters' Terrace +18"
       ],
       "bosses": [
@@ -3263,7 +3263,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         18
@@ -3409,7 +3409,7 @@
         "Nexus-Point Xenas +12",
         "Nexus-Point Xenas +11",
         "The Voidspire",
-        "The Voidspire Heroic"
+        "The Voidspire Mythic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -3485,7 +3485,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": [
         10,
@@ -3732,12 +3732,12 @@
         "Magisters' Terrace +14",
         "Magisters' Terrace",
         "Amirdrassil, the Dream's Hope",
-        "Amirdrassil, the Dream's Hope Heroic",
+        "Amirdrassil, the Dream's Hope Mythic",
         "Aberrus, the Shadowed Crucible",
-        "Aberrus, the Shadowed Crucible Heroic",
+        "Aberrus, the Shadowed Crucible Mythic",
         "Windrunner Spire +16",
         "Vault of the Incarnates",
-        "Vault of the Incarnates Heroic",
+        "Vault of the Incarnates Mythic",
         "Pit of Saron +15",
         "Maisara Caverns +16",
         "Algeth'ar Academy +17",
@@ -3964,7 +3964,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": [
         14,
@@ -3984,12 +3984,13 @@
       },
       "dungeons": [
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "The Voidspire",
         "The Voidspire Normal",
         "Isle of Quel'Danas",
         "Isle of Quel'Danas Normal",
-        "VS / DR / MQD Normal"
+        "Isle of Quel'Danas Heroic",
+        "VS / DR / MQD Heroic/Normal"
       ],
       "bosses": [
         "Chimaerus",
@@ -4047,6 +4048,7 @@
         "Hunter"
       ],
       "difficulties": [
+        "Heroic",
         "Normal"
       ],
       "keyLevels": []
@@ -4531,11 +4533,11 @@
       "dungeons": [
         "Nexus-Point Xenas +13",
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire LFR",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift LFR",
         "Isle of Quel'Danas",
-        "Isle of Quel'Danas Normal",
+        "Isle of Quel'Danas LFR",
         "Pit of Saron +10",
         "Nexus-Point Xenas +10",
         "Magisters' Terrace +12",
@@ -4724,7 +4726,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "LFR"
       ],
       "keyLevels": [
         13,
@@ -6955,9 +6957,9 @@
       "dungeons": [
         "The Seat of the Triumvirate +17",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "Isle of Quel'Danas",
-        "Isle of Quel'Danas Normal",
+        "Isle of Quel'Danas Heroic",
         "The Seat of the Triumvirate +16",
         "Windrunner Spire +17"
       ],
@@ -7451,7 +7453,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         17,
@@ -8337,9 +8339,9 @@
         "Windrunner Spire +10",
         "Windrunner Spire",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "Isle of Quel'Danas",
-        "Isle of Quel'Danas Normal"
+        "Isle of Quel'Danas Heroic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -8949,7 +8951,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         11,
@@ -9367,9 +9369,9 @@
         "The Seat of the Triumvirate +10",
         "Pit of Saron +11",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "Isle of Quel'Danas",
-        "Isle of Quel'Danas Normal",
+        "Isle of Quel'Danas Heroic",
         "Algeth'ar Academy +10"
       ],
       "bosses": [
@@ -9853,7 +9855,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         10,
@@ -10464,7 +10466,7 @@
         "Magisters' Terrace +15",
         "Windrunner Spire +14",
         "Pit of Saron +15",
-        "The Voidspire Normal",
+        "The Voidspire Heroic",
         "The Voidspire",
         "Magisters' Terrace +10"
       ],
@@ -10514,7 +10516,7 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": [
         14,
@@ -10727,8 +10729,9 @@
         "Isle of Quel'Danas Normal",
         "The Dreamrift",
         "The Dreamrift Normal",
+        "The Dreamrift Heroic",
         "The Voidspire",
-        "The Voidspire Normal"
+        "The Voidspire Heroic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -10794,7 +10797,8 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": [
         11
@@ -10811,6 +10815,7 @@
       "dungeons": [
         "Windrunner Spire +11",
         "The Voidspire",
+        "The Voidspire LFR",
         "The Voidspire Normal",
         "Harandar",
         "Pit of Saron +10",
@@ -11314,6 +11319,7 @@
       ],
       "difficulties": [
         "Mythic+",
+        "LFR",
         "Normal"
       ],
       "keyLevels": [
@@ -12070,6 +12076,8 @@
         "The Voidspire Normal",
         "The Dreamrift",
         "The Dreamrift Normal",
+        "The Dreamrift Heroic",
+        "The Voidspire Heroic",
         "Maisara Caverns +10",
         "Maisara Caverns"
       ],
@@ -12141,7 +12149,8 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": [
         10
@@ -12574,9 +12583,9 @@
       },
       "dungeons": [
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire LFR",
         "The Dreamrift",
-        "The Dreamrift Normal",
+        "The Dreamrift LFR",
         "Harandar",
         "Algeth'ar Academy +2",
         "Maisara Caverns +5",
@@ -12584,7 +12593,7 @@
         "Skyreach +9",
         "Windrunner Spire +2",
         "Nexus-Point Xenas +9",
-        "VS / DR / MQD Normal"
+        "VS / DR / MQD LFR"
       ],
       "bosses": [
         "Ezzorak / Vaelgor",
@@ -13060,7 +13069,7 @@
         "Mage"
       ],
       "difficulties": [
-        "Normal",
+        "LFR",
         "Mythic+"
       ],
       "keyLevels": [
@@ -13080,10 +13089,10 @@
       },
       "dungeons": [
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire LFR",
         "The Dreamrift",
-        "The Dreamrift Normal",
-        "VS / DR / MQD Normal"
+        "The Dreamrift LFR",
+        "VS / DR / MQD LFR"
       ],
       "bosses": [
         "Ezzorak / Vaelgor",
@@ -13192,7 +13201,7 @@
         "Mage"
       ],
       "difficulties": [
-        "Normal"
+        "LFR"
       ],
       "keyLevels": []
     },
@@ -13205,13 +13214,13 @@
       "dungeons": [
         "Windrunner Spire",
         "Windrunner Spire Normal",
-        "Windrunner Spire Heroic",
+        "Windrunner Spire Mythic",
         "Algeth'ar Academy",
-        "Algeth'ar Academy Heroic",
+        "Algeth'ar Academy Mythic",
         "Nexus-Point Xenas",
-        "Nexus-Point Xenas Heroic",
+        "Nexus-Point Xenas Mythic",
         "Pit of Saron",
-        "Pit of Saron Heroic"
+        "Pit of Saron Mythic"
       ],
       "bosses": [
         "Flesh Behemoth",
@@ -13265,7 +13274,7 @@
       ],
       "difficulties": [
         "Normal",
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13427,10 +13436,10 @@
       },
       "dungeons": [
         "The Voidspire",
-        "The Voidspire Normal",
+        "The Voidspire LFR",
         "The Dreamrift",
-        "The Dreamrift Normal",
-        "VS / DR / MQD Normal"
+        "The Dreamrift LFR",
+        "VS / DR / MQD LFR"
       ],
       "bosses": [
         "Imperator Averzian",
@@ -13510,7 +13519,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "LFR"
       ],
       "keyLevels": []
     },
@@ -13525,17 +13534,17 @@
         "Tol'viron Arena",
         "Dalaran Arena",
         "Algeth'ar Academy",
-        "Algeth'ar Academy Heroic",
+        "Algeth'ar Academy Mythic",
         "Windrunner Spire",
-        "Windrunner Spire Heroic",
+        "Windrunner Spire Mythic",
         "Skyreach",
-        "Skyreach Heroic",
+        "Skyreach Mythic",
         "The Seat of the Triumvirate",
-        "The Seat of the Triumvirate Heroic",
+        "The Seat of the Triumvirate Mythic",
         "Pit of Saron",
-        "Pit of Saron Heroic",
+        "Pit of Saron Mythic",
         "Maisara Caverns",
-        "Maisara Caverns Heroic"
+        "Maisara Caverns Mythic"
       ],
       "bosses": [
         "The Tiger's Peak",
@@ -13623,7 +13632,7 @@
         "Hunter"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13635,13 +13644,13 @@
       "zone": null,
       "dungeons": [
         "Magisters' Terrace",
-        "Magisters' Terrace Heroic",
+        "Magisters' Terrace Mythic",
         "Maisara Caverns",
-        "Maisara Caverns Heroic",
+        "Maisara Caverns Mythic",
         "Algeth'ar Academy",
-        "Algeth'ar Academy Heroic",
+        "Algeth'ar Academy Mythic",
         "Skyreach",
-        "Skyreach Heroic"
+        "Skyreach Mythic"
       ],
       "bosses": [
         "Arcane Sentry",
@@ -13702,7 +13711,7 @@
         "Priest"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13714,13 +13723,13 @@
       "zone": null,
       "dungeons": [
         "Magisters' Terrace",
-        "Magisters' Terrace Heroic",
+        "Magisters' Terrace Mythic",
         "Maisara Caverns",
-        "Maisara Caverns Heroic",
+        "Maisara Caverns Mythic",
         "Algeth'ar Academy",
-        "Algeth'ar Academy Heroic",
+        "Algeth'ar Academy Mythic",
         "Skyreach",
-        "Skyreach Heroic"
+        "Skyreach Mythic"
       ],
       "bosses": [
         "Arcane Sentry",
@@ -13781,7 +13790,7 @@
         "Priest"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13793,21 +13802,21 @@
       "zone": null,
       "dungeons": [
         "Maisara Caverns",
-        "Maisara Caverns Heroic",
+        "Maisara Caverns Mythic",
         "Windrunner Spire",
-        "Windrunner Spire Heroic",
+        "Windrunner Spire Mythic",
         "Den of Nalorakk",
-        "Den of Nalorakk Heroic",
+        "Den of Nalorakk Mythic",
         "Magisters' Terrace",
-        "Magisters' Terrace Heroic",
+        "Magisters' Terrace Mythic",
         "Murder Row",
-        "Murder Row Heroic",
+        "Murder Row Mythic",
         "Nexus-Point Xenas",
-        "Nexus-Point Xenas Heroic",
+        "Nexus-Point Xenas Mythic",
         "Voidscar Arena",
-        "Voidscar Arena Heroic",
+        "Voidscar Arena Mythic",
         "The Blinding Vale",
-        "The Blinding Vale Heroic"
+        "The Blinding Vale Mythic"
       ],
       "bosses": [
         "Dread Souleater",
@@ -13903,7 +13912,7 @@
         "Rogue"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13915,13 +13924,13 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
-        "Murder Row Heroic",
+        "Murder Row Mythic",
         "Windrunner Spire",
-        "Windrunner Spire Heroic",
+        "Windrunner Spire Mythic",
         "Magisters' Terrace",
-        "Magisters' Terrace Heroic",
+        "Magisters' Terrace Mythic",
         "The Blinding Vale",
-        "The Blinding Vale Heroic"
+        "The Blinding Vale Mythic"
       ],
       "bosses": [
         "Bribed Guard",
@@ -13984,7 +13993,7 @@
         "Druid"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -13996,14 +14005,14 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
-        "Murder Row Heroic",
+        "Murder Row Mythic",
         "Nexus-Point Xenas",
-        "Nexus-Point Xenas Heroic",
+        "Nexus-Point Xenas Mythic",
         "Den of Nalorakk",
-        "Den of Nalorakk Heroic",
-        "Murder Row Normal",
+        "Den of Nalorakk Mythic",
+        "Murder Row Heroic",
         "Magisters' Terrace",
-        "Magisters' Terrace Heroic"
+        "Magisters' Terrace Mythic"
       ],
       "bosses": [
         "Bribed Captain",
@@ -14061,8 +14070,8 @@
         "Shaman"
       ],
       "difficulties": [
-        "Heroic",
-        "Normal"
+        "Mythic",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -14074,12 +14083,12 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
-        "Murder Row Heroic",
+        "Murder Row Mythic",
         "Nexus-Point Xenas",
-        "Nexus-Point Xenas Heroic",
+        "Nexus-Point Xenas Mythic",
         "Den of Nalorakk",
-        "Den of Nalorakk Heroic",
-        "Murder Row Normal"
+        "Den of Nalorakk Mythic",
+        "Murder Row Heroic"
       ],
       "bosses": [
         "Bribed Captain",
@@ -14128,8 +14137,8 @@
         "Shaman"
       ],
       "difficulties": [
-        "Heroic",
-        "Normal"
+        "Mythic",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -14141,11 +14150,11 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
-        "Murder Row Heroic",
+        "Murder Row Mythic",
         "Nexus-Point Xenas",
-        "Nexus-Point Xenas Heroic",
+        "Nexus-Point Xenas Mythic",
         "Den of Nalorakk",
-        "Den of Nalorakk Heroic"
+        "Den of Nalorakk Mythic"
       ],
       "bosses": [
         "Bribed Captain",
@@ -14190,7 +14199,7 @@
         "Evoker"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -14203,7 +14212,7 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Dimensius, the All-Devouring"
@@ -14244,7 +14253,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -14258,7 +14267,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega LFR"
       ],
       "bosses": [
         "Forge Sentinel",
@@ -14339,7 +14348,7 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Normal"
+        "LFR"
       ],
       "keyLevels": []
     },
@@ -14353,7 +14362,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Influx Warden",
@@ -14496,7 +14505,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -14510,7 +14519,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Influx Warden",
@@ -14656,7 +14665,7 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -14745,7 +14754,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Influx Warden",
@@ -14851,7 +14860,7 @@
         "Hunter"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -15001,7 +15010,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Influx Warden",
@@ -15175,7 +15184,7 @@
         "Warlock"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -15482,7 +15491,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega Heroic"
       ],
       "bosses": [
         "Influx Warden",
@@ -15547,7 +15556,7 @@
         "Monk"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -15785,6 +15794,7 @@
         "Operation: Floodgate +10",
         "Manaforge Omega",
         "Manaforge Omega Normal",
+        "Manaforge Omega Heroic",
         "Isle of Dorn"
       ],
       "bosses": [
@@ -16546,7 +16556,8 @@
       ],
       "difficulties": [
         "Mythic+",
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": [
         10
@@ -17069,7 +17080,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
-        "Manaforge Omega Normal"
+        "Manaforge Omega LFR"
       ],
       "bosses": [
         "Shadowguard Darkmage",
@@ -17122,7 +17133,7 @@
         "Evoker"
       ],
       "difficulties": [
-        "Normal"
+        "LFR"
       ],
       "keyLevels": []
     },
@@ -18483,7 +18494,9 @@
       "dungeons": [
         "Manaforge Omega Normal",
         "Manaforge Omega",
-        "Isle of Dorn"
+        "Manaforge Omega Heroic",
+        "Isle of Dorn",
+        "Manaforge Omega Normal/Heroic"
       ],
       "bosses": [
         "Plexus Sentinel",
@@ -18960,7 +18973,8 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -19723,7 +19737,7 @@
         "The Tiger's Peak",
         "Dastardly Duos",
         "Liberation of Undermine",
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Isle of Dorn",
         "Ruins of Lordaeron",
         "Enigma Crucible",
@@ -20504,7 +20518,7 @@
         "Evoker"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -20517,7 +20531,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Liberation of Undermine",
         "Isle of Dorn"
       ],
@@ -20956,7 +20970,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -20970,7 +20984,7 @@
       },
       "dungeons": [
         "Liberation of Undermine",
-        "Liberation of Undermine Normal"
+        "Liberation of Undermine Heroic"
       ],
       "bosses": [
         "Bleevus Vermancer",
@@ -21002,7 +21016,7 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -21642,7 +21656,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -21743,7 +21757,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -21757,7 +21771,7 @@
       },
       "dungeons": [
         "Liberation of Undermine",
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Isle of Dorn"
       ],
       "bosses": [
@@ -21969,7 +21983,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -21983,7 +21997,7 @@
       },
       "dungeons": [
         "Liberation of Undermine",
-        "Liberation of Undermine Normal"
+        "Liberation of Undermine Heroic"
       ],
       "bosses": [
         "Geargrinder Biker",
@@ -22023,7 +22037,7 @@
         "Shaman"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -22036,7 +22050,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Liberation of Undermine",
         "Isle of Dorn"
       ],
@@ -22572,7 +22586,7 @@
         "Evoker"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -22585,7 +22599,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -22626,7 +22640,7 @@
         "Shaman"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -22640,7 +22654,7 @@
       },
       "dungeons": [
         "Liberation of Undermine",
-        "Liberation of Undermine Normal"
+        "Liberation of Undermine Heroic"
       ],
       "bosses": [
         "Stix Bunkjunker",
@@ -22749,7 +22763,7 @@
         "Monk"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -22762,7 +22776,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine Normal",
+        "Liberation of Undermine Heroic",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -22928,7 +22942,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -22943,7 +22957,9 @@
       "dungeons": [
         "Liberation of Undermine Normal",
         "Liberation of Undermine",
-        "Dastardly Duos"
+        "Liberation of Undermine Heroic",
+        "Dastardly Duos",
+        "Liberation of Undermine Normal/Heroic"
       ],
       "bosses": [
         "Vexie and the Geargrinders",
@@ -23110,7 +23126,8 @@
         "Warlock"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -24112,7 +24129,9 @@
         "Dastardly Duos",
         "Liberation of Undermine",
         "Liberation of Undermine Normal",
-        "Isle of Dorn"
+        "Liberation of Undermine Heroic",
+        "Isle of Dorn",
+        "Liberation of Undermine Normal/Heroic"
       ],
       "bosses": [
         "Tally Doublespeak",
@@ -24547,7 +24566,8 @@
         "Hunter"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -25395,7 +25415,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
         "Nerub-ar Palace"
       ],
       "bosses": [
@@ -25887,7 +25907,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -25904,7 +25924,8 @@
         "Blackrock Depths",
         "Hallowfall",
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal"
+        "Nerub-ar Palace Heroic",
+        "Blackrock Depths Normal/Heroic"
       ],
       "bosses": [
         "Emperor Dagran Thaurissan",
@@ -26235,7 +26256,8 @@
         "Priest"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -26248,9 +26270,11 @@
         "name": "Blackrock Depths"
       },
       "dungeons": [
-        "Blackrock Depths Normal",
+        "Blackrock Depths Heroic",
         "Blackrock Depths",
-        "Ahn'Qiraj: The Fallen Kingdom"
+        "Ahn'Qiraj: The Fallen Kingdom",
+        "Blackrock Depths Normal",
+        "Blackrock Depths Heroic/Normal"
       ],
       "bosses": [
         "Lord Roccor",
@@ -26458,6 +26482,7 @@
         "Monk"
       ],
       "difficulties": [
+        "Heroic",
         "Normal"
       ],
       "keyLevels": []
@@ -26471,7 +26496,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
         "Nerub-ar Palace"
       ],
       "bosses": [
@@ -26829,7 +26854,7 @@
         "Priest"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -26843,7 +26868,9 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal"
+        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
+        "Nerub-ar Palace Normal/Heroic"
       ],
       "bosses": [
         "Spider",
@@ -27056,7 +27083,8 @@
         "Monk"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -27071,7 +27099,9 @@
       "dungeons": [
         "Nerub-ar Palace",
         "Nerub-ar Palace Normal",
-        "Hallowfall"
+        "Hallowfall",
+        "Nerub-ar Palace Heroic",
+        "Nerub-ar Palace Normal/Heroic"
       ],
       "bosses": [
         "Unknown",
@@ -27302,7 +27332,8 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -27316,7 +27347,7 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
         "Isle of Dorn",
         "Mists of Tirna Scithe +5"
       ],
@@ -27957,7 +27988,7 @@
         "Priest"
       ],
       "difficulties": [
-        "Normal",
+        "Heroic",
         "Mythic+"
       ],
       "keyLevels": [
@@ -27975,7 +28006,9 @@
       "dungeons": [
         "Nerub-ar Palace Normal",
         "Nerub-ar Palace",
-        "Isle of Dorn"
+        "Nerub-ar Palace Heroic",
+        "Isle of Dorn",
+        "Nerub-ar Palace Normal/Heroic"
       ],
       "bosses": [
         "Ulgrax the Devourer",
@@ -28616,7 +28649,8 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -28629,7 +28663,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
         "Nerub-ar Palace",
         "Isle of Dorn"
       ],
@@ -28858,7 +28892,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -28872,7 +28906,9 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal"
+        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
+        "Nerub-ar Palace Normal/Heroic"
       ],
       "bosses": [
         "Sureki Ironweaver",
@@ -28936,7 +28972,8 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -31405,7 +31442,7 @@
         "Enigma Crucible",
         "Hallowfall",
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
         "The Tiger's Peak",
         "Hook Point",
         "Black Rook Hold Arena"
@@ -32503,7 +32540,7 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -32519,7 +32556,9 @@
         "The Tiger's Peak",
         "Hallowfall",
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal"
+        "Nerub-ar Palace Normal",
+        "Nerub-ar Palace Heroic",
+        "Nerub-ar Palace Normal/Heroic"
       ],
       "bosses": [
         "The Tiger's Peak",
@@ -32683,7 +32722,8 @@
         "Rogue"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -32697,7 +32737,7 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
-        "Nerub-ar Palace Normal"
+        "Nerub-ar Palace Heroic"
       ],
       "bosses": [
         "Frenzied Leaper",
@@ -32828,7 +32868,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -35079,7 +35119,7 @@
       "zone": null,
       "dungeons": [
         "Dawn of the Infinite",
-        "Dawn of the Infinite Heroic"
+        "Dawn of the Infinite Mythic"
       ],
       "bosses": [
         "Epoch Ripper",
@@ -35114,7 +35154,7 @@
         "Evoker"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -35496,7 +35536,7 @@
       "zone": null,
       "dungeons": [
         "Dawn of the Infinite",
-        "Dawn of the Infinite Heroic",
+        "Dawn of the Infinite Mythic",
         "Amirdrassil"
       ],
       "bosses": [
@@ -35657,7 +35697,7 @@
         "Unknown"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -41964,7 +42004,7 @@
         "Eye of the Storm",
         "The Warlands",
         "Dawn of the Infinite",
-        "Dawn of the Infinite Heroic"
+        "Dawn of the Infinite Mythic"
       ],
       "bosses": [
         "Tuugadark",
@@ -42805,7 +42845,7 @@
         "Monk"
       ],
       "difficulties": [
-        "Heroic"
+        "Mythic"
       ],
       "keyLevels": []
     },
@@ -42823,7 +42863,9 @@
         "Amirdrassil",
         "The Tiger's Peak",
         "Vault of the Incarnates",
-        "Vault of the Incarnates Normal"
+        "Vault of the Incarnates Normal",
+        "Vault of the Incarnates Heroic",
+        "Vault of the Incarnates Normal/Heroic"
       ],
       "bosses": [
         "Hook Point",
@@ -43644,7 +43686,8 @@
         "Warlock"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -43662,7 +43705,7 @@
         "Amirdrassil",
         "Ruins of Lordaeron",
         "Vault of the Incarnates",
-        "Vault of the Incarnates Normal"
+        "Vault of the Incarnates Heroic"
       ],
       "bosses": [
         "Nokhudon Proving Grounds",
@@ -44549,7 +44592,7 @@
         "DeathKnight"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -44899,10 +44942,12 @@
       "dungeons": [
         "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
+        "Vault of the Incarnates Heroic",
         "Amirdrassil",
         "Blade's Edge Arena",
         "Black Rook Hold Arena",
-        "Empyrean Domain"
+        "Empyrean Domain",
+        "Vault of the Incarnates Normal/Heroic"
       ],
       "bosses": [
         "Eranog",
@@ -45661,7 +45706,8 @@
         "Priest"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -45674,7 +45720,7 @@
         "name": "Vault of the Incarnates"
       },
       "dungeons": [
-        "Vault of the Incarnates Normal",
+        "Vault of the Incarnates Heroic",
         "Vault of the Incarnates",
         "Amirdrassil",
         "The Tiger's Peak",
@@ -47251,7 +47297,7 @@
         "DeathKnight"
       ],
       "difficulties": [
-        "Normal",
+        "Heroic",
         "Mythic+"
       ],
       "keyLevels": [
@@ -47268,8 +47314,10 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
+        "Vault of the Incarnates Heroic",
+        "Amirdrassil",
         "Vault of the Incarnates Normal",
-        "Amirdrassil"
+        "Vault of the Incarnates Heroic/Normal"
       ],
       "bosses": [
         "Flame Guardian",
@@ -48048,6 +48096,7 @@
         "Priest"
       ],
       "difficulties": [
+        "Heroic",
         "Normal"
       ],
       "keyLevels": []
@@ -48062,7 +48111,7 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
-        "Vault of the Incarnates Normal",
+        "Vault of the Incarnates Heroic",
         "Amirdrassil"
       ],
       "bosses": [
@@ -48474,7 +48523,7 @@
         "Hunter"
       ],
       "difficulties": [
-        "Normal"
+        "Heroic"
       ],
       "keyLevels": []
     },
@@ -48503,8 +48552,10 @@
         "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
+        "Vault of the Incarnates Heroic",
         "Black Rook Hold Arena",
-        "Amirdrassil +11"
+        "Amirdrassil +11",
+        "Vault of the Incarnates Normal/Heroic"
       ],
       "bosses": [
         "Kurog Grimtotem",
@@ -49292,6 +49343,7 @@
       ],
       "difficulties": [
         "Normal",
+        "Heroic",
         "Mythic+"
       ],
       "keyLevels": [
@@ -49310,7 +49362,9 @@
         "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
-        "Black Rook Hold Arena"
+        "Vault of the Incarnates Heroic",
+        "Black Rook Hold Arena",
+        "Vault of the Incarnates Normal/Heroic"
       ],
       "bosses": [
         "Kurog Grimtotem",
@@ -49655,7 +49709,8 @@
         "DemonHunter"
       ],
       "difficulties": [
-        "Normal"
+        "Normal",
+        "Heroic"
       ],
       "keyLevels": []
     },
