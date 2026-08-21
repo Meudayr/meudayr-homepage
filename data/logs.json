@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T08:34:47.867Z",
+  "fetchedAt": "2026-08-21T10:57:58.309Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -61,7 +61,21 @@
         "Söulreäper",
         "Aedrix",
         "Trodkay"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "DeathKnight",
+        "Mage",
+        "Shaman",
+        "Priest",
+        "Paladin",
+        "Warrior",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "DG3VP9NABpW6aQX7",
@@ -84,6 +98,19 @@
         "Cileb",
         "Roken",
         "Tollee"
+      ],
+      "classes": [
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Shaman",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -108,6 +135,19 @@
         "Moonaguck",
         "Novi",
         "Coppha"
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Shaman",
+        "Hunter",
+        "Warrior"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -465,6 +505,26 @@
         "Jsparks",
         "Fatalmann",
         "Kargas"
+      ],
+      "classes": [
+        "Mage",
+        "Shaman",
+        "Warrior",
+        "Druid",
+        "Paladin",
+        "Unknown",
+        "Hunter",
+        "Priest",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        2,
+        9,
+        11
       ]
     },
     {
@@ -500,6 +560,24 @@
         "Roken",
         "Ferarro",
         "Rek"
+      ],
+      "classes": [
+        "Shaman",
+        "Mage",
+        "Druid",
+        "Warrior",
+        "Hunter",
+        "Monk",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        7,
+        9,
+        10,
+        5
       ]
     },
     {
@@ -552,7 +630,19 @@
         "Shettrah",
         "Dhspin",
         "Huulis"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Warrior",
+        "Monk",
+        "Paladin",
+        "Druid",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "MngT6pZX3R8rAYhj",
@@ -598,6 +688,28 @@
         "Tatìana",
         "Slàgdk",
         "Cooliez"
+      ],
+      "classes": [
+        "Druid",
+        "DemonHunter",
+        "Priest",
+        "Shaman",
+        "Evoker",
+        "Paladin",
+        "DeathKnight",
+        "Warlock",
+        "Mage",
+        "Unknown",
+        "Warrior",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal",
+        "Heroic"
+      ],
+      "keyLevels": [
+        12
       ]
     },
     {
@@ -877,6 +989,31 @@
         "Klaustralus",
         "Ahjosu",
         "Inflexi"
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Mage",
+        "DeathKnight",
+        "Monk",
+        "Shaman",
+        "Evoker",
+        "Hunter",
+        "Paladin",
+        "Rogue",
+        "Unknown",
+        "DemonHunter",
+        "Warrior",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        18,
+        13,
+        17
       ]
     },
     {
@@ -912,6 +1049,23 @@
         "Elaidare",
         "Fenirah",
         "Themidnight"
+      ],
+      "classes": [
+        "Monk",
+        "Shaman",
+        "Paladin",
+        "Warrior",
+        "DemonHunter",
+        "Warlock",
+        "Druid",
+        "Priest",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13
       ]
     },
     {
@@ -940,6 +1094,22 @@
         "Holycasts",
         "Neïsserïa",
         "Vengancegrun"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "DemonHunter",
+        "DeathKnight",
+        "Warlock",
+        "Paladin",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        19,
+        18
       ]
     },
     {
@@ -975,6 +1145,25 @@
         "Rhab",
         "Rek",
         "Davidlooki"
+      ],
+      "classes": [
+        "Evoker",
+        "Shaman",
+        "Monk",
+        "Warlock",
+        "DeathKnight",
+        "Rogue",
+        "Druid",
+        "Priest",
+        "Hunter",
+        "Warrior"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        17,
+        14
       ]
     },
     {
@@ -1827,6 +2016,28 @@
         "Desvoker",
         "Dronar",
         "Widdisman"
+      ],
+      "classes": [
+        "Warrior",
+        "Hunter",
+        "Druid",
+        "Warlock",
+        "Monk",
+        "Evoker",
+        "DeathKnight",
+        "Priest",
+        "Paladin",
+        "Mage",
+        "Unknown",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        18,
+        12
       ]
     },
     {
@@ -1861,6 +2072,21 @@
         "Roken",
         "Rehab",
         "Daysubb"
+      ],
+      "classes": [
+        "Warlock",
+        "Hunter",
+        "Druid",
+        "DeathKnight",
+        "Shaman",
+        "Paladin",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        18
       ]
     },
     {
@@ -1871,7 +2097,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "9QNThj3Rvc7WdqXY",
@@ -1929,6 +2158,29 @@
         "Simsha",
         "Abuheals",
         "Kodokuna"
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Paladin",
+        "Hunter",
+        "Monk",
+        "Rogue",
+        "Warrior",
+        "Evoker",
+        "DeathKnight",
+        "Mage",
+        "Priest",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        11,
+        12,
+        13
       ]
     },
     {
@@ -1955,6 +2207,21 @@
         "Rek",
         "Shwillarou",
         "Xuannu"
+      ],
+      "classes": [
+        "Monk",
+        "Shaman",
+        "Mage",
+        "Warrior",
+        "DeathKnight",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        11,
+        13
       ]
     },
     {
@@ -1992,6 +2259,25 @@
         "Urri",
         "Rek",
         "Akanthortv"
+      ],
+      "classes": [
+        "Warlock",
+        "Evoker",
+        "DeathKnight",
+        "Druid",
+        "Paladin",
+        "Shaman",
+        "Rogue",
+        "Warrior",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        18,
+        19,
+        12
       ]
     },
     {
@@ -2027,6 +2313,20 @@
         "Sunlight",
         "Zizzuz",
         "Gegê"
+      ],
+      "classes": [
+        "Paladin",
+        "Warrior",
+        "Priest",
+        "Shaman",
+        "Druid",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -2054,6 +2354,20 @@
         "Gotredwings",
         "Blillidan",
         "Dksoobig"
+      ],
+      "classes": [
+        "Paladin",
+        "Rogue",
+        "DeathKnight",
+        "Shaman",
+        "Druid",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        17
       ]
     },
     {
@@ -2904,6 +3218,26 @@
         "Teeal",
         "Stunlol",
         "Dahondo"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "DeathKnight",
+        "DemonHunter",
+        "Priest",
+        "Paladin",
+        "Mage",
+        "Unknown",
+        "Hunter",
+        "Shaman",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        18
       ]
     },
     {
@@ -2926,6 +3260,18 @@
         "Meudayr",
         "Larian",
         "Yekal"
+      ],
+      "classes": [
+        "Evoker",
+        "Paladin",
+        "Druid",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        17
       ]
     },
     {
@@ -2996,6 +3342,28 @@
         "Alroth",
         "Carlillimus",
         "Flamexx"
+      ],
+      "classes": [
+        "Druid",
+        "Monk",
+        "DeathKnight",
+        "Warrior",
+        "Shaman",
+        "Priest",
+        "Hunter",
+        "Unknown",
+        "Paladin",
+        "Warlock",
+        "DemonHunter",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        18,
+        12,
+        13
       ]
     },
     {
@@ -3067,6 +3435,30 @@
         "Slumpbusta",
         "Zeekcringe",
         "Maxì"
+      ],
+      "classes": [
+        "Druid",
+        "Hunter",
+        "Warlock",
+        "Paladin",
+        "Warrior",
+        "Priest",
+        "Mage",
+        "DeathKnight",
+        "DemonHunter",
+        "Evoker",
+        "Rogue",
+        "Shaman",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Heroic"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        11
       ]
     },
     {
@@ -3103,6 +3495,26 @@
         "Quickswipe",
         "Revengeance",
         "Rek"
+      ],
+      "classes": [
+        "Druid",
+        "Warrior",
+        "Evoker",
+        "Priest",
+        "Warlock",
+        "DemonHunter",
+        "Paladin",
+        "Shaman",
+        "DeathKnight",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        18,
+        16,
+        15
       ]
     },
     {
@@ -3186,6 +3598,32 @@
         "Jackmanss",
         "Cileb",
         "Yem"
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Evoker",
+        "Shaman",
+        "Paladin",
+        "Warlock",
+        "Priest",
+        "DeathKnight",
+        "DemonHunter",
+        "Monk",
+        "Rogue",
+        "Warrior",
+        "Hunter",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16,
+        15,
+        17,
+        12,
+        18
       ]
     },
     {
@@ -3223,6 +3661,25 @@
         "Aviendha",
         "Docando",
         "Rek"
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "DeathKnight",
+        "Shaman",
+        "Unknown",
+        "Hunter",
+        "Warrior",
+        "Monk",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        18,
+        16,
+        12
       ]
     },
     {
@@ -3447,6 +3904,30 @@
         "Zyrathel",
         "Shadohart",
         "Tumtüm"
+      ],
+      "classes": [
+        "Warrior",
+        "Mage",
+        "Monk",
+        "Hunter",
+        "Druid",
+        "Unknown",
+        "DemonHunter",
+        "Paladin",
+        "DeathKnight",
+        "Shaman",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Heroic"
+      ],
+      "keyLevels": [
+        14,
+        16,
+        15,
+        17,
+        18
       ]
     },
     {
@@ -3505,7 +3986,22 @@
         "Trodkay",
         "Maplefudge",
         "Inflexi"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Paladin",
+        "Druid",
+        "Evoker",
+        "Warlock",
+        "Monk",
+        "Priest",
+        "DeathKnight",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "14FfqpWDXL3KmTkP",
@@ -3840,6 +4336,28 @@
         "Ankollogist",
         "Soupdh",
         "Flexxitard"
+      ],
+      "classes": [
+        "Hunter",
+        "Shaman",
+        "Paladin",
+        "Warlock",
+        "Monk",
+        "Warrior",
+        "Druid",
+        "Mage",
+        "DeathKnight",
+        "Unknown",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        10,
+        14,
+        12
       ]
     },
     {
@@ -3920,6 +4438,32 @@
         "Cileb",
         "Inflexi",
         "Virion"
+      ],
+      "classes": [
+        "Evoker",
+        "Warrior",
+        "Monk",
+        "Paladin",
+        "Priest",
+        "Rogue",
+        "Druid",
+        "Shaman",
+        "Warlock",
+        "Hunter",
+        "DemonHunter",
+        "Mage",
+        "DeathKnight",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        17,
+        16,
+        12,
+        18
       ]
     },
     {
@@ -4102,6 +4646,32 @@
         "Paralphetraz",
         "Felphantomx",
         "Highpríest"
+      ],
+      "classes": [
+        "Druid",
+        "Warrior",
+        "Evoker",
+        "Paladin",
+        "Monk",
+        "DemonHunter",
+        "DeathKnight",
+        "Hunter",
+        "Warlock",
+        "Mage",
+        "Shaman",
+        "Priest",
+        "Unknown",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        13,
+        10,
+        12,
+        14
       ]
     },
     {
@@ -4193,6 +4763,30 @@
         "Brúhlol",
         "Aviendha",
         "Wixxipnix"
+      ],
+      "classes": [
+        "Mage",
+        "Paladin",
+        "Warlock",
+        "Shaman",
+        "Druid",
+        "Warrior",
+        "DemonHunter",
+        "Monk",
+        "DeathKnight",
+        "Evoker",
+        "Priest",
+        "Rogue",
+        "Hunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        12,
+        10
       ]
     },
     {
@@ -4245,6 +4839,30 @@
         "Rek",
         "Recipero",
         "Roken"
+      ],
+      "classes": [
+        "Shaman",
+        "Evoker",
+        "Druid",
+        "Warrior",
+        "Warlock",
+        "DeathKnight",
+        "Hunter",
+        "Rogue",
+        "Priest",
+        "Paladin",
+        "DemonHunter",
+        "Mage",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        17,
+        10,
+        11,
+        16
       ]
     },
     {
@@ -5934,6 +6552,34 @@
         "Tral",
         "Devinenight",
         "Jaedyn"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Monk",
+        "Hunter",
+        "Evoker",
+        "DeathKnight",
+        "Priest",
+        "Rogue",
+        "Paladin",
+        "DemonHunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        10,
+        11,
+        13,
+        17,
+        18,
+        19
       ]
     },
     {
@@ -5972,6 +6618,25 @@
         "Mÿthoclast",
         "Ferarro",
         "Zackk"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Monk",
+        "Hunter",
+        "Evoker",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        10,
+        11
       ]
     },
     {
@@ -6005,6 +6670,24 @@
         "Kha",
         "Kamesh",
         "Elanthae"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Monk",
+        "Hunter",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        10,
+        11
       ]
     },
     {
@@ -6038,6 +6721,24 @@
         "Kha",
         "Kamesh",
         "Elanthae"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Monk",
+        "Hunter",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        10,
+        11
       ]
     },
     {
@@ -6088,6 +6789,28 @@
         "Percsixtiez",
         "Fuzzybeaver",
         "Wehab"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Hunter",
+        "Druid",
+        "Shaman",
+        "Paladin",
+        "DemonHunter",
+        "Monk",
+        "Rogue",
+        "Mage",
+        "Warrior",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        18,
+        17,
+        10
       ]
     },
     {
@@ -6118,6 +6841,22 @@
         "Fuzzydeeps",
         "Dronar",
         "Holywagyu"
+      ],
+      "classes": [
+        "Druid",
+        "Rogue",
+        "Hunter",
+        "Shaman",
+        "Warrior",
+        "DeathKnight",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16,
+        13
       ]
     },
     {
@@ -6607,6 +7346,28 @@
         "Whîskêÿdíèt",
         "Leegandhi",
         "Niceshooter"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Mage",
+        "Druid",
+        "Paladin",
+        "Priest",
+        "DemonHunter",
+        "Evoker",
+        "Warrior",
+        "Hunter",
+        "Unknown",
+        "Shaman",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        17,
+        16
       ]
     },
     {
@@ -6642,6 +7403,25 @@
         "Cileb",
         "Yem",
         "Revalation"
+      ],
+      "classes": [
+        "Druid",
+        "Evoker",
+        "Warlock",
+        "Priest",
+        "Hunter",
+        "DeathKnight",
+        "Shaman",
+        "Rogue",
+        "Warrior",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        17,
+        16
       ]
     },
     {
@@ -6682,6 +7462,24 @@
         "Xaosin",
         "Mizunie",
         "Snapplez"
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Paladin",
+        "Warlock",
+        "Hunter",
+        "Evoker",
+        "Warrior",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16,
+        17,
+        10
       ]
     },
     {
@@ -6731,6 +7529,28 @@
         "Vem",
         "Alaestria",
         "Rehab"
+      ],
+      "classes": [
+        "Shaman",
+        "DeathKnight",
+        "Monk",
+        "Hunter",
+        "Warrior",
+        "Druid",
+        "Evoker",
+        "Rogue",
+        "Warlock",
+        "Mage",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        16,
+        12,
+        17
       ]
     },
     {
@@ -6815,6 +7635,30 @@
         "Cileb",
         "Inflexi",
         "Ladonna"
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "Shaman",
+        "Mage",
+        "Evoker",
+        "DemonHunter",
+        "Warlock",
+        "Monk",
+        "Priest",
+        "Rogue",
+        "Unknown",
+        "Warrior",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        10,
+        16,
+        17
       ]
     },
     {
@@ -6859,6 +7703,26 @@
         "Rehab",
         "Orcoloco",
         "Simplenclean"
+      ],
+      "classes": [
+        "Hunter",
+        "Paladin",
+        "Druid",
+        "Shaman",
+        "DeathKnight",
+        "DemonHunter",
+        "Warrior",
+        "Warlock",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        10,
+        16,
+        17
       ]
     },
     {
@@ -7339,6 +8203,29 @@
         "Kaonasi",
         "Blackdeath",
         "Thotish"
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Priest",
+        "Warrior",
+        "DeathKnight",
+        "Monk",
+        "Rogue",
+        "Evoker",
+        "Hunter",
+        "DemonHunter",
+        "Paladin",
+        "Mage",
+        "Unknown",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        16
       ]
     },
     {
@@ -7945,6 +8832,28 @@
         "Reina",
         "Karanyi",
         "Paindya"
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Hunter",
+        "Warrior",
+        "DeathKnight",
+        "Evoker",
+        "Paladin",
+        "Unknown",
+        "Mage",
+        "Priest",
+        "DemonHunter",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        11,
+        10
       ]
     },
     {
@@ -8247,6 +9156,23 @@
         "Bigbluenfab",
         "Bioreaver",
         "Valerian"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Shaman",
+        "Rogue",
+        "Paladin",
+        "Unknown",
+        "Mage",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        15,
+        16
       ]
     },
     {
@@ -8300,6 +9226,30 @@
         "Totemetot",
         "Morsnocte",
         "Mysthicc"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Evoker",
+        "Druid",
+        "Warlock",
+        "Mage",
+        "Warrior",
+        "Paladin",
+        "DemonHunter",
+        "Shaman",
+        "Rogue",
+        "Monk",
+        "Hunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        13,
+        16,
+        15
       ]
     },
     {
@@ -8780,6 +9730,29 @@
         "Mikaki",
         "Beanstorm",
         "Tuckfotems"
+      ],
+      "classes": [
+        "DemonHunter",
+        "Paladin",
+        "Warrior",
+        "Hunter",
+        "Warlock",
+        "Mage",
+        "DeathKnight",
+        "Druid",
+        "Evoker",
+        "Priest",
+        "Rogue",
+        "Unknown",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        10,
+        11
       ]
     },
     {
@@ -9164,6 +10137,32 @@
         "Audiodisastr",
         "Zeelowpally",
         "Fluffless"
+      ],
+      "classes": [
+        "Hunter",
+        "DemonHunter",
+        "Shaman",
+        "Druid",
+        "Monk",
+        "Mage",
+        "DeathKnight",
+        "Rogue",
+        "Unknown",
+        "Warlock",
+        "Evoker",
+        "Warrior",
+        "Priest",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        13,
+        15,
+        16
       ]
     },
     {
@@ -9207,6 +10206,30 @@
         "Rehab",
         "Öutsell",
         "Immascrub"
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DemonHunter",
+        "Unknown",
+        "Monk",
+        "DeathKnight",
+        "Priest",
+        "Evoker",
+        "Hunter",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        15,
+        16,
+        12,
+        10,
+        18,
+        17
       ]
     },
     {
@@ -9247,6 +10270,25 @@
         "Bärrybrew",
         "Inflexi",
         "Raizok"
+      ],
+      "classes": [
+        "DemonHunter",
+        "DeathKnight",
+        "Druid",
+        "Priest",
+        "Evoker",
+        "Paladin",
+        "Shaman",
+        "Warlock",
+        "Warrior",
+        "Monk",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -9273,6 +10315,20 @@
         "Zeekcringe",
         "Maplefudge",
         "Batonrouge"
+      ],
+      "classes": [
+        "Mage",
+        "Hunter",
+        "Druid",
+        "Paladin",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12
       ]
     },
     {
@@ -9320,6 +10376,29 @@
         "Ferarro",
         "Aedrix",
         "Rek"
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "DeathKnight",
+        "Warrior",
+        "Monk",
+        "Evoker",
+        "Paladin",
+        "Warlock",
+        "Mage",
+        "DemonHunter",
+        "Rogue",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        14,
+        15,
+        10
       ]
     },
     {
@@ -9343,6 +10422,20 @@
         "Lydiost",
         "Cadore",
         "Ðeathshrøüd"
+      ],
+      "classes": [
+        "Shaman",
+        "Monk",
+        "Hunter",
+        "Unknown",
+        "DeathKnight",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13
       ]
     },
     {
@@ -9394,6 +10487,29 @@
         "Phaylock",
         "Roxa",
         "Choraplaga"
+      ],
+      "classes": [
+        "Mage",
+        "Monk",
+        "DeathKnight",
+        "Warrior",
+        "Priest",
+        "Druid",
+        "Warlock",
+        "Hunter",
+        "DemonHunter",
+        "Paladin",
+        "Shaman",
+        "Rogue",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        13,
+        14
       ]
     },
     {
@@ -9444,6 +10560,29 @@
         "Rehab",
         "Vem",
         "Monkeira"
+      ],
+      "classes": [
+        "Paladin",
+        "Mage",
+        "Monk",
+        "Warlock",
+        "Warrior",
+        "Rogue",
+        "Hunter",
+        "Druid",
+        "DemonHunter",
+        "DeathKnight",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        13,
+        14,
+        15
       ]
     },
     {
@@ -9507,6 +10646,27 @@
         "Floonology",
         "Trodkay",
         "Maplefudge"
+      ],
+      "classes": [
+        "Shaman",
+        "Hunter",
+        "Monk",
+        "Rogue",
+        "Warlock",
+        "DeathKnight",
+        "Druid",
+        "Mage",
+        "Evoker",
+        "Paladin",
+        "Priest",
+        "Warrior"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        11
       ]
     },
     {
@@ -10002,6 +11162,31 @@
         "Rehab",
         "Kythyl",
         "Maplefudge"
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "Rogue",
+        "Hunter",
+        "Priest",
+        "Monk",
+        "Warrior",
+        "DemonHunter",
+        "Warlock",
+        "Shaman",
+        "Unknown",
+        "Mage",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        11,
+        10,
+        14,
+        13
       ]
     },
     {
@@ -10062,6 +11247,30 @@
         "Rehab",
         "Revalation",
         "Quickswipe"
+      ],
+      "classes": [
+        "Druid",
+        "Evoker",
+        "DemonHunter",
+        "DeathKnight",
+        "Mage",
+        "Warlock",
+        "Hunter",
+        "Shaman",
+        "Priest",
+        "Unknown",
+        "Paladin",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        12,
+        10,
+        14
       ]
     },
     {
@@ -10099,6 +11308,23 @@
         "Inflexi",
         "Theongayjoy",
         "Chubfather"
+      ],
+      "classes": [
+        "Paladin",
+        "Shaman",
+        "Rogue",
+        "Mage",
+        "Warrior",
+        "Evoker",
+        "Hunter",
+        "DeathKnight",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10130,6 +11356,23 @@
         "Aedrix",
         "Rek",
         "Inflexi"
+      ],
+      "classes": [
+        "Warlock",
+        "Monk",
+        "Evoker",
+        "Shaman",
+        "DemonHunter",
+        "Paladin",
+        "Rogue",
+        "Mage",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10152,6 +11395,19 @@
         "Meudayr",
         "Rehab",
         "Quickswipe"
+      ],
+      "classes": [
+        "Evoker",
+        "Priest",
+        "Druid",
+        "Paladin",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10224,6 +11480,30 @@
         "Quickswipe",
         "Arv",
         "Dronar"
+      ],
+      "classes": [
+        "Warlock",
+        "Evoker",
+        "DeathKnight",
+        "Druid",
+        "Hunter",
+        "Mage",
+        "Monk",
+        "Paladin",
+        "Priest",
+        "Shaman",
+        "Warrior",
+        "DemonHunter",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        11
       ]
     },
     {
@@ -10384,6 +11664,31 @@
         "Sumdingwon",
         "Shokka",
         "Ohhsht"
+      ],
+      "classes": [
+        "Monk",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Hunter",
+        "DemonHunter",
+        "Paladin",
+        "Druid",
+        "Evoker",
+        "Priest",
+        "Unknown",
+        "DeathKnight",
+        "Rogue",
+        "Warrior"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        14,
+        13
       ]
     },
     {
@@ -10413,6 +11718,24 @@
         "Quickswipe",
         "Meudayr",
         "Yem"
+      ],
+      "classes": [
+        "Paladin",
+        "Warrior",
+        "Hunter",
+        "DeathKnight",
+        "Mage",
+        "Rogue",
+        "Druid",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        11,
+        12
       ]
     },
     {
@@ -10455,6 +11778,24 @@
         "Revalation",
         "Aidenator",
         "Asomyrh"
+      ],
+      "classes": [
+        "Hunter",
+        "Druid",
+        "Evoker",
+        "Priest",
+        "Paladin",
+        "Mage",
+        "Warlock",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        12,
+        11
       ]
     },
     {
@@ -10484,6 +11825,21 @@
         "Wehab",
         "Vem",
         "Dreadelune"
+      ],
+      "classes": [
+        "Warlock",
+        "Rogue",
+        "Paladin",
+        "Druid",
+        "Mage",
+        "Priest",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10530,6 +11886,25 @@
         "Kela",
         "Cäsca",
         "Moocowd"
+      ],
+      "classes": [
+        "Mage",
+        "Druid",
+        "DeathKnight",
+        "Priest",
+        "Hunter",
+        "Evoker",
+        "Paladin",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        11,
+        12,
+        8
       ]
     },
     {
@@ -10597,6 +11972,28 @@
         "Wehab",
         "Söulreäper",
         "Dotsdotsdots"
+      ],
+      "classes": [
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Monk",
+        "Hunter",
+        "Warlock",
+        "Shaman",
+        "DeathKnight",
+        "Warrior",
+        "Priest",
+        "Rogue",
+        "Evoker",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10637,6 +12034,27 @@
         "Vaahli",
         "Inflexi",
         "Wewkz"
+      ],
+      "classes": [
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Monk",
+        "Hunter",
+        "Warlock",
+        "Shaman",
+        "DeathKnight",
+        "Warrior",
+        "Priest",
+        "Rogue",
+        "Unknown",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -10945,6 +12363,21 @@
         "Lark",
         "Eramin",
         "Ultramon"
+      ],
+      "classes": [
+        "Paladin",
+        "Evoker",
+        "Druid",
+        "Hunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10,
+        9,
+        8
       ]
     },
     {
@@ -10967,7 +12400,16 @@
         "Butchery",
         "Sallix",
         "Nicepool"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Shaman",
+        "Rogue",
+        "Priest"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "Wk812tBfXDc94NFn",
@@ -11443,6 +12885,32 @@
         "Aristerl",
         "Anadic",
         "Declyn"
+      ],
+      "classes": [
+        "Warlock",
+        "Evoker",
+        "Shaman",
+        "Hunter",
+        "DeathKnight",
+        "Warrior",
+        "Monk",
+        "Priest",
+        "Paladin",
+        "Rogue",
+        "DemonHunter",
+        "Unknown",
+        "Druid",
+        "Mage"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        2,
+        5,
+        7,
+        9
       ]
     },
     {
@@ -11546,7 +13014,27 @@
         "Zäpt",
         "Masonxi",
         "Buffgasm"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Evoker",
+        "Shaman",
+        "Hunter",
+        "DeathKnight",
+        "Warrior",
+        "Monk",
+        "Priest",
+        "Paladin",
+        "Rogue",
+        "DemonHunter",
+        "Unknown",
+        "Druid",
+        "Mage"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "NjG8mJXkz97BYqfQ",
@@ -11602,7 +13090,19 @@
         "Vem",
         "Rampant",
         "Inflexi"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Druid",
+        "Evoker",
+        "Monk",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Normal",
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "hjDqT2tC9JMnxyrp",
@@ -11670,7 +13170,26 @@
         "Söulreäper",
         "Floonology",
         "Maplefudge"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "Monk",
+        "Warlock",
+        "Paladin",
+        "Shaman",
+        "Evoker",
+        "Rogue",
+        "Hunter",
+        "Warrior",
+        "DeathKnight",
+        "Mage",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "PgbCf6GcAHnQyLVZ",
@@ -11711,7 +13230,24 @@
         "Aedrix",
         "Cileb",
         "Karramati"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "Monk",
+        "Warlock",
+        "Paladin",
+        "Shaman",
+        "Evoker",
+        "Rogue",
+        "Hunter",
+        "Warrior",
+        "DeathKnight",
+        "Unknown",
+        "Mage"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "G3VJndrFyQkR7HPm",
@@ -11788,7 +13324,24 @@
         "Humunukuapua",
         "Vanillary",
         "Kúi"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Hunter",
+        "Paladin",
+        "Priest",
+        "DeathKnight",
+        "Monk",
+        "Evoker",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "RQCJHtXZgYVr83WG",
@@ -11879,7 +13432,23 @@
         "Cileb",
         "Asomyrh",
         "Ríps"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Rogue",
+        "DeathKnight",
+        "Monk",
+        "Mage",
+        "Priest",
+        "Paladin",
+        "Evoker",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "Bd2LM39znWqjHvaY",
@@ -11941,7 +13510,20 @@
         "Mojorisin",
         "Blade",
         "Wehab"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Paladin",
+        "Druid",
+        "Mage",
+        "Hunter",
+        "Warrior",
+        "Priest"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "fLtgYGcRKhjkzry6",
@@ -12003,7 +13585,20 @@
         "Mojorisin",
         "Blade",
         "Wehab"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Paladin",
+        "Druid",
+        "Mage",
+        "Hunter",
+        "Warrior",
+        "Priest"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "bR2JvQNkL1P8GKwH",
@@ -12104,7 +13699,20 @@
         "Quickswipe",
         "Mojorisin",
         "Revalation"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Hunter",
+        "Paladin",
+        "DeathKnight",
+        "Evoker",
+        "Druid",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "MbT4D8RgWVrf1Kdn",
@@ -12170,7 +13778,18 @@
         "Inflexi",
         "Snakedog",
         "Hearthclaw"
-      ]
+      ],
+      "classes": [
+        "DemonHunter",
+        "Paladin",
+        "Hunter",
+        "Priest",
+        "Druid"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "Z4WkPTD1zxqa9FMh",
@@ -12230,7 +13849,20 @@
         "Ferarro",
         "Vem",
         "Zoros"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DeathKnight",
+        "Evoker",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Heroic",
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "cWR4Q9qma1Gv3PZN",
@@ -12280,7 +13912,20 @@
         "Ferarro",
         "Vem",
         "Zoros"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DeathKnight",
+        "Evoker",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Heroic",
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "G86TMHxj1R3wgPzD",
@@ -12327,7 +13972,18 @@
         "Cileb",
         "Ferarro",
         "Vem"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DeathKnight",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "6N3QDqrv9FAbX8fM",
@@ -12362,7 +14018,26 @@
         "Lucero",
         "Volke",
         "Quarionn"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Priest",
+        "Druid",
+        "DeathKnight",
+        "Shaman",
+        "Paladin",
+        "Warlock",
+        "Hunter",
+        "Warrior",
+        "Mage",
+        "Rogue",
+        "DemonHunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "h3K6LD8m19AvpqRr",
@@ -12438,7 +14113,25 @@
         "Geraltrivivr",
         "Moshou",
         "Taurhuntin"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "DeathKnight",
+        "Evoker",
+        "Priest",
+        "Rogue",
+        "Druid",
+        "Mage",
+        "Warrior",
+        "Hunter",
+        "Shaman",
+        "Paladin",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "6tBMRK3PH9n4pmAh",
@@ -12575,7 +14268,26 @@
         "Chesumadre",
         "Furcôte",
         "Munban"
-      ]
+      ],
+      "classes": [
+        "Paladin",
+        "Priest",
+        "Rogue",
+        "Warlock",
+        "Shaman",
+        "DeathKnight",
+        "Warrior",
+        "Mage",
+        "Druid",
+        "Evoker",
+        "Hunter",
+        "DemonHunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "pTCPJVkDb2anN7Wr",
@@ -12715,7 +14427,26 @@
         "Lowcarbs",
         "Catchingfire",
         "Jeef"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Evoker",
+        "DeathKnight",
+        "Unknown",
+        "Paladin",
+        "Shaman",
+        "Warlock",
+        "Priest",
+        "Warrior",
+        "Hunter",
+        "Rogue",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "8VLwZzm3PDNY7RqT",
@@ -12742,6 +14473,20 @@
         "Twelvekill",
         "Tacobob",
         "Arynnsrage"
+      ],
+      "classes": [
+        "Paladin",
+        "Hunter",
+        "Druid",
+        "DemonHunter",
+        "Mage",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -12764,6 +14509,18 @@
         "Meudayr",
         "Revalation",
         "Noobmonkey"
+      ],
+      "classes": [
+        "DemonHunter",
+        "Mage",
+        "Druid",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -12864,7 +14621,26 @@
         "Regentmonk",
         "Coolmagic",
         "Paruru"
-      ]
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "DeathKnight",
+        "Evoker",
+        "Priest",
+        "Mage",
+        "Rogue",
+        "Warrior",
+        "Shaman",
+        "Warlock",
+        "DemonHunter",
+        "Unknown",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "MTGyPmNA2WjqKaxg",
@@ -12915,6 +14691,22 @@
         "Yem",
         "Asomyrh",
         "Revalation"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Priest",
+        "DeathKnight",
+        "Hunter",
+        "Unknown",
+        "Warlock",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -12937,6 +14729,18 @@
         "Cileb",
         "Vem",
         "Ferarro"
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Evoker",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        11
       ]
     },
     {
@@ -12959,6 +14763,18 @@
         "Revalation",
         "Meudayr",
         "Cileb"
+      ],
+      "classes": [
+        "Warlock",
+        "Rogue",
+        "Druid",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12
       ]
     },
     {
@@ -13128,7 +14944,25 @@
         "Erevane",
         "Zulumara",
         "Bigguntoo"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Unknown",
+        "Paladin",
+        "Mage",
+        "DeathKnight",
+        "Priest",
+        "Rogue",
+        "Warrior",
+        "Shaman",
+        "Hunter",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "LW8KqXJQn6bjyMdk",
@@ -13234,6 +15068,21 @@
         "Deathsalyin",
         "Sanai",
         "Ferarro"
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "Shaman",
+        "Warlock",
+        "Unknown",
+        "Hunter",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -13386,6 +15235,25 @@
         "Mistake",
         "Joeplum",
         "Libra"
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Shaman",
+        "Evoker",
+        "DeathKnight",
+        "Unknown",
+        "Rogue",
+        "Paladin",
+        "Mage",
+        "Priest"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12,
+        11
       ]
     },
     {
@@ -13446,7 +15314,25 @@
         "Boompally",
         "Paulo",
         "Midgee"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Evoker",
+        "Mage",
+        "Rogue",
+        "Priest",
+        "Warrior",
+        "Warlock",
+        "Shaman",
+        "Hunter",
+        "Paladin",
+        "Unknown",
+        "Monk"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "aTKBdMQ8xpwbAWy9",
@@ -13565,6 +15451,21 @@
         "Crantier",
         "Dornoch",
         "Yem"
+      ],
+      "classes": [
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Evoker",
+        "Hunter",
+        "Unknown",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -13594,6 +15495,21 @@
         "Dysis",
         "Yem",
         "Lîî"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Paladin",
+        "Hunter",
+        "Mage",
+        "Unknown",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -13623,6 +15539,20 @@
         "Toria",
         "Noraboo",
         "Achieve"
+      ],
+      "classes": [
+        "Warlock",
+        "Hunter",
+        "Mage",
+        "Druid",
+        "Priest",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -14380,6 +16310,27 @@
         "Garmonboziá",
         "Supbaby",
         "Kajek"
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Paladin",
+        "Hunter",
+        "Mage",
+        "Unknown",
+        "Evoker",
+        "Rogue",
+        "Warrior",
+        "Priest",
+        "DeathKnight",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+",
+        "Normal"
+      ],
+      "keyLevels": [
+        10
       ]
     },
     {
@@ -14456,6 +16407,26 @@
         "Fadë",
         "Hamsniffer",
         "Asroldag"
+      ],
+      "classes": [
+        "Evoker",
+        "Rogue",
+        "Druid",
+        "Mage",
+        "Unknown",
+        "Warrior",
+        "Paladin",
+        "Priest",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        11,
+        10,
+        9,
+        12
       ]
     },
     {
@@ -14577,6 +16548,23 @@
         "Maverage",
         "Mardron",
         "Blackpatch"
+      ],
+      "classes": [
+        "Shaman",
+        "Druid",
+        "Rogue",
+        "Evoker",
+        "Paladin",
+        "Unknown",
+        "Mage",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9,
+        10
       ]
     },
     {
@@ -14681,6 +16669,21 @@
         "Fuzzydeeps",
         "Wacemildu",
         "Vriska"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Druid",
+        "Priest",
+        "Shaman",
+        "Unknown",
+        "Hunter",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9
       ]
     },
     {
@@ -14730,6 +16733,23 @@
         "Mojorisin",
         "Satansoft",
         "Cbaa"
+      ],
+      "classes": [
+        "Druid",
+        "Rogue",
+        "Evoker",
+        "Mage",
+        "Warlock",
+        "Unknown",
+        "Paladin",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9,
+        10
       ]
     },
     {
@@ -14763,6 +16783,21 @@
         "Käsumi",
         "Airifik",
         "Asomyrh"
+      ],
+      "classes": [
+        "Druid",
+        "Rogue",
+        "Evoker",
+        "Mage",
+        "Warlock",
+        "Unknown",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9
       ]
     },
     {
@@ -14785,6 +16820,19 @@
         "Vem",
         "Cileb",
         "Yem"
+      ],
+      "classes": [
+        "Druid",
+        "Rogue",
+        "Evoker",
+        "Mage",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9
       ]
     },
     {
@@ -14832,7 +16880,26 @@
         "Dèfender",
         "Lutzka",
         "Torclaw"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Rogue",
+        "Paladin",
+        "Priest",
+        "Mage",
+        "Monk",
+        "Shaman",
+        "DeathKnight",
+        "Hunter",
+        "Warrior",
+        "DemonHunter",
+        "Warlock",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "NFP6kR92vYALnrjb",
@@ -14855,6 +16922,18 @@
         "Varfus",
         "Revalation",
         "Bluetide"
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "DemonHunter",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        11
       ]
     },
     {
@@ -15381,6 +17460,23 @@
         "Fuchsia",
         "Falcyon",
         "Vandral"
+      ],
+      "classes": [
+        "Druid",
+        "Unknown",
+        "Evoker",
+        "Priest",
+        "Mage",
+        "Rogue",
+        "Warlock",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9,
+        10
       ]
     },
     {
@@ -15585,6 +17681,23 @@
         "Bemyditz",
         "Ragark",
         "Marrigold"
+      ],
+      "classes": [
+        "Hunter",
+        "Warlock",
+        "Priest",
+        "Druid",
+        "DemonHunter",
+        "Unknown",
+        "Mage",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        2,
+        10
       ]
     },
     {
@@ -16111,6 +18224,23 @@
         "Fuchsia",
         "Falcyon",
         "Vandral"
+      ],
+      "classes": [
+        "Druid",
+        "Unknown",
+        "Evoker",
+        "Priest",
+        "Mage",
+        "Rogue",
+        "Warlock",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        9,
+        10
       ]
     },
     {
@@ -16584,7 +18714,25 @@
         "Rachelyang",
         "Teletronix",
         "Rektumtairor"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Mage",
+        "DeathKnight",
+        "Druid",
+        "Shaman",
+        "Rogue",
+        "Paladin",
+        "Hunter",
+        "Priest",
+        "Warrior",
+        "Evoker",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "PKrRjMZqwFGTXcCf",
@@ -16820,6 +18968,25 @@
         "Botch",
         "Bamboozler",
         "Aminé"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Paladin",
+        "Priest",
+        "Shaman",
+        "Mage",
+        "Evoker",
+        "Druid",
+        "DemonHunter",
+        "Warlock",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        8
       ]
     },
     {
@@ -16851,7 +19018,19 @@
         "Tollee",
         "Yem",
         "Gorgeouzss"
-      ]
+      ],
+      "classes": [
+        "DeathKnight",
+        "Paladin",
+        "Unknown",
+        "Priest",
+        "Shaman",
+        "Mage",
+        "Evoker",
+        "Druid"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "Fv2VL73wZ4gkzmqd",
@@ -17269,7 +19448,22 @@
         "Grendael",
         "Cap",
         "Roshara"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "Paladin",
+        "Shaman",
+        "Mage",
+        "Evoker",
+        "Unknown",
+        "Warrior",
+        "Warlock",
+        "Monk",
+        "Hunter"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "aTvbVwQJcpPRHGZj",
@@ -17279,7 +19473,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "z3JgDCH1VMTdW9vm",
@@ -18056,7 +20253,27 @@
         "Pijak",
         "Ghostmap",
         "Eulogies"
-      ]
+      ],
+      "classes": [
+        "Monk",
+        "Druid",
+        "Hunter",
+        "Unknown",
+        "Priest",
+        "Warrior",
+        "Rogue",
+        "Shaman",
+        "Paladin",
+        "Warlock",
+        "DemonHunter",
+        "Mage",
+        "DeathKnight",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "81tBa32j9PnTmhHA",
@@ -18491,7 +20708,23 @@
         "Hotspocketz",
         "Massacre",
         "Ashrokk"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Warlock",
+        "Paladin",
+        "Warrior",
+        "Priest",
+        "Shaman",
+        "DemonHunter",
+        "Hunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "dKb3BJNxCYjrM7pQ",
@@ -18522,7 +20755,21 @@
         "Bizarostormy",
         "Koonia",
         "Tolle"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Druid",
+        "Shaman",
+        "Paladin",
+        "Warlock",
+        "Priest",
+        "Warrior",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "A62qBbHJfx9hgQKR",
@@ -19134,7 +21381,22 @@
         "Bizarostormy",
         "Koonia",
         "Tolle"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Warlock",
+        "Paladin",
+        "Hunter",
+        "Unknown",
+        "Warrior",
+        "Shaman",
+        "Mage",
+        "Priest",
+        "DemonHunter",
+        "Monk"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "tHNmKqfChcrpWxTM",
@@ -19232,7 +21494,22 @@
         "Ragupastä",
         "Drakismon",
         "Deathsdoor"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "Mage",
+        "Warlock",
+        "Shaman",
+        "Paladin",
+        "DemonHunter",
+        "Warrior",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "WbhHQYV62Mfvjpc9",
@@ -19442,7 +21719,22 @@
         "Ameren",
         "Agrathan",
         "Macfarland"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Priest",
+        "DemonHunter",
+        "Warrior",
+        "Druid",
+        "Mage",
+        "Paladin",
+        "Shaman",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "VBar6qRXKj7A4DGM",
@@ -19481,7 +21773,21 @@
         "Trohee",
         "Revalation",
         "Wafflexpress"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Warlock",
+        "Warrior",
+        "Paladin",
+        "Priest",
+        "Druid",
+        "DemonHunter",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "h23m8RFPNqtdxcyv",
@@ -20011,7 +22317,25 @@
         "Catri",
         "Poah",
         "Razzar"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Priest",
+        "Mage",
+        "Paladin",
+        "Shaman",
+        "DemonHunter",
+        "Warlock",
+        "Hunter",
+        "Warrior",
+        "Unknown",
+        "Monk",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "Dg17dWn8KcRLpZGz",
@@ -20049,7 +22373,22 @@
         "Wafflexpress",
         "Trohee",
         "Cileb"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Druid",
+        "Mage",
+        "Warrior",
+        "Paladin",
+        "DemonHunter",
+        "Warlock",
+        "Hunter",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "drnpJVPaDzTwmfA7",
@@ -20155,7 +22494,23 @@
         "Waytogoteam",
         "Shinon",
         "Itsmagharszn"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DemonHunter",
+        "Paladin",
+        "Priest",
+        "Shaman",
+        "Unknown",
+        "Warrior",
+        "Monk"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "anKbdj3Af2vtXr7D",
@@ -20317,7 +22672,23 @@
         "Zedsdead",
         "Busky",
         "Gislan"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Warrior",
+        "Rogue",
+        "DemonHunter",
+        "Warlock",
+        "Shaman",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "HYBQTpvn1cV8f4WJ",
@@ -20483,7 +22854,22 @@
         "Fuggz",
         "Zeposoh",
         "Blackstarz"
-      ]
+      ],
+      "classes": [
+        "Warrior",
+        "Priest",
+        "DemonHunter",
+        "DeathKnight",
+        "Mage",
+        "Paladin",
+        "Druid",
+        "Unknown",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "GgBzKAw6k2fPQZdH",
@@ -20716,6 +23102,21 @@
         "Savifa",
         "Ronin",
         "Sefekat"
+      ],
+      "classes": [
+        "Shaman",
+        "Druid",
+        "DemonHunter",
+        "Mage",
+        "Warlock",
+        "Unknown",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        7
       ]
     },
     {
@@ -21435,6 +23836,24 @@
         "Kelisere",
         "Magdagni",
         "Qbonez"
+      ],
+      "classes": [
+        "Warlock",
+        "Druid",
+        "Mage",
+        "DemonHunter",
+        "Unknown",
+        "Warrior",
+        "Priest",
+        "Shaman",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        7,
+        6
       ]
     },
     {
@@ -21867,7 +24286,25 @@
         "Shmorgel",
         "Datura",
         "Riplys"
-      ]
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Warlock",
+        "Mage",
+        "Shaman",
+        "Warrior",
+        "DemonHunter",
+        "Monk",
+        "DeathKnight",
+        "Paladin",
+        "Priest",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "MyHcDNQ3m4Wwkqaf",
@@ -22681,7 +25118,27 @@
         "Solfury",
         "Napken",
         "Swapsp"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Warlock",
+        "Druid",
+        "Warrior",
+        "Monk",
+        "Hunter",
+        "Mage",
+        "Unknown",
+        "Paladin",
+        "DemonHunter",
+        "Rogue",
+        "DeathKnight",
+        "Shaman",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "ptvbwkjF4R7c8mAN",
@@ -23169,7 +25626,23 @@
         "Patncheez",
         "Grardrin",
         "Mystborne"
-      ]
+      ],
+      "classes": [
+        "Paladin",
+        "Evoker",
+        "Mage",
+        "Druid",
+        "DemonHunter",
+        "Warrior",
+        "Priest",
+        "DeathKnight",
+        "Shaman",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "BDVa6xrh8wYyCJNf",
@@ -23498,7 +25971,24 @@
         "Fuzzidan",
         "Freshminty",
         "Kosm"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Warrior",
+        "Shaman",
+        "Paladin",
+        "Monk",
+        "DeathKnight",
+        "Hunter",
+        "Druid",
+        "Rogue",
+        "Unknown",
+        "Priest"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "T136Ct9FDNPKmLAG",
@@ -23700,7 +26190,27 @@
         "Amuka",
         "Servebott",
         "Revalation"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Paladin",
+        "Priest",
+        "Hunter",
+        "Rogue",
+        "DeathKnight",
+        "Mage",
+        "Unknown",
+        "Warrior",
+        "Warlock",
+        "Shaman",
+        "DemonHunter",
+        "Monk"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "JDhxXCV6ckYTKbva",
@@ -24052,7 +26562,25 @@
         "Liathos",
         "Firebird",
         "Hotak"
-      ]
+      ],
+      "classes": [
+        "Rogue",
+        "Druid",
+        "Mage",
+        "Monk",
+        "Warrior",
+        "Shaman",
+        "Hunter",
+        "Warlock",
+        "DeathKnight",
+        "Paladin",
+        "Unknown",
+        "Priest"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "HcJaZ9jfyqvQw3gz",
@@ -24259,7 +26787,26 @@
         "Volgrin",
         "Oniramen",
         "Servebott"
-      ]
+      ],
+      "classes": [
+        "Hunter",
+        "Paladin",
+        "Shaman",
+        "Unknown",
+        "Warrior",
+        "Mage",
+        "Druid",
+        "DeathKnight",
+        "Warlock",
+        "Priest",
+        "Evoker",
+        "Rogue",
+        "Monk"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "8M2a73CXgAjtpz64",
@@ -24485,7 +27032,26 @@
         "Xtaticshock",
         "Oniramen",
         "Barriston"
-      ]
+      ],
+      "classes": [
+        "Warlock",
+        "Hunter",
+        "Paladin",
+        "Evoker",
+        "Druid",
+        "Priest",
+        "Mage",
+        "Shaman",
+        "Warrior",
+        "Rogue",
+        "DeathKnight",
+        "Monk",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "vmD6TpKyHq47rzGY",
@@ -25120,6 +27686,28 @@
         "Amuck",
         "Mooseloose",
         "Rated"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Warrior",
+        "Paladin",
+        "Shaman",
+        "Evoker",
+        "Mage",
+        "Druid",
+        "Monk",
+        "Hunter",
+        "Rogue",
+        "Warlock",
+        "Unknown",
+        "Priest"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        5
       ]
     },
     {
@@ -25756,7 +28344,26 @@
         "Enoughdots",
         "Cbell",
         "Fluidfresh"
-      ]
+      ],
+      "classes": [
+        "Warrior",
+        "Druid",
+        "Paladin",
+        "Evoker",
+        "Monk",
+        "DeathKnight",
+        "Hunter",
+        "Warlock",
+        "Rogue",
+        "Mage",
+        "Priest",
+        "Shaman",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "NPdTfcBKLrXg7hGt",
@@ -25979,7 +28586,25 @@
         "Skrax",
         "Furidin",
         "Kataliny"
-      ]
+      ],
+      "classes": [
+        "Monk",
+        "Warrior",
+        "Paladin",
+        "Rogue",
+        "Druid",
+        "Shaman",
+        "Hunter",
+        "Mage",
+        "Evoker",
+        "DeathKnight",
+        "Warlock",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "b3WmJGNfjXqYhn6v",
@@ -26038,7 +28663,25 @@
         "Revalation",
         "Rampant",
         "Jønty"
-      ]
+      ],
+      "classes": [
+        "Shaman",
+        "Warrior",
+        "Monk",
+        "DeathKnight",
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Priest",
+        "Hunter",
+        "Evoker",
+        "Warlock",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "WFyA2Lmq3jJKDaXc",
@@ -26070,7 +28713,22 @@
         "Sapolunna",
         "Ferarro",
         "Pandíngo"
-      ]
+      ],
+      "classes": [
+        "Shaman",
+        "Unknown",
+        "Monk",
+        "DeathKnight",
+        "Druid",
+        "Paladin",
+        "Mage",
+        "Priest",
+        "Hunter",
+        "Warrior",
+        "Warlock"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "hQx67CPk9tZFw3Hg",
@@ -26958,7 +29616,22 @@
         "Furyeruption",
         "Phemiria",
         "Shyvira"
-      ]
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "Mage",
+        "Monk",
+        "Unknown",
+        "Warrior",
+        "Rogue",
+        "Shaman",
+        "Priest",
+        "Warlock",
+        "Evoker"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "97mT1CY6wfJWGcnX",
@@ -28445,7 +31118,23 @@
         "Shatterfist",
         "Lizardlady",
         "Àrchàngel"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Shaman",
+        "Priest",
+        "Hunter",
+        "Mage",
+        "Unknown",
+        "Paladin",
+        "DeathKnight",
+        "Warlock",
+        "Warrior",
+        "DemonHunter",
+        "Evoker"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "3qfAJ6MHDxNc84Pw",
@@ -29538,7 +32227,27 @@
         "Onlyfinns",
         "Dunbar",
         "Vermillia"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "DeathKnight",
+        "Priest",
+        "Shaman",
+        "Evoker",
+        "Monk",
+        "Unknown",
+        "Warrior",
+        "Mage",
+        "Paladin",
+        "Hunter",
+        "Warlock",
+        "Rogue",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "6bTLQYah48XnCvmM",
@@ -29697,7 +32406,27 @@
         "Hëlzuforëlz",
         "Oralun",
         "Sonaria"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Evoker",
+        "Druid",
+        "Warrior",
+        "Monk",
+        "Unknown",
+        "Mage",
+        "Paladin",
+        "Shaman",
+        "Warlock",
+        "DeathKnight",
+        "Hunter",
+        "DemonHunter",
+        "Rogue"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "QcZKtA3zd4yx7Cp6",
@@ -29823,7 +32552,25 @@
         "Jeffblades",
         "Agathena",
         "Ruru"
-      ]
+      ],
+      "classes": [
+        "DemonHunter",
+        "DeathKnight",
+        "Hunter",
+        "Paladin",
+        "Warlock",
+        "Warrior",
+        "Druid",
+        "Shaman",
+        "Mage",
+        "Monk",
+        "Evoker",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "cwdQkMB3pLZ9tj7N",
@@ -31475,7 +34222,25 @@
         "Kamiccolo",
         "Servebott",
         "Vem"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Warrior",
+        "Priest",
+        "Unknown",
+        "Shaman",
+        "Paladin",
+        "Monk",
+        "Warlock",
+        "Mage",
+        "DemonHunter",
+        "DeathKnight",
+        "Rogue",
+        "Hunter"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "Fz1PjHpc67wWBfyQ",
@@ -32010,7 +34775,27 @@
         "Revalation",
         "Rampant",
         "Volgrin"
-      ]
+      ],
+      "classes": [
+        "Shaman",
+        "Druid",
+        "Mage",
+        "Rogue",
+        "Unknown",
+        "Hunter",
+        "DemonHunter",
+        "Evoker",
+        "Paladin",
+        "Warrior",
+        "DeathKnight",
+        "Priest",
+        "Warlock",
+        "Monk"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "zcjvYdJ4mN3aRLgh",
@@ -32020,7 +34805,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "wpka2y6Z8bdGWCPc",
@@ -32055,7 +34843,18 @@
         "Asomyrh",
         "Inflexi",
         "Vem"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Druid",
+        "Paladin",
+        "Hunter",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "VM97pNzYZktALByr",
@@ -32065,7 +34864,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "tPYp1Jbgrk8zfFAQ",
@@ -32406,6 +35208,22 @@
         "Azsunyx",
         "Venerac",
         "Beauvoker"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Warrior",
+        "Hunter",
+        "Shaman",
+        "Unknown",
+        "Paladin",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16
       ]
     },
     {
@@ -32566,7 +35384,19 @@
         "Alekrinn",
         "Raetyken",
         "Aeke"
-      ]
+      ],
+      "classes": [
+        "Monk",
+        "Druid",
+        "Paladin",
+        "Evoker",
+        "DeathKnight",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "43p17j9zZQHLnAJX",
@@ -33631,6 +36461,29 @@
         "Trolldrood",
         "Tergalvann",
         "Misstee"
+      ],
+      "classes": [
+        "Evoker",
+        "Hunter",
+        "Druid",
+        "Warrior",
+        "Unknown",
+        "DemonHunter",
+        "Paladin",
+        "Monk",
+        "DeathKnight",
+        "Mage",
+        "Priest",
+        "Rogue",
+        "Warlock",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16,
+        17
       ]
     },
     {
@@ -33796,7 +36649,17 @@
         "Chapatinn",
         "Serpentana",
         "Feldman"
-      ]
+      ],
+      "classes": [
+        "Evoker",
+        "Hunter",
+        "Druid",
+        "Warrior",
+        "Unknown",
+        "DemonHunter"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "LfF3jhbzMxW9ckVv",
@@ -34320,7 +37183,24 @@
         "Chazmoo",
         "Curmudge",
         "Bàthory"
-      ]
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Evoker",
+        "DeathKnight",
+        "Paladin",
+        "Priest",
+        "Mage",
+        "Warrior",
+        "Hunter",
+        "Shaman",
+        "DemonHunter",
+        "Warlock",
+        "Rogue"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "8Yf4RdAqrbZ7gJvk",
@@ -34777,6 +37657,28 @@
         "Nameflagged",
         "Aszblessikus",
         "Cordaddy"
+      ],
+      "classes": [
+        "Evoker",
+        "Paladin",
+        "Monk",
+        "Hunter",
+        "Druid",
+        "Warrior",
+        "Unknown",
+        "Priest",
+        "DemonHunter",
+        "Mage",
+        "Warlock",
+        "DeathKnight",
+        "Rogue",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16
       ]
     },
     {
@@ -35234,6 +38136,28 @@
         "Nameflagged",
         "Aszblessikus",
         "Cordaddy"
+      ],
+      "classes": [
+        "Evoker",
+        "Paladin",
+        "Monk",
+        "Hunter",
+        "Druid",
+        "Warrior",
+        "Unknown",
+        "Priest",
+        "DemonHunter",
+        "Mage",
+        "Warlock",
+        "DeathKnight",
+        "Rogue",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        16
       ]
     },
     {
@@ -35898,7 +38822,25 @@
         "Tempestfury",
         "Evela",
         "Cabala"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Unknown",
+        "Monk",
+        "Paladin",
+        "Rogue",
+        "DeathKnight",
+        "Shaman",
+        "Priest",
+        "Warlock",
+        "Evoker",
+        "Hunter",
+        "Warrior",
+        "DemonHunter",
+        "Mage"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "znX3CDvLKJ7cx1VA",
@@ -36562,7 +39504,25 @@
         "Tempestfury",
         "Evela",
         "Cabala"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Unknown",
+        "Monk",
+        "Paladin",
+        "Rogue",
+        "DeathKnight",
+        "Shaman",
+        "Priest",
+        "Warlock",
+        "Evoker",
+        "Hunter",
+        "Warrior",
+        "DemonHunter",
+        "Mage"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "CWjBmAQ4Px68Zw3F",
@@ -37504,6 +40464,31 @@
         "Thaylodas",
         "Evolynx",
         "Rospii"
+      ],
+      "classes": [
+        "Hunter",
+        "Mage",
+        "Evoker",
+        "Monk",
+        "Paladin",
+        "Unknown",
+        "Warlock",
+        "DeathKnight",
+        "Druid",
+        "DemonHunter",
+        "Rogue",
+        "Priest",
+        "Warrior",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        2,
+        5,
+        8,
+        11
       ]
     },
     {
@@ -38081,7 +41066,25 @@
         "Leskill",
         "Nightmarë",
         "Cilla"
-      ]
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Warrior",
+        "Paladin",
+        "Hunter",
+        "Warlock",
+        "Shaman",
+        "Priest",
+        "DeathKnight",
+        "Rogue",
+        "Monk",
+        "Evoker",
+        "Mage",
+        "DemonHunter"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "rGYzLbp4txT9RnBJ",
@@ -38658,7 +41661,25 @@
         "Leskill",
         "Nightmarë",
         "Cilla"
-      ]
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Warrior",
+        "Paladin",
+        "Hunter",
+        "Warlock",
+        "Shaman",
+        "Priest",
+        "DeathKnight",
+        "Rogue",
+        "Monk",
+        "Evoker",
+        "Mage",
+        "DemonHunter"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "t2qZTJDmKWfBxch8",
@@ -39497,7 +42518,27 @@
         "Warbird",
         "Ðecay",
         "Mephi"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Unknown",
+        "Warlock",
+        "Paladin",
+        "DemonHunter",
+        "Shaman",
+        "Evoker",
+        "Hunter",
+        "Priest",
+        "Warrior",
+        "Mage",
+        "Rogue",
+        "DeathKnight",
+        "Monk"
+      ],
+      "difficulties": [
+        "Heroic"
+      ],
+      "keyLevels": []
     },
     {
       "code": "aVd72FhgjDyB3m4N",
@@ -40315,7 +43356,27 @@
         "Orrwin",
         "Veggietails",
         "Humponce"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Shaman",
+        "Rogue",
+        "Unknown",
+        "Priest",
+        "Evoker",
+        "Mage",
+        "Hunter",
+        "DeathKnight",
+        "Paladin",
+        "Monk",
+        "DemonHunter",
+        "Warrior",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "z6btdfJVxTyWG3F8",
@@ -41199,7 +44260,27 @@
         "Vooper",
         "Dilf",
         "Malanara"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Shaman",
+        "Warlock",
+        "Evoker",
+        "Unknown",
+        "Hunter",
+        "Mage",
+        "Rogue",
+        "Warrior",
+        "Priest",
+        "Monk",
+        "Paladin",
+        "DemonHunter",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "f421HXM9hqptP6xC",
@@ -41520,7 +44601,21 @@
         "Rampant",
         "Ferarro",
         "Urithiru"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Shaman",
+        "Warlock",
+        "Evoker",
+        "Unknown",
+        "Hunter",
+        "Mage",
+        "Rogue",
+        "Warrior",
+        "Priest"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "M83Lm6C4GkyNPn9T",
@@ -42276,7 +45371,27 @@
         "Yukness",
         "Starbuxx",
         "Czaedyn"
-      ]
+      ],
+      "classes": [
+        "Monk",
+        "Warlock",
+        "Druid",
+        "Paladin",
+        "Rogue",
+        "Evoker",
+        "Mage",
+        "DeathKnight",
+        "Warrior",
+        "Hunter",
+        "Shaman",
+        "DemonHunter",
+        "Unknown",
+        "Priest"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "cMVqnGhYdNkLgWjz",
@@ -43844,6 +46959,29 @@
         "Linxo",
         "Love",
         "Darthgoro"
+      ],
+      "classes": [
+        "Evoker",
+        "Rogue",
+        "Druid",
+        "Monk",
+        "Paladin",
+        "DemonHunter",
+        "Mage",
+        "Warlock",
+        "Unknown",
+        "Shaman",
+        "Priest",
+        "Hunter",
+        "Warrior",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13
       ]
     },
     {
@@ -44618,7 +47756,26 @@
         "Voidbeak",
         "Kamanactali",
         "Taytorstraza"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Monk",
+        "Evoker",
+        "Unknown",
+        "Warlock",
+        "Rogue",
+        "Paladin",
+        "DemonHunter",
+        "Shaman",
+        "Hunter",
+        "DeathKnight",
+        "Priest"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "trHMWmcjpG2LAhkb",
@@ -45026,7 +48183,24 @@
         "Flamepepper",
         "Ohmannsdemon",
         "Pwnafone"
-      ]
+      ],
+      "classes": [
+        "Druid",
+        "Mage",
+        "Monk",
+        "Evoker",
+        "Unknown",
+        "Warlock",
+        "Rogue",
+        "Paladin",
+        "DemonHunter",
+        "Shaman",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "kzgKc3BRtaF6hAnm",
@@ -45036,7 +48210,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "HZnRb7NwB3qPmXdQ",
@@ -45818,6 +48995,29 @@
         "Aluulia",
         "Hodor",
         "Eglath"
+      ],
+      "classes": [
+        "Shaman",
+        "Paladin",
+        "Mage",
+        "Monk",
+        "Hunter",
+        "Rogue",
+        "Evoker",
+        "Druid",
+        "Warlock",
+        "Unknown",
+        "Priest",
+        "DeathKnight",
+        "DemonHunter",
+        "Warrior"
+      ],
+      "difficulties": [
+        "Normal",
+        "Mythic+"
+      ],
+      "keyLevels": [
+        11
       ]
     },
     {
@@ -46159,7 +49359,26 @@
         "Autropos",
         "Darkmisery",
         "Soulskil"
-      ]
+      ],
+      "classes": [
+        "Shaman",
+        "Paladin",
+        "Mage",
+        "Monk",
+        "Hunter",
+        "Rogue",
+        "Evoker",
+        "Druid",
+        "Warlock",
+        "Unknown",
+        "Priest",
+        "DeathKnight",
+        "DemonHunter"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "QpFn6fZqc2JXvNK7",
@@ -46598,7 +49817,26 @@
         "Zomgofwar",
         "Bloodygoat",
         "Uneassy"
-      ]
+      ],
+      "classes": [
+        "Paladin",
+        "Rogue",
+        "Priest",
+        "Hunter",
+        "Monk",
+        "Warlock",
+        "Warrior",
+        "Evoker",
+        "Druid",
+        "Shaman",
+        "Mage",
+        "Unknown",
+        "DeathKnight"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "f2mxHwYq7gXQcyWG",
@@ -46894,7 +50132,24 @@
         "Giarc",
         "Dosed",
         "Mortoboom"
-      ]
+      ],
+      "classes": [
+        "Rogue",
+        "Monk",
+        "Paladin",
+        "Druid",
+        "Evoker",
+        "Hunter",
+        "Priest",
+        "Shaman",
+        "Unknown",
+        "DeathKnight",
+        "Warlock"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "mL8qPQZH2ctnGVYf",
@@ -48732,6 +51987,30 @@
         "Sarlak",
         "Somos",
         "Bàthory"
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Monk",
+        "Priest",
+        "Rogue",
+        "Warrior",
+        "DeathKnight",
+        "Evoker",
+        "Paladin",
+        "Warlock",
+        "Shaman",
+        "DemonHunter",
+        "Hunter",
+        "Mage"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        5,
+        9,
+        8
       ]
     },
     {
@@ -49393,6 +52672,26 @@
         "Blufalconz",
         "Demonshox",
         "Pandruud"
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Monk",
+        "Priest",
+        "Rogue",
+        "DeathKnight",
+        "Evoker",
+        "Paladin",
+        "Warlock",
+        "Shaman"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        5,
+        9,
+        8
       ]
     },
     {
@@ -49854,6 +53153,22 @@
         "Scaleybussy",
         "Jaybïrd",
         "Asomyrh"
+      ],
+      "classes": [
+        "Unknown",
+        "Druid",
+        "Monk",
+        "Priest",
+        "Rogue",
+        "DeathKnight",
+        "Evoker",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        5
       ]
     },
     {
@@ -50027,7 +53342,19 @@
         "Parishealton",
         "Dab",
         "Mcpuffled"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Druid",
+        "Shaman",
+        "Unknown",
+        "Mage",
+        "Rogue",
+        "Warrior",
+        "Monk"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "YXbnqt61K8wJpGA7",
@@ -50037,7 +53364,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "tMWPwfAnhQKC8a7J",
@@ -50047,7 +53377,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "rvFpdqjtM3WB7XYn",
@@ -50057,7 +53390,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "D8XMFQYmwxNqGK2H",
@@ -50067,7 +53403,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "8tDGVR61nzBjTLM7",
@@ -50263,7 +53602,22 @@
         "Shambleu",
         "Chutton",
         "Eph"
-      ]
+      ],
+      "classes": [
+        "Mage",
+        "Shaman",
+        "Druid",
+        "Hunter",
+        "Warlock",
+        "Rogue",
+        "Warrior",
+        "Priest",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Normal"
+      ],
+      "keyLevels": []
     },
     {
       "code": "BHXfbpC2RcGZYzQn",
@@ -50273,7 +53627,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "FyTK7mX1jYvMABNf",
@@ -50314,7 +53671,13 @@
         "Albo",
         "Hoodster",
         "Solaril"
-      ]
+      ],
+      "classes": [
+        "Unknown",
+        "Priest"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "7D9Nq68nCWwPvVBY",
@@ -50324,7 +53687,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "TXvtr4qYkyzHRxa1",
@@ -50334,7 +53700,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "7tYcakwrRCp6WJmx",
@@ -50344,7 +53713,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "pCDdHVPn7WTyzjRZ",
@@ -50354,7 +53726,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "NWdq9xfBmwXzGrb7",
@@ -50408,7 +53783,20 @@
         "Albo",
         "Turquoisedog",
         "Hoodster"
-      ]
+      ],
+      "classes": [
+        "Priest",
+        "Warrior",
+        "Rogue",
+        "Shaman",
+        "Warlock",
+        "Druid",
+        "Hunter",
+        "Mage",
+        "Unknown"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "8adhDWQ3gCBPKZRn",
@@ -50418,7 +53806,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "pVYbAXvygL1WqfJM",
@@ -50428,7 +53819,10 @@
       "zone": null,
       "dungeons": [],
       "bosses": [],
-      "players": []
+      "players": [],
+      "classes": [],
+      "difficulties": [],
+      "keyLevels": []
     },
     {
       "code": "WjLvVt834BFcZdKR",
@@ -50453,7 +53847,12 @@
         "Reivyn",
         "Tigrainè",
         "Holyrolla"
-      ]
+      ],
+      "classes": [
+        "Unknown"
+      ],
+      "difficulties": [],
+      "keyLevels": []
     }
   ]
 }
