@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T01:00:25.667Z",
+  "fetchedAt": "2026-08-21T02:10:25.562Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -7,7 +7,7 @@
       "code": "37zmpRDFbL2KQwJa",
       "title": "8/20 raid",
       "startTime": 1787271685444,
-      "endTime": 1787273817017,
+      "endTime": 1787278106353,
       "zone": {
         "name": "The Venomous Abyss"
       },
@@ -18,7 +18,21 @@
       "bosses": [
         "Tidebound Brute",
         "Nymrissa Wavecaller",
-        "Nek'zali the Soulcoiler"
+        "Nek'zali the Soulcoiler",
+        "Gorefang the Reaver",
+        "Venomfang Juggernaut",
+        "Hatchling of Vexhul",
+        "Vigilant Protector",
+        "Soulcoiler Revenant",
+        "The Lost Explorers",
+        "Scrollsage Iku / First Mate Nama / Trader Gebbo",
+        "Venomous Skyfiend",
+        "Frightmaw",
+        "Sszorak",
+        "Venomfang Infuser",
+        "Noxiss Venomcrest",
+        "Slithering Hatchling",
+        "Entombed Sentinels"
       ],
       "players": [
         "Meudayr",
@@ -37,7 +51,9 @@
         "Tollee",
         "Wehab",
         "Revalation",
-        "Söulreäper"
+        "Söulreäper",
+        "Aedrix",
+        "Trodkay"
       ]
     },
     {
