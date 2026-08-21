@@ -56,6 +56,8 @@ async function fetchReportsPage(token, page) {
             }
             fights {
               name
+              difficulty
+              keystoneLevel
               gameZone {
                 name
               }
@@ -63,6 +65,7 @@ async function fetchReportsPage(token, page) {
             masterData {
               actors(type: "Player") {
                 name
+                subType
               }
             }
           }
@@ -104,6 +107,23 @@ async function fetchAllReports(token) {
   let page = 1;
   let hasMore = true;
 
+  const diffMap = {
+    1: 'Normal',
+    2: 'Heroic',
+    3: 'Normal',
+    4: 'Normal',
+    5: 'Heroic',
+    6: 'Heroic',
+    7: 'LFR',
+    8: 'Challenge Mode',
+    9: '40 Man',
+    10: 'Mythic+',
+    14: 'Normal',
+    15: 'Heroic',
+    16: 'Mythic',
+    17: 'LFR'
+  };
+
   while (hasMore) {
     console.log(`  Fetching page ${page}...`);
     const result = await fetchReportsPage(token, page);
@@ -113,6 +133,9 @@ async function fetchAllReports(token) {
       const dungeonSet = new Set();
       const bossSet = new Set();
       const playerSet = new Set();
+      const classSet = new Set();
+      const difficultySet = new Set();
+      const keyLevelSet = new Set();
 
       if (Array.isArray(r.fights)) {
         r.fights.forEach(f => {
@@ -122,6 +145,12 @@ async function fetchAllReports(token) {
           if (f.name && f.name !== 'Trash' && f.name !== 'Trash Mob') {
             bossSet.add(f.name);
           }
+          if (f.difficulty && diffMap[f.difficulty]) {
+            difficultySet.add(diffMap[f.difficulty]);
+          }
+          if (f.keystoneLevel) {
+            keyLevelSet.add(f.keystoneLevel);
+          }
         });
       }
 
@@ -129,6 +158,9 @@ async function fetchAllReports(token) {
         r.masterData.actors.forEach(a => {
           if (a.name && typeof a.name === 'string') {
             playerSet.add(a.name);
+          }
+          if (a.subType && typeof a.subType === 'string') {
+            classSet.add(a.subType);
           }
         });
       }
@@ -141,7 +173,10 @@ async function fetchAllReports(token) {
         zone: r.zone,
         dungeons: Array.from(dungeonSet),
         bosses: Array.from(bossSet),
-        players: Array.from(playerSet)
+        players: Array.from(playerSet),
+        classes: Array.from(classSet),
+        difficulties: Array.from(difficultySet),
+        keyLevels: Array.from(keyLevelSet)
       };
     });
 

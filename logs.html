@@ -547,7 +547,6 @@
 
   <main class="container">
     <section class="logs-header">
-      <div class="badge">WarcraftLogs</div>
       <h1>WoW Logs</h1>
       <p>Recent combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs.</p>
       <div class="logs-header-actions">
@@ -574,7 +573,7 @@
         <input 
           type="text" 
           id="logs-search-input" 
-          placeholder="Search by title, player, date, or instance..." 
+          placeholder="Search by title, player, date, instance, or more..." 
           autocomplete="off"
           spellcheck="false"
           oninput="handleSearchInput(event)"
@@ -667,20 +666,28 @@
       const title = (report.title || '').toLowerCase();
       if (title.includes(q)) return true;
 
-      // 2. Check zone / season names
+      // 2. Check direct report code
+      const code = (report.code || '').toLowerCase();
+      if (code.includes(q)) return true;
+
+      // 3. Check zone / season names
       const rawZone = (report.zone?.name || '').toLowerCase();
       if (rawZone.includes(q)) return true;
       const formattedZone = formatZoneName(report.zone?.name, report.startTime).toLowerCase();
       if (formattedZone.includes(q)) return true;
 
-      // 3. Check dates across common formats
+      // 4. Check dates & days of week across common formats
       const date = new Date(report.startTime);
       if (!isNaN(date.getTime())) {
         const monthNamesShort = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
         const monthNamesLong = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+        const dayNamesShort = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        const dayNamesLong = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
         const m = date.getMonth();
         const dNum = date.getDate();
         const y = date.getFullYear();
+        const dayIdx = date.getDay(); // 0-6
 
         const dateStrings = [
           (m + 1) + '/' + dNum,
@@ -692,13 +699,18 @@
           monthNamesLong[m] + ' ' + dNum,
           monthNamesShort[m] + ' ' + y,
           monthNamesLong[m] + ' ' + y,
-          String(y)
+          String(y),
+          dayNamesLong[dayIdx],
+          dayNamesShort[dayIdx]
         ];
+
+        if (dayIdx === 2) dateStrings.push('tues');
+        if (dayIdx === 4) dateStrings.push('thur', 'thurs');
 
         if (dateStrings.some(ds => ds.includes(q))) return true;
       }
 
-      // 4. Check individual dungeons and bosses in report
+      // 5. Check individual dungeons and bosses in report
       if (Array.isArray(report.dungeons)) {
         if (report.dungeons.some(d => d && d.toLowerCase().includes(q))) return true;
       }
@@ -706,9 +718,30 @@
         if (report.bosses.some(b => b && b.toLowerCase().includes(q))) return true;
       }
 
-      // 5. Check players in report (indexed for search, not displayed in UI)
+      // 6. Check players in report (indexed for search, not displayed in UI)
       if (Array.isArray(report.players)) {
         if (report.players.some(p => p && p.toLowerCase().includes(q))) return true;
+      }
+
+      // 7. Check player classes in report (e.g. Druid, Evoker, Paladin, Death Knight)
+      if (Array.isArray(report.classes)) {
+        if (report.classes.some(c => {
+          if (!c) return false;
+          const cl = c.toLowerCase();
+          const clSpaced = cl.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+          return cl.includes(q) || clSpaced.includes(q);
+        })) return true;
+      }
+
+      // 8. Check difficulties in report (e.g. Heroic, Mythic, Normal, LFR, Mythic+)
+      if (Array.isArray(report.difficulties)) {
+        if (report.difficulties.some(d => d && d.toLowerCase().includes(q))) return true;
+      }
+
+      // 9. Check keystone levels (e.g. +10, 10, key 10)
+      if (Array.isArray(report.keyLevels)) {
+        const cleanQ = q.replace(/^(key|\+)\s*/i, '').trim();
+        if (report.keyLevels.some(k => String(k) === cleanQ || `+${k}` === q || `key ${k}` === q)) return true;
       }
 
       return false;
