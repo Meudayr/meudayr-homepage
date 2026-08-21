@@ -806,18 +806,26 @@
       renderPage(1);
     }
 
-    function cleanDungeonTags(dungeons) {
+    function cleanDungeonTags(dungeons, zoneName) {
       if (!Array.isArray(dungeons)) return [];
       const keyedOrDiffNames = new Set(
         dungeons
           .filter(d => /\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d))
           .map(d => d.replace(/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i, '').trim())
       );
-      const uniqueTags = Array.from(new Set(dungeons));
-      return uniqueTags.filter(d => {
+      let tags = Array.from(new Set(dungeons)).filter(d => {
         if (/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d)) return true;
         return !keyedOrDiffNames.has(d.trim());
       });
+
+      if (zoneName && !zoneName.toLowerCase().includes('season')) {
+        const mainRaidTag = tags.find(t => t.toLowerCase().startsWith(zoneName.toLowerCase()));
+        if (mainRaidTag) {
+          tags = [mainRaidTag];
+        }
+      }
+
+      return tags;
     }
 
     function buildCard(report, isFirst) {
@@ -830,7 +838,7 @@
       const day = date.toLocaleDateString('en-US', { day: '2-digit' });
       const month = date.toLocaleDateString('en-US', { month: 'short' });
       const seasonName = getSeasonName(report);
-      const cleanDungeons = cleanDungeonTags(report.dungeons);
+      const cleanDungeons = cleanDungeonTags(report.dungeons, report.zone?.name);
       const dungeonsHtml = (cleanDungeons.length > 0)
         ? `<div class="log-dungeons">${cleanDungeons.map(d => `<span class="dungeon-tag">${escapeHtml(d)}</span>`).join('')}</div>`
         : '';
