@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T02:15:22.924Z",
+  "fetchedAt": "2026-08-21T03:27:44.449Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -7,7 +7,7 @@
       "code": "37zmpRDFbL2KQwJa",
       "title": "8/20 raid",
       "startTime": 1787271685444,
-      "endTime": 1787278106353,
+      "endTime": 1787281194145,
       "zone": {
         "name": "The Venomous Abyss"
       },
@@ -32,7 +32,13 @@
         "Venomfang Infuser",
         "Noxiss Venomcrest",
         "Slithering Hatchling",
-        "Entombed Sentinels"
+        "Entombed Sentinels",
+        "Blood of Ula'tek / Breath of Ula'tek",
+        "Writhing Behemoth",
+        "Venomfang Venomcaller",
+        "Vashnik",
+        "Vashnik the Malignant",
+        "The Twin Fangs"
       ],
       "players": [
         "Meudayr",
