@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T10:57:58.309Z",
+  "fetchedAt": "2026-08-21T11:17:57.912Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -86,6 +86,7 @@
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
+        "Ruby Life Pools +10",
         "Ruby Life Pools"
       ],
       "bosses": [
@@ -123,7 +124,7 @@
       },
       "dungeons": [
         "Murder Row",
-        "Altar of Fangs"
+        "Altar of Fangs +10"
       ],
       "bosses": [
         "Felonious Mage",
@@ -159,11 +160,13 @@
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
-        "Kings' Rest",
-        "Temple of Sethraliss",
+        "Kings' Rest +10",
+        "Temple of Sethraliss +10",
+        "Den of Nalorakk +2",
         "Den of Nalorakk",
-        "Voidscar Arena",
-        "Murder Row"
+        "Voidscar Arena +9",
+        "Murder Row",
+        "Murder Row +11"
       ],
       "bosses": [
         "Kings' Rest",
@@ -536,10 +539,12 @@
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
-        "The Blinding Vale",
+        "The Blinding Vale +7",
         "Ruby Life Pools",
-        "Voidscar Arena",
-        "Murder Row"
+        "Ruby Life Pools +9",
+        "Voidscar Arena +10",
+        "Ruby Life Pools +5",
+        "Murder Row +7"
       ],
       "bosses": [
         "The Blinding Vale",
@@ -653,7 +658,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +12",
         "Sporefall"
       ],
       "bosses": [
@@ -721,11 +726,12 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Skyreach",
+        "Skyreach +18",
         "The Voidspire",
-        "Pit of Saron",
-        "Nexus-Point Xenas",
-        "Magisters' Terrace"
+        "Pit of Saron +13",
+        "Nexus-Point Xenas +17",
+        "Skyreach +17",
+        "Magisters' Terrace +17"
       ],
       "bosses": [
         "Skyreach",
@@ -1025,9 +1031,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Skyreach",
-        "Nexus-Point Xenas"
+        "Magisters' Terrace +13",
+        "Skyreach +13",
+        "Nexus-Point Xenas +13"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -1077,8 +1083,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
-        "Skyreach"
+        "Windrunner Spire +19",
+        "Windrunner Spire +18",
+        "Skyreach +18"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -1122,8 +1129,9 @@
       },
       "dungeons": [
         "The Seat of the Triumvirate",
-        "Windrunner Spire",
-        "Magisters' Terrace"
+        "The Seat of the Triumvirate +17",
+        "Windrunner Spire +17",
+        "Magisters' Terrace +14"
       ],
       "bosses": [
         "Shadowguard Champion",
@@ -1175,10 +1183,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
+        "Nexus-Point Xenas +18",
         "The Dreamrift",
         "The Voidspire",
-        "Isle of Quel'Danas"
+        "Isle of Quel'Danas",
+        "Nexus-Point Xenas +12"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -2049,10 +2058,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Pit of Saron",
-        "The Seat of the Triumvirate",
+        "Pit of Saron +18",
+        "The Seat of the Triumvirate +18",
         "Nexus-Point Xenas",
-        "Magisters' Terrace"
+        "Nexus-Point Xenas +18",
+        "Magisters' Terrace +18"
       ],
       "bosses": [
         "Pit of Saron",
@@ -2111,9 +2121,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
+        "Nexus-Point Xenas +11",
         "The Dreamrift",
-        "Skyreach"
+        "Nexus-Point Xenas +12",
+        "Nexus-Point Xenas +13",
+        "Skyreach +12"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -2192,7 +2204,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate"
+        "The Seat of the Triumvirate +11",
+        "The Seat of the Triumvirate +13"
       ],
       "bosses": [
         "The Seat of the Triumvirate"
@@ -2233,9 +2246,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Skyreach",
-        "Algeth'ar Academy"
+        "The Seat of the Triumvirate +18",
+        "Skyreach +19",
+        "Algeth'ar Academy +12",
+        "Skyreach +12"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -2289,10 +2303,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
+        "Magisters' Terrace +10",
+        "Maisara Caverns +10",
         "Maisara Caverns",
-        "Nexus-Point Xenas",
-        "The Seat of the Triumvirate"
+        "Nexus-Point Xenas +10",
+        "The Seat of the Triumvirate +10"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -2338,8 +2353,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "The Seat of the Triumvirate"
+        "Algeth'ar Academy +17",
+        "The Seat of the Triumvirate +17"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -2379,10 +2394,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
+        "Nexus-Point Xenas +18",
         "The Dreamrift",
         "The Voidspire",
-        "Magisters' Terrace"
+        "Magisters' Terrace +18"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -3249,7 +3264,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas"
+        "Nexus-Point Xenas +17"
       ],
       "bosses": [
         "Nexus-Point Xenas"
@@ -3283,10 +3298,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "The Seat of the Triumvirate",
-        "Maisara Caverns",
-        "Windrunner Spire"
+        "Algeth'ar Academy +18",
+        "The Seat of the Triumvirate +12",
+        "Maisara Caverns +18",
+        "The Seat of the Triumvirate +18",
+        "Windrunner Spire +13"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -3375,8 +3391,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
-        "Nexus-Point Xenas",
+        "Windrunner Spire +10",
+        "Nexus-Point Xenas +12",
+        "Nexus-Point Xenas +11",
         "The Voidspire"
       ],
       "bosses": [
@@ -3470,9 +3487,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Algeth'ar Academy",
-        "The Seat of the Triumvirate"
+        "Magisters' Terrace +18",
+        "Algeth'ar Academy +16",
+        "The Seat of the Triumvirate +15"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -3526,14 +3543,19 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Magisters' Terrace +16",
+        "The Seat of the Triumvirate +15",
+        "Magisters' Terrace +15",
         "Magisters' Terrace",
-        "The Seat of the Triumvirate",
-        "Pit of Saron",
-        "Windrunner Spire",
-        "Skyreach",
-        "Maisara Caverns",
-        "Nexus-Point Xenas",
-        "Algeth'ar Academy"
+        "Pit of Saron +17",
+        "Windrunner Spire +17",
+        "Skyreach +17",
+        "Maisara Caverns +12",
+        "Nexus-Point Xenas +16",
+        "Nexus-Point Xenas +15",
+        "Algeth'ar Academy +17",
+        "Maisara Caverns +18",
+        "Maisara Caverns +17"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -3635,9 +3657,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Pit of Saron +18",
         "Pit of Saron",
-        "The Seat of the Triumvirate",
-        "Algeth'ar Academy"
+        "The Seat of the Triumvirate +16",
+        "Algeth'ar Academy +12"
       ],
       "bosses": [
         "Pit of Saron",
@@ -3691,14 +3714,17 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Magisters' Terrace +14",
         "Magisters' Terrace",
         "Amirdrassil, the Dream's Hope",
         "Aberrus, the Shadowed Crucible",
-        "Windrunner Spire",
+        "Windrunner Spire +16",
         "Vault of the Incarnates",
-        "Pit of Saron",
-        "Maisara Caverns",
-        "Algeth'ar Academy",
+        "Pit of Saron +15",
+        "Maisara Caverns +16",
+        "Algeth'ar Academy +17",
+        "Algeth'ar Academy +18",
+        "Nexus-Point Xenas +16",
         "Nexus-Point Xenas"
       ],
       "bosses": [
@@ -4012,8 +4038,12 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Skyreach +13",
+        "Skyreach +10",
+        "Skyreach +14",
         "Skyreach",
-        "Maisara Caverns"
+        "Maisara Caverns +12",
+        "Skyreach +12"
       ],
       "bosses": [
         "Skyreach",
@@ -4369,15 +4399,17 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Pit of Saron",
-        "Skyreach",
+        "Pit of Saron +10",
+        "Skyreach +10",
         "Black Rook Hold Arena",
         "Cage of Carnage",
         "Enigma Crucible",
-        "The Seat of the Triumvirate",
-        "Maisara Caverns",
-        "Windrunner Spire",
-        "Magisters' Terrace"
+        "The Seat of the Triumvirate +10",
+        "Maisara Caverns +17",
+        "Windrunner Spire +16",
+        "Windrunner Spire +12",
+        "Magisters' Terrace +18",
+        "Magisters' Terrace +10"
       ],
       "bosses": [
         "Pit of Saron",
@@ -4475,13 +4507,15 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
+        "Nexus-Point Xenas +13",
         "The Voidspire",
         "The Dreamrift",
         "Isle of Quel'Danas",
-        "Pit of Saron",
-        "Magisters' Terrace",
-        "Windrunner Spire"
+        "Pit of Saron +10",
+        "Nexus-Point Xenas +10",
+        "Magisters' Terrace +12",
+        "Windrunner Spire +10",
+        "Magisters' Terrace +14"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -4683,15 +4717,17 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "Magisters' Terrace",
+        "Algeth'ar Academy +13",
+        "Magisters' Terrace +12",
+        "Algeth'ar Academy +12",
         "Ruins of Lordaeron",
         "Tol'viron Arena",
         "Nagrand Arena",
         "Cage of Carnage",
         "Hook Point",
         "Mugambala",
-        "Windrunner Spire"
+        "Algeth'ar Academy +10",
+        "Windrunner Spire +10"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -4798,11 +4834,14 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Maisara Caverns",
-        "Algeth'ar Academy",
-        "Windrunner Spire",
-        "Pit of Saron",
-        "Nexus-Point Xenas"
+        "Maisara Caverns +17",
+        "Maisara Caverns +10",
+        "Algeth'ar Academy +11",
+        "Windrunner Spire +17",
+        "Pit of Saron +16",
+        "Windrunner Spire +10",
+        "Nexus-Point Xenas +10",
+        "Pit of Saron +10"
       ],
       "bosses": [
         "Maisara Caverns",
@@ -4874,12 +4913,22 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "The Seat of the Triumvirate +12",
+        "The Seat of the Triumvirate +10",
+        "Windrunner Spire +12",
+        "Windrunner Spire +11",
+        "Skyreach +10",
+        "Algeth'ar Academy +10",
+        "Pit of Saron +11",
+        "Pit of Saron +13",
+        "Algeth'ar Academy +17",
+        "The Seat of the Triumvirate +17",
         "The Seat of the Triumvirate",
-        "Windrunner Spire",
-        "Skyreach",
-        "Algeth'ar Academy",
-        "Pit of Saron",
-        "Nexus-Point Xenas"
+        "Skyreach +18",
+        "Skyreach +17",
+        "Windrunner Spire +18",
+        "Nexus-Point Xenas +19",
+        "Nexus-Point Xenas +18"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -6591,9 +6640,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Windrunner Spire",
-        "Skyreach"
+        "The Seat of the Triumvirate +12",
+        "The Seat of the Triumvirate +10",
+        "Windrunner Spire +12",
+        "Windrunner Spire +11",
+        "Skyreach +10"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -6648,8 +6699,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Windrunner Spire"
+        "The Seat of the Triumvirate +12",
+        "The Seat of the Triumvirate +10",
+        "Windrunner Spire +12",
+        "Windrunner Spire +11"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -6699,8 +6752,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Windrunner Spire"
+        "The Seat of the Triumvirate +12",
+        "The Seat of the Triumvirate +10",
+        "Windrunner Spire +12",
+        "Windrunner Spire +11"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -6750,10 +6805,14 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Skyreach +13",
         "Skyreach",
-        "Nexus-Point Xenas",
-        "Algeth'ar Academy",
-        "Magisters' Terrace"
+        "Nexus-Point Xenas +18",
+        "Nexus-Point Xenas +17",
+        "Algeth'ar Academy +18",
+        "Magisters' Terrace +10",
+        "Magisters' Terrace",
+        "Skyreach +10"
       ],
       "bosses": [
         "Skyreach",
@@ -6822,7 +6881,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
+        "Magisters' Terrace +16",
+        "Skyreach +13",
         "Skyreach"
       ],
       "bosses": [
@@ -6868,10 +6928,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
+        "The Seat of the Triumvirate +17",
         "The Dreamrift",
         "Isle of Quel'Danas",
-        "Windrunner Spire"
+        "The Seat of the Triumvirate +16",
+        "Windrunner Spire +17"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -7379,9 +7440,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Maisara Caverns",
-        "Nexus-Point Xenas",
-        "Algeth'ar Academy"
+        "Maisara Caverns +17",
+        "Maisara Caverns +16",
+        "Nexus-Point Xenas +17",
+        "Algeth'ar Academy +17"
       ],
       "bosses": [
         "Maisara Caverns",
@@ -7433,11 +7495,12 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Windrunner Spire",
+        "Magisters' Terrace +16",
+        "Windrunner Spire +16",
+        "The Seat of the Triumvirate +16",
         "The Seat of the Triumvirate",
-        "Nexus-Point Xenas",
-        "Algeth'ar Academy"
+        "Nexus-Point Xenas +17",
+        "Algeth'ar Academy +10"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -7491,11 +7554,14 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Pit of Saron",
-        "Nexus-Point Xenas",
-        "Magisters' Terrace",
-        "Windrunner Spire",
-        "The Seat of the Triumvirate"
+        "Pit of Saron +10",
+        "Pit of Saron +16",
+        "Nexus-Point Xenas +12",
+        "Magisters' Terrace +16",
+        "Windrunner Spire +16",
+        "The Seat of the Triumvirate +16",
+        "The Seat of the Triumvirate",
+        "Nexus-Point Xenas +17"
       ],
       "bosses": [
         "Pit of Saron",
@@ -7562,11 +7628,13 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Skyreach",
-        "Windrunner Spire",
-        "Pit of Saron",
+        "Skyreach +12",
+        "Windrunner Spire +10",
+        "Pit of Saron +12",
         "Tol'viron Arena",
-        "Maisara Caverns"
+        "Skyreach +16",
+        "Maisara Caverns +17",
+        "Maisara Caverns +16"
       ],
       "bosses": [
         "Skyreach",
@@ -7670,10 +7738,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
-        "Pit of Saron",
-        "Algeth'ar Academy",
-        "Skyreach"
+        "Windrunner Spire +13",
+        "Pit of Saron +10",
+        "Algeth'ar Academy +16",
+        "Skyreach +17",
+        "Skyreach +16"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -7743,9 +7812,9 @@
         "Hook Point",
         "Maldraxxus Coliseum",
         "Tol'viron Arena",
-        "Pit of Saron",
+        "Pit of Saron +12",
         "Black Rook Hold Arena",
-        "Magisters' Terrace"
+        "Magisters' Terrace +16"
       ],
       "bosses": [
         "Ashamane's Fall",
@@ -8237,6 +8306,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Windrunner Spire +11",
+        "Windrunner Spire +10",
         "Windrunner Spire",
         "The Dreamrift",
         "Isle of Quel'Danas"
@@ -8865,8 +8936,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "Maisara Caverns"
+        "Algeth'ar Academy +15",
+        "Maisara Caverns +16"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -9184,11 +9255,14 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +10",
+        "Pit of Saron +10",
         "Pit of Saron",
-        "Skyreach",
-        "Nexus-Point Xenas",
-        "Algeth'ar Academy"
+        "Pit of Saron +13",
+        "Skyreach +10",
+        "Nexus-Point Xenas +16",
+        "Nexus-Point Xenas +15",
+        "Algeth'ar Academy +15"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -9261,11 +9335,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Pit of Saron",
+        "The Seat of the Triumvirate +10",
+        "Pit of Saron +11",
         "The Dreamrift",
         "Isle of Quel'Danas",
-        "Algeth'ar Academy"
+        "Algeth'ar Academy +10"
       ],
       "bosses": [
         "The Seat of the Triumvirate",
@@ -9764,11 +9838,20 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
-        "Skyreach",
-        "Algeth'ar Academy",
+        "Windrunner Spire +10",
+        "Windrunner Spire +12",
+        "Skyreach +13",
+        "Algeth'ar Academy +15",
+        "Windrunner Spire +16",
+        "Magisters' Terrace +15",
+        "The Seat of the Triumvirate +13",
+        "Magisters' Terrace +10",
         "Magisters' Terrace",
-        "The Seat of the Triumvirate",
+        "Algeth'ar Academy +13",
+        "Skyreach +15",
+        "Skyreach",
+        "Skyreach +10",
+        "Maisara Caverns +10",
         "Maisara Caverns"
       ],
       "bosses": [
@@ -10174,10 +10257,15 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "The Seat of the Triumvirate",
-        "Windrunner Spire",
-        "Pit of Saron",
-        "Skyreach",
+        "The Seat of the Triumvirate +15",
+        "Windrunner Spire +16",
+        "Pit of Saron +12",
+        "Skyreach +10",
+        "Windrunner Spire +18",
+        "Windrunner Spire +17",
+        "Windrunner Spire +15",
+        "Maisara Caverns +16",
+        "Maisara Caverns +15",
         "Maisara Caverns"
       ],
       "bosses": [
@@ -10241,10 +10329,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Maisara Caverns",
-        "Pit of Saron",
-        "Windrunner Spire"
+        "Magisters' Terrace +10",
+        "Maisara Caverns +10",
+        "Pit of Saron +10",
+        "Windrunner Spire +10"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -10300,8 +10388,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "Magisters' Terrace"
+        "Algeth'ar Academy +10",
+        "Magisters' Terrace +12"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -10341,11 +10429,12 @@
       },
       "dungeons": [
         "Mugambala",
-        "Skyreach",
-        "Magisters' Terrace",
-        "Windrunner Spire",
-        "Pit of Saron",
-        "The Voidspire"
+        "Skyreach +14",
+        "Magisters' Terrace +15",
+        "Windrunner Spire +14",
+        "Pit of Saron +15",
+        "The Voidspire",
+        "Magisters' Terrace +10"
       ],
       "bosses": [
         "Mugambala",
@@ -10410,7 +10499,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace"
+        "Magisters' Terrace +13"
       ],
       "bosses": [
         "Magisters' Terrace"
@@ -10447,12 +10536,14 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Skyreach +10",
         "Skyreach",
-        "Maisara Caverns",
-        "Algeth'ar Academy",
+        "Maisara Caverns +10",
+        "Algeth'ar Academy +10",
         "Hook Point",
-        "Pit of Saron",
-        "Windrunner Spire"
+        "Pit of Saron +13",
+        "Windrunner Spire +14",
+        "Maisara Caverns +13"
       ],
       "bosses": [
         "Skyreach",
@@ -10521,13 +10612,18 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Pit of Saron +10",
         "Pit of Saron",
-        "Windrunner Spire",
-        "Skyreach",
-        "Nexus-Point Xenas",
-        "Magisters' Terrace",
-        "Algeth'ar Academy",
-        "The Seat of the Triumvirate"
+        "Windrunner Spire +12",
+        "Skyreach +12",
+        "Nexus-Point Xenas +12",
+        "Magisters' Terrace +13",
+        "Windrunner Spire +14",
+        "Windrunner Spire +13",
+        "Algeth'ar Academy +15",
+        "Algeth'ar Academy +14",
+        "The Seat of the Triumvirate +14",
+        "Nexus-Point Xenas +13"
       ],
       "bosses": [
         "Pit of Saron",
@@ -10594,7 +10690,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +11",
         "Isle of Quel'Danas",
         "The Dreamrift",
         "The Voidspire"
@@ -10678,14 +10774,16 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +11",
         "The Voidspire",
         "Harandar",
-        "Pit of Saron",
-        "Magisters' Terrace",
-        "Algeth'ar Academy",
-        "Nexus-Point Xenas",
-        "Skyreach"
+        "Pit of Saron +10",
+        "Magisters' Terrace +14",
+        "Algeth'ar Academy +13",
+        "Nexus-Point Xenas +14",
+        "Nexus-Point Xenas +13",
+        "Skyreach +10",
+        "Algeth'ar Academy +10"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -11200,10 +11298,10 @@
       "dungeons": [
         "The Dreamrift",
         "Isle of Quel'Danas",
-        "Maisara Caverns",
-        "Windrunner Spire",
-        "Nexus-Point Xenas",
-        "Skyreach"
+        "Maisara Caverns +13",
+        "Windrunner Spire +12",
+        "Nexus-Point Xenas +10",
+        "Skyreach +14"
       ],
       "bosses": [
         "Chimaerus",
@@ -11282,11 +11380,12 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Algeth'ar Academy",
-        "Magisters' Terrace",
-        "Skyreach",
+        "Algeth'ar Academy +10",
+        "Magisters' Terrace +10",
+        "Skyreach +10",
+        "Windrunner Spire +10",
         "Windrunner Spire",
-        "Maisara Caverns"
+        "Maisara Caverns +10"
       ],
       "bosses": [
         "Algeth'ar Academy",
@@ -11336,8 +11435,8 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
-        "Algeth'ar Academy"
+        "Windrunner Spire +10",
+        "Algeth'ar Academy +10"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -11384,7 +11483,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Pit of Saron"
+        "Pit of Saron +10"
       ],
       "bosses": [
         "Pit of Saron"
@@ -11420,11 +11519,11 @@
       },
       "dungeons": [
         "The Voidspire",
-        "Pit of Saron",
-        "Algeth'ar Academy",
-        "Nexus-Point Xenas",
-        "Maisara Caverns",
-        "Magisters' Terrace"
+        "Pit of Saron +10",
+        "Algeth'ar Academy +10",
+        "Nexus-Point Xenas +10",
+        "Maisara Caverns +12",
+        "Magisters' Terrace +11"
       ],
       "bosses": [
         "Imperator Averzian",
@@ -11515,14 +11614,17 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Maisara Caverns",
-        "The Seat of the Triumvirate",
+        "Maisara Caverns +10",
+        "The Seat of the Triumvirate +10",
         "The Battle for Gilneas",
-        "Nexus-Point Xenas",
-        "Skyreach",
-        "Magisters' Terrace",
-        "Pit of Saron",
-        "Windrunner Spire",
+        "Nexus-Point Xenas +10",
+        "Skyreach +12",
+        "Magisters' Terrace +12",
+        "The Seat of the Triumvirate +14",
+        "The Seat of the Triumvirate +13",
+        "Pit of Saron +14",
+        "Magisters' Terrace +10",
+        "Windrunner Spire +10",
         "Enigma Crucible",
         "Mugambala",
         "Black Rook Hold Arena",
@@ -11700,9 +11802,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
-        "Skyreach",
-        "The Seat of the Triumvirate"
+        "Nexus-Point Xenas +10",
+        "Skyreach +11",
+        "The Seat of the Triumvirate +12"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -11747,13 +11849,16 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Pit of Saron",
-        "Algeth'ar Academy",
-        "Maisara Caverns",
-        "Windrunner Spire",
-        "Skyreach",
-        "The Seat of the Triumvirate"
+        "Magisters' Terrace +10",
+        "Pit of Saron +12",
+        "Algeth'ar Academy +10",
+        "Maisara Caverns +10",
+        "Windrunner Spire +11",
+        "Magisters' Terrace +11",
+        "Skyreach +11",
+        "The Seat of the Triumvirate +10",
+        "Maisara Caverns +12",
+        "Maisara Caverns"
       ],
       "bosses": [
         "Magisters' Terrace",
@@ -11807,9 +11912,9 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Nexus-Point Xenas",
-        "Pit of Saron",
-        "Skyreach"
+        "Nexus-Point Xenas +10",
+        "Pit of Saron +10",
+        "Skyreach +10"
       ],
       "bosses": [
         "Nexus-Point Xenas",
@@ -11851,12 +11956,15 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Magisters' Terrace",
-        "Skyreach",
-        "Algeth'ar Academy",
-        "Pit of Saron",
-        "Nexus-Point Xenas",
-        "Maisara Caverns",
+        "Magisters' Terrace +10",
+        "Skyreach +10",
+        "Algeth'ar Academy +11",
+        "Pit of Saron +12",
+        "Nexus-Point Xenas +12",
+        "Nexus-Point Xenas +11",
+        "Maisara Caverns +10",
+        "Nexus-Point Xenas +10",
+        "Algeth'ar Academy +8",
         "Tol'viron Arena",
         "Enigma Crucible"
       ],
@@ -11916,10 +12024,11 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +10",
         "Murder Row",
         "The Voidspire",
         "The Dreamrift",
+        "Maisara Caverns +10",
         "Maisara Caverns"
       ],
       "bosses": [
@@ -12005,7 +12114,7 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
-        "Windrunner Spire",
+        "Windrunner Spire +10",
         "Murder Row",
         "The Voidspire"
       ],
@@ -12066,8 +12175,10 @@
         "name": "Mythic+ Season 1"
       },
       "dungeons": [
+        "Maisara Caverns +10",
+        "Maisara Caverns +9",
         "Maisara Caverns",
-        "The Seat of the Triumvirate"
+        "The Seat of the Triumvirate +8"
       ],
       "bosses": [
         "Maisara Caverns",
@@ -12423,11 +12534,12 @@
         "The Voidspire",
         "The Dreamrift",
         "Harandar",
-        "Algeth'ar Academy",
-        "Maisara Caverns",
-        "Windrunner Spire",
-        "Skyreach",
-        "Nexus-Point Xenas"
+        "Algeth'ar Academy +2",
+        "Maisara Caverns +5",
+        "Windrunner Spire +7",
+        "Skyreach +9",
+        "Windrunner Spire +2",
+        "Nexus-Point Xenas +9"
       ],
       "bosses": [
         "Ezzorak / Vaelgor",
@@ -14457,8 +14569,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Priory of the Sacred Flame",
-        "Tazavesh, the Veiled Market"
+        "Priory of the Sacred Flame +10",
+        "Tazavesh, the Veiled Market +10"
       ],
       "bosses": [
         "Priory of the Sacred Flame",
@@ -14498,7 +14610,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Ara-Kara, City of Echoes"
+        "Ara-Kara, City of Echoes +10"
       ],
       "bosses": [
         "Ara-Kara, City of Echoes"
@@ -14651,8 +14763,9 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
+        "Ara-Kara, City of Echoes +10",
         "Ara-Kara, City of Echoes",
-        "Priory of the Sacred Flame"
+        "Priory of the Sacred Flame +10"
       ],
       "bosses": [
         "Ara-Kara, City of Echoes",
@@ -14718,7 +14831,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Eco-Dome Al'dani"
+        "Eco-Dome Al'dani +11"
       ],
       "bosses": [
         "Eco-Dome Al'dani"
@@ -14752,7 +14865,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Eco-Dome Al'dani"
+        "Eco-Dome Al'dani +12"
       ],
       "bosses": [
         "Eco-Dome Al'dani"
@@ -14973,8 +15086,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Operation: Floodgate",
-        "Ara-Kara, City of Echoes"
+        "Operation: Floodgate +10",
+        "Ara-Kara, City of Echoes +10"
       ],
       "bosses": [
         "Operation: Floodgate",
@@ -15094,9 +15207,10 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
+        "The Dawnbreaker +12",
         "The Dawnbreaker",
-        "Operation: Floodgate",
-        "Tazavesh, the Veiled Market"
+        "Operation: Floodgate +11",
+        "Tazavesh, the Veiled Market +11"
       ],
       "bosses": [
         "The Dawnbreaker",
@@ -15343,7 +15457,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Tazavesh, the Veiled Market",
+        "Tazavesh, the Veiled Market +10",
+        "Ara-Kara, City of Echoes +10",
         "Ara-Kara, City of Echoes"
       ],
       "bosses": [
@@ -15477,8 +15592,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Operation: Floodgate",
-        "Tazavesh, the Veiled Market"
+        "Operation: Floodgate +10",
+        "Tazavesh, the Veiled Market +10"
       ],
       "bosses": [
         "Operation: Floodgate",
@@ -15521,7 +15636,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Halls of Atonement"
+        "Halls of Atonement +10"
       ],
       "bosses": [
         "Halls of Atonement"
@@ -15564,7 +15679,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Operation: Floodgate",
+        "Operation: Floodgate +10",
         "Manaforge Omega",
         "Isle of Dorn"
       ],
@@ -16342,10 +16457,12 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Halls of Atonement",
+        "Halls of Atonement +11",
+        "Eco-Dome Al'dani +10",
         "Eco-Dome Al'dani",
-        "Priory of the Sacred Flame",
-        "Tazavesh, the Veiled Market",
+        "Priory of the Sacred Flame +10",
+        "Tazavesh, the Veiled Market +9",
+        "The Dawnbreaker +12",
         "The Dawnbreaker"
       ],
       "bosses": [
@@ -16438,8 +16555,10 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
+        "Operation: Floodgate +9",
         "Operation: Floodgate",
-        "Priory of the Sacred Flame",
+        "Priory of the Sacred Flame +10",
+        "Halls of Atonement +10",
         "Halls of Atonement"
       ],
       "bosses": [
@@ -16576,8 +16695,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Halls of Atonement",
-        "Tazavesh, the Veiled Market"
+        "Halls of Atonement +9",
+        "Tazavesh, the Veiled Market +9"
       ],
       "bosses": [
         "Halls of Atonement",
@@ -16695,10 +16814,11 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Priory of the Sacred Flame",
-        "Halls of Atonement",
+        "Priory of the Sacred Flame +9",
+        "Halls of Atonement +9",
+        "The Dawnbreaker +10",
         "The Dawnbreaker",
-        "Eco-Dome Al'dani"
+        "Eco-Dome Al'dani +10"
       ],
       "bosses": [
         "Priory of the Sacred Flame",
@@ -16761,8 +16881,8 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Priory of the Sacred Flame",
-        "Halls of Atonement"
+        "Priory of the Sacred Flame +9",
+        "Halls of Atonement +9"
       ],
       "bosses": [
         "Priory of the Sacred Flame",
@@ -16809,7 +16929,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Priory of the Sacred Flame"
+        "Priory of the Sacred Flame +9"
       ],
       "bosses": [
         "Priory of the Sacred Flame"
@@ -16910,6 +17030,7 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
+        "Eco-Dome Al'dani +11",
         "Eco-Dome Al'dani"
       ],
       "bosses": [
@@ -16945,8 +17066,9 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Operation: Floodgate",
-        "Eco-Dome Al'dani",
+        "Operation: Floodgate +9",
+        "Eco-Dome Al'dani +10",
+        "The Dawnbreaker +9",
         "The Dawnbreaker"
       ],
       "bosses": [
@@ -17488,8 +17610,9 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Tazavesh, the Veiled Market",
-        "Priory of the Sacred Flame"
+        "Tazavesh, the Veiled Market +2",
+        "Tazavesh, the Veiled Market +10",
+        "Priory of the Sacred Flame +10"
       ],
       "bosses": [
         "Tazavesh: Streets of Wonder",
@@ -17709,8 +17832,9 @@
         "name": "Mythic+ Season 3"
       },
       "dungeons": [
-        "Operation: Floodgate",
-        "Eco-Dome Al'dani",
+        "Operation: Floodgate +9",
+        "Eco-Dome Al'dani +10",
+        "The Dawnbreaker +9",
         "The Dawnbreaker"
       ],
       "bosses": [
@@ -18744,6 +18868,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
+        "Priory of the Sacred Flame +8",
         "Priory of the Sacred Flame"
       ],
       "bosses": [
@@ -22880,7 +23005,7 @@
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
-        "Operation: Mechagon"
+        "Operation: Mechagon +7"
       ],
       "bosses": [
         "Operation: Mechagon"
@@ -23128,10 +23253,11 @@
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
-        "Operation: Mechagon",
+        "Operation: Mechagon +7",
         "Isle of Dorn",
-        "The Rookery",
-        "Cinderbrew Meadery"
+        "The Rookery +6",
+        "Cinderbrew Meadery +7",
+        "Cinderbrew Meadery +6"
       ],
       "bosses": [
         "Operation: Mechagon",
@@ -27064,7 +27190,7 @@
       "dungeons": [
         "Nerub-ar Palace",
         "Isle of Dorn",
-        "Mists of Tirna Scithe"
+        "Mists of Tirna Scithe +5"
       ],
       "bosses": [
         "The Silken Court",
@@ -34879,7 +35005,7 @@
       },
       "dungeons": [
         "Neltharion's Lair",
-        "Neltharus"
+        "Neltharus +16"
       ],
       "bosses": [
         "Rockback Gnasher",
@@ -35409,9 +35535,11 @@
       "dungeons": [
         "Neltharus",
         "Amirdrassil",
-        "Freehold",
+        "Freehold +16",
         "Mechagon",
+        "Brackenhide Hollow +17",
         "Brackenhide Hollow",
+        "Neltharion's Lair +16",
         "Neltharion's Lair",
         "Ulderoth"
       ],
@@ -37214,7 +37342,7 @@
         "The Vortex Pinnacle",
         "Amirdrassil",
         "Azewrath",
-        "Halls of Infusion"
+        "Halls of Infusion +16"
       ],
       "bosses": [
         "Empyrean Assassin",
@@ -37693,7 +37821,7 @@
         "The Vortex Pinnacle",
         "Amirdrassil",
         "Azewrath",
-        "Halls of Infusion"
+        "Halls of Infusion +16"
       ],
       "bosses": [
         "Empyrean Assassin",
@@ -39535,10 +39663,13 @@
       "dungeons": [
         "Amirdrassil",
         "Ulderoth",
+        "Brackenhide Hollow +2",
         "Brackenhide Hollow",
+        "The Vortex Pinnacle +5",
         "The Vortex Pinnacle",
-        "Neltharion's Lair",
-        "Ahn'Qiraj: The Fallen Kingdom"
+        "Neltharion's Lair +8",
+        "Ahn'Qiraj: The Fallen Kingdom +5",
+        "The Vortex Pinnacle +11"
       ],
       "bosses": [
         "Sky-Commander Gadrius Orcbane",
@@ -45411,6 +45542,7 @@
         "Nagrand Arena",
         "Nokhudon Proving Grounds",
         "Maldraxxus Coliseum",
+        "Halls of Valor +13",
         "Halls of Valor",
         "Ashamane's Fall"
       ],
@@ -48226,7 +48358,8 @@
       "dungeons": [
         "Vault of the Incarnates",
         "Amirdrassil",
-        "Black Rook Hold Arena"
+        "Black Rook Hold Arena",
+        "Amirdrassil +11"
       ],
       "bosses": [
         "Kurog Grimtotem",
@@ -50161,9 +50294,12 @@
       },
       "dungeons": [
         "Amirdrassil",
+        "Court of Stars +5",
         "Court of Stars",
-        "The Azure Vault",
+        "The Azure Vault +9",
+        "Amirdrassil +8",
         "Dalaran Sewers",
+        "Halls of Valor +9",
         "Halls of Valor"
       ],
       "bosses": [
@@ -52023,8 +52159,10 @@
       },
       "dungeons": [
         "Amirdrassil",
+        "Court of Stars +5",
         "Court of Stars",
-        "The Azure Vault"
+        "The Azure Vault +9",
+        "Amirdrassil +8"
       ],
       "bosses": [
         "Lualdeng",
@@ -52704,7 +52842,7 @@
       },
       "dungeons": [
         "Amirdrassil",
-        "Court of Stars"
+        "Court of Stars +5"
       ],
       "bosses": [
         "Lualdeng",
