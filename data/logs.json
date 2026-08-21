@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T00:46:50.821Z",
+  "fetchedAt": "2026-08-21T01:00:25.667Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -7,16 +7,18 @@
       "code": "37zmpRDFbL2KQwJa",
       "title": "8/20 raid",
       "startTime": 1787271685444,
-      "endTime": 1787272979755,
+      "endTime": 1787273817017,
       "zone": {
         "name": "The Venomous Abyss"
       },
       "dungeons": [
-        "The Tidebound Grotto"
+        "The Tidebound Grotto",
+        "The Venomous Abyss"
       ],
       "bosses": [
         "Tidebound Brute",
-        "Nymrissa Wavecaller"
+        "Nymrissa Wavecaller",
+        "Nek'zali the Soulcoiler"
       ],
       "players": [
         "Meudayr",
