@@ -573,7 +573,7 @@
         <input 
           type="text" 
           id="logs-search-input" 
-          placeholder="Search by title, player, date, instance, or more..." 
+          placeholder="Search by title, player, date, instance, or more" 
           autocomplete="off"
           spellcheck="false"
           oninput="handleSearchInput(event)"
@@ -639,7 +639,7 @@
       });
     }
 
-    function formatZoneName(name, startTime) {
+    function formatZoneName(name, startTime, difficulties) {
       if (!name) return '';
       const match = name.match(/^Mythic\+\s+Season\s+(\d+)/i);
       if (match) {
@@ -654,6 +654,15 @@
         else if (year >= 2016) expansion = 'Legion';
         return `${expansion} Season ${seasonNum}`;
       }
+
+      // For Raids / other zones: append difficulty if available (e.g. "The Venomous Abyss Normal")
+      if (Array.isArray(difficulties) && difficulties.length > 0) {
+        const raidDiffs = difficulties.filter(d => d && d !== 'Mythic+');
+        if (raidDiffs.length > 0) {
+          return `${name} ${raidDiffs.join('/')}`;
+        }
+      }
+
       return name;
     }
 
@@ -673,7 +682,7 @@
       // 3. Check zone / season names
       const rawZone = (report.zone?.name || '').toLowerCase();
       if (rawZone.includes(q)) return true;
-      const formattedZone = formatZoneName(report.zone?.name, report.startTime).toLowerCase();
+      const formattedZone = formatZoneName(report.zone?.name, report.startTime, report.difficulties).toLowerCase();
       if (formattedZone.includes(q)) return true;
 
       // 4. Check dates & days of week across common formats
@@ -789,8 +798,9 @@
       const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
       const day = date.toLocaleDateString('en-US', { day: '2-digit' });
       const month = date.toLocaleDateString('en-US', { month: 'short' });
-      const zoneName = report.zone ? formatZoneName(report.zone.name, report.startTime) : '';
-      const dungeonsHtml = (report.dungeons && report.dungeons.length > 0)
+      const zoneName = report.zone ? formatZoneName(report.zone.name, report.startTime, report.difficulties) : '';
+      const isRaid = report.zone?.name && !report.zone.name.toLowerCase().includes('season');
+      const dungeonsHtml = (!isRaid && report.dungeons && report.dungeons.length > 0)
         ? `<div class="log-dungeons">${report.dungeons.map(d => `<span class="dungeon-tag">${escapeHtml(d)}</span>`).join('')}</div>`
         : '';
 

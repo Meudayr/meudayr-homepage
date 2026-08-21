@@ -140,7 +140,9 @@ async function fetchAllReports(token) {
       if (Array.isArray(r.fights)) {
         r.fights.forEach(f => {
           if (f.gameZone && f.gameZone.name) {
-            dungeonSet.add(f.gameZone.name);
+            const dName = f.gameZone.name;
+            const fullDungeon = f.keystoneLevel ? `${dName} +${f.keystoneLevel}` : dName;
+            dungeonSet.add(fullDungeon);
           }
           if (f.name && f.name !== 'Trash' && f.name !== 'Trash Mob') {
             bossSet.add(f.name);
