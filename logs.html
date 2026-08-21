@@ -517,80 +517,154 @@
     .logs-header {
       position: relative;
       text-align: center;
-      margin-bottom: 2rem;
+      padding: 60px 0 40px;
     }
 
-    /* Top-Right Account Dropdown */
-    .account-dropdown-wrapper {
+    /* Top-Right Custom Account Dropdown */
+    .custom-dropdown {
       position: absolute;
-      top: 0;
+      top: 20px;
       right: 0;
-      z-index: 10;
+      z-index: 50;
+      user-select: none;
     }
 
-    .account-select-box {
+    .dropdown-trigger {
       display: inline-flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-color);
+      gap: 9px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 9999px;
-      padding: 6px 12px;
-      gap: 7px;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .account-select-box:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    .account-select-icon {
-      width: 14px;
-      height: 14px;
-      color: var(--text-muted);
-      flex-shrink: 0;
-      pointer-events: none;
-    }
-
-    .account-select-box select {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: transparent;
-      border: none;
-      color: var(--text-color);
-      font-family: inherit;
-      font-size: 0.85rem;
+      padding: 8px 18px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
       outline: none;
-      padding-right: 18px;
     }
 
-    .account-select-box select option {
-      background: #151b28;
-      color: #f8fafc;
-      padding: 6px 10px;
+    .dropdown-trigger:hover,
+    .custom-dropdown.open .dropdown-trigger {
+      border-color: var(--primary);
+      background: #17191f;
+      color: var(--text-main);
+      box-shadow: 0 4px 20px rgba(56, 142, 60, 0.2);
     }
 
-    .account-select-arrow {
-      width: 12px;
-      height: 12px;
-      color: var(--text-muted);
+    .dropdown-user-icon {
+      width: 15px;
+      height: 15px;
+      color: var(--text-dark);
+      flex-shrink: 0;
+      transition: color 0.2s ease;
+    }
+
+    .dropdown-trigger:hover .dropdown-user-icon,
+    .custom-dropdown.open .dropdown-user-icon {
+      color: var(--primary);
+    }
+
+    .dropdown-chevron {
+      width: 13px;
+      height: 13px;
+      color: var(--text-dark);
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+    }
+
+    .custom-dropdown.open .dropdown-chevron {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .dropdown-menu {
       position: absolute;
-      right: 10px;
-      pointer-events: none;
-      transition: transform 0.2s ease;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 180px;
+      background: #14171f;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(0.96);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .custom-dropdown.open .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+      width: 100%;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+    }
+
+    .dropdown-item.active {
+      background: rgba(56, 142, 60, 0.15);
+      color: #81c784;
+      font-weight: 600;
+    }
+
+    .dropdown-item-check {
+      width: 15px;
+      height: 15px;
+      opacity: 0;
+      color: #81c784;
+      transition: opacity 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .dropdown-item.active .dropdown-item-check {
+      opacity: 1;
     }
 
     @media (max-width: 768px) {
-      .account-dropdown-wrapper {
+      .custom-dropdown {
         position: static;
-        margin: 0 auto 12px auto;
+        margin: 0 auto 16px auto;
         display: flex;
         justify-content: center;
+      }
+      .dropdown-menu {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(-8px) scale(0.96);
+      }
+      .custom-dropdown.open .dropdown-menu {
+        transform: translateX(-50%) translateY(0) scale(1);
       }
     }
   </style>
@@ -627,18 +701,26 @@
 
   <main class="container">
     <section class="logs-header">
-      <!-- Account Dropdown Selector (Top Right) -->
-      <div class="account-dropdown-wrapper" id="account-dropdown-wrapper" style="display: none;">
-        <div class="account-select-box">
-          <svg class="account-select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Custom Account Dropdown (Top Right) -->
+      <div class="custom-dropdown" id="account-dropdown" style="display: none;">
+        <button 
+          type="button" 
+          class="dropdown-trigger" 
+          id="dropdown-trigger" 
+          aria-haspopup="listbox" 
+          aria-expanded="false"
+          onclick="toggleAccountDropdown(event)"
+        >
+          <svg class="dropdown-user-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
           </svg>
-          <select id="account-select" onchange="selectAccount(this.value)" aria-label="Select Player">
-            <!-- populated dynamically -->
-          </select>
-          <svg class="account-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span id="selected-account-label">Meudayr</span>
+          <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
+        </button>
+        <div class="dropdown-menu" id="dropdown-menu" role="listbox" aria-label="Select Player">
+          <!-- Populated dynamically via JS -->
         </div>
       </div>
 
@@ -1065,24 +1147,77 @@
       }
     }
 
+    function toggleAccountDropdown(e) {
+      if (e) e.stopPropagation();
+      const dropdown = document.getElementById('account-dropdown');
+      const trigger = document.getElementById('dropdown-trigger');
+      if (!dropdown) return;
+      const isOpen = dropdown.classList.toggle('open');
+      if (trigger) trigger.setAttribute('aria-expanded', isOpen);
+    }
+
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('account-dropdown');
+      if (dropdown && dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+        const trigger = document.getElementById('dropdown-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const dropdown = document.getElementById('account-dropdown');
+        if (dropdown && dropdown.classList.contains('open')) {
+          dropdown.classList.remove('open');
+          const trigger = document.getElementById('dropdown-trigger');
+          if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
     function renderAccountSwitcher() {
-      const wrapper = document.getElementById('account-dropdown-wrapper');
-      const select = document.getElementById('account-select');
-      if (!wrapper || !select) return;
+      const dropdown = document.getElementById('account-dropdown');
+      const label = document.getElementById('selected-account-label');
+      const menu = document.getElementById('dropdown-menu');
+      if (!dropdown || !menu) return;
 
       if (accounts.length <= 1) {
-        wrapper.style.display = 'none';
+        dropdown.style.display = 'none';
         return;
       }
 
-      wrapper.style.display = '';
-      select.innerHTML = accounts.map(acc => {
-        const isSelected = acc.id === currentAccountId;
-        return `<option value="${escapeHtml(acc.id)}" ${isSelected ? 'selected' : ''}>${escapeHtml(acc.name)}</option>`;
+      dropdown.style.display = '';
+      const currentAcc = accounts.find(a => a.id === currentAccountId) || accounts[0];
+      if (label && currentAcc) {
+        label.textContent = currentAcc.name;
+      }
+
+      menu.innerHTML = accounts.map(acc => {
+        const isActive = acc.id === currentAccountId;
+        return `
+          <button 
+            type="button" 
+            class="dropdown-item ${isActive ? 'active' : ''}" 
+            role="option" 
+            aria-selected="${isActive}"
+            onclick="selectAccount('${escapeHtml(acc.id)}')"
+          >
+            <span>${escapeHtml(acc.name)}</span>
+            <svg class="dropdown-item-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        `;
       }).join('');
     }
 
     function selectAccount(accId) {
+      const dropdown = document.getElementById('account-dropdown');
+      if (dropdown) dropdown.classList.remove('open');
+      const trigger = document.getElementById('dropdown-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+
       if (accId === currentAccountId) return;
       currentAccountId = accId;
       localStorage.setItem('selected_log_account', accId);
