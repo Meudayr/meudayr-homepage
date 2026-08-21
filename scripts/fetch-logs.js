@@ -139,21 +139,32 @@ async function fetchAllReports(token) {
 
       if (Array.isArray(r.fights)) {
         r.fights.forEach(f => {
-          if (f.gameZone && f.gameZone.name) {
-            const dName = f.gameZone.name;
-            const fullDungeon = f.keystoneLevel ? `${dName} +${f.keystoneLevel}` : dName;
-            dungeonSet.add(fullDungeon);
-          }
-          if (f.name && f.name !== 'Trash' && f.name !== 'Trash Mob') {
-            bossSet.add(f.name);
-          }
           if (f.difficulty && diffMap[f.difficulty]) {
             difficultySet.add(diffMap[f.difficulty]);
           }
           if (f.keystoneLevel) {
             keyLevelSet.add(f.keystoneLevel);
           }
+          if (f.gameZone && f.gameZone.name) {
+            const dName = f.gameZone.name;
+            let fullDungeon = dName;
+            if (f.keystoneLevel) {
+              fullDungeon = `${dName} +${f.keystoneLevel}`;
+            } else if (f.difficulty && diffMap[f.difficulty] && diffMap[f.difficulty] !== 'Mythic+') {
+              fullDungeon = `${dName} ${diffMap[f.difficulty]}`;
+            }
+            dungeonSet.add(fullDungeon);
+          }
+          if (f.name && f.name !== 'Trash' && f.name !== 'Trash Mob') {
+            bossSet.add(f.name);
+          }
         });
+      }
+
+      if (r.zone && r.zone.name && !r.zone.name.includes('Season')) {
+        const raidDiffs = Array.from(difficultySet).filter(d => d !== 'Mythic+');
+        const raidTag = raidDiffs.length > 0 ? `${r.zone.name} ${raidDiffs.join('/')}` : r.zone.name;
+        dungeonSet.add(raidTag);
       }
 
       if (r.masterData && Array.isArray(r.masterData.actors)) {

@@ -639,12 +639,16 @@
       });
     }
 
-    function formatZoneName(name, startTime, difficulties) {
-      if (!name) return '';
-      const match = name.match(/^Mythic\+\s+Season\s+(\d+)/i);
+    function getSeasonName(report) {
+      const rawZone = report.zone?.name || '';
+      const match = rawZone.match(/^Mythic\+\s+Season\s+(\d+)/i);
+      const startTime = report.startTime;
+      const date = startTime ? new Date(startTime) : new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+
       if (match) {
         const seasonNum = match[1];
-        const year = startTime ? new Date(startTime).getFullYear() : new Date().getFullYear();
         let expansion = 'Midnight';
         if (year >= 2026) expansion = 'Midnight';
         else if (year >= 2024) expansion = 'The War Within';
@@ -655,15 +659,28 @@
         return `${expansion} Season ${seasonNum}`;
       }
 
-      // For Raids / other zones: append difficulty if available (e.g. "The Venomous Abyss Normal")
-      if (Array.isArray(difficulties) && difficulties.length > 0) {
-        const raidDiffs = difficulties.filter(d => d && d !== 'Mythic+');
-        if (raidDiffs.length > 0) {
-          return `${name} ${raidDiffs.join('/')}`;
-        }
+      // Raids or reports without 'Mythic+ Season X' zone
+      if (year >= 2026) {
+        if (month >= 7) return 'Midnight Season 2';
+        return 'Midnight Season 1';
+      } else if (year === 2025) {
+        if (month >= 8) return 'The War Within Season 3';
+        return 'The War Within Season 2';
+      } else if (year === 2024) {
+        if (month >= 8) return 'The War Within Season 1';
+        return 'Dragonflight Season 4';
+      } else if (year === 2023) {
+        if (month >= 5) return 'Dragonflight Season 2';
+        return 'Dragonflight Season 1';
+      } else if (year === 2022) {
+        if (month >= 11) return 'Dragonflight Season 1';
+        return 'Shadowlands Season 4';
+      } else if (year >= 2020) {
+        return 'Shadowlands';
+      } else if (year >= 2018) {
+        return 'Battle for Azeroth';
       }
-
-      return name;
+      return 'Legacy';
     }
 
     function matchesSearch(report, query) {
@@ -682,8 +699,8 @@
       // 3. Check zone / season names
       const rawZone = (report.zone?.name || '').toLowerCase();
       if (rawZone.includes(q)) return true;
-      const formattedZone = formatZoneName(report.zone?.name, report.startTime, report.difficulties).toLowerCase();
-      if (formattedZone.includes(q)) return true;
+      const seasonName = getSeasonName(report).toLowerCase();
+      if (seasonName.includes(q)) return true;
 
       // 4. Check dates & days of week across common formats
       const date = new Date(report.startTime);
@@ -719,7 +736,7 @@
         if (dateStrings.some(ds => ds.includes(q))) return true;
       }
 
-      // 5. Check individual dungeons and bosses in report
+      // 5. Check individual dungeons, raids, and bosses in report
       if (Array.isArray(report.dungeons)) {
         if (report.dungeons.some(d => d && d.toLowerCase().includes(q))) return true;
       }
@@ -791,14 +808,15 @@
 
     function cleanDungeonTags(dungeons) {
       if (!Array.isArray(dungeons)) return [];
-      const keyedNames = new Set(
+      const keyedOrDiffNames = new Set(
         dungeons
-          .filter(d => /\s+\+\d+$/.test(d))
-          .map(d => d.replace(/\s+\+\d+$/, ''))
+          .filter(d => /\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d))
+          .map(d => d.replace(/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i, '').trim())
       );
-      return dungeons.filter(d => {
-        if (/\s+\+\d+$/.test(d)) return true;
-        return !keyedNames.has(d);
+      const uniqueTags = Array.from(new Set(dungeons));
+      return uniqueTags.filter(d => {
+        if (/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d)) return true;
+        return !keyedOrDiffNames.has(d.trim());
       });
     }
 
@@ -811,10 +829,9 @@
       const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
       const day = date.toLocaleDateString('en-US', { day: '2-digit' });
       const month = date.toLocaleDateString('en-US', { month: 'short' });
-      const zoneName = report.zone ? formatZoneName(report.zone.name, report.startTime, report.difficulties) : '';
-      const isRaid = report.zone?.name && !report.zone.name.toLowerCase().includes('season');
+      const seasonName = getSeasonName(report);
       const cleanDungeons = cleanDungeonTags(report.dungeons);
-      const dungeonsHtml = (!isRaid && cleanDungeons.length > 0)
+      const dungeonsHtml = (cleanDungeons.length > 0)
         ? `<div class="log-dungeons">${cleanDungeons.map(d => `<span class="dungeon-tag">${escapeHtml(d)}</span>`).join('')}</div>`
         : '';
 
@@ -833,7 +850,7 @@
             ${isFirst ? '<span class="latest-tag">Latest</span> ' : ''}${report.title || 'Combat Log'}
           </div>
           <div class="log-meta">
-            ${zoneName ? `<span class="log-zone">${zoneName}</span>` : ''}
+            ${seasonName ? `<span class="log-zone">${seasonName}</span>` : ''}
             <span class="log-duration">
               <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               ${durationStr}
