@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T11:17:57.912Z",
+  "fetchedAt": "2026-08-21T11:23:45.679Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -13,7 +13,9 @@
       },
       "dungeons": [
         "The Tidebound Grotto",
-        "The Venomous Abyss"
+        "The Tidebound Grotto Normal",
+        "The Venomous Abyss",
+        "The Venomous Abyss Normal"
       ],
       "bosses": [
         "Tidebound Brute",
@@ -593,8 +595,11 @@
       "zone": null,
       "dungeons": [
         "Voidscar Arena",
+        "Voidscar Arena Heroic",
         "Temple of Sethraliss",
-        "Kings' Rest"
+        "Temple of Sethraliss Heroic",
+        "Kings' Rest",
+        "Kings' Rest Heroic"
       ],
       "bosses": [
         "Dominated Brawler",
@@ -659,7 +664,9 @@
       },
       "dungeons": [
         "Windrunner Spire +12",
-        "Sporefall"
+        "Sporefall",
+        "Sporefall Normal",
+        "Sporefall Heroic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -728,6 +735,7 @@
       "dungeons": [
         "Skyreach +18",
         "The Voidspire",
+        "The Voidspire Normal",
         "Pit of Saron +13",
         "Nexus-Point Xenas +17",
         "Skyreach +17",
@@ -1185,8 +1193,11 @@
       "dungeons": [
         "Nexus-Point Xenas +18",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "The Voidspire",
+        "The Voidspire Normal",
         "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
         "Nexus-Point Xenas +12"
       ],
       "bosses": [
@@ -2123,6 +2134,7 @@
       "dungeons": [
         "Nexus-Point Xenas +11",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Nexus-Point Xenas +12",
         "Nexus-Point Xenas +13",
         "Skyreach +12"
@@ -2396,7 +2408,9 @@
       "dungeons": [
         "Nexus-Point Xenas +18",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "The Voidspire",
+        "The Voidspire Normal",
         "Magisters' Terrace +18"
       ],
       "bosses": [
@@ -3394,7 +3408,8 @@
         "Windrunner Spire +10",
         "Nexus-Point Xenas +12",
         "Nexus-Point Xenas +11",
-        "The Voidspire"
+        "The Voidspire",
+        "The Voidspire Heroic"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -3717,9 +3732,12 @@
         "Magisters' Terrace +14",
         "Magisters' Terrace",
         "Amirdrassil, the Dream's Hope",
+        "Amirdrassil, the Dream's Hope Heroic",
         "Aberrus, the Shadowed Crucible",
+        "Aberrus, the Shadowed Crucible Heroic",
         "Windrunner Spire +16",
         "Vault of the Incarnates",
+        "Vault of the Incarnates Heroic",
         "Pit of Saron +15",
         "Maisara Caverns +16",
         "Algeth'ar Academy +17",
@@ -3966,8 +3984,12 @@
       },
       "dungeons": [
         "The Dreamrift",
+        "The Dreamrift Normal",
         "The Voidspire",
-        "Isle of Quel'Danas"
+        "The Voidspire Normal",
+        "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Chimaerus",
@@ -4509,8 +4531,11 @@
       "dungeons": [
         "Nexus-Point Xenas +13",
         "The Voidspire",
+        "The Voidspire Normal",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
         "Pit of Saron +10",
         "Nexus-Point Xenas +10",
         "Magisters' Terrace +12",
@@ -6930,7 +6955,9 @@
       "dungeons": [
         "The Seat of the Triumvirate +17",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
         "The Seat of the Triumvirate +16",
         "Windrunner Spire +17"
       ],
@@ -8310,7 +8337,9 @@
         "Windrunner Spire +10",
         "Windrunner Spire",
         "The Dreamrift",
-        "Isle of Quel'Danas"
+        "The Dreamrift Normal",
+        "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -9338,7 +9367,9 @@
         "The Seat of the Triumvirate +10",
         "Pit of Saron +11",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
         "Algeth'ar Academy +10"
       ],
       "bosses": [
@@ -10433,6 +10464,7 @@
         "Magisters' Terrace +15",
         "Windrunner Spire +14",
         "Pit of Saron +15",
+        "The Voidspire Normal",
         "The Voidspire",
         "Magisters' Terrace +10"
       ],
@@ -10692,8 +10724,11 @@
       "dungeons": [
         "Windrunner Spire +11",
         "Isle of Quel'Danas",
+        "Isle of Quel'Danas Normal",
         "The Dreamrift",
-        "The Voidspire"
+        "The Dreamrift Normal",
+        "The Voidspire",
+        "The Voidspire Normal"
       ],
       "bosses": [
         "Windrunner Spire",
@@ -10776,6 +10811,7 @@
       "dungeons": [
         "Windrunner Spire +11",
         "The Voidspire",
+        "The Voidspire Normal",
         "Harandar",
         "Pit of Saron +10",
         "Magisters' Terrace +14",
@@ -11297,11 +11333,13 @@
       },
       "dungeons": [
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Isle of Quel'Danas",
         "Maisara Caverns +13",
         "Windrunner Spire +12",
         "Nexus-Point Xenas +10",
-        "Skyreach +14"
+        "Skyreach +14",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Chimaerus",
@@ -11518,12 +11556,14 @@
         "name": "VS / DR / MQD"
       },
       "dungeons": [
+        "The Voidspire Normal",
         "The Voidspire",
         "Pit of Saron +10",
         "Algeth'ar Academy +10",
         "Nexus-Point Xenas +10",
         "Maisara Caverns +12",
-        "Magisters' Terrace +11"
+        "Magisters' Terrace +11",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Imperator Averzian",
@@ -12027,7 +12067,9 @@
         "Windrunner Spire +10",
         "Murder Row",
         "The Voidspire",
+        "The Voidspire Normal",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Maisara Caverns +10",
         "Maisara Caverns"
       ],
@@ -12532,14 +12574,17 @@
       },
       "dungeons": [
         "The Voidspire",
+        "The Voidspire Normal",
         "The Dreamrift",
+        "The Dreamrift Normal",
         "Harandar",
         "Algeth'ar Academy +2",
         "Maisara Caverns +5",
         "Windrunner Spire +7",
         "Skyreach +9",
         "Windrunner Spire +2",
-        "Nexus-Point Xenas +9"
+        "Nexus-Point Xenas +9",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Ezzorak / Vaelgor",
@@ -13035,7 +13080,10 @@
       },
       "dungeons": [
         "The Voidspire",
-        "The Dreamrift"
+        "The Voidspire Normal",
+        "The Dreamrift",
+        "The Dreamrift Normal",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Ezzorak / Vaelgor",
@@ -13156,9 +13204,14 @@
       "zone": null,
       "dungeons": [
         "Windrunner Spire",
+        "Windrunner Spire Normal",
+        "Windrunner Spire Heroic",
         "Algeth'ar Academy",
+        "Algeth'ar Academy Heroic",
         "Nexus-Point Xenas",
-        "Pit of Saron"
+        "Nexus-Point Xenas Heroic",
+        "Pit of Saron",
+        "Pit of Saron Heroic"
       ],
       "bosses": [
         "Flesh Behemoth",
@@ -13227,7 +13280,10 @@
       "dungeons": [
         "Mugambala",
         "The Dreamrift",
-        "The Voidspire"
+        "The Dreamrift Normal",
+        "The Voidspire",
+        "The Voidspire Normal",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Mugambala",
@@ -13371,7 +13427,10 @@
       },
       "dungeons": [
         "The Voidspire",
-        "The Dreamrift"
+        "The Voidspire Normal",
+        "The Dreamrift",
+        "The Dreamrift Normal",
+        "VS / DR / MQD Normal"
       ],
       "bosses": [
         "Imperator Averzian",
@@ -13466,11 +13525,17 @@
         "Tol'viron Arena",
         "Dalaran Arena",
         "Algeth'ar Academy",
+        "Algeth'ar Academy Heroic",
         "Windrunner Spire",
+        "Windrunner Spire Heroic",
         "Skyreach",
+        "Skyreach Heroic",
         "The Seat of the Triumvirate",
+        "The Seat of the Triumvirate Heroic",
         "Pit of Saron",
-        "Maisara Caverns"
+        "Pit of Saron Heroic",
+        "Maisara Caverns",
+        "Maisara Caverns Heroic"
       ],
       "bosses": [
         "The Tiger's Peak",
@@ -13570,9 +13635,13 @@
       "zone": null,
       "dungeons": [
         "Magisters' Terrace",
+        "Magisters' Terrace Heroic",
         "Maisara Caverns",
+        "Maisara Caverns Heroic",
         "Algeth'ar Academy",
-        "Skyreach"
+        "Algeth'ar Academy Heroic",
+        "Skyreach",
+        "Skyreach Heroic"
       ],
       "bosses": [
         "Arcane Sentry",
@@ -13645,9 +13714,13 @@
       "zone": null,
       "dungeons": [
         "Magisters' Terrace",
+        "Magisters' Terrace Heroic",
         "Maisara Caverns",
+        "Maisara Caverns Heroic",
         "Algeth'ar Academy",
-        "Skyreach"
+        "Algeth'ar Academy Heroic",
+        "Skyreach",
+        "Skyreach Heroic"
       ],
       "bosses": [
         "Arcane Sentry",
@@ -13720,13 +13793,21 @@
       "zone": null,
       "dungeons": [
         "Maisara Caverns",
+        "Maisara Caverns Heroic",
         "Windrunner Spire",
+        "Windrunner Spire Heroic",
         "Den of Nalorakk",
+        "Den of Nalorakk Heroic",
         "Magisters' Terrace",
+        "Magisters' Terrace Heroic",
         "Murder Row",
+        "Murder Row Heroic",
         "Nexus-Point Xenas",
+        "Nexus-Point Xenas Heroic",
         "Voidscar Arena",
-        "The Blinding Vale"
+        "Voidscar Arena Heroic",
+        "The Blinding Vale",
+        "The Blinding Vale Heroic"
       ],
       "bosses": [
         "Dread Souleater",
@@ -13834,9 +13915,13 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
+        "Murder Row Heroic",
         "Windrunner Spire",
+        "Windrunner Spire Heroic",
         "Magisters' Terrace",
-        "The Blinding Vale"
+        "Magisters' Terrace Heroic",
+        "The Blinding Vale",
+        "The Blinding Vale Heroic"
       ],
       "bosses": [
         "Bribed Guard",
@@ -13911,9 +13996,14 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
+        "Murder Row Heroic",
         "Nexus-Point Xenas",
+        "Nexus-Point Xenas Heroic",
         "Den of Nalorakk",
-        "Magisters' Terrace"
+        "Den of Nalorakk Heroic",
+        "Murder Row Normal",
+        "Magisters' Terrace",
+        "Magisters' Terrace Heroic"
       ],
       "bosses": [
         "Bribed Captain",
@@ -13984,8 +14074,12 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
+        "Murder Row Heroic",
         "Nexus-Point Xenas",
-        "Den of Nalorakk"
+        "Nexus-Point Xenas Heroic",
+        "Den of Nalorakk",
+        "Den of Nalorakk Heroic",
+        "Murder Row Normal"
       ],
       "bosses": [
         "Bribed Captain",
@@ -14047,8 +14141,11 @@
       "zone": null,
       "dungeons": [
         "Murder Row",
+        "Murder Row Heroic",
         "Nexus-Point Xenas",
-        "Den of Nalorakk"
+        "Nexus-Point Xenas Heroic",
+        "Den of Nalorakk",
+        "Den of Nalorakk Heroic"
       ],
       "bosses": [
         "Bribed Captain",
@@ -14106,7 +14203,7 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Dimensius, the All-Devouring"
@@ -14160,7 +14257,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Forge Sentinel",
@@ -14254,7 +14352,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Influx Warden",
@@ -14410,7 +14509,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Influx Warden",
@@ -14644,7 +14744,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Influx Warden",
@@ -14899,7 +15000,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Influx Warden",
@@ -15379,7 +15481,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Influx Warden",
@@ -15681,6 +15784,7 @@
       "dungeons": [
         "Operation: Floodgate +10",
         "Manaforge Omega",
+        "Manaforge Omega Normal",
         "Isle of Dorn"
       ],
       "bosses": [
@@ -16964,7 +17068,8 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
-        "Manaforge Omega"
+        "Manaforge Omega",
+        "Manaforge Omega Normal"
       ],
       "bosses": [
         "Shadowguard Darkmage",
@@ -18376,6 +18481,7 @@
         "name": "Manaforge Omega"
       },
       "dungeons": [
+        "Manaforge Omega Normal",
         "Manaforge Omega",
         "Isle of Dorn"
       ],
@@ -18868,6 +18974,7 @@
       },
       "dungeons": [
         "Manaforge Omega",
+        "Manaforge Omega Normal",
         "Priory of the Sacred Flame +8",
         "Priory of the Sacred Flame"
       ],
@@ -19616,6 +19723,7 @@
         "The Tiger's Peak",
         "Dastardly Duos",
         "Liberation of Undermine",
+        "Liberation of Undermine Normal",
         "Isle of Dorn",
         "Ruins of Lordaeron",
         "Enigma Crucible",
@@ -20409,6 +20517,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine",
         "Isle of Dorn"
       ],
@@ -20860,7 +20969,8 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine"
+        "Liberation of Undermine",
+        "Liberation of Undermine Normal"
       ],
       "bosses": [
         "Bleevus Vermancer",
@@ -21532,6 +21642,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -21646,6 +21757,7 @@
       },
       "dungeons": [
         "Liberation of Undermine",
+        "Liberation of Undermine Normal",
         "Isle of Dorn"
       ],
       "bosses": [
@@ -21870,7 +21982,8 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine"
+        "Liberation of Undermine",
+        "Liberation of Undermine Normal"
       ],
       "bosses": [
         "Geargrinder Biker",
@@ -21923,6 +22036,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine",
         "Isle of Dorn"
       ],
@@ -22471,6 +22585,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -22524,7 +22639,8 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
-        "Liberation of Undermine"
+        "Liberation of Undermine",
+        "Liberation of Undermine Normal"
       ],
       "bosses": [
         "Stix Bunkjunker",
@@ -22646,6 +22762,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine"
       ],
       "bosses": [
@@ -22824,6 +22941,7 @@
         "name": "Liberation of Undermine"
       },
       "dungeons": [
+        "Liberation of Undermine Normal",
         "Liberation of Undermine",
         "Dastardly Duos"
       ],
@@ -23993,6 +24111,7 @@
       "dungeons": [
         "Dastardly Duos",
         "Liberation of Undermine",
+        "Liberation of Undermine Normal",
         "Isle of Dorn"
       ],
       "bosses": [
@@ -24456,7 +24575,8 @@
         "Hook Point",
         "Cage of Carnage",
         "Black Rook Hold Arena",
-        "Liberation of Undermine"
+        "Liberation of Undermine",
+        "Liberation of Undermine Normal"
       ],
       "bosses": [
         "Ruins of Lordaeron",
@@ -25275,6 +25395,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
+        "Nerub-ar Palace Normal",
         "Nerub-ar Palace"
       ],
       "bosses": [
@@ -25779,9 +25900,11 @@
         "name": "Blackrock Depths"
       },
       "dungeons": [
+        "Blackrock Depths Normal",
         "Blackrock Depths",
         "Hallowfall",
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "Emperor Dagran Thaurissan",
@@ -26125,6 +26248,7 @@
         "name": "Blackrock Depths"
       },
       "dungeons": [
+        "Blackrock Depths Normal",
         "Blackrock Depths",
         "Ahn'Qiraj: The Fallen Kingdom"
       ],
@@ -26347,6 +26471,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
+        "Nerub-ar Palace Normal",
         "Nerub-ar Palace"
       ],
       "bosses": [
@@ -26717,7 +26842,8 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "Spider",
@@ -26944,6 +27070,7 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
+        "Nerub-ar Palace Normal",
         "Hallowfall"
       ],
       "bosses": [
@@ -27189,6 +27316,7 @@
       },
       "dungeons": [
         "Nerub-ar Palace",
+        "Nerub-ar Palace Normal",
         "Isle of Dorn",
         "Mists of Tirna Scithe +5"
       ],
@@ -27845,6 +27973,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
+        "Nerub-ar Palace Normal",
         "Nerub-ar Palace",
         "Isle of Dorn"
       ],
@@ -28500,6 +28629,7 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
+        "Nerub-ar Palace Normal",
         "Nerub-ar Palace",
         "Isle of Dorn"
       ],
@@ -28741,7 +28871,8 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "Sureki Ironweaver",
@@ -31274,6 +31405,7 @@
         "Enigma Crucible",
         "Hallowfall",
         "Nerub-ar Palace",
+        "Nerub-ar Palace Normal",
         "The Tiger's Peak",
         "Hook Point",
         "Black Rook Hold Arena"
@@ -32386,7 +32518,8 @@
       "dungeons": [
         "The Tiger's Peak",
         "Hallowfall",
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "The Tiger's Peak",
@@ -32563,7 +32696,8 @@
         "name": "Nerub-ar Palace"
       },
       "dungeons": [
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "Frenzied Leaper",
@@ -34384,7 +34518,8 @@
         "Isle of Dorn",
         "Enigma Crucible",
         "Hallowfall",
-        "Nerub-ar Palace"
+        "Nerub-ar Palace",
+        "Nerub-ar Palace Normal"
       ],
       "bosses": [
         "Hook Point",
@@ -34943,7 +35078,8 @@
       "endTime": 1690772254912,
       "zone": null,
       "dungeons": [
-        "Dawn of the Infinite"
+        "Dawn of the Infinite",
+        "Dawn of the Infinite Heroic"
       ],
       "bosses": [
         "Epoch Ripper",
@@ -35360,6 +35496,7 @@
       "zone": null,
       "dungeons": [
         "Dawn of the Infinite",
+        "Dawn of the Infinite Heroic",
         "Amirdrassil"
       ],
       "bosses": [
@@ -41826,7 +41963,8 @@
         "The Battle for Gilneas",
         "Eye of the Storm",
         "The Warlands",
-        "Dawn of the Infinite"
+        "Dawn of the Infinite",
+        "Dawn of the Infinite Heroic"
       ],
       "bosses": [
         "Tuugadark",
@@ -42684,7 +42822,8 @@
         "The Robodrome",
         "Amirdrassil",
         "The Tiger's Peak",
-        "Vault of the Incarnates"
+        "Vault of the Incarnates",
+        "Vault of the Incarnates Normal"
       ],
       "bosses": [
         "Hook Point",
@@ -43522,7 +43661,8 @@
         "Maldraxxus Coliseum",
         "Amirdrassil",
         "Ruins of Lordaeron",
-        "Vault of the Incarnates"
+        "Vault of the Incarnates",
+        "Vault of the Incarnates Normal"
       ],
       "bosses": [
         "Nokhudon Proving Grounds",
@@ -44757,6 +44897,7 @@
         "name": "Vault of the Incarnates"
       },
       "dungeons": [
+        "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
         "Blade's Edge Arena",
@@ -45533,6 +45674,7 @@
         "name": "Vault of the Incarnates"
       },
       "dungeons": [
+        "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
         "The Tiger's Peak",
@@ -47126,6 +47268,7 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
+        "Vault of the Incarnates Normal",
         "Amirdrassil"
       ],
       "bosses": [
@@ -47919,6 +48062,7 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
+        "Vault of the Incarnates Normal",
         "Amirdrassil"
       ],
       "bosses": [
@@ -48356,6 +48500,7 @@
         "name": "Vault of the Incarnates"
       },
       "dungeons": [
+        "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
         "Black Rook Hold Arena",
@@ -49162,6 +49307,7 @@
         "name": "Vault of the Incarnates"
       },
       "dungeons": [
+        "Vault of the Incarnates Normal",
         "Vault of the Incarnates",
         "Amirdrassil",
         "Black Rook Hold Arena"
@@ -49523,6 +49669,7 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
+        "Vault of the Incarnates Normal",
         "Amirdrassil",
         "Nagrand Arena"
       ],
@@ -49981,6 +50128,7 @@
       },
       "dungeons": [
         "Vault of the Incarnates",
+        "Vault of the Incarnates Normal",
         "Amirdrassil"
       ],
       "bosses": [
@@ -53554,7 +53702,9 @@
       "zone": {
         "name": "Blackwing Lair"
       },
-      "dungeons": [],
+      "dungeons": [
+        "Blackwing Lair Normal"
+      ],
       "bosses": [
         "Vaelastrasz the Corrupt",
         "Death Talon Seether",
