@@ -514,60 +514,84 @@
       background: rgba(56, 142, 60, 0.22);
     }
 
-    /* Account Switcher */
-    .account-switcher {
+    .logs-header {
+      position: relative;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Top-Right Account Dropdown */
+    .account-dropdown-wrapper {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10;
+    }
+
+    .account-select-box {
       display: inline-flex;
       align-items: center;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-color);
       border-radius: 9999px;
-      padding: 4px;
-      gap: 4px;
-      margin: 12px 0 18px;
+      padding: 6px 12px;
+      gap: 7px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
     }
 
-    .account-tab {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
+    .account-select-box:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .account-select-icon {
+      width: 14px;
+      height: 14px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    .account-select-box select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      padding: 6px 16px;
-      border-radius: 9999px;
-      font-size: 0.9rem;
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      font-family: inherit;
-      text-decoration: none;
+      outline: none;
+      padding-right: 18px;
     }
 
-    .account-tab:hover {
-      color: var(--text-color);
-      background: rgba(255, 255, 255, 0.06);
+    .account-select-box select option {
+      background: #151b28;
+      color: #f8fafc;
+      padding: 6px 10px;
     }
 
-    .account-tab.active {
-      background: var(--accent-green, #22c55e);
-      color: #0b0f19;
-      box-shadow: 0 2px 10px rgba(34, 197, 94, 0.35);
-    }
-
-    .account-tab-count {
-      font-size: 0.75rem;
-      font-weight: 700;
-      opacity: 0.85;
-      background: rgba(255, 255, 255, 0.1);
+    .account-select-arrow {
+      width: 12px;
+      height: 12px;
       color: var(--text-muted);
-      padding: 2px 7px;
-      border-radius: 999px;
-      transition: all 0.2s ease;
+      position: absolute;
+      right: 10px;
+      pointer-events: none;
+      transition: transform 0.2s ease;
     }
 
-    .account-tab.active .account-tab-count {
-      background: rgba(0, 0, 0, 0.25);
-      color: #0b0f19;
+    @media (max-width: 768px) {
+      .account-dropdown-wrapper {
+        position: static;
+        margin: 0 auto 12px auto;
+        display: flex;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -603,11 +627,23 @@
 
   <main class="container">
     <section class="logs-header">
+      <!-- Account Dropdown Selector (Top Right) -->
+      <div class="account-dropdown-wrapper" id="account-dropdown-wrapper" style="display: none;">
+        <div class="account-select-box">
+          <svg class="account-select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+          <select id="account-select" onchange="selectAccount(this.value)" aria-label="Select Player">
+            <!-- populated dynamically -->
+          </select>
+          <svg class="account-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
       <h1>WoW Logs</h1>
       <p id="logs-subtitle">Recent combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs.</p>
-      
-      <!-- Account Switcher Tabs -->
-      <div class="account-switcher" id="account-switcher" style="display: none;"></div>
 
       <div class="logs-header-actions">
         <div class="last-updated" id="last-updated-text" style="display:none;">
@@ -1030,27 +1066,19 @@
     }
 
     function renderAccountSwitcher() {
-      const switcher = document.getElementById('account-switcher');
-      if (!switcher) return;
+      const wrapper = document.getElementById('account-dropdown-wrapper');
+      const select = document.getElementById('account-select');
+      if (!wrapper || !select) return;
+
       if (accounts.length <= 1) {
-        switcher.style.display = 'none';
+        wrapper.style.display = 'none';
         return;
       }
-      switcher.style.display = 'inline-flex';
-      switcher.innerHTML = accounts.map(acc => {
-        const isActive = acc.id === currentAccountId;
-        const count = reportsByAccount[acc.id] ? reportsByAccount[acc.id].length : (acc.reportsCount || 0);
-        return `
-          <button 
-            type="button" 
-            class="account-tab ${isActive ? 'active' : ''}" 
-            onclick="selectAccount('${escapeHtml(acc.id)}')"
-            aria-pressed="${isActive}"
-          >
-            <span>${escapeHtml(acc.name)}</span>
-            <span class="account-tab-count">${count}</span>
-          </button>
-        `;
+
+      wrapper.style.display = '';
+      select.innerHTML = accounts.map(acc => {
+        const isSelected = acc.id === currentAccountId;
+        return `<option value="${escapeHtml(acc.id)}" ${isSelected ? 'selected' : ''}>${escapeHtml(acc.name)}</option>`;
       }).join('');
     }
 
