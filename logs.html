@@ -513,6 +513,62 @@
     .clear-search-link:hover {
       background: rgba(56, 142, 60, 0.22);
     }
+
+    /* Account Switcher */
+    .account-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      padding: 4px;
+      gap: 4px;
+      margin: 12px 0 18px;
+    }
+
+    .account-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .account-tab:hover {
+      color: var(--text-color);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .account-tab.active {
+      background: var(--accent-green, #22c55e);
+      color: #0b0f19;
+      box-shadow: 0 2px 10px rgba(34, 197, 94, 0.35);
+    }
+
+    .account-tab-count {
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.85;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 2px 7px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .account-tab.active .account-tab-count {
+      background: rgba(0, 0, 0, 0.25);
+      color: #0b0f19;
+    }
   </style>
 </head>
 <body>
@@ -548,7 +604,11 @@
   <main class="container">
     <section class="logs-header">
       <h1>WoW Logs</h1>
-      <p>Recent combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs.</p>
+      <p id="logs-subtitle">Recent combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs.</p>
+      
+      <!-- Account Switcher Tabs -->
+      <div class="account-switcher" id="account-switcher" style="display: none;"></div>
+
       <div class="logs-header-actions">
         <div class="last-updated" id="last-updated-text" style="display:none;">
           <span class="dot"></span>
@@ -621,6 +681,9 @@
 
   <script>
     const PAGE_SIZE = 15;
+    let accounts = [];
+    let currentAccountId = 'meudayr';
+    let reportsByAccount = {};
     let allReports = [];
     let currentSearchQuery = '';
     let currentPage = 1;
@@ -887,34 +950,29 @@
       const filtered = getFilteredReports();
       const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
       const paginationEl = document.getElementById('pagination');
-      const resultsCountEl = document.getElementById('search-results-count');
+      const countEl = document.getElementById('search-results-count');
 
-      // Update search result indicator
+      // Update search result count display
       if (currentSearchQuery.trim()) {
-        resultsCountEl.style.display = 'block';
-        resultsCountEl.innerHTML = `Found <strong>${filtered.length}</strong> log${filtered.length === 1 ? '' : 's'} matching "<em>${escapeHtml(currentSearchQuery.trim())}</em>"`;
+        countEl.style.display = 'block';
+        countEl.textContent = `Found ${filtered.length} log${filtered.length === 1 ? '' : 's'} matching "${currentSearchQuery.trim()}"`;
       } else {
-        resultsCountEl.style.display = 'none';
+        countEl.style.display = 'none';
       }
 
       if (filtered.length === 0) {
-        if (currentSearchQuery.trim()) {
-          container.innerHTML = `
-            <div class="state-box">
-              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-              <div class="state-title">No Matching Logs</div>
-              <p>No combat logs found matching "<strong>${escapeHtml(currentSearchQuery.trim())}</strong>".</p>
-              <button class="clear-search-link" onclick="clearSearch()">Clear Search</button>
-            </div>`;
-        } else {
-          container.innerHTML = `
-            <div class="state-box">
-              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-              <div class="state-title">No Logs Found</div>
-              <p>No public combat logs found yet. Click "Refresh Logs" or check back later!</p>
-            </div>`;
-        }
-        if (paginationEl) paginationEl.style.display = 'none';
+        container.innerHTML = `
+          <div class="no-results-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+            <div class="no-results-title">No Matching Logs</div>
+            <p class="no-results-text">No combat reports matched your search query. Try searching by title, date, dungeon, or player name.</p>
+            <button class="clear-search-link" onclick="clearSearch()">Clear Search</button>
+          </div>`;
+        paginationEl.style.display = 'none';
         return;
       }
 
@@ -963,6 +1021,101 @@
       return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     }
 
+    function updateHeaderSubtitle() {
+      const acc = accounts.find(a => a.id === currentAccountId) || { name: 'Meudayr' };
+      const sub = document.getElementById('logs-subtitle');
+      if (sub) {
+        sub.textContent = `Recent combat log reports from ${acc.name}. Click any log to view the full breakdown on WarcraftLogs.`;
+      }
+    }
+
+    function renderAccountSwitcher() {
+      const switcher = document.getElementById('account-switcher');
+      if (!switcher) return;
+      if (accounts.length <= 1) {
+        switcher.style.display = 'none';
+        return;
+      }
+      switcher.style.display = 'inline-flex';
+      switcher.innerHTML = accounts.map(acc => {
+        const isActive = acc.id === currentAccountId;
+        const count = reportsByAccount[acc.id] ? reportsByAccount[acc.id].length : (acc.reportsCount || 0);
+        return `
+          <button 
+            type="button" 
+            class="account-tab ${isActive ? 'active' : ''}" 
+            onclick="selectAccount('${escapeHtml(acc.id)}')"
+            aria-pressed="${isActive}"
+          >
+            <span>${escapeHtml(acc.name)}</span>
+            <span class="account-tab-count">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectAccount(accId) {
+      if (accId === currentAccountId) return;
+      currentAccountId = accId;
+      localStorage.setItem('selected_log_account', accId);
+
+      const url = new URL(window.location);
+      url.searchParams.set('user', accId);
+      window.history.replaceState({}, '', url);
+
+      allReports = reportsByAccount[currentAccountId] || [];
+      updateHeaderSubtitle();
+      renderAccountSwitcher();
+
+      const searchInput = document.getElementById('logs-search-input');
+      if (searchInput) searchInput.value = '';
+      currentSearchQuery = '';
+      const clearBtn = document.getElementById('logs-search-clear');
+      if (clearBtn) clearBtn.style.display = 'none';
+
+      currentPage = 1;
+      renderPage(1);
+    }
+
+    function applyLogsData(data) {
+      if (!data) return false;
+
+      if (Array.isArray(data.accounts) && data.reportsByAccount) {
+        accounts = data.accounts;
+        reportsByAccount = data.reportsByAccount;
+      } else {
+        accounts = [{ id: 'meudayr', name: data.character || 'Meudayr', userId: 323892, default: true }];
+        reportsByAccount = { meudayr: data.reports || [] };
+      }
+
+      // Determine active account from URL or storage
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedUser = urlParams.get('user') || urlParams.get('player') || localStorage.getItem('selected_log_account');
+      const validAcc = accounts.find(a => a.id.toLowerCase() === (requestedUser || '').toLowerCase() || a.name.toLowerCase() === (requestedUser || '').toLowerCase());
+
+      if (validAcc) {
+        currentAccountId = validAcc.id;
+      } else if (!accounts.some(a => a.id === currentAccountId)) {
+        const def = accounts.find(a => a.default) || accounts[0];
+        currentAccountId = def ? def.id : 'meudayr';
+      }
+
+      allReports = reportsByAccount[currentAccountId] || [];
+
+      // Show last updated timestamp
+      if (data.fetchedAt) {
+        const ts = new Date(data.fetchedAt);
+        document.getElementById('updated-timestamp').textContent = 'Last synced ' + formatLogDateTime(ts);
+        document.getElementById('last-updated-text').style.display = 'inline-flex';
+      }
+
+      renderAccountSwitcher();
+      updateHeaderSubtitle();
+      currentPage = 1;
+      renderPage(1);
+      return true;
+    }
+
     async function loadLogs() {
       const container = document.getElementById('logs-container');
       const skeletonGrid = document.getElementById('skeleton-grid');
@@ -973,27 +1126,7 @@
         const data = await response.json();
 
         if (skeletonGrid) skeletonGrid.remove();
-
-        if (!data.reports || data.reports.length === 0) {
-          container.innerHTML = `
-            <div class="state-box">
-              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-              <div class="state-title">No Logs Found</div>
-              <p>No public combat logs found yet. Click "Refresh Logs" or check back later!</p>
-            </div>`;
-          return;
-        }
-
-        // Show last updated timestamp
-        if (data.fetchedAt) {
-          const ts = new Date(data.fetchedAt);
-          document.getElementById('updated-timestamp').textContent = 'Last synced ' + formatLogDateTime(ts);
-          document.getElementById('last-updated-text').style.display = 'inline-flex';
-        }
-
-        allReports = data.reports;
-        currentPage = 1;
-        renderPage(1);
+        applyLogsData(data);
 
       } catch (err) {
         if (skeletonGrid) skeletonGrid.remove();
@@ -1030,7 +1163,7 @@
           if (data && data.content) {
             const decoded = atob(data.content.replace(/\s/g, ''));
             const json = JSON.parse(decoded);
-            if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+            if (json && (json.reportsByAccount || (Array.isArray(json.reports) && json.reports.length > 0))) {
               return json;
             }
           }
@@ -1050,7 +1183,7 @@
         clearTimeout(tid);
         if (res.ok) {
           const json = await res.json();
-          if (json && Array.isArray(json.reports) && json.reports.length > 0) {
+          if (json && (json.reportsByAccount || (Array.isArray(json.reports) && json.reports.length > 0))) {
             return json;
           }
         }
@@ -1101,9 +1234,10 @@
         for (let attempt = 0; attempt < 15; attempt++) {
           await new Promise(r => setTimeout(r, 3000));
           const check = await fetchLatestLogsFromGitHub();
-          if (check && check.reports && check.reports.length > 0) {
+          if (check) {
             freshData = check;
-            if (prevTopCode && check.reports[0].code !== prevTopCode) {
+            const currentList = (check.reportsByAccount && check.reportsByAccount[currentAccountId]) ? check.reportsByAccount[currentAccountId] : check.reports;
+            if (prevTopCode && currentList && currentList.length > 0 && currentList[0].code !== prevTopCode) {
               hasNewLog = true;
               break; // New log found and synced!
             }
@@ -1112,8 +1246,11 @@
       } else {
         await new Promise(r => setTimeout(r, 700));
         freshData = await fetchLatestLogsFromGitHub();
-        if (freshData && freshData.reports && freshData.reports.length > 0 && prevTopCode) {
-          hasNewLog = freshData.reports[0].code !== prevTopCode;
+        if (freshData && prevTopCode) {
+          const currentList = (freshData.reportsByAccount && freshData.reportsByAccount[currentAccountId]) ? freshData.reportsByAccount[currentAccountId] : freshData.reports;
+          if (currentList && currentList.length > 0) {
+            hasNewLog = currentList[0].code !== prevTopCode;
+          }
         }
       }
 
@@ -1123,10 +1260,8 @@
       const now = new Date();
       const nowTimeStr = formatTimeOnly(now);
 
-      if (freshData && freshData.reports && freshData.reports.length > 0) {
-        allReports = freshData.reports;
-        currentPage = 1;
-        renderPage(1);
+      if (freshData) {
+        applyLogsData(freshData);
 
         if (hasNewLog) {
           updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, New Log Loaded`;
@@ -1136,9 +1271,6 @@
 
         lastUpdatedEl.classList.add('flash');
         setTimeout(() => lastUpdatedEl.classList.remove('flash'), 2500);
-
-        const totalPages = Math.ceil(allReports.length / PAGE_SIZE);
-        document.getElementById('pagination').style.display = totalPages > 1 ? 'flex' : 'none';
       } else {
         updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
         lastUpdatedEl.classList.add('flash');

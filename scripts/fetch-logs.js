@@ -10,8 +10,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const CLIENT_ID = process.env.WCL_CLIENT_ID;
 const CLIENT_SECRET = process.env.WCL_CLIENT_SECRET;
-const WCL_USER_ID = 323892; // Meudayr's WarcraftLogs user ID
 const REPORTS_PER_PAGE = 25;
+
+const ACCOUNTS = [
+  { id: 'meudayr', name: 'Meudayr', userId: 323892, server: 'Crushridge-US', default: true },
+  { id: 'vember', name: 'Vember', userId: 3015473, server: 'US' }
+];
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   console.error('Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.');
@@ -40,12 +44,12 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-// Step 2: Query a single page of reports
-async function fetchReportsPage(token, page) {
+// Step 2: Query a single page of reports for a given user ID
+async function fetchReportsPage(token, page, userId) {
   const query = `
     query {
       reportData {
-        reports(userID: ${WCL_USER_ID}, limit: ${REPORTS_PER_PAGE}, page: ${page}) {
+        reports(userID: ${userId}, limit: ${REPORTS_PER_PAGE}, page: ${page}) {
           data {
             code
             title
@@ -101,8 +105,8 @@ async function fetchReportsPage(token, page) {
   return json.data?.reportData?.reports ?? { data: [], has_more_pages: false, total: 0 };
 }
 
-// Step 3: Paginate through ALL reports
-async function fetchAllReports(token) {
+// Step 3: Paginate through ALL reports for an account
+async function fetchAllReports(token, account) {
   let allReports = [];
   let page = 1;
   let hasMore = true;
@@ -124,8 +128,8 @@ async function fetchAllReports(token) {
   };
 
   while (hasMore) {
-    console.log(`  Fetching page ${page}...`);
-    const result = await fetchReportsPage(token, page);
+    console.log(`  [${account.name}] Fetching page ${page}...`);
+    const result = await fetchReportsPage(token, page, account.userId);
     const rawReports = result.data ?? [];
 
     const pageReports = rawReports.map(r => {
@@ -192,7 +196,7 @@ async function fetchAllReports(token) {
       };
     });
 
-    console.log(`  Page ${page}: got ${pageReports.length} reports. Total so far: ${allReports.length + pageReports.length} / ${result.total}`);
+    console.log(`  [${account.name}] Page ${page}: got ${pageReports.length} reports. Total so far: ${allReports.length + pageReports.length} / ${result.total}`);
     allReports = allReports.concat(pageReports);
 
     hasMore = result.has_more_pages === true;
@@ -200,7 +204,7 @@ async function fetchAllReports(token) {
 
     // Safety cap to avoid infinite loops
     if (page > 20) {
-      console.log('Reached page limit of 20, stopping.');
+      console.log(`  [${account.name}] Reached page limit of 20, stopping.`);
       break;
     }
   }
@@ -214,21 +218,39 @@ async function main() {
     console.log('Fetching WarcraftLogs access token...');
     const token = await getAccessToken();
 
-    console.log(`Querying all reports for user ID ${WCL_USER_ID} (Meudayr)...`);
-    const reports = await fetchAllReports(token);
+    const reportsByAccount = {};
+    const accountList = [];
 
-    console.log(`Total reports fetched: ${reports.length}`);
+    for (const acc of ACCOUNTS) {
+      console.log(`\nQuerying reports for ${acc.name} (User ID ${acc.userId})...`);
+      const reports = await fetchAllReports(token, acc);
+      console.log(`Total reports fetched for ${acc.name}: ${reports.length}`);
 
-    if (reports.length === 0) {
-      console.warn('WARNING: 0 reports returned. Reports may be set to Private on WarcraftLogs.');
-      console.warn('Fix: Go to warcraftlogs.com and set each report\'s visibility to Public.');
+      if (reports.length === 0) {
+        console.warn(`WARNING: 0 reports returned for ${acc.name}. Reports may be set to Private on WarcraftLogs.`);
+      }
+
+      reportsByAccount[acc.id] = reports;
+      accountList.push({
+        id: acc.id,
+        name: acc.name,
+        userId: acc.userId,
+        server: acc.server,
+        reportsCount: reports.length,
+        default: !!acc.default
+      });
     }
+
+    const defaultAcc = ACCOUNTS.find(a => a.default) || ACCOUNTS[0];
 
     const output = {
       fetchedAt: new Date().toISOString(),
-      character: 'Meudayr',
-      server: 'Crushridge-US',
-      reports,
+      accounts: accountList,
+      reportsByAccount: reportsByAccount,
+      // Backward compatibility fields:
+      character: defaultAcc.name,
+      server: defaultAcc.server,
+      reports: reportsByAccount[defaultAcc.id] || []
     };
 
     const outDir = path.join(__dirname, '..', 'data');
@@ -236,7 +258,7 @@ async function main() {
 
     const outPath = path.join(outDir, 'logs.json');
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-    console.log(`Successfully wrote ${reports.length} reports to ${outPath}`);
+    console.log(`\nSuccessfully wrote multi-account logs data to ${outPath}`);
 
   } catch (err) {
     console.error('Error fetching logs:', err.message);
