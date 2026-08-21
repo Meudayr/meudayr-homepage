@@ -723,13 +723,14 @@
         if (report.players.some(p => p && p.toLowerCase().includes(q))) return true;
       }
 
-      // 7. Check player classes in report (e.g. Druid, Evoker, Paladin, Death Knight)
+      // 7. Check player classes in report (e.g. Druid, Evoker, Paladin, Death Knight, Demon Hunter)
       if (Array.isArray(report.classes)) {
+        const cleanClassQ = q.replace(/[\s-_]+/g, '');
         if (report.classes.some(c => {
           if (!c) return false;
-          const cl = c.toLowerCase();
-          const clSpaced = cl.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
-          return cl.includes(q) || clSpaced.includes(q);
+          const cl = c.toLowerCase().replace(/[\s-_]+/g, '');
+          const clSpaced = c.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+          return cl.includes(cleanClassQ) || clSpaced.includes(q) || (c === 'DeathKnight' && (q === 'dk' || q === 'death knight')) || (c === 'DemonHunter' && (q === 'dh' || q === 'demon hunter'));
         })) return true;
       }
 
