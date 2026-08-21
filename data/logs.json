@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21T03:27:44.449Z",
+  "fetchedAt": "2026-08-21T04:33:12.757Z",
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
@@ -7,7 +7,7 @@
       "code": "37zmpRDFbL2KQwJa",
       "title": "8/20 raid",
       "startTime": 1787271685444,
-      "endTime": 1787281194145,
+      "endTime": 1787281254445,
       "zone": {
         "name": "The Venomous Abyss"
       },
@@ -38,7 +38,8 @@
         "Venomfang Venomcaller",
         "Vashnik",
         "Vashnik the Malignant",
-        "The Twin Fangs"
+        "The Twin Fangs",
+        "Ithraz"
       ],
       "players": [
         "Meudayr",
