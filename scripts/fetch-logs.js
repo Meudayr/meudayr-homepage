@@ -108,12 +108,11 @@ async function fetchAllReports(token) {
   let hasMore = true;
 
   const diffMap = {
-    1: 'Normal',
+    1: 'LFR',
     2: 'Heroic',
     3: 'Normal',
-    4: 'Normal',
-    5: 'Heroic',
-    6: 'Heroic',
+    4: 'Heroic',
+    5: 'Mythic',
     7: 'LFR',
     8: 'Challenge Mode',
     9: '40 Man',
