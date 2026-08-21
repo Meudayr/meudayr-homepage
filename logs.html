@@ -808,19 +808,29 @@
 
     function cleanDungeonTags(dungeons, zoneName) {
       if (!Array.isArray(dungeons)) return [];
+      
+      let filtered = dungeons.filter(d => !d.startsWith('VS / DR / MQD'));
+      if (filtered.length === 0) filtered = dungeons;
+
       const keyedOrDiffNames = new Set(
-        dungeons
+        filtered
           .filter(d => /\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d))
           .map(d => d.replace(/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i, '').trim())
       );
-      let tags = Array.from(new Set(dungeons)).filter(d => {
+
+      let tags = Array.from(new Set(filtered)).filter(d => {
         if (/\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d)) return true;
         return !keyedOrDiffNames.has(d.trim());
       });
 
-      if (zoneName && !zoneName.toLowerCase().includes('season')) {
+      const hasKeyedOrDiff = tags.some(d => /\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d));
+      if (hasKeyedOrDiff) {
+        tags = tags.filter(d => /\s+(\+\d+|Normal|Heroic|Mythic|LFR)$/i.test(d));
+      }
+
+      if (zoneName && !zoneName.toLowerCase().includes('season') && zoneName !== 'VS / DR / MQD') {
         const mainRaidTag = tags.find(t => t.toLowerCase().startsWith(zoneName.toLowerCase()));
-        if (mainRaidTag) {
+        if (mainRaidTag && tags.every(t => t.toLowerCase().includes(zoneName.toLowerCase()))) {
           tags = [mainRaidTag];
         }
       }

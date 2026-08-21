@@ -160,7 +160,7 @@ async function fetchAllReports(token) {
         });
       }
 
-      if (r.zone && r.zone.name && !r.zone.name.includes('Season')) {
+      if (r.zone && r.zone.name && !r.zone.name.includes('Season') && r.zone.name !== 'VS / DR / MQD') {
         const raidDiffs = Array.from(difficultySet).filter(d => d !== 'Mythic+');
         const raidTag = raidDiffs.length > 0 ? `${r.zone.name} ${raidDiffs.join('/')}` : r.zone.name;
         dungeonSet.add(raidTag);
