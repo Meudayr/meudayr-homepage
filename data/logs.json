@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-22T16:19:10.274Z",
+  "fetchedAt": "2026-08-22T20:17:43.620Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -32,17 +32,24 @@
         "code": "mRaCWcXjf6rbtTd8",
         "title": "8/22 m+",
         "startTime": 1787410759440,
-        "endTime": 1787414514296,
+        "endTime": 1787428009649,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Den of Nalorakk +11",
-          "Altar of Fangs +10"
+          "Altar of Fangs +10",
+          "Kings' Rest +10",
+          "Murder Row +12",
+          "Ruby Life Pools",
+          "Den of Nalorakk +9"
         ],
         "bosses": [
           "Den of Nalorakk",
-          "Altar of Fangs"
+          "Altar of Fangs",
+          "Kings' Rest",
+          "Murder Row",
+          "Beetle"
         ],
         "players": [
           "Roken",
@@ -53,7 +60,12 @@
           "Cileb",
           "Cainnaszunn",
           "Asomyrh",
-          "Rek"
+          "Rek",
+          "Tollee",
+          "Mollenkoffee",
+          "Darkeucant",
+          "Aedrix",
+          "Jakwasbored"
         ],
         "classes": [
           "Shaman",
@@ -61,14 +73,17 @@
           "Mage",
           "Druid",
           "Monk",
-          "Warrior"
+          "Warrior",
+          "DemonHunter"
         ],
         "difficulties": [
           "Mythic+"
         ],
         "keyLevels": [
           11,
-          10
+          10,
+          12,
+          9
         ]
       },
       {
@@ -73530,17 +73545,24 @@
       "code": "mRaCWcXjf6rbtTd8",
       "title": "8/22 m+",
       "startTime": 1787410759440,
-      "endTime": 1787414514296,
+      "endTime": 1787428009649,
       "zone": {
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
         "Den of Nalorakk +11",
-        "Altar of Fangs +10"
+        "Altar of Fangs +10",
+        "Kings' Rest +10",
+        "Murder Row +12",
+        "Ruby Life Pools",
+        "Den of Nalorakk +9"
       ],
       "bosses": [
         "Den of Nalorakk",
-        "Altar of Fangs"
+        "Altar of Fangs",
+        "Kings' Rest",
+        "Murder Row",
+        "Beetle"
       ],
       "players": [
         "Roken",
@@ -73551,7 +73573,12 @@
         "Cileb",
         "Cainnaszunn",
         "Asomyrh",
-        "Rek"
+        "Rek",
+        "Tollee",
+        "Mollenkoffee",
+        "Darkeucant",
+        "Aedrix",
+        "Jakwasbored"
       ],
       "classes": [
         "Shaman",
@@ -73559,14 +73586,17 @@
         "Mage",
         "Druid",
         "Monk",
-        "Warrior"
+        "Warrior",
+        "DemonHunter"
       ],
       "difficulties": [
         "Mythic+"
       ],
       "keyLevels": [
         11,
-        10
+        10,
+        12,
+        9
       ]
     },
     {
