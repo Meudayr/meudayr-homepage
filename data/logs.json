@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-24T01:00:05.896Z",
+  "fetchedAt": "2026-08-24T04:40:17.219Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -22,7 +22,7 @@
       "name": "Wubs",
       "userId": 48864,
       "server": "US",
-      "reportsCount": 72,
+      "reportsCount": 73,
       "default": false
     }
   ],
@@ -32,7 +32,7 @@
         "code": "HVfjbQkqynAc6hFv",
         "title": "8/23 m+",
         "startTime": 1787511760265,
-        "endTime": 1787531405700,
+        "endTime": 1787533990374,
         "zone": {
           "name": "Mythic+ Season 2"
         },
@@ -41,7 +41,8 @@
           "Ruby Life Pools +10",
           "Murder Row +10",
           "Altar of Fangs",
-          "Altar of Fangs +11"
+          "Altar of Fangs +11",
+          "Ruby Life Pools +11"
         ],
         "bosses": [
           "Primal Juggernaut",
@@ -60,7 +61,12 @@
           "Mahalleinr",
           "Shettrah",
           "Varfus",
-          "Adorabull"
+          "Adorabull",
+          "Aedrix",
+          "Owch",
+          "Shetmage",
+          "Caverns",
+          "Aviendha"
         ],
         "classes": [
           "Mage",
@@ -68,7 +74,9 @@
           "Warrior",
           "Shaman",
           "DemonHunter",
-          "Druid"
+          "Druid",
+          "Priest",
+          "Monk"
         ],
         "difficulties": [
           "Mythic+"
@@ -66218,6 +66226,151 @@
     ],
     "wubs": [
       {
+        "code": "4waJZHbcPFQn2MgC",
+        "title": "Mythic+ Season 2",
+        "startTime": 1787534059586,
+        "endTime": 1787544445510,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "The Blinding Vale +10",
+          "Ruby Life Pools",
+          "Ruby Life Pools +10",
+          "Altar of Fangs +10",
+          "Voidscar Arena +10"
+        ],
+        "bosses": [
+          "Temple of Sethraliss",
+          "Sandfury Stonefist",
+          "Sandswept Marksman",
+          "The Blinding Vale",
+          "Beetle",
+          "Ruby Life Pools",
+          "Altar of Fangs",
+          "Voidscar Arena"
+        ],
+        "players": [
+          "Zappyfloon",
+          "Bizarostormy",
+          "Wubadead",
+          "Chipowah",
+          "Söulreäper",
+          "Warruck",
+          "Dictaiter",
+          "Mcfool",
+          "Orkwa",
+          "Caustiic",
+          "Cosmõ",
+          "Pootéédk",
+          "Ekea",
+          "Fogpriest",
+          "Furý",
+          "Shale",
+          "Caylana",
+          "Raave",
+          "Shyamon",
+          "Lònely",
+          "Cinderone",
+          "Zy",
+          "Sliveer",
+          "Funkweave",
+          "Toisec",
+          "Deadfloon",
+          "Executes",
+          "Loving",
+          "Misswhiskers",
+          "Begnforpegn",
+          "Åcë",
+          "Squeeèeeps",
+          "Genyy",
+          "Reholyz",
+          "Bonkx",
+          "Kryshym",
+          "Morgrum",
+          "Reggieaug",
+          "Bloobster",
+          "Magúkù",
+          "Bearmanshrek",
+          "Mâvêr",
+          "Cakepóp",
+          "Soullessdead",
+          "Dreckiar",
+          "Lotsofloving",
+          "Deathsquaad",
+          "Lewinskibidi",
+          "Slitheryx",
+          "Owlbear",
+          "Thraken",
+          "Pinea",
+          "Ruckuus",
+          "Jhordie",
+          "Veiyyluh",
+          "Widehard",
+          "Bahlras",
+          "Tizoguerro",
+          "Vorikan",
+          "Redbeerd",
+          "Spectromonk",
+          "Jestêr",
+          "Wighttrash",
+          "Olheifer",
+          "Corener",
+          "Spooknjuke",
+          "Zeeruss",
+          "Tyylerdurden",
+          "Cormyr",
+          "Cartoonz",
+          "Itchyscales",
+          "Pyronuri",
+          "Cizan",
+          "Booma",
+          "Thiccgripper",
+          "Dès",
+          "Dksammy",
+          "Exultance",
+          "Dubsmage",
+          "Alteredshock",
+          "Valleri",
+          "Apocalyptík",
+          "Symkoel",
+          "Waikato",
+          "Magerlybad",
+          "Stumpett",
+          "Kirinvoke",
+          "Exot",
+          "Axebuster",
+          "Fenixx",
+          "Dcvend",
+          "Lodel",
+          "Alixlynx",
+          "Azomite",
+          "Bunzofsteel",
+          "Navagunjara",
+          "Josëki",
+          "Rickehlol",
+          "Floonadin",
+          "Manacloüd"
+        ],
+        "classes": [
+          "Shaman",
+          "Warrior",
+          "DeathKnight",
+          "Monk",
+          "DemonHunter",
+          "Unknown",
+          "Paladin",
+          "Priest"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          11,
+          10
+        ]
+      },
+      {
         "code": "ydxZfK1R4XNGBa9A",
         "title": "Mythic+ Season 2",
         "startTime": 1787447215711,
@@ -74888,7 +75041,7 @@
       "code": "HVfjbQkqynAc6hFv",
       "title": "8/23 m+",
       "startTime": 1787511760265,
-      "endTime": 1787531405700,
+      "endTime": 1787533990374,
       "zone": {
         "name": "Mythic+ Season 2"
       },
@@ -74897,7 +75050,8 @@
         "Ruby Life Pools +10",
         "Murder Row +10",
         "Altar of Fangs",
-        "Altar of Fangs +11"
+        "Altar of Fangs +11",
+        "Ruby Life Pools +11"
       ],
       "bosses": [
         "Primal Juggernaut",
@@ -74916,7 +75070,12 @@
         "Mahalleinr",
         "Shettrah",
         "Varfus",
-        "Adorabull"
+        "Adorabull",
+        "Aedrix",
+        "Owch",
+        "Shetmage",
+        "Caverns",
+        "Aviendha"
       ],
       "classes": [
         "Mage",
@@ -74924,7 +75083,9 @@
         "Warrior",
         "Shaman",
         "DemonHunter",
-        "Druid"
+        "Druid",
+        "Priest",
+        "Monk"
       ],
       "difficulties": [
         "Mythic+"
