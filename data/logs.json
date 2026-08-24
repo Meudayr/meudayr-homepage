@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-08-24T16:32:23.199Z",
+  "fetchedAt": "2026-08-24T20:25:24.596Z",
   "accounts": [
     {
       "id": "meudayr",
       "name": "Meudayr",
       "userId": 323892,
       "server": "Crushridge-US",
-      "reportsCount": 206,
+      "reportsCount": 207,
       "default": true
     },
     {
@@ -28,6 +28,49 @@
   ],
   "reportsByAccount": {
     "meudayr": [
+      {
+        "code": "wXH1xgABmh4QdaDP",
+        "title": "8/24",
+        "startTime": 1787589829593,
+        "endTime": 1787598988162,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "Kings' Rest +10",
+          "Temple of Sethraliss +10"
+        ],
+        "bosses": [
+          "Kings' Rest",
+          "Temple of Sethraliss"
+        ],
+        "players": [
+          "Orcandaxe",
+          "Ant",
+          "Owch",
+          "Gathh",
+          "Làwton",
+          "Roken",
+          "Äzshara",
+          "Fuzzychin",
+          "Bigboy"
+        ],
+        "classes": [
+          "Warrior",
+          "Paladin",
+          "Priest",
+          "Hunter",
+          "Shaman",
+          "Mage",
+          "Monk"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          10
+        ]
+      },
       {
         "code": "HVfjbQkqynAc6hFv",
         "title": "8/23 m+",
@@ -75286,6 +75329,49 @@
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
+    {
+      "code": "wXH1xgABmh4QdaDP",
+      "title": "8/24",
+      "startTime": 1787589829593,
+      "endTime": 1787598988162,
+      "zone": {
+        "name": "Mythic+ Season 2"
+      },
+      "dungeons": [
+        "Kings' Rest +10",
+        "Temple of Sethraliss +10"
+      ],
+      "bosses": [
+        "Kings' Rest",
+        "Temple of Sethraliss"
+      ],
+      "players": [
+        "Orcandaxe",
+        "Ant",
+        "Owch",
+        "Gathh",
+        "Làwton",
+        "Roken",
+        "Äzshara",
+        "Fuzzychin",
+        "Bigboy"
+      ],
+      "classes": [
+        "Warrior",
+        "Paladin",
+        "Priest",
+        "Hunter",
+        "Shaman",
+        "Mage",
+        "Monk"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
+      ]
+    },
     {
       "code": "HVfjbQkqynAc6hFv",
       "title": "8/23 m+",
