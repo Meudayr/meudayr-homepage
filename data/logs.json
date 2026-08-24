@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-23T20:17:25.330Z",
+  "fetchedAt": "2026-08-24T01:00:05.896Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -32,19 +32,23 @@
         "code": "HVfjbQkqynAc6hFv",
         "title": "8/23 m+",
         "startTime": 1787511760265,
-        "endTime": 1787515357551,
+        "endTime": 1787531405700,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Ruby Life Pools",
           "Ruby Life Pools +10",
-          "Murder Row +10"
+          "Murder Row +10",
+          "Altar of Fangs",
+          "Altar of Fangs +11"
         ],
         "bosses": [
           "Primal Juggernaut",
           "Ruby Life Pools",
-          "Murder Row"
+          "Murder Row",
+          "Frog",
+          "Altar of Fangs"
         ],
         "players": [
           "Cileb",
@@ -52,20 +56,26 @@
           "Rek",
           "Asomyrh",
           "Ve",
-          "Vìzér"
+          "Vìzér",
+          "Mahalleinr",
+          "Shettrah",
+          "Varfus",
+          "Adorabull"
         ],
         "classes": [
           "Mage",
           "Paladin",
           "Warrior",
           "Shaman",
-          "DemonHunter"
+          "DemonHunter",
+          "Druid"
         ],
         "difficulties": [
           "Mythic+"
         ],
         "keyLevels": [
-          10
+          10,
+          11
         ]
       },
       {
@@ -74878,19 +74888,23 @@
       "code": "HVfjbQkqynAc6hFv",
       "title": "8/23 m+",
       "startTime": 1787511760265,
-      "endTime": 1787515357551,
+      "endTime": 1787531405700,
       "zone": {
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
         "Ruby Life Pools",
         "Ruby Life Pools +10",
-        "Murder Row +10"
+        "Murder Row +10",
+        "Altar of Fangs",
+        "Altar of Fangs +11"
       ],
       "bosses": [
         "Primal Juggernaut",
         "Ruby Life Pools",
-        "Murder Row"
+        "Murder Row",
+        "Frog",
+        "Altar of Fangs"
       ],
       "players": [
         "Cileb",
@@ -74898,20 +74912,26 @@
         "Rek",
         "Asomyrh",
         "Ve",
-        "Vìzér"
+        "Vìzér",
+        "Mahalleinr",
+        "Shettrah",
+        "Varfus",
+        "Adorabull"
       ],
       "classes": [
         "Mage",
         "Paladin",
         "Warrior",
         "Shaman",
-        "DemonHunter"
+        "DemonHunter",
+        "Druid"
       ],
       "difficulties": [
         "Mythic+"
       ],
       "keyLevels": [
-        10
+        10,
+        11
       ]
     },
     {
