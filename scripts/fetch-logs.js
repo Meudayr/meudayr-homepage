@@ -15,7 +15,8 @@ const REPORTS_PER_PAGE = 25;
 const ACCOUNTS = [
   { id: 'meudayr', name: 'Meudayr', userId: 323892, server: 'Crushridge-US', default: true },
   { id: 'vember', name: 'Vember', userId: 3015473, server: 'US' },
-  { id: 'wubs', name: 'Wubs', userId: 48864, server: 'US' }
+  { id: 'wubs', name: 'Wubs', userId: 48864, server: 'US' },
+  { id: 'ferraro', name: 'Ferraro', userId: 2552220, server: 'US' }
 ];
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
