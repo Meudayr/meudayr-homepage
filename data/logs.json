@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-25T01:00:10.789Z",
+  "fetchedAt": "2026-08-25T04:35:07.711Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -32,19 +32,22 @@
         "code": "wXH1xgABmh4QdaDP",
         "title": "8/24",
         "startTime": 1787589829593,
-        "endTime": 1787617445248,
+        "endTime": 1787626116005,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Kings' Rest +10",
           "Temple of Sethraliss +10",
-          "The Blinding Vale +10"
+          "The Blinding Vale +10",
+          "Temple of Sethraliss +12",
+          "Den of Nalorakk +12"
         ],
         "bosses": [
           "Kings' Rest",
           "Temple of Sethraliss",
-          "The Blinding Vale"
+          "The Blinding Vale",
+          "Den of Nalorakk"
         ],
         "players": [
           "Orcandaxe",
@@ -58,7 +61,13 @@
           "Bigboy",
           "Ve",
           "Anoxiaa",
-          "Shiftyboi"
+          "Shiftyboi",
+          "Asomyrh",
+          "Cileb",
+          "Meudayr",
+          "Rek",
+          "Baguele",
+          "Goofygooberz"
         ],
         "classes": [
           "Warrior",
@@ -68,13 +77,15 @@
           "Shaman",
           "Mage",
           "Monk",
-          "Druid"
+          "Druid",
+          "DeathKnight"
         ],
         "difficulties": [
           "Mythic+"
         ],
         "keyLevels": [
-          10
+          10,
+          12
         ]
       },
       {
@@ -66275,6 +66286,200 @@
     ],
     "wubs": [
       {
+        "code": "ncY2g8Dj1pVzawdm",
+        "title": "Mythic+ Season 2",
+        "startTime": 1787619532506,
+        "endTime": 1787630582123,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "Temple of Sethraliss +11",
+          "Kings' Rest +10",
+          "Altar of Fangs +11",
+          "Den of Nalorakk +10"
+        ],
+        "bosses": [
+          "Temple of Sethraliss",
+          "Kings' Rest",
+          "Altar of Fangs",
+          "Den of Nalorakk"
+        ],
+        "players": [
+          "Fera",
+          "Kungfury",
+          "Maplefudge",
+          "Wubadead",
+          "Pewpewpowah",
+          "Aurang",
+          "Alissaraptor",
+          "Naturesham",
+          "Mestw",
+          "Werewolfey",
+          "Potatosnow",
+          "Parados",
+          "Painstake",
+          "Mçlovin",
+          "Thephobia",
+          "Rwe",
+          "Pelzhak",
+          "Zogar",
+          "Cougknight",
+          "Emotiddys",
+          "Aìzén",
+          "Babyfur",
+          "Spakuka",
+          "Nailana",
+          "Earshaker",
+          "Frydcomadant",
+          "Darkrize",
+          "Lohnwulf",
+          "Iceshellox",
+          "Izpanda",
+          "Wqwq",
+          "Mayrender",
+          "Grunzi",
+          "Ellawenn",
+          "Zangzangqi",
+          "Aurren",
+          "Lilpose",
+          "Mòónlight",
+          "Mistypp",
+          "Jarnar",
+          "Bombfire",
+          "Melovlongtim",
+          "Nerolie",
+          "Lightsabré",
+          "Gilshalos",
+          "Uninställ",
+          "Zorin",
+          "Trasky",
+          "Ainznazarick",
+          "Gerfquake",
+          "Bovurfel",
+          "Yuliana",
+          "Ellëm",
+          "Treewizard",
+          "Ariéne",
+          "Threlthis",
+          "Bootypounce",
+          "Espadachin",
+          "Danawa",
+          "Davidbyrne",
+          "Bluepygmy",
+          "Feymor",
+          "Sumiyo",
+          "Saläzär",
+          "Cashpally",
+          "Wooen",
+          "Momussie",
+          "Omelettë",
+          "Lilyandriel",
+          "Zahelu",
+          "Venkis",
+          "Shortrib",
+          "Sleepytimee",
+          "Rayleigh",
+          "Firstsol",
+          "Hypewing",
+          "Duradel",
+          "Bubblebuds",
+          "Exochi",
+          "Scaper",
+          "Scratzch",
+          "Crimsonjazz",
+          "Lorrâine",
+          "Celestriales",
+          "Megamagê",
+          "Burkley",
+          "Allouttagum",
+          "Trinanah",
+          "Caarjack",
+          "Lognyr",
+          "Rickrejuv",
+          "Pantangelo",
+          "Clawwarden",
+          "Clapass",
+          "Leerøy",
+          "Kælis",
+          "Brotherbrad",
+          "Harléy",
+          "Ìróh",
+          "Dreamoni",
+          "Kyouyaa",
+          "Amponazo",
+          "Hungdaddy",
+          "Leviiathan",
+          "Unhingedguy",
+          "Nucktuck",
+          "Tarnaks",
+          "Ændræw",
+          "Tormunds",
+          "Arielf",
+          "Cynwin",
+          "Bellethiell",
+          "Jonsnowball",
+          "Häwkmoon",
+          "Innania",
+          "Jackboi",
+          "Kevomage",
+          "Neytri",
+          "Notstephen",
+          "Maÿä",
+          "Tuppytime",
+          "Lento",
+          "Melluria",
+          "Belfyre",
+          "Dmgcontrol",
+          "Celdiiwar",
+          "Natiss",
+          "Cheeseydruid",
+          "Sondrrin",
+          "Mizy",
+          "Bookoflife",
+          "Belarila",
+          "Newink",
+          "Wubwubz",
+          "Zàhra",
+          "Knifechild",
+          "Tieberion",
+          "Tarkûs",
+          "Valr",
+          "Stankietotem",
+          "Bigdeath",
+          "Adric",
+          "Noyer",
+          "Zetm",
+          "Matadory",
+          "Modeus",
+          "Nabsmedic",
+          "Shaedysha",
+          "Tossha",
+          "Mixtatic",
+          "Jooger",
+          "Adelaa",
+          "Emvöker"
+        ],
+        "classes": [
+          "Paladin",
+          "Monk",
+          "Druid",
+          "DeathKnight",
+          "Hunter",
+          "Unknown",
+          "Priest",
+          "Shaman",
+          "Evoker"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          11,
+          10
+        ]
+      },
+      {
         "code": "4waJZHbcPFQn2MgC",
         "title": "Mythic+ Season 2",
         "startTime": 1787534059586,
@@ -72627,63 +72832,6 @@
         "keyLevels": []
       },
       {
-        "code": "V9AyM4TLJwNb3mYP",
-        "title": "",
-        "startTime": 1443757767052,
-        "endTime": 1443769353391,
-        "zone": null,
-        "dungeons": [],
-        "bosses": [
-          "Construct Peacekeeper",
-          "Sargerei Bannerman",
-          "Korvos",
-          "Binder Hallaani",
-          "Socrethar the Eternal",
-          "Weaponlord Mehlkhior",
-          "Xhul'horac",
-          "Lord Aram'el",
-          "Eredar Faithbreaker",
-          "Umbral Supplicant",
-          "Mannoroth"
-        ],
-        "players": [
-          "Galfordd",
-          "Wubwubs",
-          "Pseudoeggs",
-          "Miyua",
-          "Ekaterina",
-          "Devdu",
-          "Bøøtymeat",
-          "Kevinmagnus",
-          "Brewberrie",
-          "Lulatu",
-          "Mykerz",
-          "Sibblet",
-          "Letharia",
-          "Blizistealth",
-          "Wiradormi",
-          "Ripcìty",
-          "Blizzinator"
-        ],
-        "classes": [
-          "Hunter",
-          "Monk",
-          "Shaman",
-          "Mage",
-          "DeathKnight",
-          "Druid",
-          "Paladin",
-          "Warrior",
-          "Rogue",
-          "Warlock",
-          "Unknown"
-        ],
-        "difficulties": [
-          "Heroic"
-        ],
-        "keyLevels": []
-      },
-      {
         "code": "kRcfntbjaMVTdq3W",
         "title": "",
         "startTime": 1443757767052,
@@ -75396,19 +75544,22 @@
       "code": "wXH1xgABmh4QdaDP",
       "title": "8/24",
       "startTime": 1787589829593,
-      "endTime": 1787617445248,
+      "endTime": 1787626116005,
       "zone": {
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
         "Kings' Rest +10",
         "Temple of Sethraliss +10",
-        "The Blinding Vale +10"
+        "The Blinding Vale +10",
+        "Temple of Sethraliss +12",
+        "Den of Nalorakk +12"
       ],
       "bosses": [
         "Kings' Rest",
         "Temple of Sethraliss",
-        "The Blinding Vale"
+        "The Blinding Vale",
+        "Den of Nalorakk"
       ],
       "players": [
         "Orcandaxe",
@@ -75422,7 +75573,13 @@
         "Bigboy",
         "Ve",
         "Anoxiaa",
-        "Shiftyboi"
+        "Shiftyboi",
+        "Asomyrh",
+        "Cileb",
+        "Meudayr",
+        "Rek",
+        "Baguele",
+        "Goofygooberz"
       ],
       "classes": [
         "Warrior",
@@ -75432,13 +75589,15 @@
         "Shaman",
         "Mage",
         "Monk",
-        "Druid"
+        "Druid",
+        "DeathKnight"
       ],
       "difficulties": [
         "Mythic+"
       ],
       "keyLevels": [
-        10
+        10,
+        12
       ]
     },
     {
