@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-24T20:25:24.596Z",
+  "fetchedAt": "2026-08-25T01:00:10.789Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -22,7 +22,7 @@
       "name": "Wubs",
       "userId": 48864,
       "server": "US",
-      "reportsCount": 73,
+      "reportsCount": 74,
       "default": false
     }
   ],
@@ -32,17 +32,19 @@
         "code": "wXH1xgABmh4QdaDP",
         "title": "8/24",
         "startTime": 1787589829593,
-        "endTime": 1787598988162,
+        "endTime": 1787617445248,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Kings' Rest +10",
-          "Temple of Sethraliss +10"
+          "Temple of Sethraliss +10",
+          "The Blinding Vale +10"
         ],
         "bosses": [
           "Kings' Rest",
-          "Temple of Sethraliss"
+          "Temple of Sethraliss",
+          "The Blinding Vale"
         ],
         "players": [
           "Orcandaxe",
@@ -53,7 +55,10 @@
           "Roken",
           "Äzshara",
           "Fuzzychin",
-          "Bigboy"
+          "Bigboy",
+          "Ve",
+          "Anoxiaa",
+          "Shiftyboi"
         ],
         "classes": [
           "Warrior",
@@ -62,7 +67,8 @@
           "Hunter",
           "Shaman",
           "Mage",
-          "Monk"
+          "Monk",
+          "Druid"
         ],
         "difficulties": [
           "Mythic+"
@@ -72621,6 +72627,63 @@
         "keyLevels": []
       },
       {
+        "code": "V9AyM4TLJwNb3mYP",
+        "title": "",
+        "startTime": 1443757767052,
+        "endTime": 1443769353391,
+        "zone": null,
+        "dungeons": [],
+        "bosses": [
+          "Construct Peacekeeper",
+          "Sargerei Bannerman",
+          "Korvos",
+          "Binder Hallaani",
+          "Socrethar the Eternal",
+          "Weaponlord Mehlkhior",
+          "Xhul'horac",
+          "Lord Aram'el",
+          "Eredar Faithbreaker",
+          "Umbral Supplicant",
+          "Mannoroth"
+        ],
+        "players": [
+          "Galfordd",
+          "Wubwubs",
+          "Pseudoeggs",
+          "Miyua",
+          "Ekaterina",
+          "Devdu",
+          "Bøøtymeat",
+          "Kevinmagnus",
+          "Brewberrie",
+          "Lulatu",
+          "Mykerz",
+          "Sibblet",
+          "Letharia",
+          "Blizistealth",
+          "Wiradormi",
+          "Ripcìty",
+          "Blizzinator"
+        ],
+        "classes": [
+          "Hunter",
+          "Monk",
+          "Shaman",
+          "Mage",
+          "DeathKnight",
+          "Druid",
+          "Paladin",
+          "Warrior",
+          "Rogue",
+          "Warlock",
+          "Unknown"
+        ],
+        "difficulties": [
+          "Heroic"
+        ],
+        "keyLevels": []
+      },
+      {
         "code": "kRcfntbjaMVTdq3W",
         "title": "",
         "startTime": 1443757767052,
@@ -75333,17 +75396,19 @@
       "code": "wXH1xgABmh4QdaDP",
       "title": "8/24",
       "startTime": 1787589829593,
-      "endTime": 1787598988162,
+      "endTime": 1787617445248,
       "zone": {
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
         "Kings' Rest +10",
-        "Temple of Sethraliss +10"
+        "Temple of Sethraliss +10",
+        "The Blinding Vale +10"
       ],
       "bosses": [
         "Kings' Rest",
-        "Temple of Sethraliss"
+        "Temple of Sethraliss",
+        "The Blinding Vale"
       ],
       "players": [
         "Orcandaxe",
@@ -75354,7 +75419,10 @@
         "Roken",
         "Äzshara",
         "Fuzzychin",
-        "Bigboy"
+        "Bigboy",
+        "Ve",
+        "Anoxiaa",
+        "Shiftyboi"
       ],
       "classes": [
         "Warrior",
@@ -75363,7 +75431,8 @@
         "Hunter",
         "Shaman",
         "Mage",
-        "Monk"
+        "Monk",
+        "Druid"
       ],
       "difficulties": [
         "Mythic+"
