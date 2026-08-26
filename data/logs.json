@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-26T01:01:49.996Z",
+  "fetchedAt": "2026-08-26T04:35:52.527Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -22,7 +22,7 @@
       "name": "Wubs",
       "userId": 48864,
       "server": "US",
-      "reportsCount": 75,
+      "reportsCount": 76,
       "default": false
     },
     {
@@ -40,7 +40,7 @@
         "code": "c2K6H7NrCWtj1AXJ",
         "title": "8/25",
         "startTime": 1787674853223,
-        "endTime": 1787704417395,
+        "endTime": 1787713708144,
         "zone": {
           "name": "The Venomous Abyss"
         },
@@ -52,7 +52,11 @@
           "Altar of Fangs +11",
           "The Blinding Vale +10",
           "The Blinding Vale",
-          "Voidscar Arena +12"
+          "Voidscar Arena +12",
+          "The Blinding Vale +12",
+          "Ruby Life Pools +12",
+          "Kings' Rest +12",
+          "Altar of Fangs +12"
         ],
         "bosses": [
           "Nek'zali the Soulcoiler",
@@ -68,7 +72,9 @@
           "Altar of Fangs",
           "The Blinding Vale",
           "Lightgorged Lasher",
-          "Voidscar Arena"
+          "Voidscar Arena",
+          "Ruby Life Pools",
+          "Kings' Rest"
         ],
         "players": [
           "Izpop",
@@ -138,7 +144,10 @@
           "Aviendha",
           "Clanker",
           "Roken",
-          "Revalation"
+          "Revalation",
+          "Smallfridge",
+          "Cileb",
+          "Asomyrh"
         ],
         "classes": [
           "Paladin",
@@ -66424,6 +66433,70 @@
     ],
     "wubs": [
       {
+        "code": "JhXcCR1nYQwqKDVM",
+        "title": "Mythic+ Season 2",
+        "startTime": 1787706926714,
+        "endTime": 1787716846816,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "Den of Nalorakk +10",
+          "Altar of Fangs +10",
+          "Harandar",
+          "The Blinding Vale +11",
+          "The Blinding Vale"
+        ],
+        "bosses": [
+          "Kings' Rest",
+          "Voidbound Emissary",
+          "Den of Nalorakk",
+          "Altar of Fangs",
+          "Oro'ohna",
+          "The Blinding Vale",
+          "Virid Grovekeeper"
+        ],
+        "players": [
+          "Trodkay",
+          "Maplefudge",
+          "Bearaena",
+          "Wubadubs",
+          "Xanarth",
+          "Gincamis",
+          "Thesmir",
+          "Elderberri",
+          "Mushyxd",
+          "Shyasa",
+          "Kiwoo",
+          "Epistales",
+          "Maerron",
+          "Boongi",
+          "Fóul",
+          "Citrusfiesta",
+          "Wisestwizard",
+          "Kikomaster",
+          "Mazzshiesty",
+          "Arthaidin",
+          "Edorasmage",
+          "Akarios",
+          "Minipeepee"
+        ],
+        "classes": [
+          "DeathKnight",
+          "Druid",
+          "Warlock",
+          "Unknown",
+          "Warrior"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          10,
+          11
+        ]
+      },
+      {
         "code": "mMtafBZQKTC74GxL",
         "title": "The Venomous Abyss",
         "startTime": 1787692455038,
@@ -76465,17 +76538,21 @@
         "code": "vCa8wDRbjAmdPhZ2",
         "title": "Mythic+ Season 2",
         "startTime": 1787702698167,
-        "endTime": 1787705981562,
+        "endTime": 1787711142519,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Voidscar Arena +12",
-          "The Blinding Vale +12"
+          "The Blinding Vale +12",
+          "Ruby Life Pools +12",
+          "Kings' Rest +12"
         ],
         "bosses": [
           "Voidscar Arena",
-          "The Blinding Vale"
+          "The Blinding Vale",
+          "Ruby Life Pools",
+          "Kings' Rest"
         ],
         "players": [
           "Ferarro",
@@ -76484,14 +76561,16 @@
           "Roken",
           "Revalation",
           "Smallfridge",
-          "Cileb"
+          "Cileb",
+          "Asomyrh"
         ],
         "classes": [
           "DeathKnight",
           "Druid",
           "Shaman",
           "Warrior",
-          "Mage"
+          "Mage",
+          "Paladin"
         ],
         "difficulties": [
           "Mythic+"
@@ -88758,7 +88837,7 @@
       "code": "c2K6H7NrCWtj1AXJ",
       "title": "8/25",
       "startTime": 1787674853223,
-      "endTime": 1787704417395,
+      "endTime": 1787713708144,
       "zone": {
         "name": "The Venomous Abyss"
       },
@@ -88770,7 +88849,11 @@
         "Altar of Fangs +11",
         "The Blinding Vale +10",
         "The Blinding Vale",
-        "Voidscar Arena +12"
+        "Voidscar Arena +12",
+        "The Blinding Vale +12",
+        "Ruby Life Pools +12",
+        "Kings' Rest +12",
+        "Altar of Fangs +12"
       ],
       "bosses": [
         "Nek'zali the Soulcoiler",
@@ -88786,7 +88869,9 @@
         "Altar of Fangs",
         "The Blinding Vale",
         "Lightgorged Lasher",
-        "Voidscar Arena"
+        "Voidscar Arena",
+        "Ruby Life Pools",
+        "Kings' Rest"
       ],
       "players": [
         "Izpop",
@@ -88856,7 +88941,10 @@
         "Aviendha",
         "Clanker",
         "Roken",
-        "Revalation"
+        "Revalation",
+        "Smallfridge",
+        "Cileb",
+        "Asomyrh"
       ],
       "classes": [
         "Paladin",
