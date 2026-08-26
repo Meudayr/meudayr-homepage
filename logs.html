@@ -1307,39 +1307,16 @@
     const GH_PAT = [_p1, _p2].join('_');
 
     async function fetchLatestLogsFromGitHub() {
-      // 1. Direct GitHub REST API - strictly uncached git object tree
+      // 1. Direct GitHub REST API with raw header (bypasses 1MB base64 JSON limit and returns uncached file)
       try {
         const controller = new AbortController();
-        const tid = setTimeout(() => controller.abort(), 5000);
+        const tid = setTimeout(() => controller.abort(), 6000);
         const res = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/contents/data/logs.json?ref=main&t=' + Date.now(), {
           headers: {
             'Authorization': 'Bearer ' + GH_PAT,
-            'Accept': 'application/vnd.github.v3+json',
+            'Accept': 'application/vnd.github.v3.raw',
             'User-Agent': 'MeudayrApp'
           },
-          signal: controller.signal,
-          cache: 'no-store'
-        });
-        clearTimeout(tid);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.content) {
-            const decoded = atob(data.content.replace(/\s/g, ''));
-            const json = JSON.parse(decoded);
-            if (json && (json.reportsByAccount || (Array.isArray(json.reports) && json.reports.length > 0))) {
-              return json;
-            }
-          }
-        }
-      } catch (e) {
-        console.warn('GitHub API fetch error:', e);
-      }
-
-      // 2. Fallback to raw URL
-      try {
-        const controller = new AbortController();
-        const tid = setTimeout(() => controller.abort(), 4000);
-        const res = await fetch('https://raw.githubusercontent.com/Meudayr/meudayr-homepage/main/data/logs.json?t=' + Date.now(), {
           signal: controller.signal,
           cache: 'no-store'
         });
@@ -1350,7 +1327,41 @@
             return json;
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn('GitHub raw API fetch error:', e);
+      }
+
+      // 2. Fallback: Get latest commit SHA to bypass all CDN/edge caches completely
+      try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 4000);
+        const commitRes = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/commits/main?t=' + Date.now(), {
+          headers: {
+            'Authorization': 'Bearer ' + GH_PAT,
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'MeudayrApp'
+          },
+          signal: controller.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(tid);
+        if (commitRes.ok) {
+          const commitData = await commitRes.json();
+          if (commitData && commitData.sha) {
+            const rawRes = await fetch(`https://raw.githubusercontent.com/Meudayr/meudayr-homepage/${commitData.sha}/data/logs.json`, {
+              cache: 'no-store'
+            });
+            if (rawRes.ok) {
+              const json = await rawRes.json();
+              if (json && (json.reportsByAccount || (Array.isArray(json.reports) && json.reports.length > 0))) {
+                return json;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Commit-based raw fetch error:', e);
+      }
 
       return null;
     }
