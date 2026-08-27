@@ -935,46 +935,46 @@
     /* Precision Edge Walls of Case */
     .case-acrylic-top {
       width: 340px;
-      height: 44px;
+      height: 48px;
       top: 0;
       left: 0;
       transform-origin: top center;
-      transform: rotateX(-90deg);
+      transform: translateZ(24px) rotateX(-90deg);
       background: linear-gradient(to right, rgba(255,255,255,0.25), rgba(255,255,255,0.08), rgba(255,255,255,0.25));
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
     .case-acrylic-bottom {
       width: 340px;
-      height: 44px;
+      height: 48px;
       bottom: 0;
       left: 0;
       transform-origin: bottom center;
-      transform: rotateX(90deg);
+      transform: translateZ(24px) rotateX(90deg);
       background: linear-gradient(to right, rgba(255,255,255,0.25), rgba(255,255,255,0.08), rgba(255,255,255,0.25));
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
     .case-acrylic-left {
-      width: 44px;
+      width: 48px;
       height: 216px;
       top: 0;
       left: 0;
       transform-origin: left center;
-      transform: rotateY(90deg);
+      transform: translateZ(24px) rotateY(90deg);
       background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.06), rgba(255,255,255,0.25));
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
     .case-acrylic-right {
-      width: 44px;
+      width: 48px;
       height: 216px;
       top: 0;
       right: 0;
       transform-origin: right center;
-      transform: rotateY(-90deg);
+      transform: translateZ(24px) rotateY(-90deg);
       background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.06), rgba(255,255,255,0.25));
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
     /* Folded J-Card Inlay Inside Acrylic Shell */
@@ -992,7 +992,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
       backface-visibility: hidden;
       transform-style: preserve-3d;
     }
@@ -1001,7 +1001,7 @@
     .jcard-front {
       width: 334px;
       height: 210px;
-      transform: translateZ(20px);
+      transform: translateZ(19px); /* Sat just 5px behind the front acrylic (at Z=24) */
       border-radius: 2px;
       background-color: #1a1c23;
     }
@@ -1674,10 +1674,14 @@
                 <div class="case-panel case-acrylic-right"></div>
 
                 <!-- Folded J-Card Inlay with Canvas Textures -->
+                <!-- Folded J-Card Inlay with Hierarchical Origami Nesting -->
                 <div class="folded-jcard">
-                  <div class="jcard-panel jcard-front" id="jcardFront"></div>
-                  <div class="jcard-panel jcard-spine" id="jcardSpine">
-                    <div class="jcard-panel jcard-flap" id="jcardFlap"></div>
+                  <div class="jcard-panel jcard-front" id="jcardFront">
+                    <!-- Spine hinges off the bottom of the front -->
+                    <div class="jcard-panel jcard-spine" id="jcardSpine">
+                      <!-- Flap hinges off the bottom of the spine -->
+                      <div class="jcard-panel jcard-flap" id="jcardFlap"></div>
+                    </div>
                   </div>
                 </div>
               </div>
