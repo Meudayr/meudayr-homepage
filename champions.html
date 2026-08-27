@@ -1543,7 +1543,7 @@
                   <option value="0">0° (Upright)</option>
                   <option value="90">90° Clockwise</option>
                   <option value="180">180°</option>
-                  <option value="270">270° Counter-CW</option>
+                  <option value="270" selected>270° Counter-CW</option>
                 </select>
               </div>
             </div>
@@ -1759,6 +1759,7 @@
               <label class="form-label">Bottom Flap Style</label>
               <select class="form-select" id="selectFlapStyle" onchange="renderActiveCard()">
                 <option value="bleed">Artwork Bleed (Seamless Wrap)</option>
+                <option value="auto">Auto-Detect Bottom Color</option>
                 <option value="solid">Aspect Solid Color</option>
                 <option value="black">Dark Charcoal / Shadow</option>
               </select>
@@ -2527,8 +2528,10 @@
         spineFitHeight: false,
         zoom: 105,
         panX: 0,
-        panY: -15,
-        rotation: 0,
+        panY: 0,
+        rotation: 270,
+        flapStyle: 'auto',
+        autoFlapColor: '#111317',
         imageObj: img,
         isCustomImage: false
       };
@@ -2799,7 +2802,7 @@
       document.getElementById('inputFontSize').value = c.fontSize || 44;
       document.getElementById('selectSpineFont').value = c.spineFont || 'Permanent Marker';
       document.getElementById('selectBleed').value = c.bleedMode || 'full';
-      document.getElementById('selectFlapStyle').value = c.flapStyle || 'match';
+      document.getElementById('selectFlapStyle').value = c.flapStyle || 'auto';
       document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
       document.getElementById('checkCoverLogo').checked = c.showCoverLogo !== false;
       document.getElementById('checkSpineLogo').checked = c.showSpineLogo !== false;
@@ -2930,14 +2933,22 @@
         ctx.rotate((card.rotation * Math.PI) / 180);
 
         const imgRatio = img.naturalWidth / img.naturalHeight;
-        const targetRatio = artW / targetH;
+        
+        let effTargetW = artW;
+        let effTargetH = targetH;
+        if (card.rotation === 90 || card.rotation === 270) {
+          effTargetW = targetH;
+          effTargetH = artW;
+        }
+        
+        const targetRatio = effTargetW / effTargetH;
         let drawW, drawH;
 
         if (imgRatio > targetRatio) {
-          drawH = targetH * scale;
+          drawH = effTargetH * scale;
           drawW = drawH * imgRatio;
         } else {
-          drawW = artW * scale;
+          drawW = effTargetW * scale;
           drawH = drawW / imgRatio;
         }
 
@@ -2985,6 +2996,9 @@
         ctx.fillRect(artX, flapY, artW, flapH + bleed);
       } else if (card.flapStyle === 'black') {
         ctx.fillStyle = '#14161b';
+        ctx.fillRect(artX, flapY, artW, flapH + bleed);
+      } else if (card.flapStyle === 'auto') {
+        ctx.fillStyle = card.autoFlapColor || '#111317';
         ctx.fillRect(artX, flapY, artW, flapH + bleed);
       }
 
@@ -3438,8 +3452,18 @@
       card.comicFilter = 'halftone';
       card.filterStrength = 70;
       card.zoom = 105;
+      card.rotation = 270;
+      
+      const boxFmt = BOX_FORMATS[card.boxType] || BOX_FORMATS.cassette;
+      const totalH = boxFmt.coverH + boxFmt.spineH + boxFmt.flapH;
+      // Bias the subject to the main cover
       card.panX = 0;
-      card.panY = -15;
+      card.panY = Math.round((boxFmt.coverH / 2) - (totalH / 2));
+      
+      // Auto-detect ambient color for the bottom flap (darkened average color)
+      card.flapStyle = 'auto';
+      const toHex = (c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0');
+      card.autoFlapColor = '#' + toHex(avgR * 0.5) + toHex(avgG * 0.5) + toHex(avgB * 0.5);
 
       syncActiveCardToForm();
       renderActiveCard();
@@ -3539,15 +3563,32 @@
           const c = cards[activeCardIndex];
           c.imageObj = img;
           c.isCustomImage = true;
+          
+          c.rotation = 270;
+          c.zoom = 105;
+          const boxFmt = BOX_FORMATS[c.boxType] || BOX_FORMATS.cassette;
           c.panX = 0;
-          c.panY = 0;
-          c.zoom = 100;
+          c.panY = Math.round((boxFmt.coverH / 2) - ((boxFmt.coverH + boxFmt.spineH + boxFmt.flapH) / 2));
+          c.flapStyle = 'auto';
+          
           if (c.title === 'SPIDER-MAN' || !c.title) {
             c.title = fileNameClean;
           }
           document.querySelectorAll('.preset-chip').forEach(el => el.classList.remove('active'));
           syncActiveCardToForm();
           renderActiveCard();
+          // Compute basic avg color for ambient flap background
+          const tempCanvas = document.createElement('canvas');
+          const tCtx = tempCanvas.getContext('2d');
+          tempCanvas.width = 100;
+          tempCanvas.height = 100;
+          tCtx.drawImage(img, 0, 0, 100, 100);
+          const imgData = tCtx.getImageData(0, 0, 100, 100).data;
+          let rSum = 0, gSum = 0, bSum = 0, count = 0;
+          for (let i = 0; i < imgData.length; i += 16) { rSum += imgData[i]; gSum += imgData[i+1]; bSum += imgData[i+2]; count++; }
+          const toHex = (color) => Math.max(0, Math.min(255, Math.round(color))).toString(16).padStart(2, '0');
+          c.autoFlapColor = '#' + toHex((rSum/count)*0.5) + toHex((gSum/count)*0.5) + toHex((bSum/count)*0.5);
+          
           showToast('🖼️', `Image loaded! Click "Run Auto-Pilot" to auto-style.`);
         };
         img.src = event.target.result;
@@ -3572,9 +3613,25 @@
       img.onload = () => {
         c.imageObj = img;
         c.isCustomImage = false;
+        c.rotation = 270;
+        c.zoom = 105;
+        const boxFmt = BOX_FORMATS[c.boxType] || BOX_FORMATS.cassette;
         c.panX = 0;
-        c.panY = 0;
-        c.zoom = 100;
+        c.panY = Math.round((boxFmt.coverH / 2) - ((boxFmt.coverH + boxFmt.spineH + boxFmt.flapH) / 2));
+        c.flapStyle = 'auto';
+        
+        // Compute basic avg color for ambient flap background
+        const tempCanvas = document.createElement('canvas');
+        const tCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = 100;
+        tempCanvas.height = 100;
+        tCtx.drawImage(img, 0, 0, 100, 100);
+        const imgData = tCtx.getImageData(0, 0, 100, 100).data;
+        let rSum = 0, gSum = 0, bSum = 0, count = 0;
+        for (let i = 0; i < imgData.length; i += 16) { rSum += imgData[i]; gSum += imgData[i+1]; bSum += imgData[i+2]; count++; }
+        const toHex = (color) => Math.max(0, Math.min(255, Math.round(color))).toString(16).padStart(2, '0');
+        c.autoFlapColor = '#' + toHex((rSum/count)*0.5) + toHex((gSum/count)*0.5) + toHex((bSum/count)*0.5);
+
         syncActiveCardToForm();
         renderActiveCard();
       };
