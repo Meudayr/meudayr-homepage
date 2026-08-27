@@ -1724,6 +1724,14 @@
               </label>
             </div>
 
+            <div class="switch-row">
+              <span class="switch-label">Fit Banner to Full Spine Height</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkSpineFitHeight" onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
           </div>
         </div>
 
@@ -2512,6 +2520,7 @@
         showComicCode: false,
         showSpineLogo: true,
         showSpineBorder: false,
+        spineFitHeight: false,
         zoom: 105,
         panX: 0,
         panY: -15,
@@ -2738,6 +2747,7 @@
       c.showCoverLogo = document.getElementById('checkCoverLogo').checked;
       c.showSpineLogo = document.getElementById('checkSpineLogo').checked;
       c.showSpineBorder = document.getElementById('checkSpineBorder').checked;
+      c.spineFitHeight = document.getElementById('checkSpineFitHeight').checked;
 
       // Sync numeric values if user is not actively typing into them
       if (document.activeElement !== document.getElementById('inputNumZoom')) {
@@ -2790,6 +2800,7 @@
       document.getElementById('checkCoverLogo').checked = c.showCoverLogo !== false;
       document.getElementById('checkSpineLogo').checked = c.showSpineLogo !== false;
       document.getElementById('checkSpineBorder').checked = c.showSpineBorder === true;
+      document.getElementById('checkSpineFitHeight').checked = c.spineFitHeight === true;
       document.getElementById('selectRotation').value = c.rotation || 0;
 
       const z = c.zoom !== undefined ? c.zoom : 100;
@@ -3063,13 +3074,29 @@
     function drawSpineBar(x, y, w, h, card) {
       ctx.save();
 
-      // 1. Translucent Spine Ribbon (90% Width, standard fixed cassette banner height of 70px)
-      // Aligned to the top with standard cassette margin (7px from top fold line)
+      const bType = (card && card.boxType) || 'cassette';
+      const isExactBurger = bType.startsWith('burgertokens_h_') || bType.startsWith('burgertokens_v_');
+      const fitFullHeight = card.spineFitHeight === true;
+
+      // 1. Spine Ribbon Dimensions & Alignment
       const barW = Math.round(w * 0.90);
       const barX = x + Math.round((w - barW) / 2);
-      const barH = (h < 70) ? Math.round(h * 0.85) : 70;
-      const topMargin = (h < 70) ? Math.round((h - barH) / 2) : 7;
-      const barY = y + topMargin;
+
+      let barH, barY;
+      if (fitFullHeight) {
+        barH = h;
+        barY = y;
+      } else if (isExactBurger) {
+        // Exact Dimensions Burger: Centered inside the spine fold area
+        barH = (h < 70) ? Math.round(h * 0.85) : Math.round(h * 0.82);
+        barY = y + Math.round((h - barH) / 2);
+      } else {
+        // Cassette & Cassette-Art Burger: Top-aligned with standard 7px cassette margin
+        barH = (h < 70) ? Math.round(h * 0.85) : 70;
+        const topMargin = (h < 70) ? Math.round((h - barH) / 2) : 7;
+        barY = y + topMargin;
+      }
+
       const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
 
       ctx.fillStyle = hexToRgba(card.spineColor, opacity);
