@@ -1580,6 +1580,26 @@
               </div>
             </div>
 
+            <!-- Spine Ribbon Opacity Slider -->
+            <div class="form-group" style="margin-top: 6px;">
+              <div class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span>Spine Opacity / Translucency:</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <button type="button" class="btn-center-art" onclick="resetSpineOpacity()" title="Reset Spine Opacity to translucent 85%">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>Reset (85%)</span>
+                  </button>
+                  <div class="slider-num-wrap">
+                    <input type="number" class="slider-num-input" id="inputNumSpineOpacity" min="10" max="100" value="85" oninput="onDirectNumInput('spineOpacity', this.value)" onchange="onDirectNumCommit('spineOpacity', this.value)">
+                    <span class="slider-unit">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="slider-row">
+                <input type="range" class="slider-input" id="inputSpineOpacity" min="10" max="100" value="85" oninput="onSliderChange('spineOpacity', this.value)">
+              </div>
+            </div>
+
             <div class="switch-row">
               <span class="switch-label">Spine Mini Marvel Logo</span>
               <label class="toggle-switch">
@@ -1982,6 +2002,7 @@
         subtitle: p.subtitle,
         aspect: p.aspect,
         spineColor: p.color,
+        spineOpacity: 85,
         textColor: p.textColor,
         fontSize: 44,
         spineFont: 'Bangers',
@@ -2091,6 +2112,8 @@
         parsed = Math.max(10, Math.min(500, parsed));
       } else if (field === 'filterStrength') {
         parsed = Math.max(0, Math.min(100, parsed));
+      } else if (field === 'spineOpacity') {
+        parsed = Math.max(10, Math.min(100, parsed));
       } else if (field === 'panX' || field === 'panY') {
         parsed = Math.max(-1000, Math.min(1000, parsed));
       }
@@ -2147,6 +2170,17 @@
       update3DCase();
     }
 
+    function resetSpineOpacity() {
+      const c = cards[activeCardIndex];
+      c.spineOpacity = 85;
+      const slider = document.getElementById('inputSpineOpacity');
+      if (slider) slider.value = 85;
+      const num = document.getElementById('inputNumSpineOpacity');
+      if (num) num.value = 85;
+      drawStage();
+      update3DCase();
+    }
+
     function resetFontSize() {
       const c = cards[activeCardIndex];
       c.fontSize = 44;
@@ -2192,6 +2226,11 @@
         if (!isNaN(numFilter)) c.filterStrength = numFilter;
         document.getElementById('inputNumFilterStrength').value = c.filterStrength;
       }
+      if (document.activeElement !== document.getElementById('inputNumSpineOpacity')) {
+        const numSpineOpacity = parseInt(document.getElementById('inputNumSpineOpacity').value, 10);
+        if (!isNaN(numSpineOpacity)) c.spineOpacity = numSpineOpacity;
+        document.getElementById('inputNumSpineOpacity').value = c.spineOpacity !== undefined ? c.spineOpacity : 85;
+      }
     }
 
     function syncActiveCardToForm() {
@@ -2224,6 +2263,10 @@
       const fs = c.filterStrength !== undefined ? c.filterStrength : 70;
       document.getElementById('inputFilterStrength').value = Math.max(0, Math.min(100, fs));
       document.getElementById('inputNumFilterStrength').value = fs;
+
+      const so = c.spineOpacity !== undefined ? c.spineOpacity : 85;
+      document.getElementById('inputSpineOpacity').value = Math.max(10, Math.min(100, so));
+      document.getElementById('inputNumSpineOpacity').value = so;
     }
 
     function drawStage() {
@@ -2457,59 +2500,78 @@
       }
     }
 
+    function hexToRgba(hex, alpha) {
+      if (!hex) return `rgba(234, 179, 8, ${alpha})`;
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const r = parseInt(hex.substring(0, 2), 16) || 0;
+      const g = parseInt(hex.substring(2, 4), 16) || 0;
+      const b = parseInt(hex.substring(4, 6), 16) || 0;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
     function drawSpineBar(x, y, w, h, card) {
       ctx.save();
-      ctx.fillStyle = card.spineColor;
-      ctx.fillRect(x, y, w, h);
+
+      // 1. Authentic Translucent Spine Ribbon (Ends before right edge to match authentic Manser layout)
+      const barW = Math.round(w * 0.88);
+      const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
+
+      ctx.fillStyle = hexToRgba(card.spineColor, opacity);
+      ctx.fillRect(x, y, barW, h);
 
       ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(x, y, w, h);
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(x, y, barW, h);
 
       let logoRightEdge = x + 16;
 
-      // Authentic Marvel Champions Spine Logo (Left Side)
+      // 2. Authentic Marvel Champions Spine Logo (Left Side in White Badge)
       if (card.showSpineLogo) {
         const logoW = 86;
         const logoH = 56;
-        const logoX = x + 18;
+        const logoX = x + 16;
         const logoY = y + (h - logoH) / 2;
 
-        // Red MARVEL box
-        const mBoxH = 32;
-        ctx.fillStyle = '#dc2626';
-        ctx.fillRect(logoX, logoY, logoW, mBoxH);
-        ctx.strokeStyle = '#ffffff';
+        // Solid White Badge
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(logoX, logoY, logoW, logoH);
+        ctx.strokeStyle = '#000000';
         ctx.lineWidth = 1;
-        ctx.strokeRect(logoX + 0.5, logoY + 0.5, logoW - 1, mBoxH - 1);
+        ctx.strokeRect(logoX, logoY, logoW, logoH);
+
+        // Red MARVEL box
+        const mBoxH = 30;
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(logoX + 2, logoY + 2, logoW - 4, mBoxH);
 
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 20px "Outfit", "Arial Black", sans-serif';
+        ctx.font = '900 18px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('MARVEL', logoX + logoW/2, logoY + mBoxH/2 + 1);
+        ctx.fillText('MARVEL', logoX + logoW / 2, logoY + 2 + mBoxH / 2 + 1);
 
         // CHAMPIONS text in black
         ctx.fillStyle = '#000000';
-        ctx.font = '900 13px "Outfit", "Bangers", sans-serif';
+        ctx.font = '900 12px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('CHAMPIONS', logoX + logoW/2, logoY + mBoxH + 11);
+        ctx.fillText('CHAMPIONS', logoX + logoW / 2, logoY + mBoxH + 10);
 
         // THE CARD GAME Subtitle
-        ctx.font = '700 6px "Inter", sans-serif';
-        ctx.fillText('THE CARD GAME', logoX + logoW/2, logoY + mBoxH + 19);
+        ctx.font = '700 5.5px "Inter", sans-serif';
+        ctx.fillText('THE CARD GAME', logoX + logoW / 2, logoY + mBoxH + 18);
 
-        logoRightEdge = logoX + logoW + 20;
+        logoRightEdge = logoX + logoW + 16;
       }
 
-      // Spine Title - Right-Aligned to match authentic Manser layout
+      // 3. Spine Title - Right-Aligned inside the translucent ribbon
       let fontSize = card.fontSize || 44;
       ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
       const title = card.title || 'HERO DECK';
-      const rightPadding = 26;
-      const textEndX = x + w - rightPadding;
-      const maxTextW = textEndX - logoRightEdge - 16;
+      const rightPadding = 18;
+      const textEndX = x + barW - rightPadding;
+      const maxTextW = textEndX - logoRightEdge - 12;
 
       while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
         fontSize -= 1;
@@ -2536,47 +2598,45 @@
     }
 
     function drawCoverOverlays(x, y, w, h, card) {
-      // 1. Authentic Marvel Champions Cover Logo (Vertical on right edge, matching example)
+      // 1. Authentic Marvel Champions Cover Logo (Vertical on top-right, matching spine logo without "THE CARD GAME")
       if (card.showCoverLogo) {
         ctx.save();
-        const logoW = 52;
-        const logoH = 200;
+        const logoW = 50;
+        const logoH = 205;
         const logoX = x + w - logoW - 20;
-        const logoY = y + 24;
+        const logoY = y + 20;
 
         ctx.translate(logoX + logoW / 2, logoY + logoH / 2);
         ctx.rotate(-Math.PI / 2);
 
-        const bannerW = 200;
-        const bannerH = 52;
+        const bannerW = 205;
+        const bannerH = 50;
         const bX = -bannerW / 2;
         const bY = -bannerH / 2;
 
-        // Red MARVEL box (Left half of rotated banner)
-        const mBoxW = 82;
+        // Red MARVEL box (Left half of rotated banner = top of vertical logo)
+        const mBoxW = 94;
         ctx.fillStyle = '#dc2626';
         ctx.fillRect(bX, bY, mBoxW, bannerH);
         ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(bX + 1, bY + 1, mBoxW - 2, bannerH - 2);
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(bX + 0.75, bY + 0.75, mBoxW - 1.5, bannerH - 1.5);
 
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 32px "Outfit", "Impact", sans-serif';
+        ctx.font = '900 28px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('MARVEL', bX + mBoxW / 2, bY + bannerH / 2 + 1);
 
-        // CHAMPIONS text (Right half of rotated banner, with clean black stroke)
-        const cBoxX = bX + mBoxW + 8;
-        const cBoxW = bannerW - mBoxW - 8;
-        const cCenterX = cBoxX + cBoxW / 2;
+        // CHAMPIONS text (Right half of rotated banner = bottom of vertical logo)
+        const cCenterX = bX + mBoxW + (bannerW - mBoxW) / 2;
         const cCenterY = bY + bannerH / 2 + 1;
 
-        ctx.font = '900 24px "Outfit", "Arial Black", sans-serif';
+        ctx.font = '900 23px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // Heavy dark outline
+        // Heavy dark outline for high contrast against artwork
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 4.5;
         ctx.lineJoin = 'round';
