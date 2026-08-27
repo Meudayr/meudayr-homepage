@@ -2364,16 +2364,22 @@
 
     function drawInlayCard(m, card, cardIdx) {
       const { x, y, w, coverH, spineH, flapH, totalH } = m;
+      const bleed = 16; // Leeway margin outside cut lines for clean trimming
+      const artX = x - bleed;
+      const artY = y - bleed;
+      const artW = w + (bleed * 2);
+      const artTotalH = totalH + (bleed * 2);
+      const artCoverH = coverH + bleed;
 
-      // 1. Draw Background / Artwork
+      // 1. Draw Background / Artwork (with bleed leeway)
       ctx.save();
       ctx.beginPath();
-      ctx.rect(x, y, w, totalH);
+      ctx.rect(artX, artY, artW, artTotalH);
       ctx.clip();
 
       // Card Base Color
       ctx.fillStyle = '#111317';
-      ctx.fillRect(x, y, w, totalH);
+      ctx.fillRect(artX, artY, artW, artTotalH);
 
       // Render User Artwork with Transforms
       if (card.imageObj && card.imageObj.complete && card.imageObj.naturalWidth > 0) {
@@ -2381,43 +2387,43 @@
         const img = card.imageObj;
         const scale = (card.zoom / 100);
 
-        const artTargetH = card.bleedMode === 'full' ? totalH : coverH;
+        const targetH = card.bleedMode === 'full' ? artTotalH : artCoverH;
         const centerX = x + w / 2 + card.panX;
-        const centerY = y + artTargetH / 2 + card.panY;
+        const centerY = y + (card.bleedMode === 'full' ? totalH / 2 : coverH / 2) + card.panY;
 
         ctx.translate(centerX, centerY);
         ctx.rotate((card.rotation * Math.PI) / 180);
 
         const imgRatio = img.naturalWidth / img.naturalHeight;
-        const targetRatio = w / artTargetH;
+        const targetRatio = artW / targetH;
         let drawW, drawH;
 
         if (imgRatio > targetRatio) {
-          drawH = artTargetH * scale;
+          drawH = targetH * scale;
           drawW = drawH * imgRatio;
         } else {
-          drawW = w * scale;
+          drawW = artW * scale;
           drawH = drawW / imgRatio;
         }
 
         ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
         ctx.restore();
 
-        // Apply Comic Filter Overlays
-        applyComicFilters(x, y, w, artTargetH, card);
+        // Apply Comic Filter Overlays to bleed area
+        applyComicFilters(artX, artY, artW, targetH, card);
       } else {
         // Clean comic placeholder pattern
         ctx.fillStyle = '#181b22';
-        ctx.fillRect(x, y, w, totalH);
+        ctx.fillRect(artX, artY, artW, artTotalH);
         
         // Subtle comic grid
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
         ctx.lineWidth = 1;
-        for (let gx = x; gx < x + w; gx += 40) {
-          ctx.beginPath(); ctx.moveTo(gx, y); ctx.lineTo(gx, y + totalH); ctx.stroke();
+        for (let gx = artX; gx < artX + artW; gx += 40) {
+          ctx.beginPath(); ctx.moveTo(gx, artY); ctx.lineTo(gx, artY + artTotalH); ctx.stroke();
         }
-        for (let gy = y; gy < y + totalH; gy += 40) {
-          ctx.beginPath(); ctx.moveTo(x, gy); ctx.lineTo(x + w, gy); ctx.stroke();
+        for (let gy = artY; gy < artY + artTotalH; gy += 40) {
+          ctx.beginPath(); ctx.moveTo(artX, gy); ctx.lineTo(artX + artW, gy); ctx.stroke();
         }
 
         ctx.fillStyle = '#9ca3af';
@@ -2441,16 +2447,16 @@
       const flapY = spineY + spineH;
       if (card.flapStyle === 'solid') {
         ctx.fillStyle = card.spineColor;
-        ctx.fillRect(x, flapY, w, flapH);
+        ctx.fillRect(artX, flapY, artW, flapH + bleed);
       } else if (card.flapStyle === 'black') {
         ctx.fillStyle = '#14161b';
-        ctx.fillRect(x, flapY, w, flapH);
+        ctx.fillRect(artX, flapY, artW, flapH + bleed);
       }
 
       // 4. Draw Comic Elements on Cover
       drawCoverOverlays(x, y, w, coverH, card);
 
-      // 5. Draw Precision Cut & Fold Guidelines
+      // 5. Draw Precision Cut & Fold Guidelines (crossing at true trim dimensions)
       drawGuidelines(m, cardIdx);
     }
 
@@ -2668,30 +2674,30 @@
 
         // Extended Cut Extension Guides
         ctx.beginPath();
-        ctx.moveTo(x - 60, y);
-        ctx.lineTo(x + w + 60, y);
+        ctx.moveTo(x - 80, y);
+        ctx.lineTo(x + w + 80, y);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(x - 60, bottomY);
-        ctx.lineTo(x + w + 60, bottomY);
+        ctx.moveTo(x - 80, bottomY);
+        ctx.lineTo(x + w + 80, bottomY);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(x, y - 60);
-        ctx.lineTo(x, bottomY + 60);
+        ctx.moveTo(x, y - 80);
+        ctx.lineTo(x, bottomY + 80);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(x + w, y - 60);
-        ctx.lineTo(x + w, bottomY + 60);
+        ctx.moveTo(x + w, y - 80);
+        ctx.lineTo(x + w, bottomY + 80);
         ctx.stroke();
 
         // Vector Scissor Marks
-        drawScissorGlyph(x + 20, y - 28);
-        drawScissorGlyph(x + w - 40, y - 28);
-        drawScissorGlyph(x + w + 24, y + 20);
-        drawScissorGlyph(x + w + 24, bottomY - 30);
+        drawScissorGlyph(x + 24, y - 34);
+        drawScissorGlyph(x + w - 44, y - 34);
+        drawScissorGlyph(x + w + 32, y + 24);
+        drawScissorGlyph(x + w + 32, bottomY - 34);
       }
 
       ctx.restore();
