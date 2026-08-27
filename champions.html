@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Marvel Champions Cassette Inlay Generator - Meudayr</title>
+  <meta name="description" content="Create, customize, preview, and print authentic comic-book style cassette storage inlay cards (J-cards) for Marvel Champions: The Card Game. Supports 1 or 2 cards per sheet, 3D case preview, and 300 DPI true-scale printing.">
+  <meta name="keywords" content="Marvel Champions, Cassette Inlay, J-Card Generator, Marvel Champions Storage, BoardinaryGamers, Manser Family, Deck Box, Comic Book Template">
+  <meta name="author" content="Meudayr">
+  
+  <!-- OpenGraph Social Tags -->
+  <meta property="og:title" content="Marvel Champions Cassette Inlay Generator - Meudayr">
+  <meta property="og:description" content="Custom comic book cassette inlay card maker for Marvel Champions LCG. Create 1 or 2 inlays per sheet with 3D preview and 300 DPI print output.">
+  <meta property="og:image" content="https://meudayr.com/assets/logo.png">
+  <meta property="og:url" content="https://meudayr.com/champions.html">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts for Comic Book & UI Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=Luckiest+Guy&family=Outfit:wght@600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <style>
+    /* Inlay Generator Page Specific Styles */
+    .app-header-hero {
+      padding: 40px 0 24px;
+      text-align: center;
+    }
+
+    .app-badge-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(192, 157, 82, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(192, 157, 82, 0.3);
+    }
+
+    .app-badge.comic-badge {
+      background: rgba(220, 38, 38, 0.15);
+      color: #ef4444;
+      border-color: rgba(220, 38, 38, 0.3);
+    }
+
+    .app-badge.system-badge {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .app-header-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .app-header-hero p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Main Studio Container */
+    .studio-container {
+      max-width: 1440px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .studio-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Control Sidebar / Accordions */
+    .studio-sidebar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Mode Banner & Card Tabs */
+    .studio-top-config {
+      padding: 16px 20px;
+      background: #14161b;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .layout-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: #0d0f12;
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .layout-toggle-btn {
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .layout-toggle-btn:hover {
+      color: var(--text-main);
+    }
+
+    .layout-toggle-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(56, 142, 60, 0.4);
+    }
+
+    .card-tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .card-subtabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .card-tab-btn {
+      padding: 6px 14px;
+      background: #1e2129;
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-tab-btn:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .card-tab-btn.active {
+      background: #272c36;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tab-action-btn {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tab-action-btn:hover {
+      color: var(--text-main);
+      border-color: var(--card-border-hover);
+    }
+
+    /* Accordion Sections */
+    .sidebar-section {
+      border-bottom: 1px solid var(--card-border);
+      background: var(--card-bg);
+    }
+
+    .sidebar-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-header {
+      width: 100%;
+      padding: 14px 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .section-header:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+    }
+
+    .section-chevron {
+      width: 16px;
+      height: 16px;
+      color: var(--text-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-section.open .section-chevron {
+      transform: rotate(180deg);
+    }
+
+    .section-body {
+      padding: 0 20px 18px 20px;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .sidebar-section.open .section-body {
+      display: flex;
+    }
+
+    /* Form Controls */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-label span.hint {
+      font-size: 0.72rem;
+      color: var(--text-dark);
+      font-weight: normal;
+    }
+
+    .form-input, .form-select {
+      background: #121418;
+      border: 1px solid #272a33;
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      padding: 9px 12px;
+      font-size: 0.88rem;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(56, 142, 60, 0.25);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Drop Zone */
+    .upload-dropzone {
+      border: 2px dashed #343946;
+      border-radius: var(--radius-md);
+      padding: 20px 14px;
+      text-align: center;
+      background: rgba(18, 20, 24, 0.6);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: var(--accent);
+      background: rgba(192, 157, 82, 0.05);
+    }
+
+    .upload-dropzone input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 8px;
+      color: var(--accent);
+    }
+
+    .upload-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .upload-subtext {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      margin-top: 2px;
+    }
+
+    /* Preset Comic Art Gallery Chips */
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 140px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .preset-chip {
+      padding: 5px 10px;
+      background: #14171e;
+      border: 1px solid #282c37;
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .preset-chip:hover {
+      border-color: var(--accent);
+      color: var(--text-main);
+      background: #1c202a;
+    }
+
+    .preset-chip.active {
+      background: var(--accent);
+      color: #111317;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Aspect Palette Swatches */
+    .aspect-palette {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .aspect-btn {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ffffff;
+      transition: var(--transition);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .aspect-btn .color-pip {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+      flex-shrink: 0;
+    }
+
+    .aspect-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .aspect-btn.active {
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    /* Range Sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-input {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .slider-value {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 44px;
+      text-align: right;
+    }
+
+    /* Switch / Checkbox Row */
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+
+    .switch-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #272a33;
+      transition: .2s;
+      border-radius: 22px;
+      border: 1px solid #3b3f4d;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(18px);
+    }
+
+    /* Right Preview Stage */
+    .studio-preview-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .preview-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 10px 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .view-mode-tabs {
+      display: flex;
+      gap: 6px;
+      background: #111317;
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .view-mode-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .view-mode-btn.active {
+      background: #252a35;
+      color: #ffffff;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .action-btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .action-btn-primary:hover {
+      background: #43a047;
+      box-shadow: 0 4px 14px rgba(56, 142, 60, 0.4);
+    }
+
+    .action-btn-accent {
+      background: var(--accent);
+      color: #111317;
+    }
+
+    .action-btn-accent:hover {
+      background: #d4b065;
+      box-shadow: 0 4px 14px rgba(192, 157, 82, 0.4);
+    }
+
+    .action-btn-secondary {
+      background: #1e222b;
+      border-color: var(--card-border);
+      color: var(--text-main);
+    }
+
+    .action-btn-secondary:hover {
+      background: #282e3a;
+      border-color: var(--card-border-hover);
+    }
+
+    /* Canvas Stage */
+    .preview-canvas-wrapper {
+      background: #090a0d;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 520px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    #stageCanvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+      cursor: grab;
+      touch-action: none;
+      display: block;
+    }
+
+    #stageCanvas.grabbing {
+      cursor: grabbing;
+    }
+
+    /* Interactive 3D Case Stage */
+    .stage-3d-wrapper {
+      display: none;
+      width: 100%;
+      height: 520px;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .stage-3d-wrapper.active {
+      display: flex;
+    }
+
+    .stage-3d-wrapper:active {
+      cursor: grabbing;
+    }
+
+    .cassette-3d-box {
+      width: 320px;
+      height: 205px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(20deg) rotateY(-35deg);
+      transition: transform 0.05s ease-out;
+    }
+
+    .case-face {
+      position: absolute;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.15);
+      backface-visibility: hidden;
+    }
+
+    /* Front Cover */
+    .case-front {
+      width: 320px;
+      height: 205px;
+      transform: translateZ(20px);
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #1a1c23;
+    }
+
+    /* Spine */
+    .case-spine {
+      width: 320px;
+      height: 40px;
+      transform: rotateX(-90deg) translateZ(-20px);
+      top: 0;
+      left: 0;
+      background-color: #272a33;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+    /* Case Plastic Glare Overlay */
+    .case-front::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 40%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+    }
+
+    .help-bar-hint {
+      position: absolute;
+      bottom: 12px;
+      font-size: 0.76rem;
+      color: var(--text-dark);
+      background: rgba(17, 19, 23, 0.85);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid var(--card-border);
+      pointer-events: none;
+    }
+
+    /* Print Queue Modal / Drawer */
+    .queue-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .queue-modal-overlay.open {
+      display: flex;
+    }
+
+    .queue-modal-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+    }
+
+    .queue-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .queue-modal-header h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--text-main);
+    }
+
+    .queue-modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+
+    .queue-modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .queue-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .queue-card-item {
+      background: #111317;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .queue-card-preview {
+      width: 100%;
+      height: 110px;
+      object-fit: contain;
+      background: #000000;
+      border-radius: 4px;
+    }
+
+    .queue-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .queue-item-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .queue-btn-sm {
+      flex: 1;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      border-radius: 4px;
+      border: 1px solid var(--card-border);
+      background: #1c202a;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .queue-btn-sm:hover {
+      color: var(--text-main);
+      border-color: var(--card-border-hover);
+    }
+
+    /* Print Specific Clean Media Styles */
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header, .app-header-hero, .studio-sidebar, .preview-header-bar, .help-bar-hint, .queue-modal-overlay, footer {
+        display: none !important;
+      }
+
+      .studio-container {
+        display: block !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .studio-preview-pane {
+        position: static !important;
+      }
+
+      .preview-canvas-wrapper {
+        background: #ffffff !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      #stageCanvas {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        display: block !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand" id="nav-brand-link">
+        <img src="assets/logo.png" alt="Meudayr Logo" id="nav-brand-logo">
+        <span>Meudayr</span>
+      </a>
+      <div class="nav-group">
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+          <a href="deals.html" class="nav-link" id="nav-deals-link">Deal Finder</a>
+          <a href="dr.html" class="nav-link" id="nav-dr-link">DR Calculator</a>
+          <a href="logs.html" class="nav-link" id="nav-logs-link">Logs</a>
+          <a href="champions.html" class="nav-link active" id="nav-champions-link">Inlay Generator</a>
+        </nav>
+        <div class="social-links">
+          <a href="https://plex.meudayr.com" class="plex-nav-pill checking" target="_blank" rel="noopener noreferrer" id="nav-plex-link" title="Open Plex Media Server">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="plex-nav-svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span class="plex-nav-text">Plex: <span id="plex-status-label">Checking...</span></span>
+            <span class="plex-nav-dot" id="plex-nav-dot"></span>
+          </a>
+          <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="nav-github-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Title -->
+    <section class="app-header-hero">
+      <div class="container">
+        <div class="app-badge-row">
+          <span class="app-badge comic-badge">💥 Comic Book Aesthetic</span>
+          <span class="app-badge system-badge">📼 Manser v17.5 Template</span>
+          <span class="app-badge">✂️ 1 or 2 Inlays / Sheet</span>
+        </div>
+        <h1>Marvel Champions Inlay Generator</h1>
+        <p>Design, customize, and print authentic comic-book cassette J-card inlays for your Marvel Champions heroes, villains, and aspect decks. Ready for pinless cassette cases.</p>
+      </div>
+    </section>
+
+    <!-- Studio Grid -->
+    <div class="studio-container">
+      
+      <!-- Studio Controls Sidebar -->
+      <aside class="studio-sidebar">
+        
+        <!-- Sheet Layout & Card Subtabs -->
+        <div class="studio-top-config">
+          <div class="form-label">Sheet Print Layout</div>
+          <div class="layout-toggle-group">
+            <button type="button" class="layout-toggle-btn active" id="btnModeSingle" onclick="setSheetMode('single')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="16" rx="2"/></svg>
+              1 Inlay / Sheet
+            </button>
+            <button type="button" class="layout-toggle-btn" id="btnModeDual" onclick="setSheetMode('dual')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="9" height="16" rx="1"/><rect x="13" y="4" width="9" height="16" rx="1"/></svg>
+              2 Inlays / Sheet
+            </button>
+          </div>
+
+          <!-- Card Selector (active when dual mode) -->
+          <div class="card-tabs-row" id="cardTabsRow" style="display: none;">
+            <div class="card-subtabs">
+              <button type="button" class="card-tab-btn active" id="tabCard1" onclick="switchActiveCard(0)">Card 1 (Left)</button>
+              <button type="button" class="card-tab-btn" id="tabCard2" onclick="switchActiveCard(1)">Card 2 (Right)</button>
+            </div>
+            <button type="button" class="tab-action-btn" title="Copy active card settings to the other slot" onclick="duplicateCurrentCard()">Copy 1 ➔ 2</button>
+          </div>
+        </div>
+
+        <!-- Section 1: Artwork & Positioning -->
+        <div class="sidebar-section open" id="sec-art">
+          <button type="button" class="section-header" onclick="toggleSection('sec-art')">
+            <div class="section-header-left">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Artwork &amp; Position</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="section-body">
+            
+            <!-- Upload Dropzone -->
+            <div class="upload-dropzone" id="dropZone">
+              <input type="file" id="artFileInput" accept="image/*">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div class="upload-text">Upload Custom Comic Art</div>
+              <div class="upload-subtext">Drag &amp; drop PNG, JPG, or WebP</div>
+            </div>
+
+            <!-- Comic Presets -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Or Select Preset Hero:</span>
+                <span class="hint">1-click comic art</span>
+              </label>
+              <div class="preset-chips" id="presetChips">
+                <button type="button" class="preset-chip active" onclick="loadPresetHero('spiderman')">🕷️ Spider-Man</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('wolverine')">⚔️ Wolverine</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('cyclops')">🕶️ Cyclops</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('captain_america')">🛡️ Captain America</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('iron_man')">🦾 Iron Man</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('deadpool')">🌮 Deadpool</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('magneto')">🧲 Magneto</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('venom')">🖤 Venom</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('she_hulk')">💚 She-Hulk</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('thor')">⚡ Thor</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('captain_marvel')">✨ Capt. Marvel</button>
+                <button type="button" class="preset-chip" onclick="loadPresetHero('green_goblin')">🎃 Green Goblin</button>
+              </div>
+            </div>
+
+            <!-- Zoom & Pan Controls -->
+            <div class="form-group">
+              <div class="form-label">
+                <span>Zoom / Scale:</span>
+                <span class="slider-value" id="valZoom">100%</span>
+              </div>
+              <div class="slider-row">
+                <input type="range" class="slider-input" id="inputZoom" min="40" max="300" value="100" oninput="updateArtTransform()">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <div class="form-label"><span>Pan X (Horizontal):</span></div>
+                <input type="range" class="slider-input" id="inputPanX" min="-300" max="300" value="0" oninput="updateArtTransform()">
+              </div>
+              <div class="form-group">
+                <div class="form-label"><span>Pan Y (Vertical):</span></div>
+                <input type="range" class="slider-input" id="inputPanY" min="-300" max="300" value="0" oninput="updateArtTransform()">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Bleed Mode</label>
+                <select class="form-select" id="selectBleed" onchange="renderActiveCard()">
+                  <option value="full">Full Bleed (Cover + Spine + Flap)</option>
+                  <option value="cover">Cover Only (Solid Spine/Flap)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Art Rotation</label>
+                <select class="form-select" id="selectRotation" onchange="updateArtTransform()">
+                  <option value="0">0° (Upright)</option>
+                  <option value="90">90° Clockwise</option>
+                  <option value="180">180°</option>
+                  <option value="270">270° Counter-CW</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 2: Comic Book Styling & Filters -->
+        <div class="sidebar-section open" id="sec-comic">
+          <button type="button" class="section-header" onclick="toggleSection('sec-comic')">
+            <div class="section-header-left">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Comic Book Aesthetics</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="section-body">
+            
+            <!-- Comic Filters -->
+            <div class="form-group">
+              <label class="form-label">Comic Filter Overlay</label>
+              <select class="form-select" id="selectComicFilter" onchange="renderActiveCard()">
+                <option value="none">Original Art (Clean)</option>
+                <option value="halftone" selected>Ben-Day Halftone Dots (Classic 70s Comic)</option>
+                <option value="ink">Punchy Comic Inking (High Contrast &amp; Edge)</option>
+                <option value="vintage">Vintage Newsprint Tone (Aged Comic Paper)</option>
+                <option value="noir">Dark Comic Noir (High-Contrast Shadow)</option>
+                <option value="popart">Vibrant Pop Art</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>Filter Strength:</span>
+                <span class="slider-value" id="valFilterStrength">70%</span>
+              </div>
+              <div class="slider-row">
+                <input type="range" class="slider-input" id="inputFilterStrength" min="10" max="100" value="70" oninput="renderActiveCard()">
+              </div>
+            </div>
+
+            <!-- Vintage Corner Box -->
+            <div class="switch-row">
+              <span class="switch-label">Classic 25¢ Marvel Corner Box</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkCornerBox" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Corner Price/Issue</label>
+                <input type="text" class="form-input" id="inputCornerPrice" value="25¢ #1" placeholder="25¢ #1" oninput="renderActiveCard()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Corner Title</label>
+                <input type="text" class="form-input" id="inputCornerTitle" value="MARVEL" placeholder="MARVEL" oninput="renderActiveCard()">
+              </div>
+            </div>
+
+            <!-- Logos -->
+            <div class="switch-row">
+              <span class="switch-label">Marvel Champions Cover Logo (Vertical)</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkCoverLogo" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">Approved Comic Code Stamp</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkComicCode" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 3: Spine & Aspect Label -->
+        <div class="sidebar-section open" id="sec-spine">
+          <button type="button" class="section-header" onclick="toggleSection('sec-spine')">
+            <div class="section-header-left">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              <span>Spine &amp; Aspect Theming</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="section-body">
+            
+            <div class="form-group">
+              <label class="form-label">Hero / Deck Spine Title</label>
+              <input type="text" class="form-input" id="inputTitle" value="SPIDER-MAN" placeholder="e.g. SPIDER-MAN, WOLVERINE, HERO DECK #1" oninput="renderActiveCard()">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Aspect Theme Presets</label>
+              <div class="aspect-palette">
+                <button type="button" class="aspect-btn active" style="background: #ca8a04;" onclick="setAspectColor('#eab308', 'Justice')">
+                  <span class="color-pip" style="background: #eab308;"></span>
+                  Justice
+                </button>
+                <button type="button" class="aspect-btn" style="background: #b91c1c;" onclick="setAspectColor('#dc2626', 'Aggression')">
+                  <span class="color-pip" style="background: #dc2626;"></span>
+                  Aggression
+                </button>
+                <button type="button" class="aspect-btn" style="background: #1d4ed8;" onclick="setAspectColor('#2563eb', 'Leadership')">
+                  <span class="color-pip" style="background: #2563eb;"></span>
+                  Leadership
+                </button>
+                <button type="button" class="aspect-btn" style="background: #15803d;" onclick="setAspectColor('#16a34a', 'Protection')">
+                  <span class="color-pip" style="background: #16a34a;"></span>
+                  Protection
+                </button>
+                <button type="button" class="aspect-btn" style="background: #334155;" onclick="setAspectColor('#475569', 'Basic')">
+                  <span class="color-pip" style="background: #475569;"></span>
+                  Basic / Grey
+                </button>
+                <button type="button" class="aspect-btn" style="background: #6b21a8;" onclick="setAspectColor('#7e22ce', 'Villain')">
+                  <span class="color-pip" style="background: #7e22ce;"></span>
+                  Villain
+                </button>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Custom Spine Color</label>
+                <input type="color" class="form-input" id="inputSpineColor" value="#eab308" style="padding: 2px; height: 38px; cursor: pointer;" oninput="renderActiveCard()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Spine Font</label>
+                <select class="form-select" id="selectSpineFont" onchange="renderActiveCard()">
+                  <option value="Bangers">Bangers (Bold Comic)</option>
+                  <option value="Permanent Marker">Permanent Marker (Brush)</option>
+                  <option value="Luckiest Guy">Luckiest Guy (Pop)</option>
+                  <option value="Outfit">Outfit (Clean Display)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Text Color</label>
+                <select class="form-select" id="selectTextColor" onchange="renderActiveCard()">
+                  <option value="#000000">Black Text</option>
+                  <option value="#ffffff">White Text</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Font Size</label>
+                <input type="number" class="form-input" id="inputFontSize" min="16" max="38" value="26" oninput="renderActiveCard()">
+              </div>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">Spine Mini Marvel Logo</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkSpineLogo" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 4: Flap & Card Info -->
+        <div class="sidebar-section" id="sec-flap">
+          <button type="button" class="section-header" onclick="toggleSection('sec-flap')">
+            <div class="section-header-left">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Bottom Flap &amp; Set Tag</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="section-body">
+            
+            <div class="form-group">
+              <label class="form-label">Bottom Set Tag (e.g. CORE SET)</label>
+              <input type="text" class="form-input" id="inputSubtitle" value="CORE SET" placeholder="e.g. CORE SET, WAVE 1, MUTANT GENESIS" oninput="renderActiveCard()">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bottom Flap Style</label>
+              <select class="form-select" id="selectFlapStyle" onchange="renderActiveCard()">
+                <option value="bleed">Artwork Bleed (Seamless Wrap)</option>
+                <option value="solid">Aspect Solid Color</option>
+                <option value="black">Dark Charcoal / Shadow</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 5: Print & Sheet Settings -->
+        <div class="sidebar-section" id="sec-print">
+          <button type="button" class="section-header" onclick="toggleSection('sec-print')">
+            <div class="section-header-left">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              <span>Sheet Format &amp; Cut Lines</span>
+            </div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="section-body">
+            
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">Paper Size</label>
+                <select class="form-select" id="selectPaperSize" onchange="renderActiveCard()">
+                  <option value="a4" selected>A4 (297 x 210 mm)</option>
+                  <option value="letter">US Letter (11 x 8.5 in)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Print Scaling</label>
+                <select class="form-select" id="selectCalibration" onchange="renderActiveCard()">
+                  <option value="100">1:1 Exact True Scale (100%)</option>
+                  <option value="fit">Manser v17.5 Slide Ratio</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">Scissors &amp; Cut Markers</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkCutLines" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">Dashed Fold Guides</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkFoldLines" checked onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Right Visualizer Stage -->
+      <section class="studio-preview-pane">
+        
+        <!-- Preview Navigation Bar -->
+        <div class="preview-header-bar">
+          <div class="view-mode-tabs">
+            <button type="button" class="view-mode-btn active" id="btnView2D" onclick="setViewMode('2d')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              2D Print Sheet
+            </button>
+            <button type="button" class="view-mode-btn" id="btnView3D" onclick="setViewMode('3d')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              3D Case Preview
+            </button>
+          </div>
+
+          <div class="preview-actions">
+            <button type="button" class="action-btn action-btn-secondary" onclick="addToQueue()" title="Save card to batch queue">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save to Queue (<span id="queueCount">0</span>)
+            </button>
+            <button type="button" class="action-btn action-btn-accent" onclick="downloadPNG()" title="Export 300 DPI high-resolution image">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PNG
+            </button>
+            <button type="button" class="action-btn action-btn-primary" onclick="triggerPrint()" title="Print at 100% true physical scale">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print Sheet
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Canvas & 3D Container -->
+        <div class="preview-canvas-wrapper">
+          <!-- 2D High Resolution Canvas -->
+          <canvas id="stageCanvas" width="1920" height="1080"></canvas>
+
+          <!-- 3D Interactive Cassette Case -->
+          <div class="stage-3d-wrapper" id="stage3D">
+            <div class="cassette-3d-box" id="cassette3D">
+              <div class="case-face case-front" id="case3DFront"></div>
+              <div class="case-face case-spine" id="case3DSpine">
+                <span id="case3DSpineText" style="font-family: 'Bangers', cursive; font-size: 1.1rem; color: #000000; font-weight: 700; letter-spacing: 1px;">SPIDER-MAN</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-bar-hint" id="canvasHint">💡 Click &amp; drag directly on canvas to reposition artwork</div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Batch Queue Modal -->
+    <div class="queue-modal-overlay" id="queueModal">
+      <div class="queue-modal-box">
+        <div class="queue-modal-header">
+          <h3>Saved Inlay Cards Queue</h3>
+          <button type="button" class="queue-modal-close" onclick="closeQueueModal()">&times;</button>
+        </div>
+        <div class="queue-modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Assign cards to Card 1 and Card 2 for 2-up sheet printing, or print all queued cards.</p>
+          <div class="queue-list" id="queueList">
+            <!-- Populated via JS -->
+          </div>
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+            <button type="button" class="action-btn action-btn-secondary" onclick="clearQueue()">Clear Queue</button>
+            <button type="button" class="action-btn action-btn-primary" onclick="printQueueAll()">Print All (2-Up)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ==========================================
+    // Meudayr Standard Plex Server Status Check
+    // ==========================================
+    const PLEX_TOKEN = "ypFBiUJSYfzyDDivAGhu";
+
+    async function checkPlexStatus() {
+      const pill = document.getElementById('nav-plex-link');
+      const label = document.getElementById('plex-status-label');
+      if (!pill || !label || !PLEX_TOKEN) return;
+
+      try {
+        const res = await fetch(`https://plex.tv/api/v2/resources?X-Plex-Token=${encodeURIComponent(PLEX_TOKEN)}&includeHttps=1`, {
+          headers: { 'Accept': 'application/json', 'X-Plex-Client-Identifier': 'meudayr-homepage' }
+        });
+
+        if (res.ok) {
+          const resources = await res.json();
+          const server = resources.find(r => r.provides && r.provides.includes('server'));
+          if (server && server.presence) {
+            pill.className = 'plex-nav-pill online';
+            label.textContent = 'Online';
+            pill.setAttribute('title', `Plex Server: ${server.name || 'Online'}`);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Plex.tv API status check failed:', err);
+      }
+
+      pill.className = 'plex-nav-pill offline';
+      label.textContent = 'Offline';
+      pill.setAttribute('title', 'Plex Server: Offline');
+    }
+    checkPlexStatus();
+
+    // ==========================================
+    // Inlay Generator Core Application State
+    // ==========================================
+
+    let sheetMode = 'single'; // 'single' (1 per page) or 'dual' (2 per page)
+    let activeCardIndex = 0;   // 0 for Card 1 (Left), 1 for Card 2 (Right)
+    let viewMode = '2d';       // '2d' or '3d'
+    let printQueue = [];
+
+    // Preloaded image caches
+    const assetImages = {
+      mc_horizontal: new Image(),
+      mc_vertical: new Image(),
+      comic_code: new Image()
+    };
+
+    assetImages.mc_horizontal.src = 'assets/champions/mc_logo_horizontal.png';
+    assetImages.mc_vertical.src = 'assets/champions/mc_logo_vertical_clean.png';
+    assetImages.comic_code.src = 'assets/champions/comic_code.svg';
+
+    // Preset character configurations
+    const PRESETS = {
+      spiderman: {
+        name: 'SPIDER-MAN',
+        subtitle: 'CORE SET',
+        aspect: 'Justice',
+        color: '#eab308',
+        textColor: '#000000',
+        cornerPrice: '25¢ #1',
+        cornerTitle: 'MARVEL',
+        imageSrc: 'assets/champions/presets/spiderman.jpg'
+      },
+      wolverine: {
+        name: 'WOLVERINE',
+        subtitle: 'MUTANT GENESIS',
+        aspect: 'Aggression',
+        color: '#dc2626',
+        textColor: '#ffffff',
+        cornerPrice: '75¢ #1',
+        cornerTitle: 'X-MEN',
+        imageSrc: 'assets/champions/presets/wolverine.jpg'
+      },
+      cyclops: {
+        name: 'CYCLOPS',
+        subtitle: 'MUTANT GENESIS',
+        aspect: 'Leadership',
+        color: '#2563eb',
+        textColor: '#ffffff',
+        cornerPrice: '75¢ #1',
+        cornerTitle: 'X-MEN',
+        imageSrc: 'assets/champions/presets/cyclops.jpg'
+      },
+      captain_america: {
+        name: 'CAPTAIN AMERICA',
+        subtitle: 'WAVE 1',
+        aspect: 'Leadership',
+        color: '#2563eb',
+        textColor: '#ffffff',
+        cornerPrice: '25¢ #100',
+        cornerTitle: 'AVENGERS',
+        imageSrc: 'assets/champions/presets/captain_america.jpg'
+      },
+      iron_man: {
+        name: 'IRON MAN',
+        subtitle: 'CORE SET',
+        aspect: 'Aggression',
+        color: '#dc2626',
+        textColor: '#ffffff',
+        cornerPrice: '25¢ #1',
+        cornerTitle: 'AVENGERS',
+        imageSrc: 'assets/champions/presets/iron_man.jpg'
+      },
+      deadpool: {
+        name: 'DEADPOOL',
+        subtitle: 'WAVE 7',
+        aspect: 'Pool / Custom',
+        color: '#dc2626',
+        textColor: '#ffffff',
+        cornerPrice: '$1.00 #1',
+        cornerTitle: 'DEADPOOL',
+        imageSrc: 'assets/champions/presets/deadpool.jpg'
+      },
+      magneto: {
+        name: 'MAGNETO',
+        subtitle: 'AGE OF APOCALYPSE',
+        aspect: 'Leadership',
+        color: '#7e22ce',
+        textColor: '#ffffff',
+        cornerPrice: '75¢ #1',
+        cornerTitle: 'X-MEN',
+        imageSrc: 'assets/champions/presets/magneto.jpg'
+      },
+      venom: {
+        name: 'VENOM',
+        subtitle: 'SINISTER MOTIVES',
+        aspect: 'Justice',
+        color: '#475569',
+        textColor: '#ffffff',
+        cornerPrice: '$1.25 #1',
+        cornerTitle: 'LETHAL',
+        imageSrc: 'assets/champions/presets/venom.jpg'
+      },
+      she_hulk: {
+        name: 'SHE-HULK',
+        subtitle: 'CORE SET',
+        aspect: 'Aggression',
+        color: '#16a34a',
+        textColor: '#ffffff',
+        cornerPrice: '25¢ #1',
+        cornerTitle: 'MARVEL',
+        imageSrc: 'assets/champions/presets/she_hulk.jpg'
+      },
+      thor: {
+        name: 'THOR',
+        subtitle: 'WAVE 1',
+        aspect: 'Aggression',
+        color: '#2563eb',
+        textColor: '#ffffff',
+        cornerPrice: '25¢ #1',
+        cornerTitle: 'AVENGERS',
+        imageSrc: 'assets/champions/presets/thor.jpg'
+      },
+      captain_marvel: {
+        name: 'CAPTAIN MARVEL',
+        subtitle: 'CORE SET',
+        aspect: 'Leadership',
+        color: '#dc2626',
+        textColor: '#ffffff',
+        cornerPrice: '25¢ #1',
+        cornerTitle: 'MARVEL',
+        imageSrc: 'assets/champions/presets/captain_marvel.jpg'
+      },
+      green_goblin: {
+        name: 'GREEN GOBLIN',
+        subtitle: 'SCENARIO PACK',
+        aspect: 'Villain',
+        color: '#7e22ce',
+        textColor: '#ffffff',
+        cornerPrice: '50¢ #1',
+        cornerTitle: 'VILLAIN',
+        imageSrc: 'assets/champions/presets/green_goblin.jpg'
+      }
+    };
+
+    function createDefaultCard(presetKey = 'spiderman') {
+      const p = PRESETS[presetKey] || PRESETS.spiderman;
+      const img = new Image();
+      img.src = p.imageSrc;
+      return {
+        title: p.name,
+        subtitle: p.subtitle,
+        aspect: p.aspect,
+        spineColor: p.color,
+        textColor: p.textColor,
+        fontSize: 26,
+        spineFont: 'Bangers',
+        bleedMode: 'full',
+        flapStyle: 'bleed',
+        comicFilter: 'halftone',
+        filterStrength: 70,
+        showCornerBox: true,
+        cornerPrice: p.cornerPrice,
+        cornerTitle: p.cornerTitle,
+        showCoverLogo: true,
+        showComicCode: true,
+        showSpineLogo: true,
+        zoom: 100,
+        panX: 0,
+        panY: 0,
+        rotation: 0,
+        imageObj: img,
+        isCustomImage: false
+      };
+    }
+
+    const cards = [
+      createDefaultCard('spiderman'),
+      createDefaultCard('wolverine')
+    ];
+
+    // ==========================================
+    // Canvas Sizing & Coordinate Calibration
+    // ==========================================
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    function getCardLayoutMetrics() {
+      const cw = canvas.width;
+      const ch = canvas.height;
+
+      const cardW = 678;  // scaled width on 1920x1080 canvas
+      const coverH = 431; // front cover height
+      const spineH = 85;  // spine height
+      const flapH = 178;  // bottom flap height
+      const totalH = coverH + spineH + flapH; // 694px
+
+      if (sheetMode === 'single') {
+        const x = (cw - cardW) / 2 - 120;
+        const y = (ch - totalH) / 2;
+        return [{ x, y, w: cardW, coverH, spineH, flapH, totalH }];
+      } else {
+        const gap = 80;
+        const totalW2 = (cardW * 2) + gap;
+        const startX = (cw - totalW2) / 2;
+        const y = (ch - totalH) / 2;
+        return [
+          { x: startX, y, w: cardW, coverH, spineH, flapH, totalH },
+          { x: startX + cardW + gap, y, w: cardW, coverH, spineH, flapH, totalH }
+        ];
+      }
+    }
+
+    // ==========================================
+    // Rendering Engine
+    // ==========================================
+
+    function renderActiveCard() {
+      syncFormToActiveCard();
+      drawStage();
+      update3DCase();
+    }
+
+    function syncFormToActiveCard() {
+      const c = cards[activeCardIndex];
+      c.title = document.getElementById('inputTitle').value.toUpperCase();
+      c.subtitle = document.getElementById('inputSubtitle').value.toUpperCase();
+      c.spineColor = document.getElementById('inputSpineColor').value;
+      c.textColor = document.getElementById('selectTextColor').value;
+      c.fontSize = parseInt(document.getElementById('inputFontSize').value, 10) || 26;
+      c.spineFont = document.getElementById('selectSpineFont').value;
+      c.bleedMode = document.getElementById('selectBleed').value;
+      c.flapStyle = document.getElementById('selectFlapStyle').value;
+      c.comicFilter = document.getElementById('selectComicFilter').value;
+      c.filterStrength = parseInt(document.getElementById('inputFilterStrength').value, 10) || 70;
+      c.showCornerBox = document.getElementById('checkCornerBox').checked;
+      c.cornerPrice = document.getElementById('inputCornerPrice').value;
+      c.cornerTitle = document.getElementById('inputCornerTitle').value.toUpperCase();
+      c.showCoverLogo = document.getElementById('checkCoverLogo').checked;
+      c.showComicCode = document.getElementById('checkComicCode').checked;
+      c.showSpineLogo = document.getElementById('checkSpineLogo').checked;
+      c.zoom = parseInt(document.getElementById('inputZoom').value, 10) || 100;
+      c.panX = parseInt(document.getElementById('inputPanX').value, 10) || 0;
+      c.panY = parseInt(document.getElementById('inputPanY').value, 10) || 0;
+      c.rotation = parseInt(document.getElementById('selectRotation').value, 10) || 0;
+
+      document.getElementById('valZoom').textContent = c.zoom + '%';
+      document.getElementById('valFilterStrength').textContent = c.filterStrength + '%';
+    }
+
+    function syncActiveCardToForm() {
+      const c = cards[activeCardIndex];
+      document.getElementById('inputTitle').value = c.title;
+      document.getElementById('inputSubtitle').value = c.subtitle;
+      document.getElementById('inputSpineColor').value = c.spineColor;
+      document.getElementById('selectTextColor').value = c.textColor;
+      document.getElementById('inputFontSize').value = c.fontSize;
+      document.getElementById('selectSpineFont').value = c.spineFont;
+      document.getElementById('selectBleed').value = c.bleedMode;
+      document.getElementById('selectFlapStyle').value = c.flapStyle;
+      document.getElementById('selectComicFilter').value = c.comicFilter;
+      document.getElementById('inputFilterStrength').value = c.filterStrength;
+      document.getElementById('checkCornerBox').checked = c.showCornerBox;
+      document.getElementById('inputCornerPrice').value = c.cornerPrice;
+      document.getElementById('inputCornerTitle').value = c.cornerTitle;
+      document.getElementById('checkCoverLogo').checked = c.showCoverLogo;
+      document.getElementById('checkComicCode').checked = c.showComicCode;
+      document.getElementById('checkSpineLogo').checked = c.showSpineLogo;
+      document.getElementById('inputZoom').value = c.zoom;
+      document.getElementById('inputPanX').value = c.panX;
+      document.getElementById('inputPanY').value = c.panY;
+      document.getElementById('selectRotation').value = c.rotation;
+
+      document.getElementById('valZoom').textContent = c.zoom + '%';
+      document.getElementById('valFilterStrength').textContent = c.filterStrength + '%';
+    }
+
+    function drawStage() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Sheet Background (Crisp White for print & sheet contrast)
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (sheetMode === 'single') {
+        drawSheetMetadata(cards[0]);
+      } else {
+        drawDualSheetMetadata();
+      }
+
+      const metrics = getCardLayoutMetrics();
+
+      metrics.forEach((m, idx) => {
+        const card = cards[idx] || cards[0];
+        drawInlayCard(m, card, idx);
+      });
+    }
+
+    function drawSheetMetadata(card) {
+      // Top Left Header
+      ctx.fillStyle = '#b91c1c';
+      ctx.font = '900 28px "Bangers", cursive';
+      ctx.fillText('MARVEL CHAMPIONS CASSETTE STORAGE SYSTEM', 60, 60);
+
+      // Top Right Marvel Champions Logo Box
+      drawTopRightLogo(1600, 30, 240, 100);
+
+      // Bottom Right Set Tag
+      if (card.subtitle) {
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#111317';
+        ctx.font = '700 22px "Outfit", sans-serif';
+        ctx.fillText(card.subtitle, 1860, 1000);
+        ctx.fillStyle = '#b91c1c';
+        ctx.font = '900 24px "Bangers", cursive';
+        ctx.fillText('MARVEL CHAMPIONS', 1860, 1030);
+        ctx.textAlign = 'left';
+      }
+    }
+
+    function drawDualSheetMetadata() {
+      // Top Header for 2-Up Sheet
+      ctx.fillStyle = '#b91c1c';
+      ctx.font = '900 26px "Bangers", cursive';
+      ctx.fillText('MARVEL CHAMPIONS 2-UP CASSETTE PRINT SHEET', 60, 50);
+
+      drawTopRightLogo(1660, 25, 200, 80);
+    }
+
+    function drawTopRightLogo(x, y, w, h) {
+      ctx.save();
+      // Draw Red Marvel Box
+      const mH = h * 0.55;
+      ctx.fillStyle = '#dc2626';
+      ctx.fillRect(x, y, w, mH);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `900 ${mH * 0.8}px "Outfit", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('MARVEL', x + w/2, y + mH/2 + 2);
+
+      // Draw CHAMPIONS text below
+      ctx.fillStyle = '#000000';
+      ctx.font = `900 ${h * 0.35}px "Outfit", "Bangers", sans-serif`;
+      ctx.fillText('CHAMPIONS', x + w/2, y + mH + (h - mH)/2 + 2);
+      ctx.restore();
+    }
+
+    function drawInlayCard(m, card, cardIdx) {
+      const { x, y, w, coverH, spineH, flapH, totalH } = m;
+
+      // 1. Draw Background / Artwork
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x, y, w, totalH);
+      ctx.clip();
+
+      // Card Base Color
+      ctx.fillStyle = '#111317';
+      ctx.fillRect(x, y, w, totalH);
+
+      // Render User Artwork with Transforms
+      if (card.imageObj && card.imageObj.complete && card.imageObj.naturalWidth > 0) {
+        ctx.save();
+        const img = card.imageObj;
+        const scale = (card.zoom / 100);
+
+        const artTargetH = card.bleedMode === 'full' ? totalH : coverH;
+        const centerX = x + w / 2 + card.panX;
+        const centerY = y + artTargetH / 2 + card.panY;
+
+        ctx.translate(centerX, centerY);
+        ctx.rotate((card.rotation * Math.PI) / 180);
+
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        const targetRatio = w / artTargetH;
+        let drawW, drawH;
+
+        if (imgRatio > targetRatio) {
+          drawH = artTargetH * scale;
+          drawW = drawH * imgRatio;
+        } else {
+          drawW = w * scale;
+          drawH = drawW / imgRatio;
+        }
+
+        ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+        ctx.restore();
+
+        // Apply Comic Filter Overlays
+        applyComicFilters(x, y, w, artTargetH, card);
+      }
+
+      ctx.restore();
+
+      // 2. Draw Spine Bar
+      const spineY = y + coverH;
+      drawSpineBar(x, spineY, w, spineH, card);
+
+      // 3. Draw Bottom Flap (if solid or non-bleed)
+      const flapY = spineY + spineH;
+      if (card.flapStyle === 'solid') {
+        ctx.fillStyle = card.spineColor;
+        ctx.fillRect(x, flapY, w, flapH);
+      } else if (card.flapStyle === 'black') {
+        ctx.fillStyle = '#14161b';
+        ctx.fillRect(x, flapY, w, flapH);
+      }
+
+      // 4. Draw Comic Elements on Cover
+      drawCoverOverlays(x, y, w, coverH, card);
+
+      // 5. Draw Precision Cut & Fold Guidelines
+      drawGuidelines(m, cardIdx);
+    }
+
+    function applyComicFilters(x, y, w, h, card) {
+      if (card.comicFilter === 'none') return;
+
+      const strength = card.filterStrength / 100;
+
+      if (card.comicFilter === 'halftone') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+
+        const dotPatternCanvas = document.createElement('canvas');
+        dotPatternCanvas.width = 8;
+        dotPatternCanvas.height = 8;
+        const pCtx = dotPatternCanvas.getContext('2d');
+        pCtx.fillStyle = 'rgba(0,0,0,0)';
+        pCtx.fillRect(0,0,8,8);
+        pCtx.fillStyle = `rgba(0, 0, 0, ${0.42 * strength})`;
+        pCtx.beginPath();
+        pCtx.arc(4, 4, 1.8 * strength, 0, Math.PI * 2);
+        pCtx.fill();
+
+        const pattern = ctx.createPattern(dotPatternCanvas, 'repeat');
+        ctx.fillStyle = pattern;
+        ctx.fillRect(x, y, w, h);
+
+        ctx.fillStyle = `rgba(255, 248, 220, ${0.15 * strength})`;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
+      } else if (card.comicFilter === 'vintage') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+        ctx.fillStyle = `rgba(217, 185, 126, ${0.28 * strength})`;
+        ctx.fillRect(x, y, w, h);
+        ctx.fillStyle = `rgba(180, 83, 9, ${0.12 * strength})`;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
+      } else if (card.comicFilter === 'ink') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = `rgba(0, 0, 0, ${0.6 * strength})`;
+        ctx.strokeRect(x + 2, y + 2, w - 4, h - 4);
+        ctx.restore();
+      } else if (card.comicFilter === 'noir') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+        const grad = ctx.createRadialGradient(x + w/2, y + h/2, 50, x + w/2, y + h/2, w/1.2);
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(1, `rgba(0,0,0,${0.65 * strength})`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
+      }
+    }
+
+    function drawSpineBar(x, y, w, h, card) {
+      ctx.save();
+      ctx.fillStyle = card.spineColor;
+      ctx.fillRect(x, y, w, h);
+
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x, y, w, h);
+
+      let textStartX = x + 16;
+
+      if (card.showSpineLogo) {
+        // Draw crisp vector Marvel Champions spine badge perfectly centered
+        const logoW = 90;
+        const logoH = 58;
+        const logoX = x + 16;
+        const logoY = y + (h - logoH) / 2;
+
+        const mBoxH = 34;
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(logoX, logoY, logoW, mBoxH);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(logoX, logoY, logoW, mBoxH);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 21px "Outfit", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('MARVEL', logoX + logoW/2, logoY + mBoxH/2 + 1);
+
+        ctx.fillStyle = '#000000';
+        ctx.font = '900 13px "Outfit", "Bangers", sans-serif';
+        ctx.fillText('CHAMPIONS', logoX + logoW/2, logoY + mBoxH + 12);
+
+        textStartX = logoX + logoW + 20;
+      }
+
+      // Auto-fit Hero / Deck Name
+      let fontSize = card.fontSize;
+      ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
+      const title = card.title || 'HERO DECK';
+      const maxTextW = x + w - textStartX - 16;
+
+      while (ctx.measureText(title).width > maxTextW && fontSize > 14) {
+        fontSize -= 1;
+        ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
+      }
+
+      ctx.fillStyle = card.textColor;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'left';
+
+      if (card.textColor === '#ffffff') {
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+      }
+
+      ctx.fillText(title, textStartX, y + h / 2 + 1);
+
+      ctx.restore();
+    }
+
+    function drawCoverOverlays(x, y, w, h, card) {
+      // 1. Marvel Champions Cover Logo (Vertical on right edge, Manser v17.5 style)
+      if (card.showCoverLogo) {
+        ctx.save();
+        const logoW = 46;
+        const logoH = 150;
+        const logoX = x + w - logoW - 14;
+        const logoY = y + (h - logoH) / 2;
+
+        ctx.translate(logoX + logoW/2, logoY + logoH/2);
+        ctx.rotate(-Math.PI / 2);
+
+        // Draw rotated banner (horizontal internally)
+        const bannerW = logoH;
+        const bannerH = logoW;
+        const bX = -bannerW / 2;
+        const bY = -bannerH / 2;
+
+        // Red MARVEL box
+        const mBoxW = bannerW * 0.50;
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(bX, bY, mBoxW, bannerH);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(bX, bY, mBoxW, bannerH);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `900 ${bannerH * 0.65}px "Outfit", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('MARVEL', bX + mBoxW/2, bY + bannerH/2 + 2);
+
+        // CHAMPIONS text
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+        ctx.shadowBlur = 4;
+        ctx.font = `900 ${bannerH * 0.50}px "Outfit", "Bangers", sans-serif`;
+        ctx.fillText('CHAMPIONS', bX + mBoxW + (bannerW - mBoxW)/2 + 2, bY + bannerH/2 + 2);
+
+        ctx.restore();
+      }
+
+      // 2. Vintage 25¢ Comic Corner Box (Top Left)
+      if (card.showCornerBox) {
+        ctx.save();
+        const boxX = x + 14;
+        const boxY = y + 14;
+        const boxW = 85;
+        const boxH = 120;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2.5;
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+        ctx.fillStyle = '#000000';
+        ctx.font = '900 13px "Outfit", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(card.cornerPrice || '25¢ #1', boxX + boxW / 2, boxY + 18);
+
+        ctx.beginPath();
+        ctx.moveTo(boxX, boxY + 26);
+        ctx.lineTo(boxX + boxW, boxY + 26);
+        ctx.stroke();
+
+        ctx.font = '700 9px "Inter", sans-serif';
+        ctx.fillText('LCG DECK', boxX + boxW / 2, boxY + 38);
+
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(boxX + 2, boxY + 44, boxW - 4, 18);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 11px "Bangers", cursive';
+        ctx.fillText(card.cornerTitle || 'MARVEL', boxX + boxW / 2, boxY + 57);
+
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(boxX + 6, boxY + 68, boxW - 12, 44);
+
+        if (card.imageObj && card.imageObj.complete && card.imageObj.naturalWidth > 0) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(boxX + 7, boxY + 69, boxW - 14, 42);
+          ctx.clip();
+          ctx.drawImage(card.imageObj, boxX + 7, boxY + 69, boxW - 14, 42);
+          ctx.restore();
+        }
+
+        ctx.restore();
+      }
+
+      // 3. Comic Code Authority Seal
+      if (card.showComicCode && assetImages.comic_code.complete && assetImages.comic_code.naturalWidth > 0) {
+        const codeW = 46;
+        const codeH = 60;
+        ctx.drawImage(assetImages.comic_code, x + w - codeW - 16, y + h - codeH - 16, codeW, codeH);
+      }
+    }
+
+    function drawGuidelines(m, cardIdx) {
+      if (!document.getElementById('checkCutLines').checked && !document.getElementById('checkFoldLines').checked) return;
+
+      const { x, y, w, coverH, spineH, flapH, totalH } = m;
+      const spineY = y + coverH;
+      const flapY = spineY + spineH;
+      const bottomY = y + totalH;
+
+      ctx.save();
+
+      // Dashed Fold Lines
+      if (document.getElementById('checkFoldLines').checked) {
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+
+        ctx.beginPath();
+        ctx.moveTo(x - 50, spineY);
+        ctx.lineTo(x + w + 50, spineY);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x - 50, flapY);
+        ctx.lineTo(x + w + 50, flapY);
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+
+        // Fold Indicator Glyph
+        drawFoldGlyph(x + w + 14, spineY - 14);
+        drawFoldGlyph(x + w + 14, flapY - 14);
+      }
+
+      // Solid Cut Lines & Professional Crop Marks
+      if (document.getElementById('checkCutLines').checked) {
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([]);
+
+        ctx.strokeRect(x, y, w, totalH);
+
+        // Extended Cut Extension Guides
+        ctx.beginPath();
+        ctx.moveTo(x - 60, y);
+        ctx.lineTo(x + w + 60, y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x - 60, bottomY);
+        ctx.lineTo(x + w + 60, bottomY);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x, y - 60);
+        ctx.lineTo(x, bottomY + 60);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x + w, y - 60);
+        ctx.lineTo(x + w, bottomY + 60);
+        ctx.stroke();
+
+        // Vector Scissor Marks
+        drawScissorGlyph(x + 20, y - 28);
+        drawScissorGlyph(x + w - 40, y - 28);
+        drawScissorGlyph(x + w + 24, y + 20);
+        drawScissorGlyph(x + w + 24, bottomY - 30);
+      }
+
+      ctx.restore();
+    }
+
+    function drawFoldGlyph(x, y) {
+      ctx.save();
+      ctx.strokeStyle = '#000000';
+      ctx.fillStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      // Draw small folding sheet icon
+      ctx.strokeRect(x, y, 14, 24);
+      ctx.beginPath();
+      ctx.setLineDash([2, 2]);
+      ctx.moveTo(x + 4, y);
+      ctx.lineTo(x + 4, y + 24);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawScissorGlyph(x, y) {
+      ctx.save();
+      ctx.fillStyle = '#000000';
+      ctx.font = '18px sans-serif';
+      ctx.fillText('✂', x, y);
+      ctx.restore();
+    }
+
+    // ==========================================
+    // Interactive Canvas Pan & Drag Support
+    // ==========================================
+    let isDraggingCanvas = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let initialPanX = 0;
+    let initialPanY = 0;
+
+    canvas.addEventListener('pointerdown', (e) => {
+      isDraggingCanvas = true;
+      canvas.classList.add('grabbing');
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      const c = cards[activeCardIndex];
+      initialPanX = c.panX;
+      initialPanY = c.panY;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingCanvas) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      const c = cards[activeCardIndex];
+      const rect = canvas.getBoundingClientRect();
+      const scaleFactor = canvas.width / rect.width;
+      c.panX = Math.round(initialPanX + dx * scaleFactor);
+      c.panY = Math.round(initialPanY + dy * scaleFactor);
+      document.getElementById('inputPanX').value = c.panX;
+      document.getElementById('inputPanY').value = c.panY;
+      drawStage();
+      update3DCase();
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (isDraggingCanvas) {
+        isDraggingCanvas = false;
+        canvas.classList.remove('grabbing');
+      }
+    });
+
+    // ==========================================
+    // Section Accordions & UI Helpers
+    // ==========================================
+    function toggleSection(secId) {
+      const el = document.getElementById(secId);
+      if (el) el.classList.toggle('open');
+    }
+
+    function setSheetMode(mode) {
+      sheetMode = mode;
+      document.getElementById('btnModeSingle').classList.toggle('active', mode === 'single');
+      document.getElementById('btnModeDual').classList.toggle('active', mode === 'dual');
+      document.getElementById('cardTabsRow').style.display = mode === 'dual' ? 'flex' : 'none';
+      renderActiveCard();
+    }
+
+    function switchActiveCard(idx) {
+      activeCardIndex = idx;
+      document.getElementById('tabCard1').classList.toggle('active', idx === 0);
+      document.getElementById('tabCard2').classList.toggle('active', idx === 1);
+      syncActiveCardToForm();
+      renderActiveCard();
+    }
+
+    function duplicateCurrentCard() {
+      const src = cards[activeCardIndex];
+      const targetIdx = activeCardIndex === 0 ? 1 : 0;
+      cards[targetIdx] = JSON.parse(JSON.stringify(src));
+      cards[targetIdx].imageObj = src.imageObj;
+      alert(`Card ${activeCardIndex + 1} cloned to Card ${targetIdx + 1}!`);
+      renderActiveCard();
+    }
+
+    function setAspectColor(colorHex, aspectName) {
+      document.getElementById('inputSpineColor').value = colorHex;
+      const c = cards[activeCardIndex];
+      c.spineColor = colorHex;
+      c.aspect = aspectName;
+      if (colorHex === '#eab308' || colorHex === '#facc15') {
+        document.getElementById('selectTextColor').value = '#000000';
+      } else {
+        document.getElementById('selectTextColor').value = '#ffffff';
+      }
+      renderActiveCard();
+    }
+
+    function updateArtTransform() {
+      renderActiveCard();
+    }
+
+    // ==========================================
+    // Image Upload & Presets
+    // ==========================================
+    const dropZone = document.getElementById('dropZone');
+    const artFileInput = document.getElementById('artFileInput');
+
+    artFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        loadCustomImage(e.target.files[0]);
+      }
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        loadCustomImage(e.dataTransfer.files[0]);
+      }
+    });
+
+    function loadCustomImage(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const c = cards[activeCardIndex];
+          c.imageObj = img;
+          c.isCustomImage = true;
+          c.panX = 0;
+          c.panY = 0;
+          c.zoom = 100;
+          document.querySelectorAll('.preset-chip').forEach(el => el.classList.remove('active'));
+          renderActiveCard();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadPresetHero(presetKey) {
+      const p = PRESETS[presetKey];
+      if (!p) return;
+
+      const c = cards[activeCardIndex];
+      c.title = p.name;
+      c.subtitle = p.subtitle;
+      c.aspect = p.aspect;
+      c.spineColor = p.color;
+      c.textColor = p.textColor;
+      c.cornerPrice = p.cornerPrice;
+      c.cornerTitle = p.cornerTitle;
+
+      const img = new Image();
+      img.onload = () => {
+        c.imageObj = img;
+        c.isCustomImage = false;
+        c.panX = 0;
+        c.panY = 0;
+        c.zoom = 100;
+        syncActiveCardToForm();
+        renderActiveCard();
+      };
+      img.src = p.imageSrc;
+
+      document.querySelectorAll('.preset-chip').forEach(el => el.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.preset-chip')).find(el => el.getAttribute('onclick') && el.getAttribute('onclick').includes(presetKey));
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // ==========================================
+    // 3D Perspective Case Interactive Preview
+    // ==========================================
+    const stage3D = document.getElementById('stage3D');
+    const cassette3D = document.getElementById('cassette3D');
+    let rotX = 20;
+    let rotY = -35;
+    let isDragging3D = false;
+    let startX3D = 0;
+    let startY3D = 0;
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      document.getElementById('btnView2D').classList.toggle('active', mode === '2d');
+      document.getElementById('btnView3D').classList.toggle('active', mode === '3d');
+      
+      canvas.style.display = mode === '2d' ? 'block' : 'none';
+      stage3D.classList.toggle('active', mode === '3d');
+      document.getElementById('canvasHint').textContent = mode === '2d' 
+        ? '💡 Click & drag directly on canvas to reposition artwork' 
+        : '💡 Click & drag in 3D to rotate the cassette case';
+
+      if (mode === '3d') update3DCase();
+    }
+
+    stage3D.addEventListener('pointerdown', (e) => {
+      isDragging3D = true;
+      startX3D = e.clientX;
+      startY3D = e.clientY;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDragging3D || viewMode !== '3d') return;
+      const dx = e.clientX - startX3D;
+      const dy = e.clientY - startY3D;
+      rotY += dx * 0.5;
+      rotX = Math.max(-60, Math.min(60, rotX - dy * 0.5));
+      cassette3D.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      startX3D = e.clientX;
+      startY3D = e.clientY;
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDragging3D = false;
+    });
+
+    function update3DCase() {
+      const c = cards[activeCardIndex];
+      const frontEl = document.getElementById('case3DFront');
+      const spineEl = document.getElementById('case3DSpine');
+      const spineTextEl = document.getElementById('case3DSpineText');
+
+      if (c.imageObj && c.imageObj.src) {
+        frontEl.style.backgroundImage = `url(${c.imageObj.src})`;
+      }
+      spineEl.style.backgroundColor = c.spineColor;
+      spineTextEl.textContent = c.title;
+      spineTextEl.style.color = c.textColor;
+      spineTextEl.style.fontFamily = `"${c.spineFont}", "Bangers", cursive`;
+    }
+
+    // ==========================================
+    // Print & High-Res Export Suite
+    // ==========================================
+    function triggerPrint() {
+      drawStage();
+      window.print();
+    }
+
+    function downloadPNG() {
+      drawStage();
+      const card = cards[activeCardIndex];
+      const filename = `Marvel_Champions_${(card.title || 'Inlay').replace(/[^a-zA-Z0-9_-]/g, '_')}_Cassette.png`;
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // ==========================================
+    // Print Queue / Batch Management
+    // ==========================================
+    function addToQueue() {
+      const card = cards[activeCardIndex];
+      const queueItem = {
+        id: Date.now(),
+        cardData: JSON.parse(JSON.stringify(card)),
+        imageSrc: card.imageObj ? card.imageObj.src : '',
+        thumbDataUrl: canvas.toDataURL('image/jpeg', 0.6)
+      };
+      printQueue.push(queueItem);
+      document.getElementById('queueCount').textContent = printQueue.length;
+      alert(`"${card.title}" added to Print Queue!`);
+    }
+
+    function openQueueModal() {
+      renderQueueList();
+      document.getElementById('queueModal').classList.add('open');
+    }
+
+    function closeQueueModal() {
+      document.getElementById('queueModal').classList.remove('open');
+    }
+
+    function renderQueueList() {
+      const list = document.getElementById('queueList');
+      list.innerHTML = '';
+      if (printQueue.length === 0) {
+        list.innerHTML = '<p style="color: var(--text-dark); font-size: 0.85rem;">No cards in queue yet. Click "Save to Queue" to add cards.</p>';
+        return;
+      }
+
+      printQueue.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'queue-card-item';
+        div.innerHTML = `
+          <img class="queue-card-preview" src="${item.thumbDataUrl}">
+          <div class="queue-card-title">${item.cardData.title}</div>
+          <div class="queue-item-btns">
+            <button type="button" class="queue-btn-sm" onclick="loadQueueToSlot(${idx}, 0)">Set as Card 1</button>
+            <button type="button" class="queue-btn-sm" onclick="loadQueueToSlot(${idx}, 1)">Set as Card 2</button>
+            <button type="button" class="queue-btn-sm" style="color: #ef4444;" onclick="removeQueueItem(${idx})">&times;</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function loadQueueToSlot(queueIdx, slotIdx) {
+      const item = printQueue[queueIdx];
+      if (!item) return;
+      const img = new Image();
+      img.src = item.imageSrc;
+      cards[slotIdx] = { ...item.cardData, imageObj: img };
+      if (sheetMode === 'single' && slotIdx === 1) {
+        setSheetMode('dual');
+      }
+      switchActiveCard(slotIdx);
+      closeQueueModal();
+    }
+
+    function removeQueueItem(idx) {
+      printQueue.splice(idx, 1);
+      document.getElementById('queueCount').textContent = printQueue.length;
+      renderQueueList();
+    }
+
+    function clearQueue() {
+      printQueue = [];
+      document.getElementById('queueCount').textContent = 0;
+      renderQueueList();
+    }
+
+    function printQueueAll() {
+      closeQueueModal();
+      setSheetMode('dual');
+      triggerPrint();
+    }
+
+    // ==========================================
+    // Initial Load & Image Preloading
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      let loadedCount = 0;
+      const totalImages = Object.keys(assetImages).length + 2;
+
+      function checkReady() {
+        loadedCount++;
+        if (loadedCount >= 2) {
+          syncActiveCardToForm();
+          drawStage();
+          update3DCase();
+        }
+      }
+
+      Object.values(assetImages).forEach(img => {
+        if (img.complete) checkReady();
+        else img.onload = checkReady;
+      });
+
+      if (cards[0].imageObj) {
+        if (cards[0].imageObj.complete) checkReady();
+        else cards[0].imageObj.onload = checkReady;
+      }
+      if (cards[1].imageObj) {
+        if (cards[1].imageObj.complete) checkReady();
+        else cards[1].imageObj.onload = checkReady;
+      }
+    });
+
+  </script>
+</body>
+</html>
