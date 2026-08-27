@@ -1608,6 +1608,14 @@
               </label>
             </div>
 
+            <div class="switch-row">
+              <span class="switch-label">Spine Ribbon Border</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkSpineBorder" onchange="renderActiveCard()">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
           </div>
         </div>
 
@@ -1855,14 +1863,12 @@
 
     // Preloaded image caches
     const assetImages = {
-      mc_horizontal: new Image(),
-      mc_vertical: new Image(),
-      comic_code: new Image()
+      spine_logo: new Image(),
+      cover_logo: new Image()
     };
 
-    assetImages.mc_horizontal.src = 'assets/champions/mc_logo_horizontal.png';
-    assetImages.mc_vertical.src = 'assets/champions/mc_logo_vertical_clean.png';
-    assetImages.comic_code.src = 'assets/champions/comic_code.svg';
+    assetImages.spine_logo.src = 'assets/champions/marvel_champions_logo_full.png';
+    assetImages.cover_logo.src = 'assets/champions/marvel_champions_logo_cover_white.png';
 
     // Preset character configurations
     const PRESETS = {
@@ -2016,6 +2022,7 @@
         showCoverLogo: true,
         showComicCode: false,
         showSpineLogo: true,
+        showSpineBorder: false,
         zoom: isWolv ? 115 : 108,
         panX: 0,
         panY: isWolv ? -25 : -15,
@@ -2204,6 +2211,7 @@
       c.rotation = parseInt(document.getElementById('selectRotation').value, 10) || 0;
       c.showCoverLogo = document.getElementById('checkCoverLogo').checked;
       c.showSpineLogo = document.getElementById('checkSpineLogo').checked;
+      c.showSpineBorder = document.getElementById('checkSpineBorder').checked;
 
       // Sync numeric values if user is not actively typing into them
       if (document.activeElement !== document.getElementById('inputNumZoom')) {
@@ -2246,6 +2254,7 @@
       document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
       document.getElementById('checkCoverLogo').checked = c.showCoverLogo !== false;
       document.getElementById('checkSpineLogo').checked = c.showSpineLogo !== false;
+      document.getElementById('checkSpineBorder').checked = c.showSpineBorder === true;
       document.getElementById('selectRotation').value = c.rotation || 0;
 
       const z = c.zoom !== undefined ? c.zoom : 100;
@@ -2513,64 +2522,52 @@
     function drawSpineBar(x, y, w, h, card) {
       ctx.save();
 
-      // 1. Authentic Translucent Spine Ribbon (Ends before right edge to match authentic Manser layout)
-      const barW = Math.round(w * 0.88);
+      // 1. Centered Translucent Spine Ribbon (Horizontally Centered, 90% Width)
+      const barW = Math.round(w * 0.90);
+      const barX = x + Math.round((w - barW) / 2);
       const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
 
       ctx.fillStyle = hexToRgba(card.spineColor, opacity);
-      ctx.fillRect(x, y, barW, h);
+      ctx.fillRect(barX, y, barW, h);
 
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(x, y, barW, h);
-
-      let logoRightEdge = x + 16;
-
-      // 2. Authentic Marvel Champions Spine Logo (Left Side in White Badge)
-      if (card.showSpineLogo) {
-        const logoW = 86;
-        const logoH = 56;
-        const logoX = x + 16;
-        const logoY = y + (h - logoH) / 2;
-
-        // Solid White Badge
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(logoX, logoY, logoW, logoH);
+      // Optional Black Ribbon Border (Default OFF)
+      if (card.showSpineBorder) {
         ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(logoX, logoY, logoW, logoH);
-
-        // Red MARVEL box
-        const mBoxH = 30;
-        ctx.fillStyle = '#dc2626';
-        ctx.fillRect(logoX + 2, logoY + 2, logoW - 4, mBoxH);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 18px "Outfit", "Arial Black", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('MARVEL', logoX + logoW / 2, logoY + 2 + mBoxH / 2 + 1);
-
-        // CHAMPIONS text in black
-        ctx.fillStyle = '#000000';
-        ctx.font = '900 12px "Outfit", "Arial Black", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('CHAMPIONS', logoX + logoW / 2, logoY + mBoxH + 10);
-
-        // THE CARD GAME Subtitle
-        ctx.font = '700 5.5px "Inter", sans-serif';
-        ctx.fillText('THE CARD GAME', logoX + logoW / 2, logoY + mBoxH + 18);
-
-        logoRightEdge = logoX + logoW + 16;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(barX, y, barW, h);
       }
 
-      // 3. Spine Title - Right-Aligned inside the translucent ribbon
+      let logoRightEdge = barX + 16;
+
+      // 2. Official Marvel Champions Spine Logo (Left Side in White Badge)
+      if (card.showSpineLogo) {
+        const badgeW = 96;
+        const badgeH = 56;
+        const badgeX = barX + 14;
+        const badgeY = y + (h - badgeH) / 2;
+
+        // Solid White Badge Background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
+
+        const img = assetImages.spine_logo;
+        if (img && img.complete && img.naturalWidth > 0) {
+          const pad = 4;
+          const targetW = badgeW - (pad * 2);
+          const targetH = targetW * (img.naturalHeight / img.naturalWidth);
+          const drawY = badgeY + (badgeH - targetH) / 2;
+          ctx.drawImage(img, badgeX + pad, drawY, targetW, targetH);
+        }
+
+        logoRightEdge = badgeX + badgeW + 16;
+      }
+
+      // 3. Spine Title - Right-Aligned inside the centered ribbon
       let fontSize = card.fontSize || 44;
       ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
       const title = card.title || 'HERO DECK';
       const rightPadding = 18;
-      const textEndX = x + barW - rightPadding;
+      const textEndX = barX + barW - rightPadding;
       const maxTextW = textEndX - logoRightEdge - 12;
 
       while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
@@ -2598,53 +2595,21 @@
     }
 
     function drawCoverOverlays(x, y, w, h, card) {
-      // 1. Authentic Marvel Champions Cover Logo (Vertical on top-right, matching spine logo without "THE CARD GAME")
+      // 1. Official Marvel Champions Cover Logo (Vertical on top-right, using official logo asset)
       if (card.showCoverLogo) {
         ctx.save();
-        const logoW = 50;
-        const logoH = 205;
-        const logoX = x + w - logoW - 20;
+        const targetH = 195;
+        const targetW = 98;
+        const logoX = x + w - targetW - 18;
         const logoY = y + 20;
 
-        ctx.translate(logoX + logoW / 2, logoY + logoH / 2);
-        ctx.rotate(-Math.PI / 2);
-
-        const bannerW = 205;
-        const bannerH = 50;
-        const bX = -bannerW / 2;
-        const bY = -bannerH / 2;
-
-        // Red MARVEL box (Left half of rotated banner = top of vertical logo)
-        const mBoxW = 94;
-        ctx.fillStyle = '#dc2626';
-        ctx.fillRect(bX, bY, mBoxW, bannerH);
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 1.5;
-        ctx.strokeRect(bX + 0.75, bY + 0.75, mBoxW - 1.5, bannerH - 1.5);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 28px "Outfit", "Arial Black", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('MARVEL', bX + mBoxW / 2, bY + bannerH / 2 + 1);
-
-        // CHAMPIONS text (Right half of rotated banner = bottom of vertical logo)
-        const cCenterX = bX + mBoxW + (bannerW - mBoxW) / 2;
-        const cCenterY = bY + bannerH / 2 + 1;
-
-        ctx.font = '900 23px "Outfit", "Arial Black", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        // Heavy dark outline for high contrast against artwork
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 4.5;
-        ctx.lineJoin = 'round';
-        ctx.strokeText('CHAMPIONS', cCenterX, cCenterY);
-
-        // Crisp white text
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('CHAMPIONS', cCenterX, cCenterY);
+        const img = assetImages.cover_logo;
+        if (img && img.complete && img.naturalWidth > 0) {
+          ctx.translate(logoX + targetW / 2, logoY + targetH / 2);
+          ctx.rotate(-Math.PI / 2);
+          // Original aspect is 1024x512 (2:1). Rotated is targetH wide, targetW tall.
+          ctx.drawImage(img, -targetH / 2, -targetW / 2, targetH, targetW);
+        }
 
         ctx.restore();
       }
