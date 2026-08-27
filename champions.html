@@ -1404,21 +1404,30 @@
             </div>
             <select class="form-select" id="selectBoxType" onchange="onBoxTypeChange()">
               <optgroup label="Audio Cassette Case">
-                <option value="cassette" selected>Audio Cassette (Standard J-Card - 101.6 × 64.8mm)</option>
+                <option value="cassette" selected>Audio Cassette (Standard J-Card - 12.7mm Spine)</option>
               </optgroup>
-              <optgroup label="Burger Tokens - Horizontal / Sideways (Cassette-Style)">
-                <option value="burgertokens_h_43s">Burger Tokens 43S Horizontal (27mm Spine - 40-50 Sleeved)</option>
-                <option value="burgertokens_h_50s">Burger Tokens 50S Horizontal (32mm Spine - Large Deck)</option>
-                <option value="burgertokens_h_37s">Burger Tokens 37S Horizontal (22.5mm Spine - Medium Deck)</option>
-                <option value="burgertokens_h_22s">Burger Tokens 22S Horizontal (14.5mm Spine - Hero Kit/Nemesis)</option>
-                <option value="burgertokens_h_15s">Burger Tokens 15S Horizontal (10mm Spine - Modular Set)</option>
+              <optgroup label="Burger Tokens (Cassette Art Size - Adjusted Spine Cuts)">
+                <option value="bt_cassette_15s">Burger Tokens 15S (Cassette Art - 10mm Spine)</option>
+                <option value="bt_cassette_22s">Burger Tokens 22S (Cassette Art - 14.5mm Spine)</option>
+                <option value="bt_cassette_30s">Burger Tokens 30S (Cassette Art - 18.5mm Spine)</option>
+                <option value="bt_cassette_43s">Burger Tokens 43S (Cassette Art - 27mm Spine)</option>
+                <option value="bt_cassette_50s">Burger Tokens 50S (Cassette Art - 32mm Spine)</option>
               </optgroup>
-              <optgroup label="Burger Tokens - Upright / Vertical">
-                <option value="burgertokens_v_43s">Burger Tokens 43S Upright (27mm Spine - 40-50 Sleeved)</option>
-                <option value="burgertokens_v_50s">Burger Tokens 50S Upright (32mm Spine - Large Deck)</option>
-                <option value="burgertokens_v_37s">Burger Tokens 37S Upright (22.5mm Spine - Medium Deck)</option>
-                <option value="burgertokens_v_22s">Burger Tokens 22S Upright (14.5mm Spine - Hero Kit/Nemesis)</option>
-                <option value="burgertokens_v_15s">Burger Tokens 15S Upright (10mm Spine - Modular Set)</option>
+              <optgroup label="Burger Tokens (Exact Deckbox Dimensions - 96 × 68mm)">
+                <option value="burgertokens_h_15s">Burger Tokens 15S Horizontal (10mm Spine)</option>
+                <option value="burgertokens_h_22s">Burger Tokens 22S Horizontal (14.5mm Spine)</option>
+                <option value="burgertokens_h_30s">Burger Tokens 30S Horizontal (18.5mm Spine)</option>
+                <option value="burgertokens_h_37s">Burger Tokens 37S Horizontal (22.5mm Spine)</option>
+                <option value="burgertokens_h_43s">Burger Tokens 43S Horizontal (27mm Spine)</option>
+                <option value="burgertokens_h_50s">Burger Tokens 50S Horizontal (32mm Spine)</option>
+              </optgroup>
+              <optgroup label="Burger Tokens (Upright / Vertical - 68 × 96mm)">
+                <option value="burgertokens_v_15s">Burger Tokens 15S Upright (10mm Spine)</option>
+                <option value="burgertokens_v_22s">Burger Tokens 22S Upright (14.5mm Spine)</option>
+                <option value="burgertokens_v_30s">Burger Tokens 30S Upright (18.5mm Spine)</option>
+                <option value="burgertokens_v_37s">Burger Tokens 37S Upright (22.5mm Spine)</option>
+                <option value="burgertokens_v_43s">Burger Tokens 43S Upright (27mm Spine)</option>
+                <option value="burgertokens_v_50s">Burger Tokens 50S Upright (32mm Spine)</option>
               </optgroup>
             </select>
           </div>
@@ -2138,6 +2147,102 @@
         box3DH: 216,
         box3DD: 44
       },
+      // --- Burger Tokens (Cassette Art Size - Adjusted Spine Cuts) ---
+      bt_cassette_15s: {
+        id: 'bt_cassette_15s',
+        name: 'Burger Tokens 15S (Cassette Art)',
+        label: 'Burger Tokens 15S (Cassette Art - 10mm Spine)',
+        badge: 'BURGER TOKENS 15S',
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
+        mmSpineH: 10.0,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 67,
+        flapH: 178,
+        depthMm: 10.0,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 33
+      },
+      bt_cassette_22s: {
+        id: 'bt_cassette_22s',
+        name: 'Burger Tokens 22S (Cassette Art)',
+        label: 'Burger Tokens 22S (Cassette Art - 14.5mm Spine)',
+        badge: 'BURGER TOKENS 22S',
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
+        mmSpineH: 14.5,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 97,
+        flapH: 178,
+        depthMm: 14.5,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 49
+      },
+      bt_cassette_30s: {
+        id: 'bt_cassette_30s',
+        name: 'Burger Tokens 30S (Cassette Art)',
+        label: 'Burger Tokens 30S (Cassette Art - 18.5mm Spine)',
+        badge: 'BURGER TOKENS 30S',
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
+        mmSpineH: 18.5,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 123,
+        flapH: 178,
+        depthMm: 18.5,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 62
+      },
+      bt_cassette_43s: {
+        id: 'bt_cassette_43s',
+        name: 'Burger Tokens 43S (Cassette Art)',
+        label: 'Burger Tokens 43S (Cassette Art - 27mm Spine)',
+        badge: 'BURGER TOKENS 43S',
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
+        mmSpineH: 27.0,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 180,
+        flapH: 178,
+        depthMm: 27.0,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 90
+      },
+      bt_cassette_50s: {
+        id: 'bt_cassette_50s',
+        name: 'Burger Tokens 50S (Cassette Art)',
+        label: 'Burger Tokens 50S (Cassette Art - 32mm Spine)',
+        badge: 'BURGER TOKENS 50S',
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
+        mmSpineH: 32.0,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 213,
+        flapH: 178,
+        depthMm: 32.0,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 107
+      },
       // --- Burger Tokens Horizontal / Sideways (Cassette-Style) ---
       burgertokens_h_43s: {
         id: 'burgertokens_h_43s',
@@ -2195,6 +2300,25 @@
         box3DW: 320,
         box3DH: 226,
         box3DD: 75
+      },
+      burgertokens_h_30s: {
+        id: 'burgertokens_h_30s',
+        name: 'Burger Tokens 30S Horizontal',
+        label: 'Burger Tokens 30S Horizontal (18.5mm Spine - 30 Cards)',
+        badge: 'BURGER TOKENS 30S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 18.5,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 123,
+        flapH: 187,
+        depthMm: 18.5,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 62
       },
       burgertokens_h_22s: {
         id: 'burgertokens_h_22s',
@@ -2292,6 +2416,25 @@
         box3DH: 296,
         box3DD: 70
       },
+      burgertokens_v_30s: {
+        id: 'burgertokens_v_30s',
+        name: 'Burger Tokens 30S Upright',
+        label: 'Burger Tokens 30S Upright (18.5mm Spine - 30 Cards)',
+        badge: 'BURGER TOKENS 30S (V)',
+        isPortrait: true,
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 18.5,
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 123,
+        flapH: 187,
+        depthMm: 18.5,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 57
+      },
       burgertokens_v_22s: {
         id: 'burgertokens_v_22s',
         name: 'Burger Tokens 22S Upright',
@@ -2335,6 +2478,7 @@
     BOX_FORMATS.burgertokens_43s = BOX_FORMATS.burgertokens_h_43s;
     BOX_FORMATS.burgertokens_50s = BOX_FORMATS.burgertokens_h_50s;
     BOX_FORMATS.burgertokens_37s = BOX_FORMATS.burgertokens_h_37s;
+    BOX_FORMATS.burgertokens_30s = BOX_FORMATS.burgertokens_h_30s;
     BOX_FORMATS.burgertokens_22s = BOX_FORMATS.burgertokens_h_22s;
     BOX_FORMATS.burgertokens_15s = BOX_FORMATS.burgertokens_h_15s;
 
