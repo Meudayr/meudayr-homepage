@@ -2550,44 +2550,43 @@
     function drawSpineBar(x, y, w, h, card) {
       ctx.save();
 
-      // 1. Centered Translucent Spine Ribbon (Horizontally Centered, 90% Width)
+      // 1. Centered Translucent Spine Ribbon (90% Width, ~82% Height to float inside fold area)
       const barW = Math.round(w * 0.90);
       const barX = x + Math.round((w - barW) / 2);
+      const barH = Math.round(h * 0.82);
+      const barY = y + Math.round((h - barH) / 2);
       const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
 
       ctx.fillStyle = hexToRgba(card.spineColor, opacity);
-      ctx.fillRect(barX, y, barW, h);
+      ctx.fillRect(barX, barY, barW, barH);
 
       // Optional Black Ribbon Border (Default OFF)
       if (card.showSpineBorder) {
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(barX, y, barW, h);
+        ctx.strokeRect(barX, barY, barW, barH);
       }
 
       let logoRightEdge = barX + 16;
 
       // 2. Official Marvel Champions Spine Logo (Transparent Background)
       if (card.showSpineLogo) {
-        const badgeW = 96;
-        const badgeH = 56;
-        const badgeX = barX + 14;
-        const badgeY = y + (h - badgeH) / 2;
+        const logoH = Math.round(barH * 0.82);
+        const logoW = Math.round(logoH * (1024 / 554));
+        const logoX = barX + 14;
+        const logoY = barY + Math.round((barH - logoH) / 2);
 
         const img = (card.textColor === '#ffffff') ? assetImages.spine_logo_white : assetImages.spine_logo;
         if (img && img.complete && img.naturalWidth > 0) {
-          const targetW = badgeW;
-          const targetH = targetW * (img.naturalHeight / img.naturalWidth);
-          const drawY = badgeY + (badgeH - targetH) / 2;
-          ctx.drawImage(img, badgeX, drawY, targetW, targetH);
+          ctx.drawImage(img, logoX, logoY, logoW, logoH);
         }
 
-        logoRightEdge = badgeX + badgeW + 16;
+        logoRightEdge = logoX + logoW + 16;
       }
 
       // 3. Spine Title - Right-Aligned inside the centered ribbon
       let fontSize = card.fontSize || 44;
-      ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
+      ctx.font = `900 ${fontSize}px "${card.spineFont}", "Permanent Marker", cursive`;
       const title = card.title || 'HERO DECK';
       const rightPadding = 18;
       const textEndX = barX + barW - rightPadding;
@@ -2595,7 +2594,7 @@
 
       while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
         fontSize -= 1;
-        ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
+        ctx.font = `900 ${fontSize}px "${card.spineFont}", "Permanent Marker", cursive`;
       }
 
       ctx.fillStyle = card.textColor;
@@ -2612,7 +2611,7 @@
         ctx.shadowBlur = 0;
       }
 
-      ctx.fillText(title, textEndX, y + h / 2 + 2);
+      ctx.fillText(title, textEndX, barY + barH / 2 + 1);
 
       ctx.restore();
     }
