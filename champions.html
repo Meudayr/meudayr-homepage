@@ -1625,9 +1625,9 @@
             <div class="form-group">
               <label class="form-label">Aspect Theme Presets</label>
               <div class="aspect-palette">
-                <button type="button" class="aspect-btn active" style="background: #947a00; color: #ffffff;" onclick="setAspectColor('#fee92e', 'Champion')">
-                  <span class="color-pip" style="background: #fee92e;"></span>
-                  Champion
+                <button type="button" class="aspect-btn active" style="background: #947a00; color: #ffffff;" onclick="setAspectColor('#f5da32', 'Hero')">
+                  <span class="color-pip" style="background: #f5da32;"></span>
+                  Hero
                 </button>
                 <button type="button" class="aspect-btn" style="background: #8b9264; color: #ffffff;" onclick="setAspectColor('#d1d6ae', 'Justice')">
                   <span class="color-pip" style="background: #d1d6ae;"></span>
@@ -2022,8 +2022,8 @@
       spiderman: {
         name: 'SPIDER-MAN',
         subtitle: 'CORE SET',
-        aspect: 'Champion',
-        color: '#fee92e',
+        aspect: 'Hero',
+        color: '#f5da32',
         textColor: '#000000',
         cornerPrice: '25¢ #1',
         cornerTitle: 'MARVEL',
@@ -3435,8 +3435,8 @@
         card.spineColor = '#15803d';
         card.textColor = '#ffffff';
       } else if (avgR > 180 && avgG > 160 && avgB < 90) {
-        card.aspect = 'Champion';
-        card.spineColor = '#fee92e';
+        card.aspect = 'Hero';
+        card.spineColor = '#f5da32';
         card.textColor = '#000000';
       } else if (avgR > 140 && avgB > 120 && avgG < 110) {
         card.aspect = "'Pool";
@@ -3451,8 +3451,8 @@
         card.spineColor = '#7e22ce';
         card.textColor = '#ffffff';
       } else {
-        card.aspect = 'Champion';
-        card.spineColor = '#fee92e';
+        card.aspect = 'Hero';
+        card.spineColor = '#f5da32';
         card.textColor = '#000000';
       }
 
@@ -3525,7 +3525,7 @@
       const c = cards[activeCardIndex];
       c.spineColor = colorHex;
       c.aspect = aspectName;
-      if (colorHex === '#fee92e' || colorHex === '#fbe82c' || colorHex === '#d1d6ae' || colorHex === '#eab308' || colorHex === '#facc15' || colorHex === '#dce1b7' || colorHex === '#44c0d2') {
+      if (colorHex === '#f5da32' || colorHex === '#fee92e' || colorHex === '#fbe82c' || colorHex === '#d1d6ae' || colorHex === '#eab308' || colorHex === '#facc15' || colorHex === '#dce1b7' || colorHex === '#44c0d2') {
         document.getElementById('selectTextColor').value = '#000000';
         c.textColor = '#000000';
       } else {
