@@ -1400,18 +1400,25 @@
           <div class="form-group" style="margin-top: 6px;">
             <div class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
               <span>Box / Case Format</span>
-              <span class="hint" id="boxDimensionsHint">64.8 × 139.7 mm</span>
+              <span class="hint" id="boxDimensionsHint">101.6 × 102.9 mm</span>
             </div>
             <select class="form-select" id="selectBoxType" onchange="onBoxTypeChange()">
               <optgroup label="Audio Cassette Case">
-                <option value="cassette" selected>Audio Cassette (Standard J-Card)</option>
+                <option value="cassette" selected>Audio Cassette (Standard J-Card - 101.6 × 64.8mm)</option>
               </optgroup>
-              <optgroup label="Burger Tokens Perfect Fit Deckboxes">
-                <option value="burgertokens_43s">Burger Tokens 43S (Standard Hero Deck - 27mm Spine)</option>
-                <option value="burgertokens_50s">Burger Tokens 50S (Large Hero Deck - 32mm Spine)</option>
-                <option value="burgertokens_37s">Burger Tokens 37S (Medium Deck - 22.5mm Spine)</option>
-                <option value="burgertokens_22s">Burger Tokens 22S (Hero Kit / Nemesis - 14.5mm Spine)</option>
-                <option value="burgertokens_15s">Burger Tokens 15S (Modular Set - 10mm Spine)</option>
+              <optgroup label="Burger Tokens - Horizontal / Sideways (Cassette-Style)">
+                <option value="burgertokens_h_43s">Burger Tokens 43S Horizontal (27mm Spine - 40-50 Sleeved)</option>
+                <option value="burgertokens_h_50s">Burger Tokens 50S Horizontal (32mm Spine - Large Deck)</option>
+                <option value="burgertokens_h_37s">Burger Tokens 37S Horizontal (22.5mm Spine - Medium Deck)</option>
+                <option value="burgertokens_h_22s">Burger Tokens 22S Horizontal (14.5mm Spine - Hero Kit/Nemesis)</option>
+                <option value="burgertokens_h_15s">Burger Tokens 15S Horizontal (10mm Spine - Modular Set)</option>
+              </optgroup>
+              <optgroup label="Burger Tokens - Upright / Vertical">
+                <option value="burgertokens_v_43s">Burger Tokens 43S Upright (27mm Spine - 40-50 Sleeved)</option>
+                <option value="burgertokens_v_50s">Burger Tokens 50S Upright (32mm Spine - Large Deck)</option>
+                <option value="burgertokens_v_37s">Burger Tokens 37S Upright (22.5mm Spine - Medium Deck)</option>
+                <option value="burgertokens_v_22s">Burger Tokens 22S Upright (14.5mm Spine - Hero Kit/Nemesis)</option>
+                <option value="burgertokens_v_15s">Burger Tokens 15S Upright (10mm Spine - Modular Set)</option>
               </optgroup>
             </select>
           </div>
@@ -2131,11 +2138,108 @@
         box3DH: 216,
         box3DD: 44
       },
-      burgertokens_43s: {
-        id: 'burgertokens_43s',
-        name: 'Burger Tokens 43S',
-        label: 'Burger Tokens 43S (Standard Hero Deck - 27mm Spine)',
-        badge: 'BURGER TOKENS 43S',
+      // --- Burger Tokens Horizontal / Sideways (Cassette-Style) ---
+      burgertokens_h_43s: {
+        id: 'burgertokens_h_43s',
+        name: 'Burger Tokens 43S Horizontal',
+        label: 'Burger Tokens 43S Horizontal (27mm Spine - 40-50 Sleeved)',
+        badge: 'BURGER TOKENS 43S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 27.0,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 180,
+        flapH: 187,
+        depthMm: 27.0,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 90
+      },
+      burgertokens_h_50s: {
+        id: 'burgertokens_h_50s',
+        name: 'Burger Tokens 50S Horizontal',
+        label: 'Burger Tokens 50S Horizontal (32mm Spine - Large Deck)',
+        badge: 'BURGER TOKENS 50S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 32.0,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 213,
+        flapH: 187,
+        depthMm: 32.0,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 107
+      },
+      burgertokens_h_37s: {
+        id: 'burgertokens_h_37s',
+        name: 'Burger Tokens 37S Horizontal',
+        label: 'Burger Tokens 37S Horizontal (22.5mm Spine - Medium Deck)',
+        badge: 'BURGER TOKENS 37S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 22.5,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 150,
+        flapH: 187,
+        depthMm: 22.5,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 75
+      },
+      burgertokens_h_22s: {
+        id: 'burgertokens_h_22s',
+        name: 'Burger Tokens 22S Horizontal',
+        label: 'Burger Tokens 22S Horizontal (14.5mm Spine - Hero Kit/Nemesis)',
+        badge: 'BURGER TOKENS 22S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 14.5,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 97,
+        flapH: 187,
+        depthMm: 14.5,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 48
+      },
+      burgertokens_h_15s: {
+        id: 'burgertokens_h_15s',
+        name: 'Burger Tokens 15S Horizontal',
+        label: 'Burger Tokens 15S Horizontal (10mm Spine - Modular Set)',
+        badge: 'BURGER TOKENS 15S (H)',
+        isPortrait: false,
+        mmWidth: 96.0,
+        mmCoverH: 68.0,
+        mmSpineH: 10.0,
+        mmFlapH: 28.0,
+        cardW: 640,
+        coverH: 454,
+        spineH: 67,
+        flapH: 187,
+        depthMm: 10.0,
+        box3DW: 320,
+        box3DH: 226,
+        box3DD: 33
+      },
+      // --- Burger Tokens Upright / Vertical ---
+      burgertokens_v_43s: {
+        id: 'burgertokens_v_43s',
+        name: 'Burger Tokens 43S Upright',
+        label: 'Burger Tokens 43S Upright (27mm Spine - 40-50 Sleeved)',
+        badge: 'BURGER TOKENS 43S (V)',
         isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
@@ -2150,11 +2254,11 @@
         box3DH: 296,
         box3DD: 84
       },
-      burgertokens_50s: {
-        id: 'burgertokens_50s',
-        name: 'Burger Tokens 50S',
-        label: 'Burger Tokens 50S (Large Hero Deck - 32mm Spine)',
-        badge: 'BURGER TOKENS 50S',
+      burgertokens_v_50s: {
+        id: 'burgertokens_v_50s',
+        name: 'Burger Tokens 50S Upright',
+        label: 'Burger Tokens 50S Upright (32mm Spine - Large Deck)',
+        badge: 'BURGER TOKENS 50S (V)',
         isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
@@ -2169,11 +2273,11 @@
         box3DH: 296,
         box3DD: 99
       },
-      burgertokens_37s: {
-        id: 'burgertokens_37s',
-        name: 'Burger Tokens 37S',
-        label: 'Burger Tokens 37S (Medium Deck - 22.5mm Spine)',
-        badge: 'BURGER TOKENS 37S',
+      burgertokens_v_37s: {
+        id: 'burgertokens_v_37s',
+        name: 'Burger Tokens 37S Upright',
+        label: 'Burger Tokens 37S Upright (22.5mm Spine - Medium Deck)',
+        badge: 'BURGER TOKENS 37S (V)',
         isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
@@ -2188,11 +2292,11 @@
         box3DH: 296,
         box3DD: 70
       },
-      burgertokens_22s: {
-        id: 'burgertokens_22s',
-        name: 'Burger Tokens 22S',
-        label: 'Burger Tokens 22S (Hero Kit / Nemesis - 14.5mm Spine)',
-        badge: 'BURGER TOKENS 22S',
+      burgertokens_v_22s: {
+        id: 'burgertokens_v_22s',
+        name: 'Burger Tokens 22S Upright',
+        label: 'Burger Tokens 22S Upright (14.5mm Spine - Hero Kit/Nemesis)',
+        badge: 'BURGER TOKENS 22S (V)',
         isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
@@ -2207,11 +2311,11 @@
         box3DH: 296,
         box3DD: 45
       },
-      burgertokens_15s: {
-        id: 'burgertokens_15s',
-        name: 'Burger Tokens 15S',
-        label: 'Burger Tokens 15S (Modular Encounter - 10mm Spine)',
-        badge: 'BURGER TOKENS 15S',
+      burgertokens_v_15s: {
+        id: 'burgertokens_v_15s',
+        name: 'Burger Tokens 15S Upright',
+        label: 'Burger Tokens 15S Upright (10mm Spine - Modular Set)',
+        badge: 'BURGER TOKENS 15S (V)',
         isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
@@ -2227,6 +2331,12 @@
         box3DD: 31
       }
     };
+    // Compatibility fallbacks
+    BOX_FORMATS.burgertokens_43s = BOX_FORMATS.burgertokens_h_43s;
+    BOX_FORMATS.burgertokens_50s = BOX_FORMATS.burgertokens_h_50s;
+    BOX_FORMATS.burgertokens_37s = BOX_FORMATS.burgertokens_h_37s;
+    BOX_FORMATS.burgertokens_22s = BOX_FORMATS.burgertokens_h_22s;
+    BOX_FORMATS.burgertokens_15s = BOX_FORMATS.burgertokens_h_15s;
 
     function createDefaultCard(presetKey = 'spiderman') {
       const p = PRESETS[presetKey] || PRESETS.spiderman;
