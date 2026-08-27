@@ -1758,7 +1758,7 @@
             <div class="form-group">
               <label class="form-label">Bottom Flap Style</label>
               <select class="form-select" id="selectFlapStyle" onchange="renderActiveCard()">
-                <option value="bleed">Artwork Bleed (Seamless Wrap)</option>
+                <option value="bleed">Full wrap</option>
                 <option value="auto">Auto-Detect Bottom Color</option>
                 <option value="solid">Aspect Solid Color</option>
                 <option value="black">Dark Charcoal / Shadow</option>
@@ -3460,8 +3460,14 @@
       card.panX = 0;
       card.panY = Math.round((boxFmt.coverH / 2) - (totalH / 2));
       
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      if (imgRatio >= 1.25) {
+        card.flapStyle = 'bleed';
+      } else {
+        card.flapStyle = 'auto';
+      }
+      
       // Auto-detect ambient color for the bottom flap (darkened average color)
-      card.flapStyle = 'auto';
       const toHex = (c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0');
       card.autoFlapColor = '#' + toHex(avgR * 0.5) + toHex(avgG * 0.5) + toHex(avgB * 0.5);
 
@@ -3569,7 +3575,12 @@
           const boxFmt = BOX_FORMATS[c.boxType] || BOX_FORMATS.cassette;
           c.panX = 0;
           c.panY = Math.round((boxFmt.coverH / 2) - ((boxFmt.coverH + boxFmt.spineH + boxFmt.flapH) / 2));
-          c.flapStyle = 'auto';
+          const imgRatio = img.naturalWidth / img.naturalHeight;
+          if (imgRatio >= 1.25) {
+            c.flapStyle = 'bleed';
+          } else {
+            c.flapStyle = 'auto';
+          }
           
           if (c.title === 'SPIDER-MAN' || !c.title) {
             c.title = fileNameClean;
