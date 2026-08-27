@@ -1633,20 +1633,24 @@
                   <span class="color-pip" style="background: #dc2626;"></span>
                   Aggression
                 </button>
-                <button type="button" class="aspect-btn" style="background: #1d4ed8;" onclick="setAspectColor('#2563eb', 'Leadership')">
-                  <span class="color-pip" style="background: #2563eb;"></span>
+                <button type="button" class="aspect-btn" style="background: #0369a1;" onclick="setAspectColor('#0284c7', 'Leadership')">
+                  <span class="color-pip" style="background: #0ea5e9;"></span>
                   Leadership
                 </button>
-                <button type="button" class="aspect-btn" style="background: #15803d;" onclick="setAspectColor('#16a34a', 'Protection')">
+                <button type="button" class="aspect-btn" style="background: #14532d;" onclick="setAspectColor('#15803d', 'Protection')">
                   <span class="color-pip" style="background: #16a34a;"></span>
                   Protection
                 </button>
+                <button type="button" class="aspect-btn" style="background: #9d174d;" onclick="setAspectColor('#db2777', '\'Pool')">
+                  <span class="color-pip" style="background: #f472b6;"></span>
+                  'Pool
+                </button>
                 <button type="button" class="aspect-btn" style="background: #334155;" onclick="setAspectColor('#475569', 'Basic')">
-                  <span class="color-pip" style="background: #475569;"></span>
+                  <span class="color-pip" style="background: #64748b;"></span>
                   Basic / Grey
                 </button>
                 <button type="button" class="aspect-btn" style="background: #6b21a8;" onclick="setAspectColor('#7e22ce', 'Villain')">
-                  <span class="color-pip" style="background: #7e22ce;"></span>
+                  <span class="color-pip" style="background: #a855f7;"></span>
                   Villain
                 </button>
               </div>
@@ -2063,11 +2067,11 @@
       deadpool: {
         name: 'DEADPOOL',
         subtitle: 'WAVE 7',
-        aspect: 'Pool / Custom',
-        color: '#dc2626',
+        aspect: "'Pool",
+        color: '#db2777',
         textColor: '#ffffff',
         cornerPrice: '$1.00 #1',
-        cornerTitle: 'DEADPOOL',
+        cornerTitle: "'POOL",
         imageSrc: 'assets/champions/presets/deadpool.jpg'
       },
       magneto: {
@@ -2827,7 +2831,7 @@
       document.querySelectorAll('.aspect-btn').forEach(btn => {
         const txt = btn.textContent.trim().toLowerCase();
         const asp = (c.aspect || '').toLowerCase();
-        btn.classList.toggle('active', asp.length > 0 && txt.includes(asp));
+        btn.classList.toggle('active', asp.length > 0 && (txt.includes(asp) || (asp.includes('pool') && txt.includes('pool'))));
       });
     }
 
@@ -3406,11 +3410,15 @@
         card.textColor = '#ffffff';
       } else if (avgB > avgR * 1.2 && avgB > avgG * 1.1) {
         card.aspect = 'Leadership';
-        card.spineColor = '#2563eb';
+        card.spineColor = '#0284c7';
         card.textColor = '#ffffff';
-      } else if (avgG > avgR * 1.2 && avgG > avgB * 1.1) {
+      } else if (avgG > avgR * 1.15 && avgG > avgB * 1.1) {
         card.aspect = 'Protection';
-        card.spineColor = '#16a34a';
+        card.spineColor = '#15803d';
+        card.textColor = '#ffffff';
+      } else if (avgR > 140 && avgB > 120 && avgG < 110) {
+        card.aspect = "'Pool";
+        card.spineColor = '#db2777';
         card.textColor = '#ffffff';
       } else if (avgR > 140 && avgG > 120 && avgB < 100) {
         card.aspect = 'Justice';
