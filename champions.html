@@ -1484,10 +1484,20 @@
 
           <div class="form-group">
             <label class="form-label">Gemini Vision Model</label>
-            <select class="form-select" id="selectAiModel">
-              <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash (Fastest &amp; Most Accurate)</option>
+            <select class="form-select" id="selectAiModel" onchange="toggleCustomModelInput()">
+              <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Latest, Fastest &amp; Most Accurate)</option>
+              <option value="gemini-2.5-pro">Gemini 2.5 Pro (State-of-the-Art Deep Vision)</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+              <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash Lite</option>
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
               <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+              <option value="custom">Custom Model Name...</option>
             </select>
+          </div>
+
+          <div class="form-group" id="customModelGroup" style="display: none;">
+            <label class="form-label">Custom Model Identifier</label>
+            <input type="text" class="form-input" id="inputCustomModel" placeholder="e.g. gemini-2.5-flash-preview, gemini-exp-1206">
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
@@ -2327,9 +2337,34 @@
     // ✨ AI Auto-Pilot Vision Engine
     // ==========================================
 
+    function toggleCustomModelInput() {
+      const select = document.getElementById('selectAiModel');
+      const group = document.getElementById('customModelGroup');
+      if (select.value === 'custom') {
+        group.style.display = 'flex';
+      } else {
+        group.style.display = 'none';
+      }
+    }
+
     function openApiKeyModal() {
       const savedKey = localStorage.getItem('mc_gemini_api_key') || '';
+      const savedModel = localStorage.getItem('mc_gemini_model') || 'gemini-2.5-flash';
+      const customModel = localStorage.getItem('mc_gemini_custom_model') || '';
+
       document.getElementById('inputGeminiKey').value = savedKey;
+      
+      const select = document.getElementById('selectAiModel');
+      if (Array.from(select.options).some(o => o.value === savedModel)) {
+        select.value = savedModel;
+      } else if (savedModel) {
+        select.value = 'custom';
+        document.getElementById('inputCustomModel').value = savedModel;
+      }
+      if (customModel) {
+        document.getElementById('inputCustomModel').value = customModel;
+      }
+      toggleCustomModelInput();
       document.getElementById('apiKeyModal').classList.add('open');
     }
 
@@ -2339,6 +2374,9 @@
 
     function saveApiKey() {
       const key = document.getElementById('inputGeminiKey').value.trim();
+      const selectVal = document.getElementById('selectAiModel').value;
+      const customVal = document.getElementById('inputCustomModel').value.trim();
+
       if (key) {
         localStorage.setItem('mc_gemini_api_key', key);
         showToast('✨', 'API Key saved successfully!');
@@ -2346,6 +2384,14 @@
         localStorage.removeItem('mc_gemini_api_key');
         showToast('ℹ️', 'API Key cleared. AI will use smart offline heuristics.');
       }
+
+      if (selectVal === 'custom' && customVal) {
+        localStorage.setItem('mc_gemini_model', customVal);
+        localStorage.setItem('mc_gemini_custom_model', customVal);
+      } else {
+        localStorage.setItem('mc_gemini_model', selectVal);
+      }
+
       closeApiKeyModal();
     }
 
@@ -2407,7 +2453,11 @@
       tCtx.drawImage(card.imageObj, 0, 0, w, h);
 
       const base64Data = tempCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
-      const model = document.getElementById('selectAiModel').value || 'gemini-2.0-flash';
+      
+      let model = localStorage.getItem('mc_gemini_model') || document.getElementById('selectAiModel').value || 'gemini-2.5-flash';
+      if (model === 'custom') {
+        model = document.getElementById('inputCustomModel').value.trim() || 'gemini-2.5-flash';
+      }
 
       const prompt = `You are a graphic designer specializing in Marvel Champions: The Card Game cassette J-card inlays (Manser v17.5 template).
 Analyze this Marvel image.
