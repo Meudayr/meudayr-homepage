@@ -1396,6 +1396,26 @@
             </button>
           </div>
 
+          <!-- Box Format (Cassette vs Burger Tokens) -->
+          <div class="form-group" style="margin-top: 6px;">
+            <div class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Box / Case Format</span>
+              <span class="hint" id="boxDimensionsHint">64.8 × 139.7 mm</span>
+            </div>
+            <select class="form-select" id="selectBoxType" onchange="onBoxTypeChange()">
+              <optgroup label="Audio Cassette Case">
+                <option value="cassette" selected>Audio Cassette (Standard J-Card)</option>
+              </optgroup>
+              <optgroup label="Burger Tokens Perfect Fit Deckboxes">
+                <option value="burgertokens_43s">Burger Tokens 43S (Standard Hero Deck - 27mm Spine)</option>
+                <option value="burgertokens_50s">Burger Tokens 50S (Large Hero Deck - 32mm Spine)</option>
+                <option value="burgertokens_37s">Burger Tokens 37S (Medium Deck - 22.5mm Spine)</option>
+                <option value="burgertokens_22s">Burger Tokens 22S (Hero Kit / Nemesis - 14.5mm Spine)</option>
+                <option value="burgertokens_15s">Burger Tokens 15S (Modular Set - 10mm Spine)</option>
+              </optgroup>
+            </select>
+          </div>
+
           <!-- Card Selector (active when dual mode) -->
           <div class="card-tabs-row" id="cardTabsRow" style="display: none;">
             <div class="card-subtabs">
@@ -2088,6 +2108,102 @@
       }
     };
 
+    // ==========================================
+    // Box Format Specifications (Audio Cassette & Burger Tokens)
+    // ==========================================
+    const BOX_FORMATS = {
+      cassette: {
+        id: 'cassette',
+        name: 'Audio Cassette Case',
+        label: 'Audio Cassette (Standard J-Card)',
+        badge: 'CASSETTE STORAGE',
+        mmWidth: 64.8,
+        mmCoverH: 101.6,
+        mmSpineH: 12.7,
+        mmFlapH: 25.4,
+        cardW: 678,
+        coverH: 431,
+        spineH: 85,
+        flapH: 178,
+        depthMm: 12.7
+      },
+      burgertokens_43s: {
+        id: 'burgertokens_43s',
+        name: 'Burger Tokens 43S',
+        label: 'Burger Tokens 43S (Standard Hero Deck - 27mm Spine)',
+        badge: 'BURGER TOKENS 43S',
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 27.0,
+        mmFlapH: 30.0,
+        cardW: 711,
+        coverH: 407,
+        spineH: 115,
+        flapH: 128,
+        depthMm: 27.0
+      },
+      burgertokens_50s: {
+        id: 'burgertokens_50s',
+        name: 'Burger Tokens 50S',
+        label: 'Burger Tokens 50S (Large Hero Deck - 32mm Spine)',
+        badge: 'BURGER TOKENS 50S',
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 32.0,
+        mmFlapH: 30.0,
+        cardW: 711,
+        coverH: 407,
+        spineH: 136,
+        flapH: 128,
+        depthMm: 32.0
+      },
+      burgertokens_37s: {
+        id: 'burgertokens_37s',
+        name: 'Burger Tokens 37S',
+        label: 'Burger Tokens 37S (Medium Deck - 22.5mm Spine)',
+        badge: 'BURGER TOKENS 37S',
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 22.5,
+        mmFlapH: 30.0,
+        cardW: 711,
+        coverH: 407,
+        spineH: 96,
+        flapH: 128,
+        depthMm: 22.5
+      },
+      burgertokens_22s: {
+        id: 'burgertokens_22s',
+        name: 'Burger Tokens 22S',
+        label: 'Burger Tokens 22S (Hero Kit / Nemesis - 14.5mm Spine)',
+        badge: 'BURGER TOKENS 22S',
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 14.5,
+        mmFlapH: 30.0,
+        cardW: 711,
+        coverH: 407,
+        spineH: 62,
+        flapH: 128,
+        depthMm: 14.5
+      },
+      burgertokens_15s: {
+        id: 'burgertokens_15s',
+        name: 'Burger Tokens 15S',
+        label: 'Burger Tokens 15S (Modular Encounter - 10mm Spine)',
+        badge: 'BURGER TOKENS 15S',
+        mmWidth: 68.0,
+        mmCoverH: 96.0,
+        mmSpineH: 10.0,
+        mmFlapH: 30.0,
+        cardW: 711,
+        coverH: 407,
+        spineH: 43,
+        flapH: 128,
+        depthMm: 10.0
+      }
+    };
+
     function createDefaultCard(presetKey = 'spiderman') {
       const p = PRESETS[presetKey] || PRESETS.spiderman;
       const img = new Image();
@@ -2098,6 +2214,7 @@
       img.src = p.imageSrc;
       const isWolv = presetKey === 'wolverine';
       return {
+        boxType: 'cassette',
         title: p.name,
         subtitle: p.subtitle,
         aspect: p.aspect,
@@ -2141,26 +2258,49 @@
       const cw = canvas.width;
       const ch = canvas.height;
 
-      const cardW = 678;  // scaled width on 1920x1080 canvas
-      const coverH = 431; // front cover height
-      const spineH = 85;  // spine height
-      const flapH = 178;  // bottom flap height
-      const totalH = coverH + spineH + flapH; // 694px
+      const getMetricForCard = (card) => {
+        const bType = (card && card.boxType) || 'cassette';
+        const fmt = BOX_FORMATS[bType] || BOX_FORMATS.cassette;
+        const cardW = fmt.cardW;
+        const coverH = fmt.coverH;
+        const spineH = fmt.spineH;
+        const flapH = fmt.flapH;
+        const totalH = coverH + spineH + flapH;
+        return { w: cardW, coverH, spineH, flapH, totalH, fmt, boxType: bType };
+      };
+
+      const m0 = getMetricForCard(cards[0] || {});
+      const m1 = getMetricForCard(cards[1] || cards[0] || {});
 
       if (sheetMode === 'single') {
-        const x = (cw - cardW) / 2 - 120;
-        const y = (ch - totalH) / 2;
-        return [{ x, y, w: cardW, coverH, spineH, flapH, totalH }];
+        const x = Math.round((cw - m0.w) / 2 - 120);
+        const y = Math.round((ch - m0.totalH) / 2);
+        return [{ ...m0, x, y }];
       } else {
         const gap = 80;
-        const totalW2 = (cardW * 2) + gap;
-        const startX = (cw - totalW2) / 2;
-        const y = (ch - totalH) / 2;
+        const totalW2 = m0.w + m1.w + gap;
+        const startX = Math.round((cw - totalW2) / 2);
+        const y0 = Math.round((ch - m0.totalH) / 2);
+        const y1 = Math.round((ch - m1.totalH) / 2);
         return [
-          { x: startX, y, w: cardW, coverH, spineH, flapH, totalH },
-          { x: startX + cardW + gap, y, w: cardW, coverH, spineH, flapH, totalH }
+          { ...m0, x: startX, y: y0 },
+          { ...m1, x: startX + m0.w + gap, y: y1 }
         ];
       }
+    }
+
+    function onBoxTypeChange() {
+      const bType = document.getElementById('selectBoxType').value;
+      const c = cards[activeCardIndex];
+      c.boxType = bType;
+      const fmt = BOX_FORMATS[bType] || BOX_FORMATS.cassette;
+      const hintElem = document.getElementById('boxDimensionsHint');
+      if (hintElem) {
+        const totalMm = (fmt.mmCoverH + fmt.mmSpineH + fmt.mmFlapH).toFixed(1);
+        hintElem.textContent = `${fmt.mmWidth} × ${totalMm} mm`;
+      }
+      drawStage();
+      update3DCase();
     }
 
     // ==========================================
@@ -2306,6 +2446,7 @@
 
     function syncFormToActiveCard() {
       const c = cards[activeCardIndex];
+      c.boxType = document.getElementById('selectBoxType').value || 'cassette';
       c.title = document.getElementById('inputTitle').value.toUpperCase();
       c.subtitle = document.getElementById('inputSubtitle').value.toUpperCase();
       c.spineColor = document.getElementById('inputSpineColor').value;
@@ -2350,6 +2491,15 @@
 
     function syncActiveCardToForm() {
       const c = cards[activeCardIndex];
+      const bType = c.boxType || 'cassette';
+      document.getElementById('selectBoxType').value = bType;
+      const fmt = BOX_FORMATS[bType] || BOX_FORMATS.cassette;
+      const hintElem = document.getElementById('boxDimensionsHint');
+      if (hintElem) {
+        const totalMm = (fmt.mmCoverH + fmt.mmSpineH + fmt.mmFlapH).toFixed(1);
+        hintElem.textContent = `${fmt.mmWidth} × ${totalMm} mm`;
+      }
+
       document.getElementById('inputTitle').value = c.title || '';
       document.getElementById('inputSubtitle').value = c.subtitle || '';
       document.getElementById('inputSpineColor').value = c.spineColor || '#eab308';
@@ -2414,20 +2564,25 @@
     }
 
     function drawSheetMetadata(card) {
+      const bType = (card && card.boxType) || 'cassette';
+      const isBT = bType.startsWith('burgertokens');
       // Top Left Header
       ctx.fillStyle = '#b91c1c';
       ctx.font = '900 28px "Bangers", cursive';
-      ctx.fillText('MARVEL CHAMPIONS CASSETTE STORAGE SYSTEM', 60, 60);
+      ctx.fillText(isBT ? 'MARVEL CHAMPIONS DECKBOX STORAGE SYSTEM' : 'MARVEL CHAMPIONS CASSETTE STORAGE SYSTEM', 60, 60);
 
       // Top Right Marvel Champions Logo Box
       drawTopRightLogo(1600, 30, 240, 100);
     }
 
     function drawDualSheetMetadata() {
+      const card = cards[activeCardIndex] || cards[0];
+      const bType = (card && card.boxType) || 'cassette';
+      const isBT = bType.startsWith('burgertokens');
       // Top Header for 2-Up Sheet
       ctx.fillStyle = '#b91c1c';
       ctx.font = '900 26px "Bangers", cursive';
-      ctx.fillText('MARVEL CHAMPIONS 2-UP CASSETTE PRINT SHEET', 60, 50);
+      ctx.fillText(isBT ? 'MARVEL CHAMPIONS 2-UP DECKBOX PRINT SHEET' : 'MARVEL CHAMPIONS 2-UP CASSETTE PRINT SHEET', 60, 50);
 
       drawTopRightLogo(1660, 25, 200, 80);
     }
@@ -3281,7 +3436,13 @@
     function update3DCase() {
       const metrics = getCardLayoutMetrics();
       const m = metrics[activeCardIndex] || metrics[0];
-      const { x, y, w, coverH, spineH, flapH } = m;
+      const { x, y, w, coverH, spineH, flapH, boxType, fmt } = m;
+      const isBT = (boxType || '').startsWith('burgertokens');
+
+      // Update 3D case elements for Burger Tokens clear deckbox vs Audio Cassette
+      document.querySelectorAll('.tape-spindle, .case-hinge-top, .case-hinge-bottom').forEach(el => {
+        el.style.display = isBT ? 'none' : 'block';
+      });
 
       try {
         // 1. Texture Front Cover Panel from rendered Canvas
