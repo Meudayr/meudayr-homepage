@@ -1831,7 +1831,7 @@
         textColor: '#000000',
         cornerPrice: '25¢ #1',
         cornerTitle: 'MARVEL',
-        imageSrc: 'assets/champions/presets/spiderman.jpg'
+        imageSrc: 'assets/champions/starter_spiderman.jpg'
       },
       wolverine: {
         name: 'WOLVERINE',
@@ -1841,7 +1841,7 @@
         textColor: '#ffffff',
         cornerPrice: '75¢ #1',
         cornerTitle: 'X-MEN',
-        imageSrc: 'assets/champions/presets/wolverine.jpg'
+        imageSrc: 'assets/champions/starter_wolverine.jpg'
       },
       cyclops: {
         name: 'CYCLOPS',
@@ -1948,7 +1948,12 @@
     function createDefaultCard(presetKey = 'spiderman') {
       const p = PRESETS[presetKey] || PRESETS.spiderman;
       const img = new Image();
+      img.onload = () => {
+        drawStage();
+        update3DCase();
+      };
       img.src = p.imageSrc;
+      const isWolv = presetKey === 'wolverine';
       return {
         title: p.name,
         subtitle: p.subtitle,
@@ -1960,16 +1965,16 @@
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
-        filterStrength: 70,
+        filterStrength: 65,
         showCornerBox: true,
         cornerPrice: p.cornerPrice,
         cornerTitle: p.cornerTitle,
         showCoverLogo: true,
         showComicCode: true,
         showSpineLogo: true,
-        zoom: 100,
+        zoom: isWolv ? 115 : 108,
         panX: 0,
-        panY: 0,
+        panY: isWolv ? -25 : -15,
         rotation: 0,
         imageObj: img,
         isCustomImage: false
