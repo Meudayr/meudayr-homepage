@@ -3063,11 +3063,13 @@
     function drawSpineBar(x, y, w, h, card) {
       ctx.save();
 
-      // 1. Centered Translucent Spine Ribbon (90% Width, standard fixed cassette banner height of 70px)
+      // 1. Translucent Spine Ribbon (90% Width, standard fixed cassette banner height of 70px)
+      // Aligned to the top with standard cassette margin (7px from top fold line)
       const barW = Math.round(w * 0.90);
       const barX = x + Math.round((w - barW) / 2);
       const barH = (h < 70) ? Math.round(h * 0.85) : 70;
-      const barY = y + Math.round((h - barH) / 2);
+      const topMargin = (h < 70) ? Math.round((h - barH) / 2) : 7;
+      const barY = y + topMargin;
       const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
 
       ctx.fillStyle = hexToRgba(card.spineColor, opacity);
