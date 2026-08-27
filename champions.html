@@ -1350,7 +1350,7 @@
               <div class="ai-banner-header">
                 <div class="ai-banner-title">
                   <span>⚡</span>
-                  <span>Smart Auto-Pilot</span>
+                  <span>Auto-Pilot</span>
                 </div>
               </div>
               <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0; line-height: 1.4;">Automatically analyzes artwork colors to set the matching aspect theme, spine colors, and optimal framing.</p>
@@ -2017,7 +2017,7 @@
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
-        filterStrength: 65,
+        filterStrength: 70,
         showCornerBox: false,
         cornerPrice: '',
         cornerTitle: '',
@@ -2025,9 +2025,9 @@
         showComicCode: false,
         showSpineLogo: true,
         showSpineBorder: false,
-        zoom: isWolv ? 115 : 108,
+        zoom: 105,
         panX: 0,
-        panY: isWolv ? -25 : -15,
+        panY: -15,
         rotation: 0,
         imageObj: img,
         isCustomImage: false
@@ -2291,6 +2291,13 @@
       const so = c.spineOpacity !== undefined ? c.spineOpacity : 85;
       document.getElementById('inputSpineOpacity').value = Math.max(10, Math.min(100, so));
       document.getElementById('inputNumSpineOpacity').value = so;
+
+      // Highlight active aspect preset button
+      document.querySelectorAll('.aspect-btn').forEach(btn => {
+        const txt = btn.textContent.trim().toLowerCase();
+        const asp = (c.aspect || '').toLowerCase();
+        btn.classList.toggle('active', asp.length > 0 && txt.includes(asp));
+      });
     }
 
     function drawStage() {
@@ -2865,11 +2872,14 @@
     }
 
     function switchActiveCard(idx) {
+      if (activeCardIndex === idx) return;
+      syncFormToActiveCard();
       activeCardIndex = idx;
       document.getElementById('tabCard1').classList.toggle('active', idx === 0);
       document.getElementById('tabCard2').classList.toggle('active', idx === 1);
       syncActiveCardToForm();
-      renderActiveCard();
+      drawStage();
+      update3DCase();
     }
 
     function duplicateCurrentCard() {
