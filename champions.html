@@ -6,13 +6,13 @@
   
   <!-- SEO Meta Tags -->
   <title>Marvel Champions Cassette Inlay Generator - Meudayr</title>
-  <meta name="description" content="Create, customize, preview, and print authentic comic-book style cassette storage inlay cards (J-cards) for Marvel Champions: The Card Game. Features AI Auto-Pilot, 1 or 2 cards per sheet, 3D case preview, and 300 DPI true-scale printing.">
-  <meta name="keywords" content="Marvel Champions, Cassette Inlay, J-Card Generator, Marvel Champions Storage, BoardinaryGamers, Manser Family, Deck Box, Comic Book Template, AI Cassette Maker">
+  <meta name="description" content="Design, customize, and print cassette J-card inlays for your Marvel Champions decks.">
+  <meta name="keywords" content="Marvel Champions, Cassette Inlay, J-Card Generator, Marvel Champions Storage, BoardinaryGamers, Manser Family, Deck Box, Comic Book Template, Cassette Maker">
   <meta name="author" content="Meudayr">
   
   <!-- OpenGraph Social Tags -->
   <meta property="og:title" content="Marvel Champions Cassette Inlay Generator - Meudayr">
-  <meta property="og:description" content="Custom comic book cassette inlay card maker with AI Auto-Pilot for Marvel Champions LCG. Create 1 or 2 inlays per sheet with 3D preview and 300 DPI print output.">
+  <meta property="og:description" content="Design, customize, and print cassette J-card inlays for your Marvel Champions decks.">
   <meta property="og:image" content="https://meudayr.com/assets/logo.png">
   <meta property="og:url" content="https://meudayr.com/champions.html">
   <meta property="og:type" content="website">
@@ -1372,7 +1372,7 @@
       <div class="container">
 
         <h1>Marvel Champions Inlay Generator</h1>
-        <p>Design, customize, and print authentic comic-book cassette J-card inlays for your Marvel Champions heroes, villains, and aspect decks. Upload any image and let AI format it instantly.</p>
+        <p>Design, customize, and print cassette J-card inlays for your Marvel Champions decks.</p>
       </div>
     </section>
 
@@ -2421,18 +2421,6 @@
 
       // Top Right Marvel Champions Logo Box
       drawTopRightLogo(1600, 30, 240, 100);
-
-      // Bottom Right Set Tag
-      if (card.subtitle) {
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#111317';
-        ctx.font = '700 22px "Outfit", sans-serif';
-        ctx.fillText(card.subtitle, 1860, 1000);
-        ctx.fillStyle = '#b91c1c';
-        ctx.font = '900 24px "Bangers", cursive';
-        ctx.fillText('MARVEL CHAMPIONS', 1860, 1030);
-        ctx.textAlign = 'left';
-      }
     }
 
     function drawDualSheetMetadata() {
