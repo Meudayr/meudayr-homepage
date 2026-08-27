@@ -6,13 +6,13 @@
   
   <!-- SEO Meta Tags -->
   <title>Marvel Champions Cassette Inlay Generator - Meudayr</title>
-  <meta name="description" content="Create, customize, preview, and print authentic comic-book style cassette storage inlay cards (J-cards) for Marvel Champions: The Card Game. Supports 1 or 2 cards per sheet, 3D case preview, and 300 DPI true-scale printing.">
-  <meta name="keywords" content="Marvel Champions, Cassette Inlay, J-Card Generator, Marvel Champions Storage, BoardinaryGamers, Manser Family, Deck Box, Comic Book Template">
+  <meta name="description" content="Create, customize, preview, and print authentic comic-book style cassette storage inlay cards (J-cards) for Marvel Champions: The Card Game. Features AI Auto-Pilot, 1 or 2 cards per sheet, 3D case preview, and 300 DPI true-scale printing.">
+  <meta name="keywords" content="Marvel Champions, Cassette Inlay, J-Card Generator, Marvel Champions Storage, BoardinaryGamers, Manser Family, Deck Box, Comic Book Template, AI Cassette Maker">
   <meta name="author" content="Meudayr">
   
   <!-- OpenGraph Social Tags -->
   <meta property="og:title" content="Marvel Champions Cassette Inlay Generator - Meudayr">
-  <meta property="og:description" content="Custom comic book cassette inlay card maker for Marvel Champions LCG. Create 1 or 2 inlays per sheet with 3D preview and 300 DPI print output.">
+  <meta property="og:description" content="Custom comic book cassette inlay card maker with AI Auto-Pilot for Marvel Champions LCG. Create 1 or 2 inlays per sheet with 3D preview and 300 DPI print output.">
   <meta property="og:image" content="https://meudayr.com/assets/logo.png">
   <meta property="og:url" content="https://meudayr.com/champions.html">
   <meta property="og:type" content="website">
@@ -57,6 +57,13 @@
       background: rgba(192, 157, 82, 0.15);
       color: var(--accent);
       border: 1px solid rgba(192, 157, 82, 0.3);
+    }
+
+    .app-badge.ai-badge {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
     }
 
     .app-badge.comic-badge {
@@ -216,6 +223,72 @@
     .tab-action-btn:hover {
       color: var(--text-main);
       border-color: var(--card-border-hover);
+    }
+
+    /* AI Magic Banner */
+    .ai-action-banner {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .ai-banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ai-banner-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #e9d5ff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-btn-primary {
+      background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%);
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(147, 51, 234, 0.35);
+    }
+
+    .ai-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.5);
+      filter: brightness(1.1);
+    }
+
+    .ai-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .ai-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
     }
 
     /* Accordion Sections */
@@ -754,14 +827,14 @@
       pointer-events: none;
     }
 
-    /* Print Queue Modal / Drawer */
-    .queue-modal-overlay {
+    /* Modals & Overlay */
+    .app-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
       z-index: 999;
       display: none;
@@ -770,24 +843,25 @@
       padding: 20px;
     }
 
-    .queue-modal-overlay.open {
+    .app-modal-overlay.open {
       display: flex;
     }
 
-    .queue-modal-box {
+    .app-modal-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      max-width: 720px;
+      max-width: 620px;
       width: 100%;
-      max-height: 85vh;
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+      position: relative;
     }
 
-    .queue-modal-header {
+    .app-modal-header {
       padding: 18px 24px;
       border-bottom: 1px solid var(--card-border);
       display: flex;
@@ -795,13 +869,16 @@
       align-items: center;
     }
 
-    .queue-modal-header h3 {
+    .app-modal-header h3 {
       font-family: var(--font-display);
       font-size: 1.25rem;
       color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .queue-modal-close {
+    .app-modal-close {
       background: transparent;
       border: none;
       color: var(--text-muted);
@@ -809,7 +886,7 @@
       font-size: 1.4rem;
     }
 
-    .queue-modal-body {
+    .app-modal-body {
       padding: 20px 24px;
       overflow-y: auto;
       display: flex;
@@ -817,58 +894,31 @@
       gap: 16px;
     }
 
-    .queue-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
-    }
-
-    .queue-card-item {
-      background: #111317;
-      border: 1px solid var(--card-border);
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e1b4b;
+      border: 1px solid #818cf8;
+      color: #ffffff;
+      padding: 14px 20px;
       border-radius: var(--radius-md);
-      padding: 12px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+      z-index: 1000;
+      font-size: 0.9rem;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
     }
 
-    .queue-card-preview {
-      width: 100%;
-      height: 110px;
-      object-fit: contain;
-      background: #000000;
-      border-radius: 4px;
-    }
-
-    .queue-card-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-main);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .queue-item-btns {
-      display: flex;
-      gap: 6px;
-    }
-
-    .queue-btn-sm {
-      flex: 1;
-      padding: 4px 8px;
-      font-size: 0.72rem;
-      border-radius: 4px;
-      border: 1px solid var(--card-border);
-      background: #1c202a;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .queue-btn-sm:hover {
-      color: var(--text-main);
-      border-color: var(--card-border-hover);
+    .toast-popup.show {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     /* Print Specific Clean Media Styles */
@@ -885,7 +935,7 @@
         padding: 0 !important;
       }
 
-      header, .app-header-hero, .studio-sidebar, .preview-header-bar, .help-bar-hint, .queue-modal-overlay, footer {
+      header, .app-header-hero, .studio-sidebar, .preview-header-bar, .help-bar-hint, .app-modal-overlay, .toast-popup, footer {
         display: none !important;
       }
 
@@ -958,12 +1008,13 @@
     <section class="app-header-hero">
       <div class="container">
         <div class="app-badge-row">
+          <span class="app-badge ai-badge">✨ AI Auto-Pilot</span>
           <span class="app-badge comic-badge">💥 Comic Book Aesthetic</span>
           <span class="app-badge system-badge">📼 Manser v17.5 Template</span>
           <span class="app-badge">✂️ 1 or 2 Inlays / Sheet</span>
         </div>
         <h1>Marvel Champions Inlay Generator</h1>
-        <p>Design, customize, and print authentic comic-book cassette J-card inlays for your Marvel Champions heroes, villains, and aspect decks. Ready for pinless cassette cases.</p>
+        <p>Design, customize, and print authentic comic-book cassette J-card inlays for your Marvel Champions heroes, villains, and aspect decks. Upload any image and let AI format it instantly.</p>
       </div>
     </section>
 
@@ -997,23 +1048,39 @@
           </div>
         </div>
 
-        <!-- Section 1: Artwork & Positioning -->
+        <!-- Section 1: Artwork & AI Auto-Pilot -->
         <div class="sidebar-section open" id="sec-art">
           <button type="button" class="section-header" onclick="toggleSection('sec-art')">
             <div class="section-header-left">
               <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Artwork &amp; Position</span>
+              <span>Artwork &amp; AI Auto-Pilot</span>
             </div>
             <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="section-body">
             
+            <!-- AI Auto-Pilot Banner -->
+            <div class="ai-action-banner">
+              <div class="ai-banner-header">
+                <div class="ai-banner-title">
+                  <span>✨</span>
+                  <span>AI Auto-Pilot Assistant</span>
+                </div>
+                <button type="button" class="ai-btn-secondary" onclick="openApiKeyModal()">⚙️ API Key</button>
+              </div>
+              <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0; line-height: 1.4;">Upload any picture and let AI recognize the hero, pick the aspect colors, and auto-frame the comic cover.</p>
+              <button type="button" class="ai-btn-primary" id="btnRunAiAutoPilot" onclick="runAiAutoPilot()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Run AI Auto-Pilot (Magic Setup)</span>
+              </button>
+            </div>
+
             <!-- Upload Dropzone -->
             <div class="upload-dropzone" id="dropZone">
               <input type="file" id="artFileInput" accept="image/*">
               <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              <div class="upload-text">Upload Custom Comic Art</div>
-              <div class="upload-subtext">Drag &amp; drop PNG, JPG, or WebP</div>
+              <div class="upload-text">Upload Custom Art / Photo</div>
+              <div class="upload-subtext">Drag &amp; drop PNG, JPG, or WebP (AI Auto-Pilot ready)</div>
             </div>
 
             <!-- Comic Presets -->
@@ -1375,13 +1442,13 @@
     </div>
 
     <!-- Batch Queue Modal -->
-    <div class="queue-modal-overlay" id="queueModal">
-      <div class="queue-modal-box">
-        <div class="queue-modal-header">
+    <div class="app-modal-overlay" id="queueModal">
+      <div class="app-modal-box">
+        <div class="app-modal-header">
           <h3>Saved Inlay Cards Queue</h3>
-          <button type="button" class="queue-modal-close" onclick="closeQueueModal()">&times;</button>
+          <button type="button" class="app-modal-close" onclick="closeQueueModal()">&times;</button>
         </div>
-        <div class="queue-modal-body">
+        <div class="app-modal-body">
           <p style="font-size: 0.85rem; color: var(--text-muted);">Assign cards to Card 1 and Card 2 for 2-up sheet printing, or print all queued cards.</p>
           <div class="queue-list" id="queueList">
             <!-- Populated via JS -->
@@ -1392,6 +1459,49 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- AI Settings & API Key Modal -->
+    <div class="app-modal-overlay" id="apiKeyModal">
+      <div class="app-modal-box">
+        <div class="app-modal-header">
+          <h3>✨ AI Auto-Pilot Settings</h3>
+          <button type="button" class="app-modal-close" onclick="closeApiKeyModal()">&times;</button>
+        </div>
+        <div class="app-modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+            AI Auto-Pilot uses Google Gemini Vision to analyze your uploaded character art, identify the hero/villain, choose authentic aspect themes, and calculate optimal comic framing automatically.
+          </p>
+          
+          <div class="form-group">
+            <label class="form-label">
+              <span>Google Gemini API Key:</span>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-size: 0.76rem; text-decoration: underline;">Get free API Key ➔</a>
+            </label>
+            <input type="password" class="form-input" id="inputGeminiKey" placeholder="AIzaSy..." autocomplete="off">
+            <span style="font-size: 0.72rem; color: var(--text-dark);">Your API key is stored securely in your browser's LocalStorage and is never sent to any external server other than Google's Gemini endpoint.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Gemini Vision Model</label>
+            <select class="form-select" id="selectAiModel">
+              <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash (Fastest &amp; Most Accurate)</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+            </select>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+            <button type="button" class="action-btn action-btn-secondary" onclick="closeApiKeyModal()">Cancel</button>
+            <button type="button" class="action-btn action-btn-primary" onclick="saveApiKey()">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div class="toast-popup" id="appToast">
+      <span id="toastIcon">✨</span>
+      <span id="toastMsg">AI Auto-Pilot running...</span>
     </div>
 
   </main>
@@ -1711,7 +1821,7 @@
     function drawStage() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Sheet Background (Crisp White for print & sheet contrast)
+      // Sheet Background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1762,7 +1872,6 @@
 
     function drawTopRightLogo(x, y, w, h) {
       ctx.save();
-      // Draw Red Marvel Box
       const mH = h * 0.55;
       ctx.fillStyle = '#dc2626';
       ctx.fillRect(x, y, w, mH);
@@ -1772,7 +1881,6 @@
       ctx.textBaseline = 'middle';
       ctx.fillText('MARVEL', x + w/2, y + mH/2 + 2);
 
-      // Draw CHAMPIONS text below
       ctx.fillStyle = '#000000';
       ctx.font = `900 ${h * 0.35}px "Outfit", "Bangers", sans-serif`;
       ctx.fillText('CHAMPIONS', x + w/2, y + mH + (h - mH)/2 + 2);
@@ -1906,6 +2014,14 @@
         ctx.fillStyle = grad;
         ctx.fillRect(x, y, w, h);
         ctx.restore();
+      } else if (card.comicFilter === 'popart') {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+        ctx.fillStyle = `rgba(234, 179, 8, ${0.18 * strength})`;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
       }
     }
 
@@ -1921,7 +2037,6 @@
       let textStartX = x + 16;
 
       if (card.showSpineLogo) {
-        // Draw crisp vector Marvel Champions spine badge perfectly centered
         const logoW = 90;
         const logoH = 58;
         const logoX = x + 16;
@@ -1986,7 +2101,7 @@
         ctx.translate(logoX + logoW/2, logoY + logoH/2);
         ctx.rotate(-Math.PI / 2);
 
-        // Draw rotated banner (horizontal internally)
+        // Draw rotated banner
         const bannerW = logoH;
         const bannerH = logoW;
         const bX = -bannerW / 2;
@@ -2150,7 +2265,6 @@
       ctx.strokeStyle = '#000000';
       ctx.fillStyle = '#ffffff';
       ctx.lineWidth = 1.5;
-      // Draw small folding sheet icon
       ctx.strokeRect(x, y, 14, 24);
       ctx.beginPath();
       ctx.setLineDash([2, 2]);
@@ -2210,6 +2324,238 @@
     });
 
     // ==========================================
+    // ✨ AI Auto-Pilot Vision Engine
+    // ==========================================
+
+    function openApiKeyModal() {
+      const savedKey = localStorage.getItem('mc_gemini_api_key') || '';
+      document.getElementById('inputGeminiKey').value = savedKey;
+      document.getElementById('apiKeyModal').classList.add('open');
+    }
+
+    function closeApiKeyModal() {
+      document.getElementById('apiKeyModal').classList.remove('open');
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('inputGeminiKey').value.trim();
+      if (key) {
+        localStorage.setItem('mc_gemini_api_key', key);
+        showToast('✨', 'API Key saved successfully!');
+      } else {
+        localStorage.removeItem('mc_gemini_api_key');
+        showToast('ℹ️', 'API Key cleared. AI will use smart offline heuristics.');
+      }
+      closeApiKeyModal();
+    }
+
+    function showToast(icon, message, duration = 4000) {
+      const toast = document.getElementById('appToast');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastMsg').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    async function runAiAutoPilot() {
+      const btn = document.getElementById('btnRunAiAutoPilot');
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span>⚡ Analyzing Art with AI...</span>';
+      btn.disabled = true;
+
+      const card = cards[activeCardIndex];
+      if (!card.imageObj || !card.imageObj.src) {
+        showToast('⚠️', 'Please upload or select an image first!');
+        btn.innerHTML = origText;
+        btn.disabled = false;
+        return;
+      }
+
+      const apiKey = localStorage.getItem('mc_gemini_api_key') || '';
+
+      try {
+        if (apiKey) {
+          showToast('✨', 'AI Vision is analyzing character, aspect & framing...');
+          await callGeminiVisionAutoPilot(apiKey, card);
+        } else {
+          showToast('⚡', 'Using Instant Smart Auto-Pilot (Add Gemini Key for deep AI vision)');
+          runSmartHeuristicAutoPilot(card);
+        }
+      } catch (err) {
+        console.error('AI Auto-Pilot error:', err);
+        showToast('⚠️', 'AI API error. Applied Smart Offline Auto-Pilot instead.');
+        runSmartHeuristicAutoPilot(card);
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    }
+
+    async function callGeminiVisionAutoPilot(apiKey, card) {
+      // Convert current card image to JPEG base64
+      const tempCanvas = document.createElement('canvas');
+      const tCtx = tempCanvas.getContext('2d');
+      const maxDim = 800;
+      let w = card.imageObj.naturalWidth || 600;
+      let h = card.imageObj.naturalHeight || 600;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+      }
+      tempCanvas.width = w;
+      tempCanvas.height = h;
+      tCtx.drawImage(card.imageObj, 0, 0, w, h);
+
+      const base64Data = tempCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+      const model = document.getElementById('selectAiModel').value || 'gemini-2.0-flash';
+
+      const prompt = `You are a graphic designer specializing in Marvel Champions: The Card Game cassette J-card inlays (Manser v17.5 template).
+Analyze this Marvel image.
+1. Identify the character / hero / villain / team.
+2. Recommend the best Marvel Champions aspect theme:
+   - "Justice" (Yellow: #eab308, black text)
+   - "Aggression" (Red: #dc2626, white text)
+   - "Leadership" (Blue: #2563eb, white text)
+   - "Protection" (Green: #16a34a, white text)
+   - "Basic" (Slate: #475569, white text)
+   - "Villain" (Purple: #7e22ce, white text)
+   Or custom signature color if iconic.
+3. Suggest the set/wave subtitle (e.g. CORE SET, MUTANT GENESIS, SINISTER MOTIVES, WAVE 1, HERO PACK).
+4. Suggest comic corner box price & title (e.g. price: "25¢ #1", "75¢ #1", "$1.00 #1"; title: "MARVEL", "X-MEN", "AVENGERS", "SPIDER-MAN").
+5. Choose optimal comic filter: "halftone", "ink", "vintage", "noir", "popart", or "none".
+6. Calculate best framing: recommendedZoom (80-140), recommendedPanX (-80 to 80), recommendedPanY (-80 to 80) so the face/eyes and upper torso are visible and not hidden behind the spine ribbon.
+
+Return STRICT JSON ONLY matching this schema:
+{
+  "heroName": "STRING (UPPERCASE)",
+  "aspectTheme": "Justice" | "Aggression" | "Leadership" | "Protection" | "Basic" | "Villain",
+  "spineColor": "HEX COLOR STRING",
+  "textColor": "#ffffff" | "#000000",
+  "subtitle": "STRING (UPPERCASE)",
+  "cornerPrice": "STRING",
+  "cornerTitle": "STRING (UPPERCASE)",
+  "comicFilter": "halftone" | "ink" | "vintage" | "noir" | "popart" | "none",
+  "filterStrength": NUMBER (50-90),
+  "recommendedZoom": NUMBER (80-140),
+  "recommendedPanX": NUMBER (-100 to 100),
+  "recommendedPanY": NUMBER (-100 to 100)
+}`;
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const payload = {
+        contents: [
+          {
+            parts: [
+              { text: prompt },
+              { inline_data: { mime_type: "image/jpeg", data: base64Data } }
+            ]
+          }
+        ],
+        generationConfig: {
+          response_mime_type: "application/json"
+        }
+      };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errJson = await response.json();
+        throw new Error(errJson.error?.message || 'Gemini API call failed');
+      }
+
+      const data = await response.json();
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) throw new Error('No AI response text received');
+
+      const result = JSON.parse(rawText);
+
+      // Apply AI recommendations to current card
+      if (result.heroName) card.title = result.heroName.toUpperCase();
+      if (result.subtitle) card.subtitle = result.subtitle.toUpperCase();
+      if (result.aspectTheme) card.aspect = result.aspectTheme;
+      if (result.spineColor) card.spineColor = result.spineColor;
+      if (result.textColor) card.textColor = result.textColor;
+      if (result.cornerPrice) card.cornerPrice = result.cornerPrice;
+      if (result.cornerTitle) card.cornerTitle = result.cornerTitle.toUpperCase();
+      if (result.comicFilter) card.comicFilter = result.comicFilter;
+      if (result.filterStrength) card.filterStrength = result.filterStrength;
+      if (result.recommendedZoom) card.zoom = result.recommendedZoom;
+      if (result.recommendedPanX !== undefined) card.panX = result.recommendedPanX;
+      if (result.recommendedPanY !== undefined) card.panY = result.recommendedPanY;
+
+      syncActiveCardToForm();
+      renderActiveCard();
+
+      showToast('✨', `AI Auto-Pilot: Configured ${card.title} (${card.aspect})!`);
+    }
+
+    function runSmartHeuristicAutoPilot(card) {
+      // Smart Heuristic Fallback based on image focal analysis & dominant colors
+      const img = card.imageObj;
+      if (!img || !img.complete) return;
+
+      const tempCanvas = document.createElement('canvas');
+      const tCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = 100;
+      tempCanvas.height = 100;
+      tCtx.drawImage(img, 0, 0, 100, 100);
+      const imgData = tCtx.getImageData(0, 0, 100, 100).data;
+
+      let rSum = 0, gSum = 0, bSum = 0, count = 0;
+      for (let i = 0; i < imgData.length; i += 16) {
+        rSum += imgData[i];
+        gSum += imgData[i+1];
+        bSum += imgData[i+2];
+        count++;
+      }
+      const avgR = rSum / count;
+      const avgG = gSum / count;
+      const avgB = bSum / count;
+
+      // Classify dominant color
+      if (avgR > avgG * 1.3 && avgR > avgB * 1.3) {
+        card.aspect = 'Aggression';
+        card.spineColor = '#dc2626';
+        card.textColor = '#ffffff';
+      } else if (avgB > avgR * 1.2 && avgB > avgG * 1.1) {
+        card.aspect = 'Leadership';
+        card.spineColor = '#2563eb';
+        card.textColor = '#ffffff';
+      } else if (avgG > avgR * 1.2 && avgG > avgB * 1.1) {
+        card.aspect = 'Protection';
+        card.spineColor = '#16a34a';
+        card.textColor = '#ffffff';
+      } else if (avgR > 140 && avgG > 120 && avgB < 100) {
+        card.aspect = 'Justice';
+        card.spineColor = '#eab308';
+        card.textColor = '#000000';
+      } else if (avgR > 100 && avgB > 100 && avgG < 80) {
+        card.aspect = 'Villain';
+        card.spineColor = '#7e22ce';
+        card.textColor = '#ffffff';
+      } else {
+        card.aspect = 'Justice';
+        card.spineColor = '#eab308';
+        card.textColor = '#000000';
+      }
+
+      // Center framing
+      card.comicFilter = 'halftone';
+      card.filterStrength = 70;
+      card.zoom = 105;
+      card.panX = 0;
+      card.panY = -15;
+
+      syncActiveCardToForm();
+      renderActiveCard();
+      showToast('⚡', `Smart Auto-Pilot applied ${card.aspect} theme & framing!`);
+    }
+
+    // ==========================================
     // Section Accordions & UI Helpers
     // ==========================================
     function toggleSection(secId) {
@@ -2238,7 +2584,7 @@
       const targetIdx = activeCardIndex === 0 ? 1 : 0;
       cards[targetIdx] = JSON.parse(JSON.stringify(src));
       cards[targetIdx].imageObj = src.imageObj;
-      alert(`Card ${activeCardIndex + 1} cloned to Card ${targetIdx + 1}!`);
+      showToast('📋', `Card ${activeCardIndex + 1} cloned to Card ${targetIdx + 1}!`);
       renderActiveCard();
     }
 
@@ -2289,6 +2635,9 @@
     });
 
     function loadCustomImage(file) {
+      // Auto-populate title from filename if title is default
+      const fileNameClean = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").toUpperCase();
+      
       const reader = new FileReader();
       reader.onload = (event) => {
         const img = new Image();
@@ -2299,8 +2648,13 @@
           c.panX = 0;
           c.panY = 0;
           c.zoom = 100;
+          if (c.title === 'SPIDER-MAN' || !c.title) {
+            c.title = fileNameClean;
+          }
           document.querySelectorAll('.preset-chip').forEach(el => el.classList.remove('active'));
+          syncActiveCardToForm();
           renderActiveCard();
+          showToast('🖼️', `Image loaded! Click "Run AI Auto-Pilot" to auto-style.`);
         };
         img.src = event.target.result;
       };
@@ -2429,7 +2783,7 @@
       };
       printQueue.push(queueItem);
       document.getElementById('queueCount').textContent = printQueue.length;
-      alert(`"${card.title}" added to Print Queue!`);
+      showToast('📥', `"${card.title}" added to Print Queue!`);
     }
 
     function openQueueModal() {
@@ -2476,6 +2830,7 @@
       }
       switchActiveCard(slotIdx);
       closeQueueModal();
+      showToast('🔄', `Loaded ${cards[slotIdx].title} into Card ${slotIdx + 1}`);
     }
 
     function removeQueueItem(idx) {
@@ -2501,7 +2856,6 @@
     // ==========================================
     window.addEventListener('DOMContentLoaded', () => {
       let loadedCount = 0;
-      const totalImages = Object.keys(assetImages).length + 2;
 
       function checkReady() {
         loadedCount++;
