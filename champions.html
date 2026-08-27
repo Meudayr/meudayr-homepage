@@ -1625,24 +1625,24 @@
             <div class="form-group">
               <label class="form-label">Aspect Theme Presets</label>
               <div class="aspect-palette">
-                <button type="button" class="aspect-btn active" style="background: #ca8a04;" onclick="setAspectColor('#eab308', 'Justice')">
-                  <span class="color-pip" style="background: #eab308;"></span>
+                <button type="button" class="aspect-btn active" style="background: #8b9264; color: #ffffff;" onclick="setAspectColor('#d1d6ae', 'Justice')">
+                  <span class="color-pip" style="background: #d1d6ae;"></span>
                   Justice
                 </button>
                 <button type="button" class="aspect-btn" style="background: #b91c1c;" onclick="setAspectColor('#dc2626', 'Aggression')">
                   <span class="color-pip" style="background: #dc2626;"></span>
                   Aggression
                 </button>
-                <button type="button" class="aspect-btn" style="background: #0369a1;" onclick="setAspectColor('#0284c7', 'Leadership')">
-                  <span class="color-pip" style="background: #0ea5e9;"></span>
+                <button type="button" class="aspect-btn" style="background: #028499;" onclick="setAspectColor('#44c0d2', 'Leadership')">
+                  <span class="color-pip" style="background: #44c0d2;"></span>
                   Leadership
                 </button>
                 <button type="button" class="aspect-btn" style="background: #14532d;" onclick="setAspectColor('#15803d', 'Protection')">
                   <span class="color-pip" style="background: #16a34a;"></span>
                   Protection
                 </button>
-                <button type="button" class="aspect-btn" style="background: #9d174d;" onclick="setAspectColor('#db2777', '\'Pool')">
-                  <span class="color-pip" style="background: #f472b6;"></span>
+                <button type="button" class="aspect-btn" style="background: #8e4470;" onclick="setAspectColor('#db8eb9', '\'Pool')">
+                  <span class="color-pip" style="background: #db8eb9;"></span>
                   'Pool
                 </button>
                 <button type="button" class="aspect-btn" style="background: #334155;" onclick="setAspectColor('#475569', 'Basic')">
@@ -1659,7 +1659,7 @@
             <div class="form-row-2">
               <div class="form-group">
                 <label class="form-label">Custom Spine Color</label>
-                <input type="color" class="form-input" id="inputSpineColor" value="#eab308" style="padding: 2px; height: 38px; cursor: pointer;" oninput="renderActiveCard()">
+                <input type="color" class="form-input" id="inputSpineColor" value="#d1d6ae" style="padding: 2px; height: 38px; cursor: pointer;" oninput="renderActiveCard()">
               </div>
               <div class="form-group">
                 <label class="form-label">Spine Font</label>
@@ -2019,7 +2019,7 @@
         name: 'SPIDER-MAN',
         subtitle: 'CORE SET',
         aspect: 'Justice',
-        color: '#eab308',
+        color: '#d1d6ae',
         textColor: '#000000',
         cornerPrice: '25¢ #1',
         cornerTitle: 'MARVEL',
@@ -2039,8 +2039,8 @@
         name: 'CYCLOPS',
         subtitle: 'MUTANT GENESIS',
         aspect: 'Leadership',
-        color: '#2563eb',
-        textColor: '#ffffff',
+        color: '#44c0d2',
+        textColor: '#000000',
         cornerPrice: '75¢ #1',
         cornerTitle: 'X-MEN',
         imageSrc: 'assets/champions/presets/cyclops.jpg'
@@ -2049,8 +2049,8 @@
         name: 'CAPTAIN AMERICA',
         subtitle: 'WAVE 1',
         aspect: 'Leadership',
-        color: '#2563eb',
-        textColor: '#ffffff',
+        color: '#44c0d2',
+        textColor: '#000000',
         cornerPrice: '25¢ #100',
         cornerTitle: 'AVENGERS',
         imageSrc: 'assets/champions/presets/captain_america.jpg'
@@ -2069,7 +2069,7 @@
         name: 'DEADPOOL',
         subtitle: 'WAVE 7',
         aspect: "'Pool",
-        color: '#db2777',
+        color: '#db8eb9',
         textColor: '#ffffff',
         cornerPrice: '$1.00 #1',
         cornerTitle: "'POOL",
@@ -2797,7 +2797,7 @@
 
       document.getElementById('inputTitle').value = c.title || '';
       document.getElementById('inputSubtitle').value = c.subtitle || '';
-      document.getElementById('inputSpineColor').value = c.spineColor || '#eab308';
+      document.getElementById('inputSpineColor').value = c.spineColor || '#d1d6ae';
       document.getElementById('selectTextColor').value = c.textColor || '#000000';
       document.getElementById('inputFontSize').value = c.fontSize || 44;
       document.getElementById('selectSpineFont').value = c.spineFont || 'Permanent Marker';
@@ -3424,19 +3424,19 @@
         card.textColor = '#ffffff';
       } else if (avgB > avgR * 1.2 && avgB > avgG * 1.1) {
         card.aspect = 'Leadership';
-        card.spineColor = '#0284c7';
-        card.textColor = '#ffffff';
+        card.spineColor = '#44c0d2';
+        card.textColor = '#000000';
       } else if (avgG > avgR * 1.15 && avgG > avgB * 1.1) {
         card.aspect = 'Protection';
         card.spineColor = '#15803d';
         card.textColor = '#ffffff';
       } else if (avgR > 140 && avgB > 120 && avgG < 110) {
         card.aspect = "'Pool";
-        card.spineColor = '#db2777';
+        card.spineColor = '#db8eb9';
         card.textColor = '#ffffff';
       } else if (avgR > 140 && avgG > 120 && avgB < 100) {
         card.aspect = 'Justice';
-        card.spineColor = '#eab308';
+        card.spineColor = '#d1d6ae';
         card.textColor = '#000000';
       } else if (avgR > 100 && avgB > 100 && avgG < 80) {
         card.aspect = 'Villain';
@@ -3444,7 +3444,7 @@
         card.textColor = '#ffffff';
       } else {
         card.aspect = 'Justice';
-        card.spineColor = '#eab308';
+        card.spineColor = '#d1d6ae';
         card.textColor = '#000000';
       }
 
@@ -3517,10 +3517,12 @@
       const c = cards[activeCardIndex];
       c.spineColor = colorHex;
       c.aspect = aspectName;
-      if (colorHex === '#eab308' || colorHex === '#facc15') {
+      if (colorHex === '#d1d6ae' || colorHex === '#eab308' || colorHex === '#facc15' || colorHex === '#dce1b7' || colorHex === '#44c0d2') {
         document.getElementById('selectTextColor').value = '#000000';
+        c.textColor = '#000000';
       } else {
         document.getElementById('selectTextColor').value = '#ffffff';
+        c.textColor = '#ffffff';
       }
       renderActiveCard();
     }
