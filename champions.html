@@ -2087,6 +2087,24 @@
       update3DCase();
     }
 
+    function onSliderChange(field, val) {
+      document.getElementById('inputNum' + field.charAt(0).toUpperCase() + field.slice(1)).value = val;
+      renderActiveCard();
+    }
+
+    function onDirectNumInput(field, val) {
+      document.getElementById('input' + field.charAt(0).toUpperCase() + field.slice(1)).value = val;
+      renderActiveCard();
+    }
+
+    function centerArtCoordinates() {
+      document.getElementById('inputPanX').value = 0;
+      document.getElementById('inputPanY').value = 0;
+      document.getElementById('inputNumPanX').value = 0;
+      document.getElementById('inputNumPanY').value = 0;
+      renderActiveCard();
+    }
+
     function syncFormToActiveCard() {
       const c = cards[activeCardIndex];
       c.title = document.getElementById('inputTitle').value.toUpperCase();
@@ -2106,8 +2124,10 @@
       c.panY = parseInt(document.getElementById('inputPanY').value, 10) || 0;
       c.rotation = parseInt(document.getElementById('selectRotation').value, 10) || 0;
 
-      document.getElementById('valZoom').textContent = c.zoom + '%';
-      document.getElementById('valFilterStrength').textContent = c.filterStrength + '%';
+      document.getElementById('inputNumZoom').value = c.zoom;
+      document.getElementById('inputNumPanX').value = c.panX;
+      document.getElementById('inputNumPanY').value = c.panY;
+      document.getElementById('inputNumFilterStrength').value = c.filterStrength;
     }
 
     function syncActiveCardToForm() {
@@ -2122,19 +2142,17 @@
       document.getElementById('selectFlapStyle').value = c.flapStyle;
       document.getElementById('selectComicFilter').value = c.comicFilter;
       document.getElementById('inputFilterStrength').value = c.filterStrength;
-      document.getElementById('checkCornerBox').checked = c.showCornerBox;
-      document.getElementById('inputCornerPrice').value = c.cornerPrice;
-      document.getElementById('inputCornerTitle').value = c.cornerTitle;
       document.getElementById('checkCoverLogo').checked = c.showCoverLogo;
-      document.getElementById('checkComicCode').checked = c.showComicCode;
       document.getElementById('checkSpineLogo').checked = c.showSpineLogo;
       document.getElementById('inputZoom').value = c.zoom;
       document.getElementById('inputPanX').value = c.panX;
       document.getElementById('inputPanY').value = c.panY;
       document.getElementById('selectRotation').value = c.rotation;
 
-      document.getElementById('valZoom').textContent = c.zoom + '%';
-      document.getElementById('valFilterStrength').textContent = c.filterStrength + '%';
+      document.getElementById('inputNumZoom').value = c.zoom;
+      document.getElementById('inputNumPanX').value = c.panX;
+      document.getElementById('inputNumPanY').value = c.panY;
+      document.getElementById('inputNumFilterStrength').value = c.filterStrength;
     }
 
     function drawStage() {
