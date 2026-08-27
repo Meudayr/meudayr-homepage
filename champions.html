@@ -2117,90 +2117,114 @@
         name: 'Audio Cassette Case',
         label: 'Audio Cassette (Standard J-Card)',
         badge: 'CASSETTE STORAGE',
-        mmWidth: 64.8,
-        mmCoverH: 101.6,
+        isPortrait: false,
+        mmWidth: 101.6,
+        mmCoverH: 64.8,
         mmSpineH: 12.7,
         mmFlapH: 25.4,
         cardW: 678,
         coverH: 431,
         spineH: 85,
         flapH: 178,
-        depthMm: 12.7
+        depthMm: 12.7,
+        box3DW: 340,
+        box3DH: 216,
+        box3DD: 44
       },
       burgertokens_43s: {
         id: 'burgertokens_43s',
         name: 'Burger Tokens 43S',
         label: 'Burger Tokens 43S (Standard Hero Deck - 27mm Spine)',
         badge: 'BURGER TOKENS 43S',
+        isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
         mmSpineH: 27.0,
-        mmFlapH: 30.0,
-        cardW: 711,
-        coverH: 407,
-        spineH: 115,
-        flapH: 128,
-        depthMm: 27.0
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 180,
+        flapH: 187,
+        depthMm: 27.0,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 84
       },
       burgertokens_50s: {
         id: 'burgertokens_50s',
         name: 'Burger Tokens 50S',
         label: 'Burger Tokens 50S (Large Hero Deck - 32mm Spine)',
         badge: 'BURGER TOKENS 50S',
+        isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
         mmSpineH: 32.0,
-        mmFlapH: 30.0,
-        cardW: 711,
-        coverH: 407,
-        spineH: 136,
-        flapH: 128,
-        depthMm: 32.0
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 213,
+        flapH: 187,
+        depthMm: 32.0,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 99
       },
       burgertokens_37s: {
         id: 'burgertokens_37s',
         name: 'Burger Tokens 37S',
         label: 'Burger Tokens 37S (Medium Deck - 22.5mm Spine)',
         badge: 'BURGER TOKENS 37S',
+        isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
         mmSpineH: 22.5,
-        mmFlapH: 30.0,
-        cardW: 711,
-        coverH: 407,
-        spineH: 96,
-        flapH: 128,
-        depthMm: 22.5
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 150,
+        flapH: 187,
+        depthMm: 22.5,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 70
       },
       burgertokens_22s: {
         id: 'burgertokens_22s',
         name: 'Burger Tokens 22S',
         label: 'Burger Tokens 22S (Hero Kit / Nemesis - 14.5mm Spine)',
         badge: 'BURGER TOKENS 22S',
+        isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
         mmSpineH: 14.5,
-        mmFlapH: 30.0,
-        cardW: 711,
-        coverH: 407,
-        spineH: 62,
-        flapH: 128,
-        depthMm: 14.5
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 97,
+        flapH: 187,
+        depthMm: 14.5,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 45
       },
       burgertokens_15s: {
         id: 'burgertokens_15s',
         name: 'Burger Tokens 15S',
         label: 'Burger Tokens 15S (Modular Encounter - 10mm Spine)',
         badge: 'BURGER TOKENS 15S',
+        isPortrait: true,
         mmWidth: 68.0,
         mmCoverH: 96.0,
         mmSpineH: 10.0,
-        mmFlapH: 30.0,
-        cardW: 711,
-        coverH: 407,
-        spineH: 43,
-        flapH: 128,
-        depthMm: 10.0
+        mmFlapH: 28.0,
+        cardW: 454,
+        coverH: 640,
+        spineH: 67,
+        flapH: 187,
+        depthMm: 10.0,
+        box3DW: 210,
+        box3DH: 296,
+        box3DD: 31
       }
     };
 
@@ -3439,7 +3463,100 @@
       const { x, y, w, coverH, spineH, flapH, boxType, fmt } = m;
       const isBT = (boxType || '').startsWith('burgertokens');
 
-      // Update 3D case elements for Burger Tokens clear deckbox vs Audio Cassette
+      const sceneElem = document.getElementById('cassetteScene');
+      if (!sceneElem) return;
+
+      // 1. Calculate Dynamic 3D Dimensions in Pixels
+      const box3DW = (fmt && fmt.box3DW) || (isBT ? 210 : 340);
+      const box3DH = (fmt && fmt.box3DH) || (isBT ? 296 : 216);
+      const box3DD = (fmt && fmt.box3DD) || (isBT ? Math.round(210 * ((fmt ? fmt.depthMm : 27) / (fmt ? fmt.mmWidth : 68))) : 44);
+      const halfD = Math.round(box3DD / 2);
+
+      // Update 3D scene container & outer box
+      sceneElem.style.width = `${box3DW}px`;
+      sceneElem.style.height = `${box3DH}px`;
+
+      const outerBox = sceneElem.querySelector('.case-outer-box');
+      if (outerBox) {
+        outerBox.style.width = `${box3DW}px`;
+        outerBox.style.height = `${box3DH}px`;
+      }
+
+      // Update Acrylic Shell Panels
+      const pFront = sceneElem.querySelector('.case-acrylic-front');
+      if (pFront) {
+        pFront.style.width = `${box3DW}px`;
+        pFront.style.height = `${box3DH}px`;
+        pFront.style.transform = `translateZ(${halfD}px)`;
+      }
+
+      const pBack = sceneElem.querySelector('.case-acrylic-back');
+      if (pBack) {
+        pBack.style.width = `${box3DW}px`;
+        pBack.style.height = `${box3DH}px`;
+        pBack.style.transform = `translateZ(-${halfD}px) rotateY(180deg)`;
+      }
+
+      const pTop = sceneElem.querySelector('.case-acrylic-top');
+      if (pTop) {
+        pTop.style.width = `${box3DW}px`;
+        pTop.style.height = `${box3DD}px`;
+        pTop.style.transform = `translateZ(${halfD}px) rotateX(-90deg)`;
+      }
+
+      const pBottom = sceneElem.querySelector('.case-acrylic-bottom');
+      if (pBottom) {
+        pBottom.style.width = `${box3DW}px`;
+        pBottom.style.height = `${box3DD}px`;
+        pBottom.style.transform = `translateZ(${halfD}px) rotateX(90deg)`;
+      }
+
+      const pLeft = sceneElem.querySelector('.case-acrylic-left');
+      if (pLeft) {
+        pLeft.style.width = `${box3DD}px`;
+        pLeft.style.height = `${box3DH}px`;
+        pLeft.style.transform = `translateZ(${halfD}px) rotateY(90deg)`;
+      }
+
+      const pRight = sceneElem.querySelector('.case-acrylic-right');
+      if (pRight) {
+        pRight.style.width = `${box3DD}px`;
+        pRight.style.height = `${box3DH}px`;
+        pRight.style.transform = `translateZ(${halfD}px) rotateY(-90deg)`;
+      }
+
+      // 2. Folded J-Card Dimensions
+      const card3DW = box3DW - 6;
+      const card3DH = box3DH - 6;
+      const cardSpine3DH = box3DD - 2;
+      const cardFlap3DH = Math.round(card3DH * (flapH / coverH));
+
+      const foldedJcard = sceneElem.querySelector('.folded-jcard');
+      if (foldedJcard) {
+        foldedJcard.style.width = `${card3DW}px`;
+        foldedJcard.style.height = `${card3DH}px`;
+      }
+
+      const jFront = document.getElementById('jcardFront');
+      if (jFront) {
+        jFront.style.width = `${card3DW}px`;
+        jFront.style.height = `${card3DH}px`;
+        jFront.style.transform = `translateZ(${halfD - 4}px)`;
+      }
+
+      const jSpine = document.getElementById('jcardSpine');
+      if (jSpine) {
+        jSpine.style.width = `${card3DW}px`;
+        jSpine.style.height = `${cardSpine3DH}px`;
+      }
+
+      const jFlap = document.getElementById('jcardFlap');
+      if (jFlap) {
+        jFlap.style.width = `${card3DW}px`;
+        jFlap.style.height = `${cardFlap3DH}px`;
+      }
+
+      // Toggle Cassette-specific features (spindles, hinges)
       document.querySelectorAll('.tape-spindle, .case-hinge-top, .case-hinge-bottom').forEach(el => {
         el.style.display = isBT ? 'none' : 'block';
       });
@@ -3451,7 +3568,7 @@
         cCover.height = coverH;
         const ctxCover = cCover.getContext('2d');
         ctxCover.drawImage(canvas, x, y, w, coverH, 0, 0, w, coverH);
-        document.getElementById('jcardFront').style.backgroundImage = `url(${cCover.toDataURL('image/jpeg', 0.9)})`;
+        if (jFront) jFront.style.backgroundImage = `url(${cCover.toDataURL('image/jpeg', 0.9)})`;
 
         // 2. Texture Spine Panel from rendered Canvas
         const cSpine = document.createElement('canvas');
@@ -3459,7 +3576,7 @@
         cSpine.height = spineH;
         const ctxSpine = cSpine.getContext('2d');
         ctxSpine.drawImage(canvas, x, y + coverH, w, spineH, 0, 0, w, spineH);
-        document.getElementById('jcardSpine').style.backgroundImage = `url(${cSpine.toDataURL('image/jpeg', 0.9)})`;
+        if (jSpine) jSpine.style.backgroundImage = `url(${cSpine.toDataURL('image/jpeg', 0.9)})`;
 
         // 3. Texture Bottom Flap Panel from rendered Canvas
         const cFlap = document.createElement('canvas');
@@ -3467,7 +3584,7 @@
         cFlap.height = flapH;
         const ctxFlap = cFlap.getContext('2d');
         ctxFlap.drawImage(canvas, x, y + coverH + spineH, w, flapH, 0, 0, w, flapH);
-        document.getElementById('jcardFlap').style.backgroundImage = `url(${cFlap.toDataURL('image/jpeg', 0.9)})`;
+        if (jFlap) jFlap.style.backgroundImage = `url(${cFlap.toDataURL('image/jpeg', 0.9)})`;
       } catch (err) {
         console.warn('Canvas 3D texture slicing warning:', err);
       }
