@@ -1461,7 +1461,7 @@
       </div>
     </div>
 
-    <!-- AI Settings & API Key Modal -->
+    <!-- AI Settings & API Key Modal (Multi-Provider Support) -->
     <div class="app-modal-overlay" id="apiKeyModal">
       <div class="app-modal-box">
         <div class="app-modal-header">
@@ -1470,34 +1470,37 @@
         </div>
         <div class="app-modal-body">
           <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
-            AI Auto-Pilot uses Google Gemini Vision to analyze your uploaded character art, identify the hero/villain, choose authentic aspect themes, and calculate optimal comic framing automatically.
+            AI Auto-Pilot analyzes your uploaded character art, identifies the hero/villain, selects signature Marvel Champions aspect colors, and automatically calculates optimal comic framing. Supports <strong>Claude 3.7 Sonnet</strong>, <strong>Gemini 2.5</strong>, and <strong>OpenAI GPT-4o</strong>.
           </p>
           
           <div class="form-group">
-            <label class="form-label">
-              <span>Google Gemini API Key:</span>
-              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-size: 0.76rem; text-decoration: underline;">Get free API Key ➔</a>
-            </label>
-            <input type="password" class="form-input" id="inputGeminiKey" placeholder="AIzaSy..." autocomplete="off">
-            <span style="font-size: 0.72rem; color: var(--text-dark);">Your API key is stored securely in your browser's LocalStorage and is never sent to any external server other than Google's Gemini endpoint.</span>
+            <label class="form-label">AI Provider</label>
+            <select class="form-select" id="selectAiProvider" onchange="onProviderChanged()">
+              <option value="anthropic" selected>Anthropic Claude (Claude 3.7 Sonnet / 3.5 Sonnet)</option>
+              <option value="gemini">Google Gemini (Gemini 2.5 Flash / 2.5 Pro / 2.0)</option>
+              <option value="openai">OpenAI (GPT-4o / GPT-4.5 Preview)</option>
+            </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Gemini Vision Model</label>
+            <label class="form-label">AI Model</label>
             <select class="form-select" id="selectAiModel" onchange="toggleCustomModelInput()">
-              <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Latest, Fastest &amp; Most Accurate)</option>
-              <option value="gemini-2.5-pro">Gemini 2.5 Pro (State-of-the-Art Deep Vision)</option>
-              <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-              <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash Lite</option>
-              <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
-              <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-              <option value="custom">Custom Model Name...</option>
+              <!-- Populated dynamically via JS -->
             </select>
           </div>
 
           <div class="form-group" id="customModelGroup" style="display: none;">
             <label class="form-label">Custom Model Identifier</label>
-            <input type="text" class="form-input" id="inputCustomModel" placeholder="e.g. gemini-2.5-flash-preview, gemini-exp-1206">
+            <input type="text" class="form-input" id="inputCustomModel" placeholder="e.g. claude-3-7-sonnet-latest, gemini-2.5-flash-preview">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span id="labelApiKey">Anthropic API Key:</span>
+              <a id="linkApiKeyHelp" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-size: 0.76rem; text-decoration: underline;">Get API Key ➔</a>
+            </label>
+            <input type="password" class="form-input" id="inputApiKey" placeholder="sk-ant-..." autocomplete="off">
+            <span style="font-size: 0.72rem; color: var(--text-dark);">Your key is stored securely in your browser's LocalStorage and is never sent to any server other than the official AI provider endpoint.</span>
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
@@ -2334,8 +2337,74 @@
     });
 
     // ==========================================
-    // ✨ AI Auto-Pilot Vision Engine
+    // ✨ Multi-Provider AI Auto-Pilot Vision Engine
+    // (Supports Claude 3.7 Sonnet, Gemini 2.5, OpenAI GPT-4o)
     // ==========================================
+
+    const AI_MODELS = {
+      anthropic: [
+        { id: 'claude-3-7-sonnet-20250219', name: 'Claude 3.7 Sonnet (Latest & Most Powerful Vision)' },
+        { id: 'claude-3-5-sonnet-20241022', name: 'Claude 3.5 Sonnet' },
+        { id: 'claude-3-5-haiku-20241022', name: 'Claude 3.5 Haiku (Fast)' },
+        { id: 'custom', name: 'Custom Model Name...' }
+      ],
+      gemini: [
+        { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash (Fastest & Accurate)' },
+        { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro (Deep Vision)' },
+        { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash' },
+        { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
+        { id: 'custom', name: 'Custom Model Name...' }
+      ],
+      openai: [
+        { id: 'gpt-4o', name: 'GPT-4o (Omni Vision)' },
+        { id: 'gpt-4.5-preview', name: 'GPT-4.5 Preview' },
+        { id: 'gpt-4o-mini', name: 'GPT-4o Mini (Fast)' },
+        { id: 'custom', name: 'Custom Model Name...' }
+      ]
+    };
+
+    function onProviderChanged() {
+      const provider = document.getElementById('selectAiProvider').value;
+      const modelSelect = document.getElementById('selectAiModel');
+      const labelKey = document.getElementById('labelApiKey');
+      const linkHelp = document.getElementById('linkApiKeyHelp');
+      const inputKey = document.getElementById('inputApiKey');
+
+      // Populate models
+      modelSelect.innerHTML = '';
+      const list = AI_MODELS[provider] || AI_MODELS.anthropic;
+      list.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = m.name;
+        modelSelect.appendChild(opt);
+      });
+
+      // Update provider key label & link
+      if (provider === 'anthropic') {
+        labelKey.textContent = 'Anthropic Claude API Key:';
+        linkHelp.href = 'https://console.anthropic.com/settings/keys';
+        inputKey.placeholder = 'sk-ant-api03-...';
+        inputKey.value = localStorage.getItem('mc_anthropic_api_key') || '';
+      } else if (provider === 'gemini') {
+        labelKey.textContent = 'Google Gemini API Key:';
+        linkHelp.href = 'https://aistudio.google.com/app/apikey';
+        inputKey.placeholder = 'AIzaSy...';
+        inputKey.value = localStorage.getItem('mc_gemini_api_key') || '';
+      } else if (provider === 'openai') {
+        labelKey.textContent = 'OpenAI API Key:';
+        linkHelp.href = 'https://platform.openai.com/api-keys';
+        inputKey.placeholder = 'sk-proj-...';
+        inputKey.value = localStorage.getItem('mc_openai_api_key') || '';
+      }
+
+      // Restore saved model for this provider if available
+      const savedModel = localStorage.getItem(`mc_model_${provider}`);
+      if (savedModel && Array.from(modelSelect.options).some(o => o.value === savedModel)) {
+        modelSelect.value = savedModel;
+      }
+      toggleCustomModelInput();
+    }
 
     function toggleCustomModelInput() {
       const select = document.getElementById('selectAiModel');
@@ -2348,23 +2417,15 @@
     }
 
     function openApiKeyModal() {
-      const savedKey = localStorage.getItem('mc_gemini_api_key') || '';
-      const savedModel = localStorage.getItem('mc_gemini_model') || 'gemini-2.5-flash';
-      const customModel = localStorage.getItem('mc_gemini_custom_model') || '';
+      const savedProvider = localStorage.getItem('mc_ai_provider') || 'anthropic';
+      document.getElementById('selectAiProvider').value = savedProvider;
+      onProviderChanged();
 
-      document.getElementById('inputGeminiKey').value = savedKey;
-      
-      const select = document.getElementById('selectAiModel');
-      if (Array.from(select.options).some(o => o.value === savedModel)) {
-        select.value = savedModel;
-      } else if (savedModel) {
-        select.value = 'custom';
-        document.getElementById('inputCustomModel').value = savedModel;
-      }
+      const customModel = localStorage.getItem(`mc_custom_model_${savedProvider}`) || '';
       if (customModel) {
         document.getElementById('inputCustomModel').value = customModel;
       }
-      toggleCustomModelInput();
+
       document.getElementById('apiKeyModal').classList.add('open');
     }
 
@@ -2373,23 +2434,26 @@
     }
 
     function saveApiKey() {
-      const key = document.getElementById('inputGeminiKey').value.trim();
-      const selectVal = document.getElementById('selectAiModel').value;
+      const provider = document.getElementById('selectAiProvider').value;
+      const key = document.getElementById('inputApiKey').value.trim();
+      const modelVal = document.getElementById('selectAiModel').value;
       const customVal = document.getElementById('inputCustomModel').value.trim();
 
+      localStorage.setItem('mc_ai_provider', provider);
+
       if (key) {
-        localStorage.setItem('mc_gemini_api_key', key);
-        showToast('✨', 'API Key saved successfully!');
+        localStorage.setItem(`mc_${provider}_api_key`, key);
+        showToast('✨', `${provider.toUpperCase()} API Key saved successfully!`);
       } else {
-        localStorage.removeItem('mc_gemini_api_key');
-        showToast('ℹ️', 'API Key cleared. AI will use smart offline heuristics.');
+        localStorage.removeItem(`mc_${provider}_api_key`);
+        showToast('ℹ️', `API Key cleared for ${provider}. Using smart offline heuristics.`);
       }
 
-      if (selectVal === 'custom' && customVal) {
-        localStorage.setItem('mc_gemini_model', customVal);
-        localStorage.setItem('mc_gemini_custom_model', customVal);
+      if (modelVal === 'custom' && customVal) {
+        localStorage.setItem(`mc_model_${provider}`, customVal);
+        localStorage.setItem(`mc_custom_model_${provider}`, customVal);
       } else {
-        localStorage.setItem('mc_gemini_model', selectVal);
+        localStorage.setItem(`mc_model_${provider}`, modelVal);
       }
 
       closeApiKeyModal();
@@ -2417,19 +2481,20 @@
         return;
       }
 
-      const apiKey = localStorage.getItem('mc_gemini_api_key') || '';
+      const provider = localStorage.getItem('mc_ai_provider') || 'anthropic';
+      const apiKey = localStorage.getItem(`mc_${provider}_api_key`) || localStorage.getItem('mc_gemini_api_key') || '';
 
       try {
         if (apiKey) {
-          showToast('✨', 'AI Vision is analyzing character, aspect & framing...');
-          await callGeminiVisionAutoPilot(apiKey, card);
+          showToast('✨', `AI Auto-Pilot analyzing with ${provider === 'anthropic' ? 'Claude 3.7' : provider}...`);
+          await callMultiProviderVisionAutoPilot(provider, apiKey, card);
         } else {
-          showToast('⚡', 'Using Instant Smart Auto-Pilot (Add Gemini Key for deep AI vision)');
+          showToast('⚡', 'Using Instant Smart Auto-Pilot (Click API Key to add Claude 3.7 or Gemini key)');
           runSmartHeuristicAutoPilot(card);
         }
       } catch (err) {
         console.error('AI Auto-Pilot error:', err);
-        showToast('⚠️', 'AI API error. Applied Smart Offline Auto-Pilot instead.');
+        showToast('⚠️', `${err.message || 'AI API error'}. Used offline heuristics.`);
         runSmartHeuristicAutoPilot(card);
       } finally {
         btn.innerHTML = origText;
@@ -2437,11 +2502,11 @@
       }
     }
 
-    async function callGeminiVisionAutoPilot(apiKey, card) {
-      // Convert current card image to JPEG base64
+    async function callMultiProviderVisionAutoPilot(provider, apiKey, card) {
+      // 1. Prepare JPEG Base64
       const tempCanvas = document.createElement('canvas');
       const tCtx = tempCanvas.getContext('2d');
-      const maxDim = 800;
+      const maxDim = 900;
       let w = card.imageObj.naturalWidth || 600;
       let h = card.imageObj.naturalHeight || 600;
       if (w > maxDim || h > maxDim) {
@@ -2453,77 +2518,142 @@
       tCtx.drawImage(card.imageObj, 0, 0, w, h);
 
       const base64Data = tempCanvas.toDataURL('image/jpeg', 0.85).split(',')[1];
-      
-      let model = localStorage.getItem('mc_gemini_model') || document.getElementById('selectAiModel').value || 'gemini-2.5-flash';
-      if (model === 'custom') {
-        model = document.getElementById('inputCustomModel').value.trim() || 'gemini-2.5-flash';
-      }
+      const model = localStorage.getItem(`mc_model_${provider}`) || (provider === 'anthropic' ? 'claude-3-7-sonnet-20250219' : 'gemini-2.5-flash');
 
-      const prompt = `You are a graphic designer specializing in Marvel Champions: The Card Game cassette J-card inlays (Manser v17.5 template).
-Analyze this Marvel image.
-1. Identify the character / hero / villain / team.
-2. Recommend the best Marvel Champions aspect theme:
-   - "Justice" (Yellow: #eab308, black text)
-   - "Aggression" (Red: #dc2626, white text)
-   - "Leadership" (Blue: #2563eb, white text)
-   - "Protection" (Green: #16a34a, white text)
-   - "Basic" (Slate: #475569, white text)
-   - "Villain" (Purple: #7e22ce, white text)
-   Or custom signature color if iconic.
-3. Suggest the set/wave subtitle (e.g. CORE SET, MUTANT GENESIS, SINISTER MOTIVES, WAVE 1, HERO PACK).
-4. Suggest comic corner box price & title (e.g. price: "25¢ #1", "75¢ #1", "$1.00 #1"; title: "MARVEL", "X-MEN", "AVENGERS", "SPIDER-MAN").
+      const systemPrompt = `You are an expert graphic designer for Marvel Champions: The Card Game cassette J-card inlays (Manser v17.5 template).
+Analyze this Marvel character art image.
+1. Identify character / hero / villain / team.
+2. Recommend best Marvel Champions aspect:
+   - "Justice" (Yellow: #eab308, textColor: "#000000")
+   - "Aggression" (Red: #dc2626, textColor: "#ffffff")
+   - "Leadership" (Blue: #2563eb, textColor: "#ffffff")
+   - "Protection" (Green: #16a34a, textColor: "#ffffff")
+   - "Basic" (Slate: #475569, textColor: "#ffffff")
+   - "Villain" (Purple: #7e22ce, textColor: "#ffffff")
+3. Suggest set/wave subtitle (e.g. CORE SET, MUTANT GENESIS, SINISTER MOTIVES, WAVE 1, HERO PACK).
+4. Suggest comic corner price ("25¢ #1", "75¢ #1", "$1.00 #1") & corner title ("MARVEL", "X-MEN", "AVENGERS", "SPIDER-MAN").
 5. Choose optimal comic filter: "halftone", "ink", "vintage", "noir", "popart", or "none".
-6. Calculate best framing: recommendedZoom (80-140), recommendedPanX (-80 to 80), recommendedPanY (-80 to 80) so the face/eyes and upper torso are visible and not hidden behind the spine ribbon.
+6. Calculate best framing: recommendedZoom (80-140), recommendedPanX (-80 to 80), recommendedPanY (-80 to 80) so the face/eyes and upper torso are centered and not covered by the spine ribbon.
 
-Return STRICT JSON ONLY matching this schema:
+Return STRICT JSON ONLY with no extra markdown formatting:
 {
-  "heroName": "STRING (UPPERCASE)",
+  "heroName": "STRING",
   "aspectTheme": "Justice" | "Aggression" | "Leadership" | "Protection" | "Basic" | "Villain",
-  "spineColor": "HEX COLOR STRING",
+  "spineColor": "#HEX",
   "textColor": "#ffffff" | "#000000",
-  "subtitle": "STRING (UPPERCASE)",
+  "subtitle": "STRING",
   "cornerPrice": "STRING",
-  "cornerTitle": "STRING (UPPERCASE)",
+  "cornerTitle": "STRING",
   "comicFilter": "halftone" | "ink" | "vintage" | "noir" | "popart" | "none",
-  "filterStrength": NUMBER (50-90),
-  "recommendedZoom": NUMBER (80-140),
-  "recommendedPanX": NUMBER (-100 to 100),
-  "recommendedPanY": NUMBER (-100 to 100)
+  "filterStrength": 70,
+  "recommendedZoom": 105,
+  "recommendedPanX": 0,
+  "recommendedPanY": -15
 }`;
 
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-      const payload = {
-        contents: [
-          {
-            parts: [
-              { text: prompt },
-              { inline_data: { mime_type: "image/jpeg", data: base64Data } }
+      let rawJsonText = '';
+
+      if (provider === 'anthropic') {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true',
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: model,
+            max_tokens: 1000,
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'image',
+                    source: {
+                      type: 'base64',
+                      media_type: 'image/jpeg',
+                      data: base64Data
+                    }
+                  },
+                  {
+                    type: 'text',
+                    text: systemPrompt
+                  }
+                ]
+              }
             ]
-          }
-        ],
-        generationConfig: {
-          response_mime_type: "application/json"
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error?.message || 'Claude API request failed');
         }
-      };
+        const data = await response.json();
+        rawJsonText = data.content?.[0]?.text || '';
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      } else if (provider === 'openai') {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: model || 'gpt-4o',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  { type: 'text', text: systemPrompt },
+                  { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${base64Data}` } }
+                ]
+              }
+            ],
+            response_format: { type: 'json_object' }
+          })
+        });
 
-      if (!response.ok) {
-        const errJson = await response.json();
-        throw new Error(errJson.error?.message || 'Gemini API call failed');
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error?.message || 'OpenAI API request failed');
+        }
+        const data = await response.json();
+        rawJsonText = data.choices?.[0]?.message?.content || '';
+
+      } else { // Google Gemini
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: systemPrompt },
+                  { inline_data: { mime_type: "image/jpeg", data: base64Data } }
+                ]
+              }
+            ],
+            generationConfig: { response_mime_type: "application/json" }
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error?.message || 'Gemini API request failed');
+        }
+        const data = await response.json();
+        rawJsonText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
       }
 
-      const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!rawText) throw new Error('No AI response text received');
+      // Clean & parse JSON safely
+      const cleanJson = rawJsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const result = JSON.parse(cleanJson);
 
-      const result = JSON.parse(rawText);
-
-      // Apply AI recommendations to current card
+      // Apply to card
       if (result.heroName) card.title = result.heroName.toUpperCase();
       if (result.subtitle) card.subtitle = result.subtitle.toUpperCase();
       if (result.aspectTheme) card.aspect = result.aspectTheme;
