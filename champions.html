@@ -1387,7 +1387,7 @@
                 </div>
               </div>
               <div class="slider-row">
-                <input type="range" class="slider-input" id="inputZoom" min="40" max="300" value="100" oninput="onSliderChange('zoom', this.value)">
+                <input type="range" class="slider-input" id="inputZoom" min="10" max="500" value="100" oninput="onSliderChange('zoom', this.value)">
               </div>
             </div>
 
@@ -1408,7 +1408,7 @@
                     <span class="slider-unit">px</span>
                   </div>
                 </div>
-                <input type="range" class="slider-input" id="inputPanX" min="-400" max="400" value="0" oninput="onSliderChange('panX', this.value)">
+                <input type="range" class="slider-input" id="inputPanX" min="-800" max="800" value="0" oninput="onSliderChange('panX', this.value)">
               </div>
               <div class="form-group">
                 <div class="form-label">
@@ -1418,7 +1418,7 @@
                     <span class="slider-unit">px</span>
                   </div>
                 </div>
-                <input type="range" class="slider-input" id="inputPanY" min="-400" max="400" value="0" oninput="onSliderChange('panY', this.value)">
+                <input type="range" class="slider-input" id="inputPanY" min="-800" max="800" value="0" oninput="onSliderChange('panY', this.value)">
               </div>
             </div>
 
@@ -1469,15 +1469,21 @@
             </div>
 
             <div class="form-group">
-              <div class="form-label">
+              <div class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <span>Filter Strength:</span>
-                <div class="slider-num-wrap">
-                  <input type="number" class="slider-num-input" id="inputNumFilterStrength" min="0" max="100" value="70" oninput="onDirectNumInput('filterStrength', this.value)" onchange="onDirectNumCommit('filterStrength', this.value)">
-                  <span class="slider-unit">%</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <button type="button" class="btn-center-art" onclick="resetFilterStrength()" title="Reset Filter Strength to default 70%">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>Reset (70%)</span>
+                  </button>
+                  <div class="slider-num-wrap">
+                    <input type="number" class="slider-num-input" id="inputNumFilterStrength" min="0" max="100" value="70" oninput="onDirectNumInput('filterStrength', this.value)" onchange="onDirectNumCommit('filterStrength', this.value)">
+                    <span class="slider-unit">%</span>
+                  </div>
                 </div>
               </div>
               <div class="slider-row">
-                <input type="range" class="slider-input" id="inputFilterStrength" min="10" max="100" value="70" oninput="onSliderChange('filterStrength', this.value)">
+                <input type="range" class="slider-input" id="inputFilterStrength" min="0" max="100" value="70" oninput="onSliderChange('filterStrength', this.value)">
               </div>
             </div>
 
@@ -1564,8 +1570,14 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Font Size</label>
-                <input type="number" class="form-input" id="inputFontSize" min="18" max="64" value="44" oninput="renderActiveCard()">
+                <div class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Font Size:</span>
+                  <button type="button" class="btn-center-art" onclick="resetFontSize()" title="Reset Font Size to default 44px">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>Reset (44px)</span>
+                  </button>
+                </div>
+                <input type="number" class="form-input" id="inputFontSize" min="14" max="80" value="44" oninput="renderActiveCard()">
               </div>
             </div>
 
@@ -2178,6 +2190,26 @@
       update3DCase();
     }
 
+    function resetFilterStrength() {
+      const c = cards[activeCardIndex];
+      c.filterStrength = 70;
+      const slider = document.getElementById('inputFilterStrength');
+      if (slider) slider.value = 70;
+      const num = document.getElementById('inputNumFilterStrength');
+      if (num) num.value = 70;
+      drawStage();
+      update3DCase();
+    }
+
+    function resetFontSize() {
+      const c = cards[activeCardIndex];
+      c.fontSize = 44;
+      const num = document.getElementById('inputFontSize');
+      if (num) num.value = 44;
+      drawStage();
+      update3DCase();
+    }
+
     function syncFormToActiveCard() {
       const c = cards[activeCardIndex];
       c.title = document.getElementById('inputTitle').value.toUpperCase();
@@ -2232,19 +2264,19 @@
       document.getElementById('selectRotation').value = c.rotation || 0;
 
       const z = c.zoom !== undefined ? c.zoom : 100;
-      document.getElementById('inputZoom').value = Math.max(40, Math.min(300, z));
+      document.getElementById('inputZoom').value = Math.max(10, Math.min(500, z));
       document.getElementById('inputNumZoom').value = z;
 
       const px = c.panX !== undefined ? c.panX : 0;
-      document.getElementById('inputPanX').value = Math.max(-400, Math.min(400, px));
+      document.getElementById('inputPanX').value = Math.max(-800, Math.min(800, px));
       document.getElementById('inputNumPanX').value = px;
 
       const py = c.panY !== undefined ? c.panY : 0;
-      document.getElementById('inputPanY').value = Math.max(-400, Math.min(400, py));
+      document.getElementById('inputPanY').value = Math.max(-800, Math.min(800, py));
       document.getElementById('inputNumPanY').value = py;
 
       const fs = c.filterStrength !== undefined ? c.filterStrength : 70;
-      document.getElementById('inputFilterStrength').value = Math.max(10, Math.min(100, fs));
+      document.getElementById('inputFilterStrength').value = Math.max(0, Math.min(100, fs));
       document.getElementById('inputNumFilterStrength').value = fs;
     }
 
