@@ -3083,18 +3083,28 @@
       const barX = x + Math.round((w - barW) / 2);
 
       let barH, barY;
-      if (fitFullHeight) {
-        barH = h;
-        barY = y;
-      } else if (isExactBurger) {
-        // Exact Dimensions Burger: Centered inside the spine fold area
-        barH = (h < 70) ? Math.round(h * 0.85) : Math.round(h * 0.82);
+      if (isExactBurger) {
+        // Exact Dimensions Burger: Always Centered
+        if (fitFullHeight) {
+          // Enabled: Proportional expanded spine banner (82% of spine fold area)
+          barH = Math.round(h * 0.82);
+        } else {
+          // Disabled (Default): Standard Cassette Banner Size (70px), Centered
+          barH = (h < 70) ? Math.round(h * 0.85) : 70;
+        }
         barY = y + Math.round((h - barH) / 2);
       } else {
-        // Cassette & Cassette-Art Burger: Top-aligned with standard 7px cassette margin
-        barH = (h < 70) ? Math.round(h * 0.85) : 70;
-        const topMargin = (h < 70) ? Math.round((h - barH) / 2) : 7;
-        barY = y + topMargin;
+        // Cassette & Cassette-Art Burger:
+        if (fitFullHeight) {
+          // Enabled: Expands to fit entire fold-to-fold spine area
+          barH = h;
+          barY = y;
+        } else {
+          // Disabled (Default): Standard Cassette Banner Size (70px), Top-aligned (7px margin)
+          barH = (h < 70) ? Math.round(h * 0.85) : 70;
+          const topMargin = (h < 70) ? Math.round((h - barH) / 2) : 7;
+          barY = y + topMargin;
+        }
       }
 
       const opacity = (card.spineOpacity !== undefined ? card.spineOpacity : 85) / 100;
