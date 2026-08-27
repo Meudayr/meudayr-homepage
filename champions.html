@@ -1237,12 +1237,7 @@
     <!-- Hero / Title -->
     <section class="app-header-hero">
       <div class="container">
-        <div class="app-badge-row">
-          <span class="app-badge ai-badge">✨ AI Auto-Pilot</span>
-          <span class="app-badge comic-badge">💥 Comic Book Aesthetic</span>
-          <span class="app-badge system-badge">📼 Manser v17.5 Template</span>
-          <span class="app-badge">✂️ 1 or 2 Inlays / Sheet</span>
-        </div>
+
         <h1>Marvel Champions Inlay Generator</h1>
         <p>Design, customize, and print authentic comic-book cassette J-card inlays for your Marvel Champions heroes, villains, and aspect decks. Upload any image and let AI format it instantly.</p>
       </div>
@@ -1313,27 +1308,7 @@
               <div class="upload-subtext">Drag &amp; drop PNG, JPG, or WebP (AI Auto-Pilot ready)</div>
             </div>
 
-            <!-- Comic Presets -->
-            <div class="form-group">
-              <label class="form-label">
-                <span>Or Select Preset Hero:</span>
-                <span class="hint">1-click comic art</span>
-              </label>
-              <div class="preset-chips" id="presetChips">
-                <button type="button" class="preset-chip active" onclick="loadPresetHero('spiderman')">🕷️ Spider-Man</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('wolverine')">⚔️ Wolverine</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('cyclops')">🕶️ Cyclops</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('captain_america')">🛡️ Captain America</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('iron_man')">🦾 Iron Man</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('deadpool')">🌮 Deadpool</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('magneto')">🧲 Magneto</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('venom')">🖤 Venom</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('she_hulk')">💚 She-Hulk</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('thor')">⚡ Thor</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('captain_marvel')">✨ Capt. Marvel</button>
-                <button type="button" class="preset-chip" onclick="loadPresetHero('green_goblin')">🎃 Green Goblin</button>
-              </div>
-            </div>
+
 
             <!-- Zoom & Pan Controls -->
             <div class="form-group">
@@ -2214,6 +2189,30 @@
 
         // Apply Comic Filter Overlays
         applyComicFilters(x, y, w, artTargetH, card);
+      } else {
+        // Clean comic placeholder pattern
+        ctx.fillStyle = '#181b22';
+        ctx.fillRect(x, y, w, totalH);
+        
+        // Subtle comic grid
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        for (let gx = x; gx < x + w; gx += 40) {
+          ctx.beginPath(); ctx.moveTo(gx, y); ctx.lineTo(gx, y + totalH); ctx.stroke();
+        }
+        for (let gy = y; gy < y + totalH; gy += 40) {
+          ctx.beginPath(); ctx.moveTo(x, gy); ctx.lineTo(x + w, gy); ctx.stroke();
+        }
+
+        ctx.fillStyle = '#9ca3af';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '700 22px "Outfit", sans-serif';
+        ctx.fillText('🖼️ Drag & Drop Custom Art Here', x + w / 2, y + coverH / 2 - 14);
+        
+        ctx.font = '500 14px "Inter", sans-serif';
+        ctx.fillStyle = '#6b7280';
+        ctx.fillText('Upload character art, or click ✨ Run AI Auto-Pilot to auto-format', x + w / 2, y + coverH / 2 + 18);
       }
 
       ctx.restore();
