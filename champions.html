@@ -1625,8 +1625,8 @@
             <div class="form-group">
               <label class="form-label">Aspect Theme Presets</label>
               <div class="aspect-palette">
-                <button type="button" class="aspect-btn active" style="background: #947a00; color: #ffffff;" onclick="setAspectColor('#f5da32', 'Hero')">
-                  <span class="color-pip" style="background: #f5da32;"></span>
+                <button type="button" class="aspect-btn active" style="background: #947a00; color: #ffffff;" onclick="setAspectColor('#fee92e', 'Hero')">
+                  <span class="color-pip" style="background: #fee92e;"></span>
                   Hero
                 </button>
                 <button type="button" class="aspect-btn" style="background: #8b9264; color: #ffffff;" onclick="setAspectColor('#d1d6ae', 'Justice')">
@@ -2023,7 +2023,7 @@
         name: 'SPIDER-MAN',
         subtitle: 'CORE SET',
         aspect: 'Hero',
-        color: '#f5da32',
+        color: '#fee92e',
         textColor: '#000000',
         cornerPrice: '25¢ #1',
         cornerTitle: 'MARVEL',
@@ -3436,7 +3436,7 @@
         card.textColor = '#ffffff';
       } else if (avgR > 180 && avgG > 160 && avgB < 90) {
         card.aspect = 'Hero';
-        card.spineColor = '#f5da32';
+        card.spineColor = '#fee92e';
         card.textColor = '#000000';
       } else if (avgR > 140 && avgB > 120 && avgG < 110) {
         card.aspect = "'Pool";
@@ -3452,7 +3452,7 @@
         card.textColor = '#ffffff';
       } else {
         card.aspect = 'Hero';
-        card.spineColor = '#f5da32';
+        card.spineColor = '#fee92e';
         card.textColor = '#000000';
       }
 
@@ -3525,7 +3525,7 @@
       const c = cards[activeCardIndex];
       c.spineColor = colorHex;
       c.aspect = aspectName;
-      if (colorHex === '#f5da32' || colorHex === '#fee92e' || colorHex === '#fbe82c' || colorHex === '#d1d6ae' || colorHex === '#eab308' || colorHex === '#facc15' || colorHex === '#dce1b7' || colorHex === '#44c0d2') {
+      if (colorHex === '#fee92e' || colorHex === '#fbe82c' || colorHex === '#d1d6ae' || colorHex === '#eab308' || colorHex === '#facc15' || colorHex === '#dce1b7' || colorHex === '#44c0d2') {
         document.getElementById('selectTextColor').value = '#000000';
         c.textColor = '#000000';
       } else {
