@@ -1551,10 +1551,10 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Spine Font</label>
-                <select class="form-select" id="selectSpineFont" onchange="renderActiveCard()">
+                <select class="form-select" id="selectSpineFont" onchange="onSpineFontChange()">
+                  <option value="Permanent Marker" selected>Permanent Marker (Brush)</option>
                   <option value="Bangers">Bangers (Bold Comic)</option>
-                  <option value="Permanent Marker">Permanent Marker (Brush)</option>
-                  <option value="Luckiest Guy">Luckiest Guy (Pop)</option>
+                  <option value="Luckiest Guy">Luckiest Guy (Pop Comic)</option>
                   <option value="Outfit">Outfit (Clean Display)</option>
                 </select>
               </div>
@@ -1864,10 +1864,12 @@
     // Preloaded image caches
     const assetImages = {
       spine_logo: new Image(),
+      spine_logo_white: new Image(),
       cover_logo: new Image()
     };
 
     assetImages.spine_logo.src = 'assets/champions/marvel_champions_logo_full.png';
+    assetImages.spine_logo_white.src = 'assets/champions/marvel_champions_logo_full_white.png';
     assetImages.cover_logo.src = 'assets/champions/marvel_champions_logo_cover_white.png';
 
     // Preset character configurations
@@ -2011,7 +2013,7 @@
         spineOpacity: 85,
         textColor: p.textColor,
         fontSize: 44,
-        spineFont: 'Bangers',
+        spineFont: 'Permanent Marker',
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
@@ -2070,8 +2072,21 @@
     }
 
     // ==========================================
-    // Rendering Engine
-    // ==========================================
+    function onSpineFontChange() {
+      const fontVal = document.getElementById('selectSpineFont').value;
+      const c = cards[activeCardIndex];
+      c.spineFont = fontVal;
+      if (document.fonts) {
+        document.fonts.load(`900 44px "${fontVal}"`).then(() => {
+          drawStage();
+          update3DCase();
+        }).catch(() => {
+          drawStage();
+          update3DCase();
+        });
+      }
+      renderActiveCard();
+    }
 
     function renderActiveCard() {
       syncFormToActiveCard();
@@ -2248,7 +2263,7 @@
       document.getElementById('inputSpineColor').value = c.spineColor || '#eab308';
       document.getElementById('selectTextColor').value = c.textColor || '#000000';
       document.getElementById('inputFontSize').value = c.fontSize || 44;
-      document.getElementById('selectSpineFont').value = c.spineFont || 'Bangers';
+      document.getElementById('selectSpineFont').value = c.spineFont || 'Permanent Marker';
       document.getElementById('selectBleed').value = c.bleedMode || 'full';
       document.getElementById('selectFlapStyle').value = c.flapStyle || 'match';
       document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
@@ -2539,24 +2554,19 @@
 
       let logoRightEdge = barX + 16;
 
-      // 2. Official Marvel Champions Spine Logo (Left Side in White Badge)
+      // 2. Official Marvel Champions Spine Logo (Transparent Background)
       if (card.showSpineLogo) {
         const badgeW = 96;
         const badgeH = 56;
         const badgeX = barX + 14;
         const badgeY = y + (h - badgeH) / 2;
 
-        // Solid White Badge Background
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
-
-        const img = assetImages.spine_logo;
+        const img = (card.textColor === '#ffffff') ? assetImages.spine_logo_white : assetImages.spine_logo;
         if (img && img.complete && img.naturalWidth > 0) {
-          const pad = 4;
-          const targetW = badgeW - (pad * 2);
+          const targetW = badgeW;
           const targetH = targetW * (img.naturalHeight / img.naturalWidth);
           const drawY = badgeY + (badgeH - targetH) / 2;
-          ctx.drawImage(img, badgeX + pad, drawY, targetW, targetH);
+          ctx.drawImage(img, badgeX, drawY, targetW, targetH);
         }
 
         logoRightEdge = badgeX + badgeW + 16;
@@ -3208,6 +3218,16 @@
       syncActiveCardToForm();
       drawStage();
       update3DCase();
+
+      if (document.fonts) {
+        ['Permanent Marker', 'Bangers', 'Luckiest Guy', 'Outfit'].forEach(f => {
+          document.fonts.load(`900 44px "${f}"`);
+        });
+        document.fonts.ready.then(() => {
+          drawStage();
+          update3DCase();
+        });
+      }
 
       Object.values(assetImages).forEach(img => {
         img.addEventListener('load', () => {
