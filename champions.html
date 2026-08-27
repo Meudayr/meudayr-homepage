@@ -3199,87 +3199,119 @@
 
       ctx.save();
 
-      // Dashed Fold Lines
+      // 1. Fold Lines (Fine Dotted Lines across card & extended into margins)
       if (document.getElementById('checkFoldLines').checked) {
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([6, 4]);
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.45)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 4]);
 
         ctx.beginPath();
-        ctx.moveTo(x - 50, spineY);
-        ctx.lineTo(x + w + 50, spineY);
+        ctx.moveTo(x - 90, spineY);
+        ctx.lineTo(x + w + 140, spineY);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(x - 50, flapY);
-        ctx.lineTo(x + w + 50, flapY);
+        ctx.moveTo(x - 90, flapY);
+        ctx.lineTo(x + w + 140, flapY);
         ctx.stroke();
 
         ctx.setLineDash([]);
 
-        // Fold Indicator Glyph
-        drawFoldGlyph(x + w + 14, spineY - 14);
-        drawFoldGlyph(x + w + 14, flapY - 14);
+        // Fold Indicator Glyphs (Moved further out to x + w + 55)
+        drawFoldGlyph(x + w + 55, spineY);
+        drawFoldGlyph(x + w + 55, flapY);
       }
 
-      // Solid Cut Lines & Professional Crop Marks
+      // 2. Cut Lines (Fine Dotted Lines extending across true trim dimensions)
       if (document.getElementById('checkCutLines').checked) {
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.45)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 4]);
+
+        const extOut = 90;
+        const extRight = 140;
+
+        // Top Horizontal Cut Line
+        ctx.beginPath();
+        ctx.moveTo(x - extOut, y);
+        ctx.lineTo(x + w + extRight, y);
+        ctx.stroke();
+
+        // Bottom Horizontal Cut Line
+        ctx.beginPath();
+        ctx.moveTo(x - extOut, bottomY);
+        ctx.lineTo(x + w + extRight, bottomY);
+        ctx.stroke();
+
+        // Left Vertical Cut Line
+        ctx.beginPath();
+        ctx.moveTo(x, y - extOut);
+        ctx.lineTo(x, bottomY + extOut);
+        ctx.stroke();
+
+        // Right Vertical Cut Line
+        ctx.beginPath();
+        ctx.moveTo(x + w, y - extOut);
+        ctx.lineTo(x + w, bottomY + extOut);
+        ctx.stroke();
+
         ctx.setLineDash([]);
 
-        ctx.strokeRect(x, y, w, totalH);
-
-        // Extended Cut Extension Guides
-        ctx.beginPath();
-        ctx.moveTo(x - 80, y);
-        ctx.lineTo(x + w + 80, y);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(x - 80, bottomY);
-        ctx.lineTo(x + w + 80, bottomY);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(x, y - 80);
-        ctx.lineTo(x, bottomY + 80);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(x + w, y - 80);
-        ctx.lineTo(x + w, bottomY + 80);
-        ctx.stroke();
-
-        // Vector Scissor Marks
-        drawScissorGlyph(x + 24, y - 34);
-        drawScissorGlyph(x + w - 44, y - 34);
-        drawScissorGlyph(x + w + 32, y + 24);
-        drawScissorGlyph(x + w + 32, bottomY - 34);
+        // Prominent Vector Scissors placed further out into margin aligned with cut lines
+        // Top-Left pointing down (centered on x, 55px above y)
+        drawScissorGlyph(x, y - 55, Math.PI / 2);
+        // Top-Right pointing down (centered on x+w, 55px above y)
+        drawScissorGlyph(x + w, y - 55, Math.PI / 2);
+        // Right-Top pointing left (centered on y, 55px right of x+w)
+        drawScissorGlyph(x + w + 55, y, 0);
+        // Right-Bottom pointing left (centered on bottomY, 55px right of x+w)
+        drawScissorGlyph(x + w + 55, bottomY, 0);
       }
 
       ctx.restore();
     }
 
-    function drawFoldGlyph(x, y) {
+    function drawFoldGlyph(cx, cy) {
       ctx.save();
-      ctx.strokeStyle = '#000000';
-      ctx.fillStyle = '#ffffff';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(x, y, 14, 24);
-      ctx.beginPath();
+      const gw = 18;
+      const gh = 26;
+      const gx = cx - gw / 2;
+      const gy = cy - gh / 2;
+
+      // Dashed booklet box
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+      ctx.lineWidth = 1;
       ctx.setLineDash([2, 2]);
-      ctx.moveTo(x + 4, y);
-      ctx.lineTo(x + 4, y + 24);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      // Folded open page
+      ctx.setLineDash([]);
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(gx + 8, gy + 3);
+      ctx.lineTo(gx + 15, gy + 8);
+      ctx.lineTo(gx + 15, gy + 23);
+      ctx.lineTo(gx + 8, gy + 18);
       ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(gx + 8, gy + 3);
+      ctx.lineTo(gx + 8, gy + 23);
+      ctx.stroke();
+
       ctx.restore();
     }
 
-    function drawScissorGlyph(x, y) {
+    function drawScissorGlyph(cx, cy, rotationRad = 0) {
       ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotationRad);
       ctx.fillStyle = '#000000';
-      ctx.font = '18px sans-serif';
-      ctx.fillText('✂', x, y);
+      ctx.font = '28px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('✂', 0, 0);
       ctx.restore();
     }
 
