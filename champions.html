@@ -1470,14 +1470,14 @@
         </div>
         <div class="app-modal-body">
           <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
-            AI Auto-Pilot analyzes your uploaded character art, identifies the hero/villain, selects signature Marvel Champions aspect colors, and automatically calculates optimal comic framing. Supports <strong>Claude 3.7 Sonnet</strong>, <strong>Gemini 2.5</strong>, and <strong>OpenAI GPT-4o</strong>.
+            AI Auto-Pilot analyzes your uploaded character art, identifies the hero/villain, selects signature Marvel Champions aspect colors, and automatically calculates optimal comic framing. Supports <strong>Claude 3.7 Sonnet</strong>, <strong>Gemini 3.7 / 2.5 Flash</strong>, and <strong>OpenAI GPT-4o</strong>.
           </p>
           
           <div class="form-group">
             <label class="form-label">AI Provider</label>
             <select class="form-select" id="selectAiProvider" onchange="onProviderChanged()">
               <option value="anthropic" selected>Anthropic Claude (Claude 3.7 Sonnet / 3.5 Sonnet)</option>
-              <option value="gemini">Google Gemini (Gemini 2.5 Flash / 2.5 Pro / 2.0)</option>
+              <option value="gemini">Google Gemini (Gemini 3.7 Flash / 3.6 / 2.5 / 2.0)</option>
               <option value="openai">OpenAI (GPT-4o / GPT-4.5 Preview)</option>
             </select>
           </div>
@@ -1485,7 +1485,10 @@
           <div class="form-group">
             <label class="form-label">AI Model</label>
             <select class="form-select" id="selectAiModel" onchange="toggleCustomModelInput()">
-              <!-- Populated dynamically via JS -->
+              <option value="claude-3-7-sonnet-20250219" selected>Claude 3.7 Sonnet (Latest &amp; Most Powerful Vision)</option>
+              <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+              <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku (Fast)</option>
+              <option value="custom">Custom Model Name...</option>
             </select>
           </div>
 
