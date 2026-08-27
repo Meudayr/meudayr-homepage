@@ -740,16 +740,18 @@
       cursor: grabbing;
     }
 
-    /* Interactive 3D Case Stage */
+    /* Photorealistic Interactive 3D Cassette Jewel Case Stage */
     .stage-3d-wrapper {
       display: none;
       width: 100%;
-      height: 520px;
+      height: 560px;
       align-items: center;
       justify-content: center;
-      perspective: 1200px;
+      perspective: 1400px;
       user-select: none;
       cursor: grab;
+      position: relative;
+      overflow: hidden;
     }
 
     .stage-3d-wrapper.active {
@@ -760,59 +762,274 @@
       cursor: grabbing;
     }
 
-    .cassette-3d-box {
-      width: 320px;
-      height: 205px;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(20deg) rotateY(-35deg);
-      transition: transform 0.05s ease-out;
+    .stage-3d-controls {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      pointer-events: none;
     }
 
-    .case-face {
+    .stage-3d-btn-group {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .btn-3d-ctrl {
+      background: rgba(18, 20, 26, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-3d-ctrl:hover {
+      background: rgba(30, 34, 45, 0.95);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-3d-ctrl.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .cassette-3d-scene {
+      width: 340px;
+      height: 216px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(15deg) rotateY(-30deg) scale3d(1, 1, 1);
+      transition: transform 0.04s ease-out;
+    }
+
+    /* Clear Jewel Box Acrylic Shell */
+    .case-outer-box {
+      width: 340px;
+      height: 216px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-style: preserve-3d;
+    }
+
+    .case-panel {
+      position: absolute;
+      box-sizing: border-box;
+      backface-visibility: visible;
+      pointer-events: none;
+    }
+
+    /* Front Clear Acrylic Lid */
+    .case-acrylic-front {
+      width: 340px;
+      height: 216px;
+      transform: translateZ(24px);
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 35%, rgba(0, 0, 0, 0.08) 70%, rgba(255, 255, 255, 0.15) 100%);
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.15), 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Specular diagonal glare line */
+    .case-acrylic-front::after {
+      content: "";
+      position: absolute;
+      top: -30%;
+      left: -20%;
+      width: 140%;
+      height: 160%;
+      background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.25) 45%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+      transform: rotate(5deg);
+      pointer-events: none;
+    }
+
+    /* Hinge Tabs on Front Door */
+    .case-hinge-top {
+      position: absolute;
+      top: 8px;
+      right: -4px;
+      width: 8px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .case-hinge-bottom {
+      position: absolute;
+      bottom: 8px;
+      right: -4px;
+      width: 8px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    /* Back Acrylic Tray */
+    .case-acrylic-back {
+      width: 340px;
+      height: 216px;
+      transform: translateZ(-24px) rotateY(180deg);
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(135deg, rgba(20, 24, 33, 0.92) 0%, rgba(10, 12, 16, 0.96) 100%);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 40px;
+    }
+
+    /* Cassette Reel Hubs inside back tray */
+    .tape-spindle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      background: radial-gradient(circle, #2d3342 0%, #161820 60%, #0d0e12 100%);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .tape-spindle::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background: #000000;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .tape-spindle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 4px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+    }
+
+    /* Precision Edge Walls of Case */
+    .case-acrylic-top {
+      width: 340px;
+      height: 44px;
+      top: 0;
+      left: 0;
+      transform-origin: top center;
+      transform: rotateX(-90deg);
+      background: linear-gradient(to right, rgba(255,255,255,0.25), rgba(255,255,255,0.08), rgba(255,255,255,0.25));
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .case-acrylic-bottom {
+      width: 340px;
+      height: 44px;
+      bottom: 0;
+      left: 0;
+      transform-origin: bottom center;
+      transform: rotateX(90deg);
+      background: linear-gradient(to right, rgba(255,255,255,0.25), rgba(255,255,255,0.08), rgba(255,255,255,0.25));
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .case-acrylic-left {
+      width: 44px;
+      height: 216px;
+      top: 0;
+      left: 0;
+      transform-origin: left center;
+      transform: rotateY(90deg);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.06), rgba(255,255,255,0.25));
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .case-acrylic-right {
+      width: 44px;
+      height: 216px;
+      top: 0;
+      right: 0;
+      transform-origin: right center;
+      transform: rotateY(-90deg);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.06), rgba(255,255,255,0.25));
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+
+    /* Folded J-Card Inlay Inside Acrylic Shell */
+    .folded-jcard {
+      width: 334px;
+      height: 210px;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transform-style: preserve-3d;
+    }
+
+    .jcard-panel {
       position: absolute;
       background-size: cover;
       background-position: center;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.15);
+      background-repeat: no-repeat;
+      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
       backface-visibility: hidden;
+      transform-style: preserve-3d;
     }
 
-    /* Front Cover */
-    .case-front {
-      width: 320px;
-      height: 205px;
+    /* 1. J-Card Front Cover Panel */
+    .jcard-front {
+      width: 334px;
+      height: 210px;
       transform: translateZ(20px);
-      border-radius: 4px;
-      overflow: hidden;
+      border-radius: 2px;
       background-color: #1a1c23;
     }
 
-    /* Spine */
-    .case-spine {
-      width: 320px;
-      height: 40px;
-      transform: rotateX(-90deg) translateZ(-20px);
-      top: 0;
+    /* 2. J-Card Spine (Folded 90 deg along bottom edge) */
+    .jcard-spine {
+      width: 334px;
+      height: 42px;
+      top: 100%;
       left: 0;
-      background-color: #272a33;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      box-sizing: border-box;
+      transform-origin: top center;
+      transform: rotateX(-90deg);
+      background-color: #ca8a04;
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     }
 
-    /* Case Plastic Glare Overlay */
-    .case-front::after {
-      content: "";
-      position: absolute;
-      top: 0;
+    /* 3. J-Card Bottom/Back Flap (Folded 90 deg again from back of spine wrapping upwards) */
+    .jcard-flap {
+      width: 334px;
+      height: 86px;
+      top: 100%;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 40%, rgba(0,0,0,0.4) 100%);
-      pointer-events: none;
+      transform-origin: top center;
+      transform: rotateX(-90deg);
+      background-color: #1e222b;
+      border-top: 1px solid rgba(0,0,0,0.3);
+      box-shadow: inset 0 -4px 10px rgba(0,0,0,0.4);
     }
 
     .help-bar-hint {
@@ -1426,10 +1643,43 @@
 
           <!-- 3D Interactive Cassette Case -->
           <div class="stage-3d-wrapper" id="stage3D">
-            <div class="cassette-3d-box" id="cassette3D">
-              <div class="case-face case-front" id="case3DFront"></div>
-              <div class="case-face case-spine" id="case3DSpine">
-                <span id="case3DSpineText" style="font-family: 'Bangers', cursive; font-size: 1.1rem; color: #000000; font-weight: 700; letter-spacing: 1px;">SPIDER-MAN</span>
+            <div class="stage-3d-controls">
+              <div class="stage-3d-btn-group">
+                <button type="button" class="btn-3d-ctrl" id="btnAutoRotate" onclick="toggle3DAutoRotate()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Auto-Spin</span>
+                </button>
+                <button type="button" class="btn-3d-ctrl" onclick="reset3DView()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                  <span>Reset Angle</span>
+                </button>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-muted); background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 9999px;">🖱️ Drag to Orbit • Scroll to Zoom</span>
+            </div>
+
+            <div class="cassette-3d-scene" id="cassetteScene">
+              <div class="case-outer-box">
+                <!-- Clear Acrylic Shell Panels -->
+                <div class="case-panel case-acrylic-front">
+                  <div class="case-hinge-top"></div>
+                  <div class="case-hinge-bottom"></div>
+                </div>
+                <div class="case-panel case-acrylic-back">
+                  <div class="tape-spindle"></div>
+                  <div class="tape-spindle"></div>
+                </div>
+                <div class="case-panel case-acrylic-top"></div>
+                <div class="case-panel case-acrylic-bottom"></div>
+                <div class="case-panel case-acrylic-left"></div>
+                <div class="case-panel case-acrylic-right"></div>
+
+                <!-- Folded J-Card Inlay with Canvas Textures -->
+                <div class="folded-jcard">
+                  <div class="jcard-panel jcard-front" id="jcardFront"></div>
+                  <div class="jcard-panel jcard-spine" id="jcardSpine">
+                    <div class="jcard-panel jcard-flap" id="jcardFlap"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2877,15 +3127,18 @@ Return STRICT JSON ONLY with no extra markdown formatting:
     }
 
     // ==========================================
-    // 3D Perspective Case Interactive Preview
+    // Photorealistic 3D Cassette Case & Inlay Engine
     // ==========================================
     const stage3D = document.getElementById('stage3D');
-    const cassette3D = document.getElementById('cassette3D');
-    let rotX = 20;
-    let rotY = -35;
+    const cassetteScene = document.getElementById('cassetteScene');
+    let rotX = 15;
+    let rotY = -30;
+    let zoom3D = 1.0;
     let isDragging3D = false;
     let startX3D = 0;
     let startY3D = 0;
+    let autoRotateTimer = null;
+    let isAutoRotating = false;
 
     function setViewMode(mode) {
       viewMode = mode;
@@ -2896,24 +3149,33 @@ Return STRICT JSON ONLY with no extra markdown formatting:
       stage3D.classList.toggle('active', mode === '3d');
       document.getElementById('canvasHint').textContent = mode === '2d' 
         ? '💡 Click & drag directly on canvas to reposition artwork' 
-        : '💡 Click & drag in 3D to rotate the cassette case';
+        : '💡 Click & drag to rotate the cassette case • Scroll to zoom';
 
-      if (mode === '3d') update3DCase();
+      if (mode === '3d') {
+        drawStage();
+        update3DCase();
+      }
+    }
+
+    function apply3DTransform() {
+      cassetteScene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(${zoom3D}, ${zoom3D}, ${zoom3D})`;
     }
 
     stage3D.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.stage-3d-controls')) return;
       isDragging3D = true;
       startX3D = e.clientX;
       startY3D = e.clientY;
+      if (isAutoRotating) stop3DAutoRotate();
     });
 
     window.addEventListener('pointermove', (e) => {
       if (!isDragging3D || viewMode !== '3d') return;
       const dx = e.clientX - startX3D;
       const dy = e.clientY - startY3D;
-      rotY += dx * 0.5;
-      rotX = Math.max(-60, Math.min(60, rotX - dy * 0.5));
-      cassette3D.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      rotY += dx * 0.6;
+      rotX = Math.max(-80, Math.min(80, rotX - dy * 0.6));
+      apply3DTransform();
       startX3D = e.clientX;
       startY3D = e.clientY;
     });
@@ -2922,19 +3184,80 @@ Return STRICT JSON ONLY with no extra markdown formatting:
       isDragging3D = false;
     });
 
-    function update3DCase() {
-      const c = cards[activeCardIndex];
-      const frontEl = document.getElementById('case3DFront');
-      const spineEl = document.getElementById('case3DSpine');
-      const spineTextEl = document.getElementById('case3DSpineText');
+    // Zoom with mouse wheel
+    stage3D.addEventListener('wheel', (e) => {
+      if (viewMode !== '3d') return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.08 : 0.08;
+      zoom3D = Math.max(0.6, Math.min(1.8, zoom3D + delta));
+      apply3DTransform();
+    }, { passive: false });
 
-      if (c.imageObj && c.imageObj.src) {
-        frontEl.style.backgroundImage = `url(${c.imageObj.src})`;
+    function reset3DView() {
+      rotX = 15;
+      rotY = -30;
+      zoom3D = 1.0;
+      apply3DTransform();
+    }
+
+    function toggle3DAutoRotate() {
+      if (isAutoRotating) {
+        stop3DAutoRotate();
+      } else {
+        start3DAutoRotate();
       }
-      spineEl.style.backgroundColor = c.spineColor;
-      spineTextEl.textContent = c.title;
-      spineTextEl.style.color = c.textColor;
-      spineTextEl.style.fontFamily = `"${c.spineFont}", "Bangers", cursive`;
+    }
+
+    function start3DAutoRotate() {
+      isAutoRotating = true;
+      document.getElementById('btnAutoRotate').classList.add('active');
+      autoRotateTimer = setInterval(() => {
+        rotY = (rotY + 0.75) % 360;
+        apply3DTransform();
+      }, 16);
+    }
+
+    function stop3DAutoRotate() {
+      isAutoRotating = false;
+      document.getElementById('btnAutoRotate').classList.remove('active');
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
+    }
+
+    function update3DCase() {
+      const metrics = getCardLayoutMetrics();
+      const m = metrics[activeCardIndex] || metrics[0];
+      const { x, y, w, coverH, spineH, flapH } = m;
+
+      try {
+        // 1. Texture Front Cover Panel from rendered Canvas
+        const cCover = document.createElement('canvas');
+        cCover.width = w;
+        cCover.height = coverH;
+        const ctxCover = cCover.getContext('2d');
+        ctxCover.drawImage(canvas, x, y, w, coverH, 0, 0, w, coverH);
+        document.getElementById('jcardFront').style.backgroundImage = `url(${cCover.toDataURL('image/jpeg', 0.9)})`;
+
+        // 2. Texture Spine Panel from rendered Canvas
+        const cSpine = document.createElement('canvas');
+        cSpine.width = w;
+        cSpine.height = spineH;
+        const ctxSpine = cSpine.getContext('2d');
+        ctxSpine.drawImage(canvas, x, y + coverH, w, spineH, 0, 0, w, spineH);
+        document.getElementById('jcardSpine').style.backgroundImage = `url(${cSpine.toDataURL('image/jpeg', 0.9)})`;
+
+        // 3. Texture Bottom Flap Panel from rendered Canvas
+        const cFlap = document.createElement('canvas');
+        cFlap.width = w;
+        cFlap.height = flapH;
+        const ctxFlap = cFlap.getContext('2d');
+        ctxFlap.drawImage(canvas, x, y + coverH + spineH, w, flapH, 0, 0, w, flapH);
+        document.getElementById('jcardFlap').style.backgroundImage = `url(${cFlap.toDataURL('image/jpeg', 0.9)})`;
+      } catch (err) {
+        console.warn('Canvas 3D texture slicing warning:', err);
+      }
     }
 
     // ==========================================
