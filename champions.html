@@ -528,6 +528,67 @@
       box-shadow: 0 0 0 2px var(--accent);
     }
 
+    /* Slider Number Input & Fine Tuning */
+    .slider-num-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .slider-num-input {
+      width: 58px;
+      padding: 3px 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      color: var(--accent);
+      background: #111317;
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      text-align: right;
+      transition: var(--transition);
+      -moz-appearance: textfield;
+    }
+
+    .slider-num-input::-webkit-outer-spin-button,
+    .slider-num-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .slider-num-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+    }
+
+    .slider-unit {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .btn-center-art {
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: #1e222b;
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+
+    .btn-center-art:hover {
+      background: #282e3a;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     /* Range Sliders */
     .slider-row {
       display: flex;
@@ -894,29 +955,29 @@
       border: 1px solid rgba(255,255,255,0.7);
     }
 
-    /* Back Acrylic Tray */
+    /* Back Acrylic Tray (Crystal Clear Plastic - Non-Tinted) */
     .case-acrylic-back {
       width: 340px;
       height: 216px;
       transform: translateZ(-24px) rotateY(180deg);
       border-radius: 6px;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      background: linear-gradient(135deg, rgba(20, 24, 33, 0.92) 0%, rgba(10, 12, 16, 0.96) 100%);
-      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.08) 100%);
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
       justify-content: space-around;
       padding: 0 40px;
     }
 
-    /* Cassette Reel Hubs inside back tray */
+    /* Clear Glass Spindles inside back tray */
     .tape-spindle {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, 0.15);
-      background: radial-gradient(circle, #2d3342 0%, #161820 60%, #0d0e12 100%);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 70%);
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.15);
       position: relative;
     }
 
@@ -928,9 +989,9 @@
       transform: translate(-50%, -50%);
       width: 14px;
       height: 14px;
-      background: #000000;
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
     }
 
     .tape-spindle::after {
@@ -939,9 +1000,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 24px;
-      height: 4px;
-      background: rgba(255,255,255,0.25);
+      width: 20px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.45);
       border-radius: 2px;
     }
 
@@ -1310,25 +1371,48 @@
 
 
 
-            <!-- Zoom & Pan Controls -->
+            <!-- Zoom & Pan Controls with Direct Number Input & Centering Button -->
             <div class="form-group">
               <div class="form-label">
                 <span>Zoom / Scale:</span>
-                <span class="slider-value" id="valZoom">100%</span>
+                <div class="slider-num-wrap">
+                  <input type="number" class="slider-num-input" id="inputNumZoom" min="40" max="300" value="100" oninput="onDirectNumInput('zoom', this.value)">
+                  <span class="slider-unit">%</span>
+                </div>
               </div>
               <div class="slider-row">
-                <input type="range" class="slider-input" id="inputZoom" min="40" max="300" value="100" oninput="updateArtTransform()">
+                <input type="range" class="slider-input" id="inputZoom" min="40" max="300" value="100" oninput="onSliderChange('zoom', this.value)">
               </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; margin-bottom: 4px;">
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">Pan / Positioning</span>
+              <button type="button" class="btn-center-art" onclick="centerArtCoordinates()" title="Reset Pan X and Y to center (0, 0)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+                <span>Center Art (0, 0)</span>
+              </button>
             </div>
 
             <div class="form-row-2">
               <div class="form-group">
-                <div class="form-label"><span>Pan X (Horizontal):</span></div>
-                <input type="range" class="slider-input" id="inputPanX" min="-300" max="300" value="0" oninput="updateArtTransform()">
+                <div class="form-label">
+                  <span>Pan X:</span>
+                  <div class="slider-num-wrap">
+                    <input type="number" class="slider-num-input" id="inputNumPanX" min="-400" max="400" value="0" oninput="onDirectNumInput('panX', this.value)">
+                    <span class="slider-unit">px</span>
+                  </div>
+                </div>
+                <input type="range" class="slider-input" id="inputPanX" min="-400" max="400" value="0" oninput="onSliderChange('panX', this.value)">
               </div>
               <div class="form-group">
-                <div class="form-label"><span>Pan Y (Vertical):</span></div>
-                <input type="range" class="slider-input" id="inputPanY" min="-300" max="300" value="0" oninput="updateArtTransform()">
+                <div class="form-label">
+                  <span>Pan Y:</span>
+                  <div class="slider-num-wrap">
+                    <input type="number" class="slider-num-input" id="inputNumPanY" min="-400" max="400" value="0" oninput="onDirectNumInput('panY', this.value)">
+                    <span class="slider-unit">px</span>
+                  </div>
+                </div>
+                <input type="range" class="slider-input" id="inputPanY" min="-400" max="400" value="0" oninput="onSliderChange('panY', this.value)">
               </div>
             </div>
 
@@ -1381,10 +1465,13 @@
             <div class="form-group">
               <div class="form-label">
                 <span>Filter Strength:</span>
-                <span class="slider-value" id="valFilterStrength">70%</span>
+                <div class="slider-num-wrap">
+                  <input type="number" class="slider-num-input" id="inputNumFilterStrength" min="10" max="100" value="70" oninput="onDirectNumInput('filterStrength', this.value)">
+                  <span class="slider-unit">%</span>
+                </div>
               </div>
               <div class="slider-row">
-                <input type="range" class="slider-input" id="inputFilterStrength" min="10" max="100" value="70" oninput="renderActiveCard()">
+                <input type="range" class="slider-input" id="inputFilterStrength" min="10" max="100" value="70" oninput="onSliderChange('filterStrength', this.value)">
               </div>
             </div>
 
@@ -3385,29 +3472,28 @@ Return STRICT JSON ONLY with no extra markdown formatting:
     // Initial Load & Image Preloading
     // ==========================================
     window.addEventListener('DOMContentLoaded', () => {
-      let loadedCount = 0;
-
-      function checkReady() {
-        loadedCount++;
-        if (loadedCount >= 2) {
-          syncActiveCardToForm();
-          drawStage();
-          update3DCase();
-        }
-      }
+      syncActiveCardToForm();
+      drawStage();
+      update3DCase();
 
       Object.values(assetImages).forEach(img => {
-        if (img.complete) checkReady();
-        else img.onload = checkReady;
+        img.addEventListener('load', () => {
+          drawStage();
+          update3DCase();
+        });
       });
 
-      if (cards[0].imageObj) {
-        if (cards[0].imageObj.complete) checkReady();
-        else cards[0].imageObj.onload = checkReady;
+      if (cards[0] && cards[0].imageObj) {
+        cards[0].imageObj.addEventListener('load', () => {
+          drawStage();
+          update3DCase();
+        });
       }
-      if (cards[1].imageObj) {
-        if (cards[1].imageObj.complete) checkReady();
-        else cards[1].imageObj.onload = checkReady;
+      if (cards[1] && cards[1].imageObj) {
+        cards[1].imageObj.addEventListener('load', () => {
+          drawStage();
+          update3DCase();
+        });
       }
     });
 
