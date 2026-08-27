@@ -1475,39 +1475,11 @@
               </div>
             </div>
 
-            <!-- Vintage Corner Box -->
-            <div class="switch-row">
-              <span class="switch-label">Classic 25¢ Marvel Corner Box</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="checkCornerBox" checked onchange="renderActiveCard()">
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div class="form-row-2">
-              <div class="form-group">
-                <label class="form-label">Corner Price/Issue</label>
-                <input type="text" class="form-input" id="inputCornerPrice" value="25¢ #1" placeholder="25¢ #1" oninput="renderActiveCard()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Corner Title</label>
-                <input type="text" class="form-input" id="inputCornerTitle" value="MARVEL" placeholder="MARVEL" oninput="renderActiveCard()">
-              </div>
-            </div>
-
-            <!-- Logos -->
-            <div class="switch-row">
+            <!-- Cover Logo Toggle -->
+            <div class="switch-row" style="margin-top: 6px;">
               <span class="switch-label">Marvel Champions Cover Logo (Vertical)</span>
               <label class="toggle-switch">
                 <input type="checkbox" id="checkCoverLogo" checked onchange="renderActiveCard()">
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div class="switch-row">
-              <span class="switch-label">Approved Comic Code Stamp</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="checkComicCode" checked onchange="renderActiveCard()">
                 <span class="toggle-slider"></span>
               </label>
             </div>
@@ -1587,7 +1559,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Font Size</label>
-                <input type="number" class="form-input" id="inputFontSize" min="16" max="38" value="26" oninput="renderActiveCard()">
+                <input type="number" class="form-input" id="inputFontSize" min="18" max="64" value="44" oninput="renderActiveCard()">
               </div>
             </div>
 
@@ -2047,17 +2019,17 @@
         aspect: p.aspect,
         spineColor: p.color,
         textColor: p.textColor,
-        fontSize: 26,
+        fontSize: 44,
         spineFont: 'Bangers',
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
         filterStrength: 65,
-        showCornerBox: true,
-        cornerPrice: p.cornerPrice,
-        cornerTitle: p.cornerTitle,
+        showCornerBox: false,
+        cornerPrice: '',
+        cornerTitle: '',
         showCoverLogo: true,
-        showComicCode: true,
+        showComicCode: false,
         showSpineLogo: true,
         zoom: isWolv ? 115 : 108,
         panX: 0,
@@ -2121,17 +2093,13 @@
       c.subtitle = document.getElementById('inputSubtitle').value.toUpperCase();
       c.spineColor = document.getElementById('inputSpineColor').value;
       c.textColor = document.getElementById('selectTextColor').value;
-      c.fontSize = parseInt(document.getElementById('inputFontSize').value, 10) || 26;
+      c.fontSize = parseInt(document.getElementById('inputFontSize').value, 10) || 44;
       c.spineFont = document.getElementById('selectSpineFont').value;
       c.bleedMode = document.getElementById('selectBleed').value;
       c.flapStyle = document.getElementById('selectFlapStyle').value;
       c.comicFilter = document.getElementById('selectComicFilter').value;
-      c.filterStrength = parseInt(document.getElementById('inputFilterStrength').value, 10) || 70;
-      c.showCornerBox = document.getElementById('checkCornerBox').checked;
-      c.cornerPrice = document.getElementById('inputCornerPrice').value;
-      c.cornerTitle = document.getElementById('inputCornerTitle').value.toUpperCase();
+      c.filterStrength = parseInt(document.getElementById('inputFilterStrength').value, 10) || 65;
       c.showCoverLogo = document.getElementById('checkCoverLogo').checked;
-      c.showComicCode = document.getElementById('checkComicCode').checked;
       c.showSpineLogo = document.getElementById('checkSpineLogo').checked;
       c.zoom = parseInt(document.getElementById('inputZoom').value, 10) || 100;
       c.panX = parseInt(document.getElementById('inputPanX').value, 10) || 0;
@@ -2409,157 +2377,127 @@
       ctx.lineWidth = 2;
       ctx.strokeRect(x, y, w, h);
 
-      let textStartX = x + 16;
+      let logoRightEdge = x + 16;
 
+      // Authentic Marvel Champions Spine Logo (Left Side)
       if (card.showSpineLogo) {
-        const logoW = 90;
-        const logoH = 58;
-        const logoX = x + 16;
+        const logoW = 86;
+        const logoH = 56;
+        const logoX = x + 18;
         const logoY = y + (h - logoH) / 2;
 
-        const mBoxH = 34;
+        // Red MARVEL box
+        const mBoxH = 32;
         ctx.fillStyle = '#dc2626';
         ctx.fillRect(logoX, logoY, logoW, mBoxH);
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1.5;
-        ctx.strokeRect(logoX, logoY, logoW, mBoxH);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(logoX + 0.5, logoY + 0.5, logoW - 1, mBoxH - 1);
 
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 21px "Outfit", sans-serif';
+        ctx.font = '900 20px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('MARVEL', logoX + logoW/2, logoY + mBoxH/2 + 1);
 
+        // CHAMPIONS text in black
         ctx.fillStyle = '#000000';
         ctx.font = '900 13px "Outfit", "Bangers", sans-serif';
-        ctx.fillText('CHAMPIONS', logoX + logoW/2, logoY + mBoxH + 12);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('CHAMPIONS', logoX + logoW/2, logoY + mBoxH + 11);
 
-        textStartX = logoX + logoW + 20;
+        // THE CARD GAME Subtitle
+        ctx.font = '700 6px "Inter", sans-serif';
+        ctx.fillText('THE CARD GAME', logoX + logoW/2, logoY + mBoxH + 19);
+
+        logoRightEdge = logoX + logoW + 20;
       }
 
-      // Auto-fit Hero / Deck Name
-      let fontSize = card.fontSize;
+      // Spine Title - Right-Aligned to match authentic Manser layout
+      let fontSize = card.fontSize || 44;
       ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
       const title = card.title || 'HERO DECK';
-      const maxTextW = x + w - textStartX - 16;
+      const rightPadding = 26;
+      const textEndX = x + w - rightPadding;
+      const maxTextW = textEndX - logoRightEdge - 16;
 
-      while (ctx.measureText(title).width > maxTextW && fontSize > 14) {
+      while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
         fontSize -= 1;
         ctx.font = `900 ${fontSize}px "${card.spineFont}", "Bangers", cursive`;
       }
 
       ctx.fillStyle = card.textColor;
       ctx.textBaseline = 'middle';
-      ctx.textAlign = 'left';
+      ctx.textAlign = 'right';
 
       if (card.textColor === '#ffffff') {
         ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
         ctx.shadowBlur = 4;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
+      } else {
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
       }
 
-      ctx.fillText(title, textStartX, y + h / 2 + 1);
+      ctx.fillText(title, textEndX, y + h / 2 + 2);
 
       ctx.restore();
     }
 
     function drawCoverOverlays(x, y, w, h, card) {
-      // 1. Marvel Champions Cover Logo (Vertical on right edge, Manser v17.5 style)
+      // 1. Authentic Marvel Champions Cover Logo (Vertical on right edge, matching example)
       if (card.showCoverLogo) {
         ctx.save();
-        const logoW = 46;
-        const logoH = 150;
-        const logoX = x + w - logoW - 14;
-        const logoY = y + (h - logoH) / 2;
+        const logoW = 52;
+        const logoH = 200;
+        const logoX = x + w - logoW - 20;
+        const logoY = y + 24;
 
-        ctx.translate(logoX + logoW/2, logoY + logoH/2);
+        ctx.translate(logoX + logoW / 2, logoY + logoH / 2);
         ctx.rotate(-Math.PI / 2);
 
-        // Draw rotated banner
-        const bannerW = logoH;
-        const bannerH = logoW;
+        const bannerW = 200;
+        const bannerH = 52;
         const bX = -bannerW / 2;
         const bY = -bannerH / 2;
 
-        // Red MARVEL box
-        const mBoxW = bannerW * 0.50;
+        // Red MARVEL box (Left half of rotated banner)
+        const mBoxW = 82;
         ctx.fillStyle = '#dc2626';
         ctx.fillRect(bX, bY, mBoxW, bannerH);
-        ctx.strokeStyle = '#000000';
+        ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
-        ctx.strokeRect(bX, bY, mBoxW, bannerH);
+        ctx.strokeRect(bX + 1, bY + 1, mBoxW - 2, bannerH - 2);
 
         ctx.fillStyle = '#ffffff';
-        ctx.font = `900 ${bannerH * 0.65}px "Outfit", sans-serif`;
+        ctx.font = '900 32px "Outfit", "Impact", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('MARVEL', bX + mBoxW/2, bY + bannerH/2 + 2);
+        ctx.fillText('MARVEL', bX + mBoxW / 2, bY + bannerH / 2 + 1);
 
-        // CHAMPIONS text
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
-        ctx.shadowBlur = 4;
-        ctx.font = `900 ${bannerH * 0.50}px "Outfit", "Bangers", sans-serif`;
-        ctx.fillText('CHAMPIONS', bX + mBoxW + (bannerW - mBoxW)/2 + 2, bY + bannerH/2 + 2);
+        // CHAMPIONS text (Right half of rotated banner, with clean black stroke)
+        const cBoxX = bX + mBoxW + 8;
+        const cBoxW = bannerW - mBoxW - 8;
+        const cCenterX = cBoxX + cBoxW / 2;
+        const cCenterY = bY + bannerH / 2 + 1;
 
-        ctx.restore();
-      }
-
-      // 2. Vintage 25¢ Comic Corner Box (Top Left)
-      if (card.showCornerBox) {
-        ctx.save();
-        const boxX = x + 14;
-        const boxY = y + 14;
-        const boxW = 85;
-        const boxH = 120;
-
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(boxX, boxY, boxW, boxH);
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2.5;
-        ctx.strokeRect(boxX, boxY, boxW, boxH);
-
-        ctx.fillStyle = '#000000';
-        ctx.font = '900 13px "Outfit", sans-serif';
+        ctx.font = '900 24px "Outfit", "Arial Black", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(card.cornerPrice || '25¢ #1', boxX + boxW / 2, boxY + 18);
+        ctx.textBaseline = 'middle';
 
-        ctx.beginPath();
-        ctx.moveTo(boxX, boxY + 26);
-        ctx.lineTo(boxX + boxW, boxY + 26);
-        ctx.stroke();
-
-        ctx.font = '700 9px "Inter", sans-serif';
-        ctx.fillText('LCG DECK', boxX + boxW / 2, boxY + 38);
-
-        ctx.fillStyle = '#dc2626';
-        ctx.fillRect(boxX + 2, boxY + 44, boxW - 4, 18);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 11px "Bangers", cursive';
-        ctx.fillText(card.cornerTitle || 'MARVEL', boxX + boxW / 2, boxY + 57);
-
+        // Heavy dark outline
         ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1.5;
-        ctx.strokeRect(boxX + 6, boxY + 68, boxW - 12, 44);
+        ctx.lineWidth = 4.5;
+        ctx.lineJoin = 'round';
+        ctx.strokeText('CHAMPIONS', cCenterX, cCenterY);
 
-        if (card.imageObj && card.imageObj.complete && card.imageObj.naturalWidth > 0) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(boxX + 7, boxY + 69, boxW - 14, 42);
-          ctx.clip();
-          ctx.drawImage(card.imageObj, boxX + 7, boxY + 69, boxW - 14, 42);
-          ctx.restore();
-        }
+        // Crisp white text
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('CHAMPIONS', cCenterX, cCenterY);
 
         ctx.restore();
-      }
-
-      // 3. Comic Code Authority Seal
-      if (card.showComicCode && assetImages.comic_code.complete && assetImages.comic_code.naturalWidth > 0) {
-        const codeW = 46;
-        const codeH = 60;
-        ctx.drawImage(assetImages.comic_code, x + w - codeW - 16, y + h - codeH - 16, codeW, codeH);
       }
     }
 
