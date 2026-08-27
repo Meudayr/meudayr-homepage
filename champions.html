@@ -1371,13 +1371,19 @@
 
 
 
-            <!-- Zoom & Pan Controls with Direct Number Input & Centering Button -->
+            <!-- Zoom & Pan Controls with Direct Number Input & Reset / Centering Buttons -->
             <div class="form-group">
-              <div class="form-label">
+              <div class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <span>Zoom / Scale:</span>
-                <div class="slider-num-wrap">
-                  <input type="number" class="slider-num-input" id="inputNumZoom" min="40" max="300" value="100" oninput="onDirectNumInput('zoom', this.value)">
-                  <span class="slider-unit">%</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <button type="button" class="btn-center-art" onclick="resetZoomScale()" title="Reset Zoom to default 100%">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>Reset (100%)</span>
+                  </button>
+                  <div class="slider-num-wrap">
+                    <input type="number" class="slider-num-input" id="inputNumZoom" min="10" max="500" value="100" oninput="onDirectNumInput('zoom', this.value)" onchange="onDirectNumCommit('zoom', this.value)">
+                    <span class="slider-unit">%</span>
+                  </div>
                 </div>
               </div>
               <div class="slider-row">
@@ -1398,7 +1404,7 @@
                 <div class="form-label">
                   <span>Pan X:</span>
                   <div class="slider-num-wrap">
-                    <input type="number" class="slider-num-input" id="inputNumPanX" min="-400" max="400" value="0" oninput="onDirectNumInput('panX', this.value)">
+                    <input type="number" class="slider-num-input" id="inputNumPanX" min="-800" max="800" value="0" oninput="onDirectNumInput('panX', this.value)" onchange="onDirectNumCommit('panX', this.value)">
                     <span class="slider-unit">px</span>
                   </div>
                 </div>
@@ -1408,7 +1414,7 @@
                 <div class="form-label">
                   <span>Pan Y:</span>
                   <div class="slider-num-wrap">
-                    <input type="number" class="slider-num-input" id="inputNumPanY" min="-400" max="400" value="0" oninput="onDirectNumInput('panY', this.value)">
+                    <input type="number" class="slider-num-input" id="inputNumPanY" min="-800" max="800" value="0" oninput="onDirectNumInput('panY', this.value)" onchange="onDirectNumCommit('panY', this.value)">
                     <span class="slider-unit">px</span>
                   </div>
                 </div>
@@ -1466,7 +1472,7 @@
               <div class="form-label">
                 <span>Filter Strength:</span>
                 <div class="slider-num-wrap">
-                  <input type="number" class="slider-num-input" id="inputNumFilterStrength" min="10" max="100" value="70" oninput="onDirectNumInput('filterStrength', this.value)">
+                  <input type="number" class="slider-num-input" id="inputNumFilterStrength" min="0" max="100" value="70" oninput="onDirectNumInput('filterStrength', this.value)" onchange="onDirectNumCommit('filterStrength', this.value)">
                   <span class="slider-unit">%</span>
                 </div>
               </div>
@@ -2088,21 +2094,88 @@
     }
 
     function onSliderChange(field, val) {
-      document.getElementById('inputNum' + field.charAt(0).toUpperCase() + field.slice(1)).value = val;
-      renderActiveCard();
+      const c = cards[activeCardIndex];
+      const parsed = parseInt(val, 10);
+      if (!isNaN(parsed)) {
+        c[field] = parsed;
+        const numElem = document.getElementById('inputNum' + field.charAt(0).toUpperCase() + field.slice(1));
+        if (numElem) numElem.value = parsed;
+      }
+      drawStage();
+      update3DCase();
     }
 
     function onDirectNumInput(field, val) {
-      document.getElementById('input' + field.charAt(0).toUpperCase() + field.slice(1)).value = val;
-      renderActiveCard();
+      if (val === '' || val === '-' || isNaN(parseInt(val, 10))) {
+        return; // Allow typing without interruption or premature clamping
+      }
+      const c = cards[activeCardIndex];
+      const parsed = parseInt(val, 10);
+      c[field] = parsed;
+
+      const sliderElem = document.getElementById('input' + field.charAt(0).toUpperCase() + field.slice(1));
+      if (sliderElem) {
+        const min = parseInt(sliderElem.min, 10);
+        const max = parseInt(sliderElem.max, 10);
+        sliderElem.value = Math.max(min, Math.min(max, parsed));
+      }
+      drawStage();
+      update3DCase();
+    }
+
+    function onDirectNumCommit(field, val) {
+      const c = cards[activeCardIndex];
+      let parsed = parseInt(val, 10);
+      if (isNaN(parsed)) {
+        parsed = field === 'zoom' ? 100 : (field === 'filterStrength' ? 70 : 0);
+      }
+      if (field === 'zoom') {
+        parsed = Math.max(10, Math.min(500, parsed));
+      } else if (field === 'filterStrength') {
+        parsed = Math.max(0, Math.min(100, parsed));
+      } else if (field === 'panX' || field === 'panY') {
+        parsed = Math.max(-1000, Math.min(1000, parsed));
+      }
+      c[field] = parsed;
+
+      const numElem = document.getElementById('inputNum' + field.charAt(0).toUpperCase() + field.slice(1));
+      if (numElem) numElem.value = parsed;
+
+      const sliderElem = document.getElementById('input' + field.charAt(0).toUpperCase() + field.slice(1));
+      if (sliderElem) {
+        const min = parseInt(sliderElem.min, 10);
+        const max = parseInt(sliderElem.max, 10);
+        sliderElem.value = Math.max(min, Math.min(max, parsed));
+      }
+      drawStage();
+      update3DCase();
+    }
+
+    function resetZoomScale() {
+      const c = cards[activeCardIndex];
+      c.zoom = 100;
+      const slider = document.getElementById('inputZoom');
+      if (slider) slider.value = 100;
+      const num = document.getElementById('inputNumZoom');
+      if (num) num.value = 100;
+      drawStage();
+      update3DCase();
     }
 
     function centerArtCoordinates() {
-      document.getElementById('inputPanX').value = 0;
-      document.getElementById('inputPanY').value = 0;
-      document.getElementById('inputNumPanX').value = 0;
-      document.getElementById('inputNumPanY').value = 0;
-      renderActiveCard();
+      const c = cards[activeCardIndex];
+      c.panX = 0;
+      c.panY = 0;
+      const panXSlider = document.getElementById('inputPanX');
+      if (panXSlider) panXSlider.value = 0;
+      const panYSlider = document.getElementById('inputPanY');
+      if (panYSlider) panYSlider.value = 0;
+      const panXNum = document.getElementById('inputNumPanX');
+      if (panXNum) panXNum.value = 0;
+      const panYNum = document.getElementById('inputNumPanY');
+      if (panYNum) panYNum.value = 0;
+      drawStage();
+      update3DCase();
     }
 
     function syncFormToActiveCard() {
@@ -2116,43 +2189,63 @@
       c.bleedMode = document.getElementById('selectBleed').value;
       c.flapStyle = document.getElementById('selectFlapStyle').value;
       c.comicFilter = document.getElementById('selectComicFilter').value;
-      c.filterStrength = parseInt(document.getElementById('inputFilterStrength').value, 10) || 65;
+      c.rotation = parseInt(document.getElementById('selectRotation').value, 10) || 0;
       c.showCoverLogo = document.getElementById('checkCoverLogo').checked;
       c.showSpineLogo = document.getElementById('checkSpineLogo').checked;
-      c.zoom = parseInt(document.getElementById('inputZoom').value, 10) || 100;
-      c.panX = parseInt(document.getElementById('inputPanX').value, 10) || 0;
-      c.panY = parseInt(document.getElementById('inputPanY').value, 10) || 0;
-      c.rotation = parseInt(document.getElementById('selectRotation').value, 10) || 0;
 
-      document.getElementById('inputNumZoom').value = c.zoom;
-      document.getElementById('inputNumPanX').value = c.panX;
-      document.getElementById('inputNumPanY').value = c.panY;
-      document.getElementById('inputNumFilterStrength').value = c.filterStrength;
+      // Sync numeric values if user is not actively typing into them
+      if (document.activeElement !== document.getElementById('inputNumZoom')) {
+        const numZoom = parseInt(document.getElementById('inputNumZoom').value, 10);
+        if (!isNaN(numZoom)) c.zoom = numZoom;
+        document.getElementById('inputNumZoom').value = c.zoom;
+      }
+      if (document.activeElement !== document.getElementById('inputNumPanX')) {
+        const numPanX = parseInt(document.getElementById('inputNumPanX').value, 10);
+        if (!isNaN(numPanX)) c.panX = numPanX;
+        document.getElementById('inputNumPanX').value = c.panX;
+      }
+      if (document.activeElement !== document.getElementById('inputNumPanY')) {
+        const numPanY = parseInt(document.getElementById('inputNumPanY').value, 10);
+        if (!isNaN(numPanY)) c.panY = numPanY;
+        document.getElementById('inputNumPanY').value = c.panY;
+      }
+      if (document.activeElement !== document.getElementById('inputNumFilterStrength')) {
+        const numFilter = parseInt(document.getElementById('inputNumFilterStrength').value, 10);
+        if (!isNaN(numFilter)) c.filterStrength = numFilter;
+        document.getElementById('inputNumFilterStrength').value = c.filterStrength;
+      }
     }
 
     function syncActiveCardToForm() {
       const c = cards[activeCardIndex];
-      document.getElementById('inputTitle').value = c.title;
-      document.getElementById('inputSubtitle').value = c.subtitle;
-      document.getElementById('inputSpineColor').value = c.spineColor;
-      document.getElementById('selectTextColor').value = c.textColor;
-      document.getElementById('inputFontSize').value = c.fontSize;
-      document.getElementById('selectSpineFont').value = c.spineFont;
-      document.getElementById('selectBleed').value = c.bleedMode;
-      document.getElementById('selectFlapStyle').value = c.flapStyle;
-      document.getElementById('selectComicFilter').value = c.comicFilter;
-      document.getElementById('inputFilterStrength').value = c.filterStrength;
-      document.getElementById('checkCoverLogo').checked = c.showCoverLogo;
-      document.getElementById('checkSpineLogo').checked = c.showSpineLogo;
-      document.getElementById('inputZoom').value = c.zoom;
-      document.getElementById('inputPanX').value = c.panX;
-      document.getElementById('inputPanY').value = c.panY;
-      document.getElementById('selectRotation').value = c.rotation;
+      document.getElementById('inputTitle').value = c.title || '';
+      document.getElementById('inputSubtitle').value = c.subtitle || '';
+      document.getElementById('inputSpineColor').value = c.spineColor || '#eab308';
+      document.getElementById('selectTextColor').value = c.textColor || '#000000';
+      document.getElementById('inputFontSize').value = c.fontSize || 44;
+      document.getElementById('selectSpineFont').value = c.spineFont || 'Bangers';
+      document.getElementById('selectBleed').value = c.bleedMode || 'full';
+      document.getElementById('selectFlapStyle').value = c.flapStyle || 'match';
+      document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
+      document.getElementById('checkCoverLogo').checked = c.showCoverLogo !== false;
+      document.getElementById('checkSpineLogo').checked = c.showSpineLogo !== false;
+      document.getElementById('selectRotation').value = c.rotation || 0;
 
-      document.getElementById('inputNumZoom').value = c.zoom;
-      document.getElementById('inputNumPanX').value = c.panX;
-      document.getElementById('inputNumPanY').value = c.panY;
-      document.getElementById('inputNumFilterStrength').value = c.filterStrength;
+      const z = c.zoom !== undefined ? c.zoom : 100;
+      document.getElementById('inputZoom').value = Math.max(40, Math.min(300, z));
+      document.getElementById('inputNumZoom').value = z;
+
+      const px = c.panX !== undefined ? c.panX : 0;
+      document.getElementById('inputPanX').value = Math.max(-400, Math.min(400, px));
+      document.getElementById('inputNumPanX').value = px;
+
+      const py = c.panY !== undefined ? c.panY : 0;
+      document.getElementById('inputPanY').value = Math.max(-400, Math.min(400, py));
+      document.getElementById('inputNumPanY').value = py;
+
+      const fs = c.filterStrength !== undefined ? c.filterStrength : 70;
+      document.getElementById('inputFilterStrength').value = Math.max(10, Math.min(100, fs));
+      document.getElementById('inputNumFilterStrength').value = fs;
     }
 
     function drawStage() {
@@ -2643,6 +2736,10 @@
       c.panY = Math.round(initialPanY + dy * scaleFactor);
       document.getElementById('inputPanX').value = c.panX;
       document.getElementById('inputPanY').value = c.panY;
+      const numPanX = document.getElementById('inputNumPanX');
+      if (numPanX) numPanX.value = c.panX;
+      const numPanY = document.getElementById('inputNumPanY');
+      if (numPanY) numPanY.value = c.panY;
       drawStage();
       update3DCase();
     });
