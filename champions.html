@@ -29,6 +29,36 @@
   <link rel="icon" type="image/png" href="assets/logo.png">
 
   <style>
+    /* Marvel Champions Official Typography */
+    @font-face {
+      font-family: 'Komika Text Tight';
+      src: url('assets/fonts/KomikaText-TightItalic.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Komika Text Tight';
+      src: url('assets/fonts/KomikaText-TightItalic.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Komika Text';
+      src: url('assets/fonts/KomikaText-Italic.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Komika Text';
+      src: url('assets/fonts/KomikaText-Italic.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     /* Inlay Generator Page Specific Styles */
     .app-header-hero {
       padding: 40px 0 24px;
@@ -1668,7 +1698,9 @@
               <div class="form-group">
                 <label class="form-label">Spine Font</label>
                 <select class="form-select" id="selectSpineFont" onchange="onSpineFontChange()">
-                  <option value="Balsamiq Sans" selected>Balsamiq Sans (Comic Marker)</option>
+                  <option value="Komika Text Tight" selected>Komika Text Tight (Exact Reference Match)</option>
+                  <option value="Komika Text">Komika Text (Marvel Dialogue)</option>
+                  <option value="Balsamiq Sans">Balsamiq Sans (Comic Marker)</option>
                   <option value="Kalam">Kalam (Handwritten)</option>
                   <option value="Permanent Marker">Permanent Marker (Brush)</option>
                   <option value="Bangers">Bangers (Bold Comic)</option>
@@ -2519,7 +2551,7 @@
         spineOpacity: 85,
         textColor: p.textColor,
         fontSize: 44,
-        spineFont: 'Balsamiq Sans',
+        spineFont: 'Komika Text Tight',
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
@@ -2609,7 +2641,11 @@
       const c = cards[activeCardIndex];
       c.spineFont = fontVal;
       if (document.fonts) {
-        document.fonts.load(`italic 700 44px "${fontVal}"`).then(() => {
+        Promise.all([
+          document.fonts.load(`italic 700 44px "${fontVal}"`),
+          document.fonts.load(`700 44px "${fontVal}"`),
+          document.fonts.load(`44px "${fontVal}"`)
+        ]).then(() => {
           drawStage();
           update3DCase();
         }).catch(() => {
@@ -2806,7 +2842,7 @@
       document.getElementById('inputSpineColor').value = c.spineColor || '#d1d6ae';
       document.getElementById('selectTextColor').value = c.textColor || '#000000';
       document.getElementById('inputFontSize').value = c.fontSize || 44;
-      document.getElementById('selectSpineFont').value = c.spineFont || 'Balsamiq Sans';
+      document.getElementById('selectSpineFont').value = c.spineFont || 'Komika Text Tight';
       document.getElementById('selectBleed').value = c.bleedMode || 'full';
       document.getElementById('selectFlapStyle').value = c.flapStyle || 'auto';
       document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
@@ -3162,7 +3198,7 @@
 
       // 3. Spine Title - Right-Aligned inside the centered ribbon
       let fontSize = card.fontSize || 44;
-      ctx.font = `italic 700 ${fontSize}px "${card.spineFont}", "Balsamiq Sans", cursive`;
+      ctx.font = `italic 700 ${fontSize}px "${card.spineFont || 'Komika Text Tight'}", "Komika Text Tight", "Komika Text", "Balsamiq Sans", sans-serif`;
       const title = card.title || 'HERO DECK';
       const rightPadding = 18;
       const textEndX = barX + barW - rightPadding;
@@ -3170,7 +3206,7 @@
 
       while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
         fontSize -= 1;
-        ctx.font = `italic 700 ${fontSize}px "${card.spineFont}", "Balsamiq Sans", cursive`;
+        ctx.font = `italic 700 ${fontSize}px "${card.spineFont || 'Komika Text Tight'}", "Komika Text Tight", "Komika Text", "Balsamiq Sans", sans-serif`;
       }
 
       ctx.fillStyle = card.textColor;
@@ -4111,9 +4147,11 @@
       update3DCase();
 
       if (document.fonts) {
-        ['Balsamiq Sans', 'Kalam', 'Permanent Marker', 'Bangers', 'Luckiest Guy', 'Outfit'].forEach(f => {
+        ['Komika Text Tight', 'Komika Text', 'Balsamiq Sans', 'Kalam', 'Permanent Marker', 'Bangers', 'Luckiest Guy', 'Outfit'].forEach(f => {
           document.fonts.load(`italic 700 44px "${f}"`);
+          document.fonts.load(`700 44px "${f}"`);
           document.fonts.load(`900 44px "${f}"`);
+          document.fonts.load(`44px "${f}"`);
         });
         document.fonts.ready.then(() => {
           drawStage();
