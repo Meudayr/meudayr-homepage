@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-08-28T12:20:01.071Z",
+  "fetchedAt": "2026-08-28T16:30:11.968Z",
   "accounts": [
     {
       "id": "meudayr",
       "name": "Meudayr",
       "userId": 323892,
       "server": "Crushridge-US",
-      "reportsCount": 212,
+      "reportsCount": 213,
       "default": true
     },
     {
@@ -36,6 +36,54 @@
   ],
   "reportsByAccount": {
     "meudayr": [
+      {
+        "code": "AQHCTwt6Dr19ZaVB",
+        "title": "8/28",
+        "startTime": 1787928013067,
+        "endTime": 1787934046886,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "Ruby Life Pools +13",
+          "Ruby Life Pools +12"
+        ],
+        "bosses": [
+          "Ruby Life Pools"
+        ],
+        "players": [
+          "Pre",
+          "Meudayr",
+          "Fäcada",
+          "Silvercrôw",
+          "Shemanito",
+          "Æthêrum",
+          "Knyhunt",
+          "Zdzshammy",
+          "Froostx",
+          "Bubblèhearth",
+          "Tyestinn",
+          "Fodizzle",
+          "Zúpái"
+        ],
+        "classes": [
+          "Paladin",
+          "Druid",
+          "Hunter",
+          "Shaman",
+          "Mage",
+          "DemonHunter",
+          "Warlock",
+          "Evoker"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          13,
+          12
+        ]
+      },
       {
         "code": "2mJ86yKbzFqBNRDn",
         "title": "8/27 raid",
@@ -90799,6 +90847,54 @@
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
+    {
+      "code": "AQHCTwt6Dr19ZaVB",
+      "title": "8/28",
+      "startTime": 1787928013067,
+      "endTime": 1787934046886,
+      "zone": {
+        "name": "Mythic+ Season 2"
+      },
+      "dungeons": [
+        "Ruby Life Pools +13",
+        "Ruby Life Pools +12"
+      ],
+      "bosses": [
+        "Ruby Life Pools"
+      ],
+      "players": [
+        "Pre",
+        "Meudayr",
+        "Fäcada",
+        "Silvercrôw",
+        "Shemanito",
+        "Æthêrum",
+        "Knyhunt",
+        "Zdzshammy",
+        "Froostx",
+        "Bubblèhearth",
+        "Tyestinn",
+        "Fodizzle",
+        "Zúpái"
+      ],
+      "classes": [
+        "Paladin",
+        "Druid",
+        "Hunter",
+        "Shaman",
+        "Mage",
+        "DemonHunter",
+        "Warlock",
+        "Evoker"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        13,
+        12
+      ]
+    },
     {
       "code": "2mJ86yKbzFqBNRDn",
       "title": "8/27 raid",
