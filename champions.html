@@ -20,7 +20,7 @@
   <!-- Google Fonts for Comic Book & UI Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=Luckiest+Guy&family=Outfit:wght@600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Bangers&family=Inter:wght@400;500;600;700&family=Kalam:wght@300;400;700&family=Luckiest+Guy&family=Outfit:wght@600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
   
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
@@ -1668,7 +1668,9 @@
               <div class="form-group">
                 <label class="form-label">Spine Font</label>
                 <select class="form-select" id="selectSpineFont" onchange="onSpineFontChange()">
-                  <option value="Permanent Marker" selected>Permanent Marker (Brush)</option>
+                  <option value="Balsamiq Sans" selected>Balsamiq Sans (Comic Marker)</option>
+                  <option value="Kalam">Kalam (Handwritten)</option>
+                  <option value="Permanent Marker">Permanent Marker (Brush)</option>
                   <option value="Bangers">Bangers (Bold Comic)</option>
                   <option value="Luckiest Guy">Luckiest Guy (Pop Comic)</option>
                   <option value="Outfit">Outfit (Clean Display)</option>
@@ -2517,7 +2519,7 @@
         spineOpacity: 85,
         textColor: p.textColor,
         fontSize: 44,
-        spineFont: 'Permanent Marker',
+        spineFont: 'Balsamiq Sans',
         bleedMode: 'full',
         flapStyle: 'bleed',
         comicFilter: 'halftone',
@@ -2607,7 +2609,7 @@
       const c = cards[activeCardIndex];
       c.spineFont = fontVal;
       if (document.fonts) {
-        document.fonts.load(`900 44px "${fontVal}"`).then(() => {
+        document.fonts.load(`italic 700 44px "${fontVal}"`).then(() => {
           drawStage();
           update3DCase();
         }).catch(() => {
@@ -2804,7 +2806,7 @@
       document.getElementById('inputSpineColor').value = c.spineColor || '#d1d6ae';
       document.getElementById('selectTextColor').value = c.textColor || '#000000';
       document.getElementById('inputFontSize').value = c.fontSize || 44;
-      document.getElementById('selectSpineFont').value = c.spineFont || 'Permanent Marker';
+      document.getElementById('selectSpineFont').value = c.spineFont || 'Balsamiq Sans';
       document.getElementById('selectBleed').value = c.bleedMode || 'full';
       document.getElementById('selectFlapStyle').value = c.flapStyle || 'auto';
       document.getElementById('selectComicFilter').value = c.comicFilter || 'halftone';
@@ -3160,7 +3162,7 @@
 
       // 3. Spine Title - Right-Aligned inside the centered ribbon
       let fontSize = card.fontSize || 44;
-      ctx.font = `900 ${fontSize}px "${card.spineFont}", "Permanent Marker", cursive`;
+      ctx.font = `italic 700 ${fontSize}px "${card.spineFont}", "Balsamiq Sans", cursive`;
       const title = card.title || 'HERO DECK';
       const rightPadding = 18;
       const textEndX = barX + barW - rightPadding;
@@ -3168,7 +3170,7 @@
 
       while (ctx.measureText(title).width > maxTextW && fontSize > 16) {
         fontSize -= 1;
-        ctx.font = `900 ${fontSize}px "${card.spineFont}", "Permanent Marker", cursive`;
+        ctx.font = `italic 700 ${fontSize}px "${card.spineFont}", "Balsamiq Sans", cursive`;
       }
 
       ctx.fillStyle = card.textColor;
@@ -4109,7 +4111,8 @@
       update3DCase();
 
       if (document.fonts) {
-        ['Permanent Marker', 'Bangers', 'Luckiest Guy', 'Outfit'].forEach(f => {
+        ['Balsamiq Sans', 'Kalam', 'Permanent Marker', 'Bangers', 'Luckiest Guy', 'Outfit'].forEach(f => {
+          document.fonts.load(`italic 700 44px "${f}"`);
           document.fonts.load(`900 44px "${f}"`);
         });
         document.fonts.ready.then(() => {
