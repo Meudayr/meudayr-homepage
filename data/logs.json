@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-28T16:30:11.968Z",
+  "fetchedAt": "2026-08-29T02:40:49.892Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -22,7 +22,7 @@
       "name": "Wubs",
       "userId": 48864,
       "server": "US",
-      "reportsCount": 81,
+      "reportsCount": 82,
       "default": false
     },
     {
@@ -40,16 +40,26 @@
         "code": "AQHCTwt6Dr19ZaVB",
         "title": "8/28",
         "startTime": 1787928013067,
-        "endTime": 1787934046886,
+        "endTime": 1787970846173,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Ruby Life Pools +13",
-          "Ruby Life Pools +12"
+          "Ruby Life Pools +12",
+          "Cage of Carnage",
+          "The Tiger's Peak",
+          "Murder Row +12",
+          "Voidscar Arena +13"
         ],
         "bosses": [
-          "Ruby Life Pools"
+          "Ruby Life Pools",
+          "Cage of Carnage",
+          "Auhzoj",
+          "The Tiger's Peak",
+          "Karhas",
+          "Murder Row",
+          "Voidscar Arena"
         ],
         "players": [
           "Pre",
@@ -64,7 +74,32 @@
           "Bubblèhearth",
           "Tyestinn",
           "Fodizzle",
-          "Zúpái"
+          "Zúpái",
+          "Auhzoj",
+          "Creamypenne",
+          "Pugthis",
+          "Tuckbudfordx",
+          "Tython",
+          "Gichiwalrus",
+          "Elcò",
+          "Gromk",
+          "Monkwarrior",
+          "Cyphter",
+          "Ingrîd",
+          "Sýkès",
+          "Karhas",
+          "Joshieboy",
+          "Aedrix",
+          "Drywar",
+          "Pra",
+          "Asomyrh",
+          "Shanto",
+          "Goonwizard",
+          "Prankbear",
+          "Wehab",
+          "Roken",
+          "Ayara",
+          "Kkpala"
         ],
         "classes": [
           "Paladin",
@@ -74,7 +109,12 @@
           "Mage",
           "DemonHunter",
           "Warlock",
-          "Evoker"
+          "Evoker",
+          "Priest",
+          "Unknown",
+          "Warrior",
+          "Monk",
+          "DeathKnight"
         ],
         "difficulties": [
           "Mythic+"
@@ -67544,6 +67584,69 @@
     ],
     "wubs": [
       {
+        "code": "Z3J41VT9HBhqMpCf",
+        "title": "The Venomous Abyss",
+        "startTime": 1787944423806,
+        "endTime": 1787946104869,
+        "zone": {
+          "name": "The Venomous Abyss"
+        },
+        "dungeons": [
+          "The Venomous Abyss Normal"
+        ],
+        "bosses": [
+          "The Coiled Altar"
+        ],
+        "players": [
+          "Syllestis",
+          "Velysaur",
+          "Kredrel",
+          "Akhyla",
+          "Litras",
+          "Hulksmash",
+          "Sharco",
+          "Otosan",
+          "Yammii",
+          "Buuddydann",
+          "Mindandbody",
+          "Harusha",
+          "Necromortis",
+          "Summonbot",
+          "Wubadubs",
+          "Oumashû",
+          "Poundage",
+          "Gijaick",
+          "Diarreha",
+          "Toomez",
+          "Longshánks",
+          "Hauger",
+          "Momysashtray",
+          "Widicuwous",
+          "Badidragon",
+          "Imtheplug",
+          "Pallyforever"
+        ],
+        "classes": [
+          "Priest",
+          "Evoker",
+          "Paladin",
+          "Warrior",
+          "Mage",
+          "Shaman",
+          "Rogue",
+          "Monk",
+          "DeathKnight",
+          "Warlock",
+          "DemonHunter",
+          "Hunter",
+          "Unknown"
+        ],
+        "difficulties": [
+          "Normal"
+        ],
+        "keyLevels": []
+      },
+      {
         "code": "2WCyBMg8LQt7pNqa",
         "title": "The Venomous Abyss",
         "startTime": 1787877394619,
@@ -90851,16 +90954,26 @@
       "code": "AQHCTwt6Dr19ZaVB",
       "title": "8/28",
       "startTime": 1787928013067,
-      "endTime": 1787934046886,
+      "endTime": 1787970846173,
       "zone": {
         "name": "Mythic+ Season 2"
       },
       "dungeons": [
         "Ruby Life Pools +13",
-        "Ruby Life Pools +12"
+        "Ruby Life Pools +12",
+        "Cage of Carnage",
+        "The Tiger's Peak",
+        "Murder Row +12",
+        "Voidscar Arena +13"
       ],
       "bosses": [
-        "Ruby Life Pools"
+        "Ruby Life Pools",
+        "Cage of Carnage",
+        "Auhzoj",
+        "The Tiger's Peak",
+        "Karhas",
+        "Murder Row",
+        "Voidscar Arena"
       ],
       "players": [
         "Pre",
@@ -90875,7 +90988,32 @@
         "Bubblèhearth",
         "Tyestinn",
         "Fodizzle",
-        "Zúpái"
+        "Zúpái",
+        "Auhzoj",
+        "Creamypenne",
+        "Pugthis",
+        "Tuckbudfordx",
+        "Tython",
+        "Gichiwalrus",
+        "Elcò",
+        "Gromk",
+        "Monkwarrior",
+        "Cyphter",
+        "Ingrîd",
+        "Sýkès",
+        "Karhas",
+        "Joshieboy",
+        "Aedrix",
+        "Drywar",
+        "Pra",
+        "Asomyrh",
+        "Shanto",
+        "Goonwizard",
+        "Prankbear",
+        "Wehab",
+        "Roken",
+        "Ayara",
+        "Kkpala"
       ],
       "classes": [
         "Paladin",
@@ -90885,7 +91023,12 @@
         "Mage",
         "DemonHunter",
         "Warlock",
-        "Evoker"
+        "Evoker",
+        "Priest",
+        "Unknown",
+        "Warrior",
+        "Monk",
+        "DeathKnight"
       ],
       "difficulties": [
         "Mythic+"
