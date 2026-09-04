@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-09-04T15:41:46.628Z",
+  "fetchedAt": "2026-09-04T18:47:59.708Z",
   "accounts": [
     {
       "id": "meudayr",
       "name": "Meudayr",
       "userId": 323892,
       "server": "Crushridge-US",
-      "reportsCount": 224,
+      "reportsCount": 225,
       "default": true
     },
     {
@@ -36,6 +36,44 @@
   ],
   "reportsByAccount": {
     "meudayr": [
+      {
+        "code": "xJ7vdTBRhHCWN8cY",
+        "title": "Mythic+ Season 2",
+        "startTime": 1788541026602,
+        "endTime": 1788542791472,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [],
+        "bosses": [
+          "Murder Row"
+        ],
+        "players": [
+          "Lalameowmeow",
+          "Beerbear",
+          "Owch",
+          "Tekrix",
+          "Haaks",
+          "Liasong",
+          "Khaelya",
+          "Donnybrook",
+          "Mylei"
+        ],
+        "classes": [
+          "DemonHunter",
+          "Monk",
+          "Priest",
+          "Warlock",
+          "Hunter",
+          "Unknown"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          12
+        ]
+      },
       {
         "code": "pFJ39kyRaLcdv4x1",
         "title": "The Venomous Abyss",
@@ -94520,6 +94558,44 @@
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
+    {
+      "code": "xJ7vdTBRhHCWN8cY",
+      "title": "Mythic+ Season 2",
+      "startTime": 1788541026602,
+      "endTime": 1788542791472,
+      "zone": {
+        "name": "Mythic+ Season 2"
+      },
+      "dungeons": [],
+      "bosses": [
+        "Murder Row"
+      ],
+      "players": [
+        "Lalameowmeow",
+        "Beerbear",
+        "Owch",
+        "Tekrix",
+        "Haaks",
+        "Liasong",
+        "Khaelya",
+        "Donnybrook",
+        "Mylei"
+      ],
+      "classes": [
+        "DemonHunter",
+        "Monk",
+        "Priest",
+        "Warlock",
+        "Hunter",
+        "Unknown"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        12
+      ]
+    },
     {
       "code": "pFJ39kyRaLcdv4x1",
       "title": "The Venomous Abyss",
