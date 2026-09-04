@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-04T01:02:11.680Z",
+  "fetchedAt": "2026-09-04T02:37:48.658Z",
   "accounts": [
     {
       "id": "meudayr",
@@ -40,7 +40,7 @@
         "code": "pFJ39kyRaLcdv4x1",
         "title": "The Venomous Abyss",
         "startTime": 1788482109760,
-        "endTime": 1788483695444,
+        "endTime": 1788489183250,
         "zone": {
           "name": "The Venomous Abyss"
         },
@@ -48,7 +48,17 @@
           "The Venomous Abyss Heroic"
         ],
         "bosses": [
-          "Nek'zali the Soulcoiler"
+          "Nek'zali the Soulcoiler",
+          "Venomfang Juggernaut",
+          "Gorefang the Reaver",
+          "Noxiss Venomcrest",
+          "Entombed Sentinels",
+          "Blood of Ula'tek / Breath of Ula'tek",
+          "Writhing Behemoth",
+          "Vashnik",
+          "Vashnik the Malignant",
+          "Hatchling of Vexhul",
+          "The Lost Explorers"
         ],
         "players": [
           "Asomyrh",
@@ -70068,7 +70078,7 @@
         "code": "W3bamtr9Xy7Zn2vJ",
         "title": "The Venomous Abyss",
         "startTime": 1788482109977,
-        "endTime": 1788483695650,
+        "endTime": 1788489183343,
         "zone": {
           "name": "The Venomous Abyss"
         },
@@ -70076,7 +70086,17 @@
           "The Venomous Abyss Heroic"
         ],
         "bosses": [
-          "Nek'zali the Soulcoiler"
+          "Nek'zali the Soulcoiler",
+          "Venomfang Juggernaut",
+          "Gorefang the Reaver",
+          "Noxiss Venomcrest",
+          "Entombed Sentinels",
+          "Writhing Behemoth",
+          "Vashnik",
+          "Vashnik the Malignant",
+          "Unknown",
+          "Vigilant Protector",
+          "The Lost Explorers"
         ],
         "players": [
           "Asomyrh",
@@ -94226,7 +94246,7 @@
       "code": "pFJ39kyRaLcdv4x1",
       "title": "The Venomous Abyss",
       "startTime": 1788482109760,
-      "endTime": 1788483695444,
+      "endTime": 1788489183250,
       "zone": {
         "name": "The Venomous Abyss"
       },
@@ -94234,7 +94254,17 @@
         "The Venomous Abyss Heroic"
       ],
       "bosses": [
-        "Nek'zali the Soulcoiler"
+        "Nek'zali the Soulcoiler",
+        "Venomfang Juggernaut",
+        "Gorefang the Reaver",
+        "Noxiss Venomcrest",
+        "Entombed Sentinels",
+        "Blood of Ula'tek / Breath of Ula'tek",
+        "Writhing Behemoth",
+        "Vashnik",
+        "Vashnik the Malignant",
+        "Hatchling of Vexhul",
+        "The Lost Explorers"
       ],
       "players": [
         "Asomyrh",
