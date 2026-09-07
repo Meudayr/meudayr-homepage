@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-09-07T02:33:12.084Z",
+  "fetchedAt": "2026-09-07T08:52:33.681Z",
   "accounts": [
     {
       "id": "meudayr",
       "name": "Meudayr",
       "userId": 323892,
       "server": "Crushridge-US",
-      "reportsCount": 230,
+      "reportsCount": 231,
       "default": true
     },
     {
@@ -36,6 +36,41 @@
   ],
   "reportsByAccount": {
     "meudayr": [
+      {
+        "code": "cnJhPDBM4qKXyA71",
+        "title": "Mythic+ Season 2",
+        "startTime": 1788748756202,
+        "endTime": 1788750479498,
+        "zone": {
+          "name": "Mythic+ Season 2"
+        },
+        "dungeons": [
+          "Den of Nalorakk +14"
+        ],
+        "bosses": [
+          "Den of Nalorakk"
+        ],
+        "players": [
+          "Ferarro",
+          "Patronaegis",
+          "Meudayr",
+          "Turtlechaos",
+          "Arrowenima"
+        ],
+        "classes": [
+          "DeathKnight",
+          "Shaman",
+          "Druid",
+          "Warlock",
+          "Hunter"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          14
+        ]
+      },
       {
         "code": "GV8NdTkFQBbmHDcR",
         "title": "Mythic+ Season 2",
@@ -83926,17 +83961,19 @@
         "code": "ThKvLJcMaxr9HtY6",
         "title": "Mythic+ Season 2",
         "startTime": 1788722664560,
-        "endTime": 1788727468115,
+        "endTime": 1788750480287,
         "zone": {
           "name": "Mythic+ Season 2"
         },
         "dungeons": [
           "Murder Row +14",
-          "Temple of Sethraliss +13"
+          "Temple of Sethraliss +13",
+          "Den of Nalorakk +14"
         ],
         "bosses": [
           "Murder Row",
-          "Temple of Sethraliss"
+          "Temple of Sethraliss",
+          "Den of Nalorakk"
         ],
         "players": [
           "Asomyrh",
@@ -83945,7 +83982,10 @@
           "Meudayr",
           "Trytan",
           "Gatekeepur",
-          "Uldirtydemon"
+          "Uldirtydemon",
+          "Turtlechaos",
+          "Arrowenima",
+          "Patronaegis"
         ],
         "classes": [
           "Paladin",
@@ -83954,7 +83994,8 @@
           "Druid",
           "Hunter",
           "Warlock",
-          "DemonHunter"
+          "DemonHunter",
+          "Shaman"
         ],
         "difficulties": [
           "Mythic+"
@@ -96263,6 +96304,41 @@
   "character": "Meudayr",
   "server": "Crushridge-US",
   "reports": [
+    {
+      "code": "cnJhPDBM4qKXyA71",
+      "title": "Mythic+ Season 2",
+      "startTime": 1788748756202,
+      "endTime": 1788750479498,
+      "zone": {
+        "name": "Mythic+ Season 2"
+      },
+      "dungeons": [
+        "Den of Nalorakk +14"
+      ],
+      "bosses": [
+        "Den of Nalorakk"
+      ],
+      "players": [
+        "Ferarro",
+        "Patronaegis",
+        "Meudayr",
+        "Turtlechaos",
+        "Arrowenima"
+      ],
+      "classes": [
+        "DeathKnight",
+        "Shaman",
+        "Druid",
+        "Warlock",
+        "Hunter"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        14
+      ]
+    },
     {
       "code": "GV8NdTkFQBbmHDcR",
       "title": "Mythic+ Season 2",
