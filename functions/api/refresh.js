@@ -28,13 +28,11 @@ const diffMap = {
   17: 'LFR'
 };
 
-const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+const PURGED_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
 
 function isTestReport(r) {
   if (!r) return false;
-  if (TEST_LOG_CODES.has(r.code)) return true;
-  if (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000) return true;
-  return false;
+  return PURGED_LOG_CODES.has(r.code);
 }
 
 function filterCleanReports(reports = []) {

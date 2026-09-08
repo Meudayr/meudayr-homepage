@@ -1327,10 +1327,10 @@
         reportsByAccount = { meudayr: data.reports || [] };
       }
 
-      // Sanitize out private test logs immediately
-      const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+      // Sanitize out specifically purged historical test logs
+      const PURGED_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
       function isTestLog(r) {
-        return r && (TEST_LOG_CODES.has(r.code) || (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000));
+        return r && PURGED_LOG_CODES.has(r.code);
       }
       if (reportsByAccount) {
         for (const accId of Object.keys(reportsByAccount)) {

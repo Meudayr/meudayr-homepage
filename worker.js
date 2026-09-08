@@ -27,13 +27,11 @@ const diffMap = {
   17: 'LFR'
 };
 
-const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+const PURGED_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
 
 function isTestReport(r) {
   if (!r) return false;
-  if (TEST_LOG_CODES.has(r.code)) return true;
-  if (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000) return true;
-  return false;
+  return PURGED_LOG_CODES.has(r.code);
 }
 
 function filterCleanReports(reports = []) {
@@ -368,6 +366,18 @@ export default {
             }
           })
         );
+
+        // If WarcraftLogs threw an error for the primary account (e.g. rate limit), return 502 with error details
+        const meudayrResult = accountResults.find(r => r.id === 'meudayr');
+        if (meudayrResult && meudayrResult.error) {
+          return new Response(JSON.stringify({
+            error: meudayrResult.error,
+            accounts: accountResults.map(r => ({ id: r.id, error: r.error }))
+          }), {
+            status: 502,
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+          });
+        }
 
         // 4. Reconcile logs with smart sliding window
         const updatedReportsByAccount = {};
