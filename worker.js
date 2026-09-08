@@ -239,64 +239,6 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Route: GET /api/debug (inspect WarcraftLogs connection, rate limits, and purge KV)
-    if (url.pathname === '/api/debug') {
-      try {
-        if (url.searchParams.get('purge') === '1' && env.LOGS_KV) {
-          const cached = await env.LOGS_KV.get('warcraft_logs', 'json');
-          if (cached) {
-            if (cached.reportsByAccount) {
-              for (const accId of Object.keys(cached.reportsByAccount)) {
-                cached.reportsByAccount[accId] = filterCleanReports(cached.reportsByAccount[accId]);
-              }
-            }
-            if (Array.isArray(cached.reports)) {
-              cached.reports = filterCleanReports(cached.reports);
-            }
-            await env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached));
-            return new Response(JSON.stringify({ purged: true, cached }), {
-              headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-            });
-          }
-        }
-
-        const clientId = env.WCL_CLIENT_ID;
-        const clientSecret = env.WCL_CLIENT_SECRET;
-        const token = await getAccessToken(clientId, clientSecret);
-        const query = `
-          query {
-            reportData {
-              reports(userID: 323892, limit: 5) {
-                data {
-                  code
-                  title
-                  startTime
-                }
-              }
-            }
-          }
-        `;
-        const res = await fetch('https://www.warcraftlogs.com/api/v2/client', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ query })
-        });
-        const headers = {};
-        res.headers.forEach((v, k) => { headers[k] = v; });
-        const bodyText = await res.text();
-        let bodyJson;
-        try { bodyJson = JSON.parse(bodyText); } catch (e) { bodyJson = bodyText; }
-        return new Response(JSON.stringify({ status: res.status, headers, body: bodyJson }, null, 2), {
-          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-        });
-      } catch (err) {
-        return new Response(JSON.stringify({ error: err.message }), { status: 500 });
-      }
-    }
-
     // Route: GET /api/logs
     if (url.pathname === '/api/logs') {
       try {
