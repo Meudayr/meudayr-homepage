@@ -1537,6 +1537,9 @@
           if (result && (result.reportsByAccount || (Array.isArray(result.reports) && result.reports.length > 0))) {
             freshData = result;
           }
+        } else {
+          const errText = await refreshRes.text();
+          console.warn('Edge /api/refresh error response:', refreshRes.status, errText);
         }
       } catch (err) {
         console.warn('Cloudflare edge refresh error, will fallback to GitHub Actions if needed:', err);
@@ -1544,9 +1547,9 @@
 
       clearInterval(progressTimer);
 
-      // 2. Fallback: If Cloudflare Functions is not yet configured with KV / secrets, fallback to GitHub Action
+      // 2. Fallback: If Cloudflare Functions returned an error (e.g. missing credentials), fallback to GitHub Actions
       if (!freshData) {
-        setRefreshProgress(45, 'Checking repository fallback...');
+        setRefreshProgress(45, 'Edge API unconfigured, running GitHub runner fallback...');
         let dispatched = false;
         try {
           const dispatchRes = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/actions/workflows/fetch-logs.yml/dispatches', {
@@ -1564,10 +1567,12 @@
         } catch (e) {}
 
         if (dispatched) {
-          setRefreshProgress(60, 'Triggered GitHub runner... polling data...');
-          for (let attempt = 0; attempt < 12; attempt++) {
+          setRefreshProgress(50, 'GitHub Action runner started (takes ~1-2 min)...');
+          // Poll up to 35 times x 3s = 105 seconds so runner finishes
+          for (let attempt = 1; attempt <= 35; attempt++) {
             await new Promise(r => setTimeout(r, 3000));
-            setRefreshProgress(60 + attempt * 3, 'Polling GitHub repository...');
+            const pct = Math.min(95, Math.round(50 + (attempt / 35) * 45));
+            setRefreshProgress(pct, `Syncing logs via runner (${attempt}/35)...`);
             const check = await fetchLatestLogsFromGitHub();
             if (check) {
               freshData = check;
