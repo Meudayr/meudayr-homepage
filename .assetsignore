@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+scripts
+functions
+scratch
+*.md
+wrangler.json
+worker.js

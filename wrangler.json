@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "curly-tooth-0d40",
+  "main": "worker.js",
+  "compatibility_date": "2024-09-23",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  }
+}
