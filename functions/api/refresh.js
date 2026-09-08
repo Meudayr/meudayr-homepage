@@ -10,9 +10,7 @@ const ACCOUNTS = [
 ];
 
 const REPORTS_PER_PAGE = 25;
-// For on-demand edge refresh, fetch up to 3 recent pages per account (75 latest logs)
-// to ensure sub-3-second response times, then merge with historical reports.
-const MAX_PAGES_ON_REFRESH = 3;
+const MAX_PAGES_ON_REFRESH = 20;
 
 const diffMap = {
   1: 'LFR',
@@ -244,36 +242,25 @@ export async function onRequest(context) {
       })
     );
 
-    // 4. Merge incoming reports with existing reports (de-duplicate by report code)
+    // 4. Mirror WarcraftLogs public reports (reflects additions, privacy changes, and deletions)
     const updatedReportsByAccount = {};
     const accountList = [];
 
     for (const acc of ACCOUNTS) {
-      const existingList = existingReportsByAccount[acc.id] || [];
       const incomingResult = accountResults.find(r => r.id === acc.id);
-      const incomingList = incomingResult?.freshReports || [];
+      let reportList = incomingResult && incomingResult.freshReports && incomingResult.error === null
+        ? incomingResult.freshReports
+        : (existingReportsByAccount[acc.id] || []);
 
-      // Combine and de-duplicate by report code
-      const reportMap = new Map();
-      // Add incoming first (newest updates)
-      incomingList.forEach(r => reportMap.set(r.code, r));
-      // Add existing historical items that aren't already added
-      existingList.forEach(r => {
-        if (!reportMap.has(r.code)) {
-          reportMap.set(r.code, r));
-        }
-      });
-
-      // Sort by startTime descending
-      const mergedList = Array.from(reportMap.values()).sort((a, b) => b.startTime - a.startTime);
-      updatedReportsByAccount[acc.id] = mergedList;
+      reportList.sort((a, b) => b.startTime - a.startTime);
+      updatedReportsByAccount[acc.id] = reportList;
 
       accountList.push({
         id: acc.id,
         name: acc.name,
         userId: acc.userId,
         server: acc.server,
-        reportsCount: mergedList.length,
+        reportsCount: reportList.length,
         default: !!acc.default
       });
     }

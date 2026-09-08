@@ -9,7 +9,7 @@ const ACCOUNTS = [
 ];
 
 const REPORTS_PER_PAGE = 25;
-const MAX_PAGES_ON_REFRESH = 3;
+const MAX_PAGES_ON_REFRESH = 20;
 
 const diffMap = {
   1: 'LFR',
@@ -280,32 +280,27 @@ export default {
           })
         );
 
-        // 4. Merge incoming reports with existing reports (de-duplicate by report code)
+        // 4. Mirror WarcraftLogs public reports (reflects additions, privacy changes, and deletions)
         const updatedReportsByAccount = {};
         const accountList = [];
 
         for (const acc of ACCOUNTS) {
-          const existingList = existingReportsByAccount[acc.id] || [];
           const incomingResult = accountResults.find(r => r.id === acc.id);
-          const incomingList = incomingResult?.freshReports || [];
+          // If the fetch succeeded, use the fresh authoritative list directly!
+          // Only fallback to existing list if WarcraftLogs threw a network error for this account
+          let reportList = incomingResult && incomingResult.freshReports && incomingResult.error === null
+            ? incomingResult.freshReports
+            : (existingReportsByAccount[acc.id] || []);
 
-          const reportMap = new Map();
-          incomingList.forEach(r => reportMap.set(r.code, r));
-          existingList.forEach(r => {
-            if (!reportMap.has(r.code)) {
-              reportMap.set(r.code, r);
-            }
-          });
-
-          const mergedList = Array.from(reportMap.values()).sort((a, b) => b.startTime - a.startTime);
-          updatedReportsByAccount[acc.id] = mergedList;
+          reportList.sort((a, b) => b.startTime - a.startTime);
+          updatedReportsByAccount[acc.id] = reportList;
 
           accountList.push({
             id: acc.id,
             name: acc.name,
             userId: acc.userId,
             server: acc.server,
-            reportsCount: mergedList.length,
+            reportsCount: reportList.length,
             default: !!acc.default
           });
         }
