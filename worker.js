@@ -237,6 +237,54 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
+    // Route: GET /api/inspect (inspect specific report code)
+    if (url.pathname === '/api/inspect') {
+      try {
+        const code = url.searchParams.get('code') || 'ZQLWf6hYGJb1rCDR';
+        const clientId = env.WCL_CLIENT_ID;
+        const clientSecret = env.WCL_CLIENT_SECRET;
+        const token = await getAccessToken(clientId, clientSecret);
+        const query = `
+          query {
+            reportData {
+              report(code: "${code}") {
+                code
+                title
+                startTime
+                endTime
+                visibility
+                owner {
+                  id
+                  name
+                }
+                guild {
+                  id
+                  name
+                }
+                fights {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        `;
+        const res = await fetch('https://www.warcraftlogs.com/api/v2/client', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ query })
+        });
+        return new Response(await res.text(), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+      }
+    }
+
     // Route: GET /api/logs
     if (url.pathname === '/api/logs') {
       try {
