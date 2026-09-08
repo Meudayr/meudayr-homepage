@@ -667,6 +667,71 @@
         transform: translateX(-50%) translateY(0) scale(1);
       }
     }
+
+    /* Progress Bar Styling */
+    .refresh-progress-container {
+      margin: 18px auto 0 auto;
+      max-width: 480px;
+      background: rgba(20, 23, 31, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      animation: fadeInProgress 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInProgress {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeOutProgress {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-4px); }
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-info #progress-status-text {
+      color: #81c784;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-info #progress-percentage-text {
+      font-variant-numeric: tabular-nums;
+      color: var(--text-dark);
+      font-size: 0.78rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #388e3c, #22c55e);
+      border-radius: 9999px;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -738,6 +803,17 @@
           </svg>
           <span id="refresh-btn-text">Refresh Logs</span>
         </button>
+      </div>
+
+      <!-- Real-time Progress Bar -->
+      <div id="refresh-progress-container" class="refresh-progress-container" style="display: none;">
+        <div class="progress-info">
+          <span id="progress-status-text">Connecting to WarcraftLogs...</span>
+          <span id="progress-percentage-text">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progress-bar-fill" class="progress-fill"></div>
+        </div>
       </div>
     </section>
 
@@ -1279,26 +1355,81 @@
       return true;
     }
 
+    function setRefreshProgress(percent, statusText) {
+      const container = document.getElementById('refresh-progress-container');
+      const fill = document.getElementById('progress-bar-fill');
+      const status = document.getElementById('progress-status-text');
+      const pct = document.getElementById('progress-percentage-text');
+      if (!container || !fill) return;
+
+      container.style.display = 'block';
+      fill.style.width = Math.min(100, Math.max(0, percent)) + '%';
+      if (statusText && status) status.textContent = statusText;
+      if (pct) pct.textContent = Math.round(percent) + '%';
+    }
+
+    function hideRefreshProgress(delayMs = 1200) {
+      const container = document.getElementById('refresh-progress-container');
+      if (!container) return;
+      setTimeout(() => {
+        container.style.animation = 'fadeOutProgress 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        setTimeout(() => {
+          container.style.display = 'none';
+          container.style.animation = '';
+          const fill = document.getElementById('progress-bar-fill');
+          if (fill) fill.style.width = '0%';
+        }, 300);
+      }, delayMs);
+    }
+
     async function loadLogs() {
       const container = document.getElementById('logs-container');
       const skeletonGrid = document.getElementById('skeleton-grid');
 
+      // 1. Instant render from localStorage if available (0ms perceived load time)
       try {
-        const response = await fetch('data/logs.json?t=' + Date.now());
+        const localSaved = localStorage.getItem('cached_warcraft_logs');
+        if (localSaved) {
+          const cachedJson = JSON.parse(localSaved);
+          if (cachedJson && (cachedJson.reportsByAccount || (Array.isArray(cachedJson.reports) && cachedJson.reports.length > 0))) {
+            if (skeletonGrid) skeletonGrid.remove();
+            applyLogsData(cachedJson);
+          }
+        }
+      } catch (e) {}
+
+      // 2. Fetch fresh dataset from Cloudflare Pages Function (/api/logs), falling back to /data/logs.json
+      try {
+        let response = null;
+        try {
+          response = await fetch('/api/logs?t=' + Date.now());
+        } catch (e) {}
+
+        if (!response || !response.ok) {
+          response = await fetch('data/logs.json?t=' + Date.now());
+        }
+
         if (!response.ok) throw new Error('Failed to fetch logs data.');
         const data = await response.json();
+
+        // Update local storage cache
+        try {
+          localStorage.setItem('cached_warcraft_logs', JSON.stringify(data));
+        } catch (e) {}
 
         if (skeletonGrid) skeletonGrid.remove();
         applyLogsData(data);
 
       } catch (err) {
-        if (skeletonGrid) skeletonGrid.remove();
-        container.innerHTML = `
-          <div class="state-box">
-            <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-            <div class="state-title">Could not load logs</div>
-            <p>The log data hasn't been fetched yet. Try clicking "Refresh Logs" above.</p>
-          </div>`;
+        if (!allReports || allReports.length === 0) {
+          if (skeletonGrid) skeletonGrid.remove();
+          container.innerHTML = `
+            <div class="state-box">
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+              <div class="state-title">Could not load logs</div>
+              <p>The log data hasn't been fetched yet. Try clicking "Refresh Logs" above.</p>
+            </div>`;
+        }
       }
     }
 
@@ -1379,54 +1510,81 @@
         lastUpdatedEl.style.display = 'inline-flex';
       }
 
+      setRefreshProgress(15, 'Connecting to WarcraftLogs edge API...');
+
       const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
-
-      // 1. Trigger GitHub Action workflow to fetch newest logs from WarcraftLogs
-      let dispatched = false;
-      try {
-        const dispatchRes = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/actions/workflows/fetch-logs.yml/dispatches', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + GH_PAT,
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'MeudayrApp'
-          },
-          body: JSON.stringify({ ref: 'main' })
-        });
-        if (dispatchRes.status === 204 || dispatchRes.ok) {
-          dispatched = true;
-        }
-      } catch (e) {
-        console.warn('Dispatch error:', e);
-      }
-
       let freshData = null;
       let hasNewLog = false;
 
-      if (dispatched) {
-        // Poll for new data for up to ~45 seconds (15 attempts x 3s)
-        for (let attempt = 0; attempt < 15; attempt++) {
-          await new Promise(r => setTimeout(r, 3000));
-          const check = await fetchLatestLogsFromGitHub();
-          if (check) {
-            freshData = check;
-            const currentList = (check.reportsByAccount && check.reportsByAccount[currentAccountId]) ? check.reportsByAccount[currentAccountId] : check.reports;
-            if (prevTopCode && currentList && currentList.length > 0 && currentList[0].code !== prevTopCode) {
-              hasNewLog = true;
-              break; // New log found and synced!
+      // Simulated smooth progress while network requests are in-flight
+      let simProgress = 15;
+      const progressTimer = setInterval(() => {
+        if (simProgress < 82) {
+          simProgress += (82 - simProgress) * 0.22;
+          setRefreshProgress(simProgress, 'Syncing reports for Meudayr, Vember, Wubs & Ferraro...');
+        }
+      }, 350);
+
+      try {
+        // 1. Primary: Fast Cloudflare Edge Function (/api/refresh)
+        const refreshRes = await fetch('/api/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (refreshRes.ok) {
+          const result = await refreshRes.json();
+          if (result && (result.reportsByAccount || (Array.isArray(result.reports) && result.reports.length > 0))) {
+            freshData = result;
+          }
+        }
+      } catch (err) {
+        console.warn('Cloudflare edge refresh error, will fallback to GitHub Actions if needed:', err);
+      }
+
+      clearInterval(progressTimer);
+
+      // 2. Fallback: If Cloudflare Functions is not yet configured with KV / secrets, fallback to GitHub Action
+      if (!freshData) {
+        setRefreshProgress(45, 'Checking repository fallback...');
+        let dispatched = false;
+        try {
+          const dispatchRes = await fetch('https://api.github.com/repos/Meudayr/meudayr-homepage/actions/workflows/fetch-logs.yml/dispatches', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + GH_PAT,
+              'Accept': 'application/vnd.github.v3+json',
+              'User-Agent': 'MeudayrApp'
+            },
+            body: JSON.stringify({ ref: 'main' })
+          });
+          if (dispatchRes.status === 204 || dispatchRes.ok) {
+            dispatched = true;
+          }
+        } catch (e) {}
+
+        if (dispatched) {
+          setRefreshProgress(60, 'Triggered GitHub runner... polling data...');
+          for (let attempt = 0; attempt < 12; attempt++) {
+            await new Promise(r => setTimeout(r, 3000));
+            setRefreshProgress(60 + attempt * 3, 'Polling GitHub repository...');
+            const check = await fetchLatestLogsFromGitHub();
+            if (check) {
+              freshData = check;
+              const currentList = (check.reportsByAccount && check.reportsByAccount[currentAccountId]) ? check.reportsByAccount[currentAccountId] : check.reports;
+              if (prevTopCode && currentList && currentList.length > 0 && currentList[0].code !== prevTopCode) {
+                hasNewLog = true;
+                break;
+              }
             }
           }
-        }
-      } else {
-        await new Promise(r => setTimeout(r, 700));
-        freshData = await fetchLatestLogsFromGitHub();
-        if (freshData && prevTopCode) {
-          const currentList = (freshData.reportsByAccount && freshData.reportsByAccount[currentAccountId]) ? freshData.reportsByAccount[currentAccountId] : freshData.reports;
-          if (currentList && currentList.length > 0) {
-            hasNewLog = currentList[0].code !== prevTopCode;
-          }
+        } else {
+          freshData = await fetchLatestLogsFromGitHub();
         }
       }
+
+      setRefreshProgress(100, 'Sync complete!');
+      hideRefreshProgress(1000);
 
       btn.classList.remove('spinning');
       btn.disabled = false;
@@ -1435,6 +1593,16 @@
       const nowTimeStr = formatTimeOnly(now);
 
       if (freshData) {
+        // Save to localStorage for instant F5 persistence!
+        try {
+          localStorage.setItem('cached_warcraft_logs', JSON.stringify(freshData));
+        } catch (e) {}
+
+        const currentList = (freshData.reportsByAccount && freshData.reportsByAccount[currentAccountId]) ? freshData.reportsByAccount[currentAccountId] : freshData.reports;
+        if (prevTopCode && currentList && currentList.length > 0) {
+          hasNewLog = currentList[0].code !== prevTopCode;
+        }
+
         applyLogsData(freshData);
 
         if (hasNewLog) {

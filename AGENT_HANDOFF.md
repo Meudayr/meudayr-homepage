@@ -146,13 +146,20 @@ checkPlexStatus();
 4. **`logs.html` (WarcraftLogs Viewer):**
    - Multi-account log browser (Meudayr, Vember, Wubs, Ferraro).
    - Fast client-side multi-dimensional search (search by title, player name, player class, difficulty, keystone level, date, day of week, report code).
-   - On-demand "Refresh Logs" button that triggers GitHub Actions workflow dispatch and live-syncs fresh logs.
+   - Instant edge retrieval via `/api/logs` (Cloudflare KV + static asset fallback) and zero-latency `localStorage` initial render.
+   - On-demand "Refresh Logs" with live stepped progress bar calling `/api/refresh` directly on Cloudflare Edge in ~3 seconds.
 
 ---
 
 ## 5. Critical Technical Learnings & Solutions
 
-### A. Large Data Files (>1 MB) on GitHub REST API
+### A. Cloudflare Pages Edge Functions & KV Architecture
+* **Endpoints:**
+  - `GET /api/logs`: Reads from Cloudflare KV (`LOGS_KV`), falls back seamlessly to `data/logs.json`.
+  - `POST /api/refresh`: Authenticates with WarcraftLogs using Cloudflare Pages environment variables (`WCL_CLIENT_ID`, `WCL_CLIENT_SECRET`), queries all 4 accounts in parallel (`Promise.all`), merges with historical data, updates KV, and returns fresh JSON in ~2–4 seconds.
+* **Instant F5 Persistence:** The client caches the fresh response in `localStorage`, guaranteeing 0ms perceived load time across page reloads (F5) while background-validating against `/api/logs`.
+
+### B. Large Data Files (>1 MB) on GitHub REST API
 * **Problem:** GitHub's standard Contents API (`Accept: application/vnd.github.v3+json`) drops the base64 `content` payload for files exceeding 1 MB. As multi-player logs grew to 3+ MB, the API returned empty content.
 * **Solution:** Always pass `Accept: application/vnd.github.v3.raw` in the request header when fetching data files directly from GitHub API. This streams the raw JSON regardless of file size without 1 MB truncation:
 ```javascript
