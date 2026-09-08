@@ -6,5 +6,11 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
-  }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "LOGS_KV",
+      "id": "db8349f2b5e943158bf0c54dc2854073"
+    }
+  ]
 }
