@@ -9,7 +9,7 @@ const ACCOUNTS = [
 ];
 
 const REPORTS_PER_PAGE = 25;
-const MAX_PAGES_ON_REFRESH = 20;
+const MAX_PAGES_ON_REFRESH = 2; // Up to 50 reports per account (fast, ~1.5s total, well under API rate limits)
 
 const diffMap = {
   1: 'LFR',
@@ -26,6 +26,53 @@ const diffMap = {
   16: 'Mythic',
   17: 'LFR'
 };
+
+const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+
+function isTestReport(r) {
+  if (!r) return false;
+  if (TEST_LOG_CODES.has(r.code)) return true;
+  if (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000) return true;
+  return false;
+}
+
+function filterCleanReports(reports = []) {
+  if (!Array.isArray(reports)) return [];
+  return reports.filter(r => !isTestReport(r));
+}
+
+function reconcileReports(existingList = [], freshReports = [], hasMorePages = false) {
+  const cleanExisting = filterCleanReports(existingList);
+  const cleanFresh = filterCleanReports(freshReports);
+
+  // If there are no more pages on WarcraftLogs (e.g. account has <= 50 logs total),
+  // then cleanFresh is the complete, 100% authoritative list!
+  if (!hasMorePages || cleanFresh.length === 0) {
+    cleanFresh.sort((a, b) => b.startTime - a.startTime);
+    return cleanFresh;
+  }
+
+  // If there are more pages beyond what we fetched:
+  // The oldest report in cleanFresh defines our cutoff timestamp.
+  const cutoffTime = cleanFresh[cleanFresh.length - 1].startTime;
+
+  // Any report from cleanExisting that is strictly OLDER than cutoffTime is preserved.
+  // Any report with startTime >= cutoffTime was within our fetched window:
+  // if it's not in cleanFresh, it was deleted or made private on WarcraftLogs, so it is omitted!
+  const olderHistorical = cleanExisting.filter(r => r.startTime < cutoffTime);
+
+  const combined = [...cleanFresh, ...olderHistorical];
+  const seen = new Set();
+  const deduped = [];
+  for (const r of combined) {
+    if (!seen.has(r.code)) {
+      seen.add(r.code);
+      deduped.push(r);
+    }
+  }
+  deduped.sort((a, b) => b.startTime - a.startTime);
+  return deduped;
+}
 
 async function getAccessToken(clientId, clientSecret) {
   const credentials = btoa(`${clientId}:${clientSecret}`);
@@ -185,32 +232,41 @@ async function fetchAccountRecentReports(token, account) {
     page++;
   }
 
-  return allRecent;
+  return { reports: allRecent, hasMorePages: hasMore };
 }
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Route: GET /api/debug (inspect GraphQL schema and reports)
+    // Route: GET /api/debug (inspect WarcraftLogs connection, rate limits, and purge KV)
     if (url.pathname === '/api/debug') {
       try {
+        if (url.searchParams.get('purge') === '1' && env.LOGS_KV) {
+          const cached = await env.LOGS_KV.get('warcraft_logs', 'json');
+          if (cached) {
+            if (cached.reportsByAccount) {
+              for (const accId of Object.keys(cached.reportsByAccount)) {
+                cached.reportsByAccount[accId] = filterCleanReports(cached.reportsByAccount[accId]);
+              }
+            }
+            if (Array.isArray(cached.reports)) {
+              cached.reports = filterCleanReports(cached.reports);
+            }
+            await env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached));
+            return new Response(JSON.stringify({ purged: true, cached }), {
+              headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+            });
+          }
+        }
+
         const clientId = env.WCL_CLIENT_ID;
         const clientSecret = env.WCL_CLIENT_SECRET;
         const token = await getAccessToken(clientId, clientSecret);
         const query = `
           query {
-            __type(name: "Report") {
-              fields {
-                name
-                type {
-                  name
-                  kind
-                }
-              }
-            }
             reportData {
-              reports(userID: 323892, limit: 10) {
+              reports(userID: 323892, limit: 5) {
                 data {
                   code
                   title
@@ -228,7 +284,12 @@ export default {
           },
           body: JSON.stringify({ query })
         });
-        return new Response(await res.text(), {
+        const headers = {};
+        res.headers.forEach((v, k) => { headers[k] = v; });
+        const bodyText = await res.text();
+        let bodyJson;
+        try { bodyJson = JSON.parse(bodyText); } catch (e) { bodyJson = bodyText; }
+        return new Response(JSON.stringify({ status: res.status, headers, body: bodyJson }, null, 2), {
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
       } catch (err) {
@@ -242,10 +303,32 @@ export default {
         if (env.LOGS_KV) {
           const cached = await env.LOGS_KV.get('warcraft_logs', 'json');
           if (cached && (cached.reportsByAccount || (Array.isArray(cached.reports) && cached.reports.length > 0))) {
+            // Sanitize cached KV: immediately strip any private / test logs
+            let sanitized = false;
+            if (cached.reportsByAccount) {
+              for (const accId of Object.keys(cached.reportsByAccount)) {
+                const beforeCount = cached.reportsByAccount[accId].length;
+                cached.reportsByAccount[accId] = filterCleanReports(cached.reportsByAccount[accId]);
+                if (cached.reportsByAccount[accId].length !== beforeCount) {
+                  sanitized = true;
+                }
+              }
+            }
+            if (Array.isArray(cached.reports)) {
+              const beforeCount = cached.reports.length;
+              cached.reports = filterCleanReports(cached.reports);
+              if (cached.reports.length !== beforeCount) {
+                sanitized = true;
+              }
+            }
+            if (sanitized && ctx && ctx.waitUntil) {
+              ctx.waitUntil(env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached)));
+            }
+
             return new Response(JSON.stringify(cached), {
               headers: {
                 'Content-Type': 'application/json',
-                'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Access-Control-Allow-Origin': '*'
               }
             });
@@ -257,7 +340,16 @@ export default {
           const assetUrl = new URL('/data/logs.json', request.url);
           const assetRes = await env.ASSETS.fetch(new Request(assetUrl));
           if (assetRes && assetRes.ok) {
-            return new Response(await assetRes.text(), {
+            const json = await assetRes.json();
+            if (json.reportsByAccount) {
+              for (const accId of Object.keys(json.reportsByAccount)) {
+                json.reportsByAccount[accId] = filterCleanReports(json.reportsByAccount[accId]);
+              }
+            }
+            if (Array.isArray(json.reports)) {
+              json.reports = filterCleanReports(json.reports);
+            }
+            return new Response(JSON.stringify(json), {
               headers: {
                 'Content-Type': 'application/json',
                 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
@@ -312,31 +404,33 @@ export default {
 
         const existingReportsByAccount = existingData?.reportsByAccount || {};
 
-        // 3. Fetch all accounts in parallel!
+        // 3. Fetch all accounts in parallel with safety
         const accountResults = await Promise.all(
           ACCOUNTS.map(async acc => {
             try {
-              const freshReports = await fetchAccountRecentReports(token, acc);
-              return { id: acc.id, freshReports, error: null };
+              const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc);
+              return { id: acc.id, freshReports: reports, hasMorePages, error: null };
             } catch (err) {
-              return { id: acc.id, freshReports: [], error: err.message };
+              return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
             }
           })
         );
 
-        // 4. Mirror WarcraftLogs public reports (reflects additions, privacy changes, and deletions)
+        // 4. Reconcile logs with smart sliding window
         const updatedReportsByAccount = {};
         const accountList = [];
 
         for (const acc of ACCOUNTS) {
-          const incomingResult = accountResults.find(r => r.id === acc.id);
-          // If the fetch succeeded, use the fresh authoritative list directly!
-          // Only fallback to existing list if WarcraftLogs threw a network error for this account
-          let reportList = incomingResult && incomingResult.freshReports && incomingResult.error === null
-            ? incomingResult.freshReports
-            : (existingReportsByAccount[acc.id] || []);
+          const incoming = accountResults.find(r => r.id === acc.id);
+          const existingList = existingReportsByAccount[acc.id] || [];
 
-          reportList.sort((a, b) => b.startTime - a.startTime);
+          let reportList;
+          if (incoming && incoming.error === null && incoming.freshReports) {
+            reportList = reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages);
+          } else {
+            reportList = filterCleanReports(existingList);
+          }
+
           updatedReportsByAccount[acc.id] = reportList;
 
           accountList.push({

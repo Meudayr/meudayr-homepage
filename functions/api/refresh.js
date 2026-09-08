@@ -10,7 +10,7 @@ const ACCOUNTS = [
 ];
 
 const REPORTS_PER_PAGE = 25;
-const MAX_PAGES_ON_REFRESH = 20;
+const MAX_PAGES_ON_REFRESH = 2;
 
 const diffMap = {
   1: 'LFR',
@@ -27,6 +27,45 @@ const diffMap = {
   16: 'Mythic',
   17: 'LFR'
 };
+
+const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+
+function isTestReport(r) {
+  if (!r) return false;
+  if (TEST_LOG_CODES.has(r.code)) return true;
+  if (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000) return true;
+  return false;
+}
+
+function filterCleanReports(reports = []) {
+  if (!Array.isArray(reports)) return [];
+  return reports.filter(r => !isTestReport(r));
+}
+
+function reconcileReports(existingList = [], freshReports = [], hasMorePages = false) {
+  const cleanExisting = filterCleanReports(existingList);
+  const cleanFresh = filterCleanReports(freshReports);
+
+  if (!hasMorePages || cleanFresh.length === 0) {
+    cleanFresh.sort((a, b) => b.startTime - a.startTime);
+    return cleanFresh;
+  }
+
+  const cutoffTime = cleanFresh[cleanFresh.length - 1].startTime;
+  const olderHistorical = cleanExisting.filter(r => r.startTime < cutoffTime);
+
+  const combined = [...cleanFresh, ...olderHistorical];
+  const seen = new Set();
+  const deduped = [];
+  for (const r of combined) {
+    if (!seen.has(r.code)) {
+      seen.add(r.code);
+      deduped.push(r);
+    }
+  }
+  deduped.sort((a, b) => b.startTime - a.startTime);
+  return deduped;
+}
 
 async function getAccessToken(clientId, clientSecret) {
   const credentials = btoa(`${clientId}:${clientSecret}`);
@@ -186,7 +225,7 @@ async function fetchAccountRecentReports(token, account) {
     page++;
   }
 
-  return allRecent;
+  return { reports: allRecent, hasMorePages: hasMore };
 }
 
 export async function onRequest(context) {
@@ -229,30 +268,34 @@ export async function onRequest(context) {
 
     const existingReportsByAccount = existingData?.reportsByAccount || {};
 
-    // 3. Fetch all accounts in parallel!
+    // 3. Fetch all accounts in parallel with safety
     const accountResults = await Promise.all(
       ACCOUNTS.map(async acc => {
         try {
-          const freshReports = await fetchAccountRecentReports(token, acc);
-          return { id: acc.id, freshReports, error: null };
+          const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc);
+          return { id: acc.id, freshReports: reports, hasMorePages, error: null };
         } catch (err) {
           console.error(`Error fetching for ${acc.name}:`, err.message);
-          return { id: acc.id, freshReports: [], error: err.message };
+          return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
         }
       })
     );
 
-    // 4. Mirror WarcraftLogs public reports (reflects additions, privacy changes, and deletions)
+    // 4. Reconcile logs with smart sliding window
     const updatedReportsByAccount = {};
     const accountList = [];
 
     for (const acc of ACCOUNTS) {
-      const incomingResult = accountResults.find(r => r.id === acc.id);
-      let reportList = incomingResult && incomingResult.freshReports && incomingResult.error === null
-        ? incomingResult.freshReports
-        : (existingReportsByAccount[acc.id] || []);
+      const incoming = accountResults.find(r => r.id === acc.id);
+      const existingList = existingReportsByAccount[acc.id] || [];
 
-      reportList.sort((a, b) => b.startTime - a.startTime);
+      let reportList;
+      if (incoming && incoming.error === null && incoming.freshReports) {
+        reportList = reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages);
+      } else {
+        reportList = filterCleanReports(existingList);
+      }
+
       updatedReportsByAccount[acc.id] = reportList;
 
       accountList.push({

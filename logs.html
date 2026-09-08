@@ -1327,6 +1327,17 @@
         reportsByAccount = { meudayr: data.reports || [] };
       }
 
+      // Sanitize out private test logs immediately
+      const TEST_LOG_CODES = new Set(['6xfYGHbr3KNP4yVj', 'mChqxT1np2zANvbB', '8yxL1PvfNaVT9Z6h']);
+      function isTestLog(r) {
+        return r && (TEST_LOG_CODES.has(r.code) || (r.title && r.title.toLowerCase().startsWith('test ') && r.startTime > 1780000000000));
+      }
+      if (reportsByAccount) {
+        for (const accId of Object.keys(reportsByAccount)) {
+          reportsByAccount[accId] = reportsByAccount[accId].filter(r => !isTestLog(r));
+        }
+      }
+
       // Determine active account from URL or storage
       const urlParams = new URLSearchParams(window.location.search);
       const requestedUser = urlParams.get('user') || urlParams.get('player') || localStorage.getItem('selected_log_account');
@@ -1513,6 +1524,7 @@
       setRefreshProgress(15, 'Connecting to WarcraftLogs edge API...');
 
       const prevTopCode = allReports.length > 0 ? allReports[0].code : null;
+      const prevCount = allReports.length;
       let freshData = null;
       let hasNewLog = false;
 
@@ -1610,8 +1622,11 @@
 
         applyLogsData(freshData);
 
+        const newCount = allReports.length;
         if (hasNewLog) {
           updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, New Log Loaded`;
+        } else if (newCount !== prevCount) {
+          updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, Logs Updated`;
         } else {
           updatedTimestampEl.textContent = `Checked at ${nowTimeStr}, No New Logs Found`;
         }
