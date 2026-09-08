@@ -277,7 +277,12 @@ export default {
           },
           body: JSON.stringify({ query })
         });
-        return new Response(await res.text(), {
+        const headers = {};
+        res.headers.forEach((v, k) => { headers[k] = v; });
+        const bodyText = await res.text();
+        let bodyJson;
+        try { bodyJson = JSON.parse(bodyText); } catch(e) { bodyJson = bodyText; }
+        return new Response(JSON.stringify({ status: res.status, headers, body: bodyJson }, null, 2), {
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
         });
       } catch (e) {
