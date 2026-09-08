@@ -1537,6 +1537,7 @@
         }
       }, 350);
 
+      let isRateLimited = false;
       try {
         // 1. Primary: Fast Cloudflare Edge Function (/api/refresh)
         const refreshRes = await fetch('/api/refresh', {
@@ -1552,12 +1553,28 @@
         } else {
           const errText = await refreshRes.text();
           console.warn('Edge /api/refresh error response:', refreshRes.status, errText);
+          if (refreshRes.status === 429 || errText.includes('429') || errText.includes('Too many requests')) {
+            isRateLimited = true;
+          }
         }
       } catch (err) {
         console.warn('Cloudflare edge refresh error, will fallback to GitHub Actions if needed:', err);
       }
 
       clearInterval(progressTimer);
+
+      if (isRateLimited) {
+        setRefreshProgress(100, 'WarcraftLogs API rate limit cooldown in progress...');
+        hideRefreshProgress(2500);
+        btn.classList.remove('spinning');
+        btn.disabled = false;
+        if (updatedTimestampEl) {
+          updatedTimestampEl.textContent = 'WarcraftLogs API cooldown in progress. Please retry in a few minutes.';
+          lastUpdatedEl.classList.add('flash');
+          setTimeout(() => lastUpdatedEl.classList.remove('flash'), 3500);
+        }
+        return;
+      }
 
       // 2. Fallback: If Cloudflare Functions returned an error (e.g. missing credentials), fallback to GitHub Actions
       if (!freshData) {
