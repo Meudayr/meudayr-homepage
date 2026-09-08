@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-09-08T08:32:51.500Z",
+  "fetchedAt": "2026-09-08T13:35:44.265Z",
   "accounts": [
     {
       "id": "meudayr",
       "name": "Meudayr",
       "userId": 323892,
       "server": "Crushridge-US",
-      "reportsCount": 232,
+      "reportsCount": 233,
       "default": true
     },
     {
@@ -20524,6 +20524,74 @@
           "Heroic"
         ],
         "keyLevels": []
+      },
+      {
+        "code": "MTGyPmNA2WjqKaxg",
+        "title": "M+ 9/17",
+        "startTime": 1758156746626,
+        "endTime": 1758161199376,
+        "zone": {
+          "name": "Mythic+ Season 3"
+        },
+        "dungeons": [
+          "Ara-Kara, City of Echoes +10",
+          "Ara-Kara, City of Echoes",
+          "Priory of the Sacred Flame +10"
+        ],
+        "bosses": [
+          "Ara-Kara, City of Echoes",
+          "Unknown",
+          "Priory of the Sacred Flame"
+        ],
+        "players": [
+          "Korus",
+          "Meudayr",
+          "Meenister",
+          "Ferarro",
+          "Inflexi",
+          "Imadude",
+          "Ithorian",
+          "Otekah",
+          "Womandrix",
+          "Lifegiver",
+          "Armani",
+          "Disgrasya",
+          "Pinuno",
+          "Ggkando",
+          "Kayde",
+          "Flashpoint",
+          "Sinrer",
+          "Ezlok",
+          "Murrda",
+          "Mercredi",
+          "Agwah",
+          "Lianzu",
+          "Dremon",
+          "Aedrox",
+          "Energy",
+          "Holywulf",
+          "Pewtrid",
+          "Missbawk",
+          "Yem",
+          "Asomyrh",
+          "Revalation"
+        ],
+        "classes": [
+          "Evoker",
+          "Druid",
+          "Priest",
+          "DeathKnight",
+          "Hunter",
+          "Unknown",
+          "Warlock",
+          "Paladin"
+        ],
+        "difficulties": [
+          "Mythic+"
+        ],
+        "keyLevels": [
+          10
+        ]
       },
       {
         "code": "MTGyPmNA2WjqKaxg",
@@ -117599,6 +117667,74 @@
         "Heroic"
       ],
       "keyLevels": []
+    },
+    {
+      "code": "MTGyPmNA2WjqKaxg",
+      "title": "M+ 9/17",
+      "startTime": 1758156746626,
+      "endTime": 1758161199376,
+      "zone": {
+        "name": "Mythic+ Season 3"
+      },
+      "dungeons": [
+        "Ara-Kara, City of Echoes +10",
+        "Ara-Kara, City of Echoes",
+        "Priory of the Sacred Flame +10"
+      ],
+      "bosses": [
+        "Ara-Kara, City of Echoes",
+        "Unknown",
+        "Priory of the Sacred Flame"
+      ],
+      "players": [
+        "Korus",
+        "Meudayr",
+        "Meenister",
+        "Ferarro",
+        "Inflexi",
+        "Imadude",
+        "Ithorian",
+        "Otekah",
+        "Womandrix",
+        "Lifegiver",
+        "Armani",
+        "Disgrasya",
+        "Pinuno",
+        "Ggkando",
+        "Kayde",
+        "Flashpoint",
+        "Sinrer",
+        "Ezlok",
+        "Murrda",
+        "Mercredi",
+        "Agwah",
+        "Lianzu",
+        "Dremon",
+        "Aedrox",
+        "Energy",
+        "Holywulf",
+        "Pewtrid",
+        "Missbawk",
+        "Yem",
+        "Asomyrh",
+        "Revalation"
+      ],
+      "classes": [
+        "Evoker",
+        "Druid",
+        "Priest",
+        "DeathKnight",
+        "Hunter",
+        "Unknown",
+        "Warlock",
+        "Paladin"
+      ],
+      "difficulties": [
+        "Mythic+"
+      ],
+      "keyLevels": [
+        10
+      ]
     },
     {
       "code": "MTGyPmNA2WjqKaxg",
