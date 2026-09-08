@@ -279,6 +279,18 @@ export async function onRequest(context) {
       })
     );
 
+    // If primary account errored (e.g. rate limit), return 502 so we know WarcraftLogs rejected it
+    const meudayrResult = accountResults.find(r => r.id === 'meudayr');
+    if (meudayrResult && meudayrResult.error) {
+      return new Response(JSON.stringify({
+        error: meudayrResult.error,
+        accounts: accountResults.map(r => ({ id: r.id, error: r.error }))
+      }), {
+        status: 502,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    }
+
     // 4. Reconcile logs with smart sliding window
     const updatedReportsByAccount = {};
     const accountList = [];
