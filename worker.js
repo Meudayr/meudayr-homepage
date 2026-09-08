@@ -192,6 +192,50 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
+    // Route: GET /api/debug (inspect GraphQL schema and reports)
+    if (url.pathname === '/api/debug') {
+      try {
+        const clientId = env.WCL_CLIENT_ID;
+        const clientSecret = env.WCL_CLIENT_SECRET;
+        const token = await getAccessToken(clientId, clientSecret);
+        const query = `
+          query {
+            __type(name: "Report") {
+              fields {
+                name
+                type {
+                  name
+                  kind
+                }
+              }
+            }
+            reportData {
+              reports(userID: 323892, limit: 10) {
+                data {
+                  code
+                  title
+                  startTime
+                }
+              }
+            }
+          }
+        `;
+        const res = await fetch('https://www.warcraftlogs.com/api/v2/client', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ query })
+        });
+        return new Response(await res.text(), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+      }
+    }
+
     // Route: GET /api/logs
     if (url.pathname === '/api/logs') {
       try {
