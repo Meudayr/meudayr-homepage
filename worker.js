@@ -357,106 +357,189 @@ export default {
       }
     }
 
-    // Route: /api/refresh (GET or POST)
-    if (url.pathname === '/api/refresh') {
+async function performRefresh(env, requestUrl = null) {
+  const clientId = env.WCL_CLIENT_ID;
+  const clientSecret = env.WCL_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) {
+    throw new Error('Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.');
+  }
+
+  // 1. Get access token (cached in KV / memory)
+  const token = await getAccessToken(clientId, clientSecret, env);
+
+  // 2. Fetch existing baseline logs from KV or static asset to preserve historical records
+  let existingData = null;
+  if (env.LOGS_KV) {
+    existingData = await env.LOGS_KV.get('warcraft_logs', 'json');
+  }
+  if (!existingData && env.ASSETS && requestUrl) {
+    const assetUrl = new URL('/data/logs.json', requestUrl);
+    const assetRes = await env.ASSETS.fetch(new Request(assetUrl));
+    if (assetRes && assetRes.ok) {
+      existingData = await assetRes.json();
+    }
+  }
+
+  const existingReportsByAccount = existingData?.reportsByAccount || {};
+
+  // 3. Fetch all accounts in parallel with safety
+  const accountResults = await Promise.all(
+    ACCOUNTS.map(async acc => {
       try {
-        const clientId = env.WCL_CLIENT_ID;
-        const clientSecret = env.WCL_CLIENT_SECRET;
+        const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc);
+        return { id: acc.id, freshReports: reports, hasMorePages, error: null };
+      } catch (err) {
+        return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
+      }
+    })
+  );
 
-        if (!clientId || !clientSecret) {
-          return new Response(JSON.stringify({
-            error: 'Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.'
-          }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-          });
-        }
+  // If WarcraftLogs threw an error for the primary account (e.g. rate limit), throw error
+  const meudayrResult = accountResults.find(r => r.id === 'meudayr');
+  if (meudayrResult && meudayrResult.error) {
+    throw new Error(`WarcraftLogs fetch failed: ${meudayrResult.error}`);
+  }
 
-        // 1. Get access token
-        const token = await getAccessToken(clientId, clientSecret, env);
+  // 4. Reconcile logs with smart sliding window
+  const updatedReportsByAccount = {};
+  const accountList = [];
 
-        // 2. Fetch existing baseline logs from KV or static asset to preserve historical records
-        let existingData = null;
+  for (const acc of ACCOUNTS) {
+    const incoming = accountResults.find(r => r.id === acc.id);
+    const existingList = existingReportsByAccount[acc.id] || [];
+
+    let reportList;
+    if (incoming && incoming.error === null && incoming.freshReports) {
+      reportList = reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages);
+    } else {
+      reportList = filterCleanReports(existingList);
+    }
+
+    updatedReportsByAccount[acc.id] = reportList;
+
+    accountList.push({
+      id: acc.id,
+      name: acc.name,
+      userId: acc.userId,
+      server: acc.server,
+      reportsCount: reportList.length,
+      default: !!acc.default
+    });
+  }
+
+  const defaultAcc = ACCOUNTS.find(a => a.default) || ACCOUNTS[0];
+
+  const finalOutput = {
+    fetchedAt: new Date().toISOString(),
+    accounts: accountList,
+    reportsByAccount: updatedReportsByAccount,
+    character: defaultAcc.name,
+    server: defaultAcc.server,
+    reports: updatedReportsByAccount[defaultAcc.id] || []
+  };
+
+  // 5. Store into Cloudflare KV if bound
+  if (env.LOGS_KV) {
+    await env.LOGS_KV.put('warcraft_logs', JSON.stringify(finalOutput));
+  }
+
+  return finalOutput;
+}
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+
+    // Route: GET /api/logs
+    if (url.pathname === '/api/logs') {
+      try {
         if (env.LOGS_KV) {
-          existingData = await env.LOGS_KV.get('warcraft_logs', 'json');
+          const cached = await env.LOGS_KV.get('warcraft_logs', 'json');
+          if (cached && (cached.reportsByAccount || (Array.isArray(cached.reports) && cached.reports.length > 0))) {
+            // Sanitize cached KV: immediately strip any private / test logs
+            let sanitized = false;
+            if (cached.reportsByAccount) {
+              for (const accId of Object.keys(cached.reportsByAccount)) {
+                const beforeCount = cached.reportsByAccount[accId].length;
+                cached.reportsByAccount[accId] = filterCleanReports(cached.reportsByAccount[accId]);
+                if (cached.reportsByAccount[accId].length !== beforeCount) {
+                  sanitized = true;
+                }
+              }
+            }
+            if (Array.isArray(cached.reports)) {
+              const beforeCount = cached.reports.length;
+              cached.reports = filterCleanReports(cached.reports);
+              if (cached.reports.length !== beforeCount) {
+                sanitized = true;
+              }
+            }
+            if (Array.isArray(cached.accounts) && cached.reportsByAccount) {
+              for (const acc of cached.accounts) {
+                if (cached.reportsByAccount[acc.id]) {
+                  acc.reportsCount = cached.reportsByAccount[acc.id].length;
+                }
+              }
+            }
+            if (sanitized && env.LOGS_KV) {
+              if (ctx && ctx.waitUntil) {
+                ctx.waitUntil(env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached)));
+              } else {
+                await env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached));
+              }
+            }
+
+            return new Response(JSON.stringify(cached), {
+              headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Access-Control-Allow-Origin': '*'
+              }
+            });
+          }
         }
-        if (!existingData && env.ASSETS) {
+
+        // Fallback to static asset data/logs.json
+        if (env.ASSETS) {
           const assetUrl = new URL('/data/logs.json', request.url);
           const assetRes = await env.ASSETS.fetch(new Request(assetUrl));
           if (assetRes && assetRes.ok) {
-            existingData = await assetRes.json();
-          }
-        }
-
-        const existingReportsByAccount = existingData?.reportsByAccount || {};
-
-        // 3. Fetch all accounts in parallel with safety
-        const accountResults = await Promise.all(
-          ACCOUNTS.map(async acc => {
-            try {
-              const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc);
-              return { id: acc.id, freshReports: reports, hasMorePages, error: null };
-            } catch (err) {
-              return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
+            const json = await assetRes.json();
+            if (json.reportsByAccount) {
+              for (const accId of Object.keys(json.reportsByAccount)) {
+                json.reportsByAccount[accId] = filterCleanReports(json.reportsByAccount[accId]);
+              }
             }
-          })
-        );
-
-        // If WarcraftLogs threw an error for the primary account (e.g. rate limit), return 502 with error details
-        const meudayrResult = accountResults.find(r => r.id === 'meudayr');
-        if (meudayrResult && meudayrResult.error) {
-          return new Response(JSON.stringify({
-            error: meudayrResult.error,
-            accounts: accountResults.map(r => ({ id: r.id, error: r.error }))
-          }), {
-            status: 502,
-            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-          });
-        }
-
-        // 4. Reconcile logs with smart sliding window
-        const updatedReportsByAccount = {};
-        const accountList = [];
-
-        for (const acc of ACCOUNTS) {
-          const incoming = accountResults.find(r => r.id === acc.id);
-          const existingList = existingReportsByAccount[acc.id] || [];
-
-          let reportList;
-          if (incoming && incoming.error === null && incoming.freshReports) {
-            reportList = reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages);
-          } else {
-            reportList = filterCleanReports(existingList);
+            if (Array.isArray(json.reports)) {
+              json.reports = filterCleanReports(json.reports);
+            }
+            return new Response(JSON.stringify(json), {
+              headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
+                'Access-Control-Allow-Origin': '*'
+              }
+            });
           }
-
-          updatedReportsByAccount[acc.id] = reportList;
-
-          accountList.push({
-            id: acc.id,
-            name: acc.name,
-            userId: acc.userId,
-            server: acc.server,
-            reportsCount: reportList.length,
-            default: !!acc.default
-          });
         }
 
-        const defaultAcc = ACCOUNTS.find(a => a.default) || ACCOUNTS[0];
+        return new Response(JSON.stringify({ error: 'No logs available' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+    }
 
-        const finalOutput = {
-          fetchedAt: new Date().toISOString(),
-          accounts: accountList,
-          reportsByAccount: updatedReportsByAccount,
-          character: defaultAcc.name,
-          server: defaultAcc.server,
-          reports: updatedReportsByAccount[defaultAcc.id] || []
-        };
-
-        // 5. Store into Cloudflare KV if bound
-        if (env.LOGS_KV) {
-          await env.LOGS_KV.put('warcraft_logs', JSON.stringify(finalOutput));
-        }
-
+    // Route: /api/refresh (GET or POST)
+    if (url.pathname === '/api/refresh') {
+      try {
+        const finalOutput = await performRefresh(env, request.url);
         return new Response(JSON.stringify(finalOutput), {
           status: 200,
           headers: {
@@ -479,5 +562,10 @@ export default {
     }
 
     return new Response('Not Found', { status: 404 });
+  },
+
+  // Native Cloudflare Worker Cron Trigger (scheduled event)
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(performRefresh(env));
   }
 };

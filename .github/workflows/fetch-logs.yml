@@ -1,36 +1,30 @@
-name: Fetch WarcraftLogs
+name: Sync WarcraftLogs Backup
 
 on:
   schedule:
-    - cron: '0 */4 * * *'   # Every 4 hours automatically
-    - cron: '35,40,45,50 0,1 * * 5' # 8:35, 8:40, 8:45, 8:50 PM EST/EDT on Thursday
-    - cron: '0,30 1,2 * * 5' # 9:00, 9:30 PM EST/EDT on Thursday
-  workflow_dispatch:          # Allows you to trigger it manually from GitHub
+    - cron: '0 4 * * *'   # Daily backup at 4:00 AM UTC (midnight EDT)
+  workflow_dispatch:      # Allows manual trigger anytime from GitHub Actions tab
 
 concurrency:
   group: fetch-warcraftlogs
   cancel-in-progress: false
 
 jobs:
-  fetch-logs:
+  sync-logs:
     runs-on: ubuntu-latest
     permissions:
-      contents: write         # Needed to push data/logs.json back to the repo
+      contents: write
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Fetch Logs from WarcraftLogs
-        run: node scripts/fetch-logs.js
-        env:
-          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
-          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+      - name: Trigger Edge Refresh & Backup Logs
+        run: |
+          echo "Triggering Cloudflare Edge refresh..."
+          curl -f -s -X POST https://meudayr.com/api/refresh || true
+          echo "Downloading latest logs to data/logs.json..."
+          curl -s https://meudayr.com/api/logs -o data/logs.json
 
       - name: Commit and Push logs.json if changed
         run: |
@@ -40,7 +34,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to logs.json, skipping commit."
           else
-            git commit -m "chore: update logs.json"
+            git commit -m "chore: backup logs.json"
             git pull --rebase origin main || true
             git push
           fi
