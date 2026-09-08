@@ -263,8 +263,19 @@ export default {
                 sanitized = true;
               }
             }
-            if (sanitized && ctx && ctx.waitUntil) {
-              ctx.waitUntil(env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached)));
+            if (Array.isArray(cached.accounts) && cached.reportsByAccount) {
+              for (const acc of cached.accounts) {
+                if (cached.reportsByAccount[acc.id]) {
+                  acc.reportsCount = cached.reportsByAccount[acc.id].length;
+                }
+              }
+            }
+            if (sanitized && env.LOGS_KV) {
+              if (ctx && ctx.waitUntil) {
+                ctx.waitUntil(env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached)));
+              } else {
+                await env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached));
+              }
             }
 
             return new Response(JSON.stringify(cached), {
