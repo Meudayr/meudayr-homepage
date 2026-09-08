@@ -1,4 +1,4 @@
-﻿// functions/api/inspect.js
+// functions/api/inspect.js
 export async function onRequestGet(context) {
   try {
     const url = new URL(context.request.url);
@@ -21,7 +21,16 @@ export async function onRequestGet(context) {
     });
 
     if (!tokenRes.ok) {
-      return new Response(await tokenRes.text(), { status: tokenRes.status });
+      const headers = {};
+      tokenRes.headers.forEach((v, k) => { headers[k] = v; });
+      return new Response(JSON.stringify({
+        tokenError: true,
+        status: tokenRes.status,
+        headers,
+        body: await tokenRes.text()
+      }, null, 2), {
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     const tokenData = await tokenRes.json();

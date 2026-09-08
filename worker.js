@@ -72,7 +72,25 @@ function reconcileReports(existingList = [], freshReports = [], hasMorePages = f
   return deduped;
 }
 
-async function getAccessToken(clientId, clientSecret) {
+let memoryToken = null;
+let memoryTokenExpiresAt = 0;
+
+async function getAccessToken(clientId, clientSecret, env) {
+  const now = Date.now();
+  if (memoryToken && now < memoryTokenExpiresAt - 60000) {
+    return memoryToken;
+  }
+  if (env && env.LOGS_KV) {
+    try {
+      const kvToken = await env.LOGS_KV.get('wcl_token', 'json');
+      if (kvToken && kvToken.token && now < kvToken.expiresAt - 60000) {
+        memoryToken = kvToken.token;
+        memoryTokenExpiresAt = kvToken.expiresAt;
+        return memoryToken;
+      }
+    } catch(e) {}
+  }
+
   const credentials = btoa(`${clientId}:${clientSecret}`);
   const res = await fetch('https://www.warcraftlogs.com/oauth/token', {
     method: 'POST',
@@ -84,12 +102,29 @@ async function getAccessToken(clientId, clientSecret) {
   });
 
   if (!res.ok) {
+    const headers = {};
+    res.headers.forEach((v, k) => { headers[k] = v; });
     const text = await res.text();
-    throw new Error(`Failed to get access token from WarcraftLogs: ${res.status} ${text}`);
+    throw new Error(`Failed to get access token from WarcraftLogs: ${res.status} [Retry-After: ${headers['retry-after'] || 'none'}] ${text}`);
   }
 
   const data = await res.json();
-  return data.access_token;
+  const token = data.access_token;
+  const expiresIn = data.expires_in || 86400;
+  const expiresAt = now + (expiresIn * 1000);
+
+  memoryToken = token;
+  memoryTokenExpiresAt = expiresAt;
+
+  if (env && env.LOGS_KV) {
+    try {
+      await env.LOGS_KV.put('wcl_token', JSON.stringify({ token, expiresAt }), {
+        expirationTtl: Math.min(expiresIn, 86400)
+      });
+    } catch(e) {}
+  }
+
+  return token;
 }
 
 async function fetchReportsPage(token, userId, page) {
@@ -243,7 +278,7 @@ export default {
         const code = url.searchParams.get('code') || 'ZQLWf6hYGJb1rCDR';
         const clientId = env.WCL_CLIENT_ID;
         const clientSecret = env.WCL_CLIENT_SECRET;
-        const token = await getAccessToken(clientId, clientSecret);
+        const token = await getAccessToken(clientId, clientSecret, env);
         const query = `
           query {
             reportData {
@@ -391,7 +426,7 @@ export default {
         }
 
         // 1. Get access token
-        const token = await getAccessToken(clientId, clientSecret);
+        const token = await getAccessToken(clientId, clientSecret, env);
 
         // 2. Fetch existing baseline logs from KV or static asset to preserve historical records
         let existingData = null;
