@@ -686,7 +686,7 @@
 
     .role-benchmark-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
     }
 
@@ -719,6 +719,7 @@
       font-size: 0.72rem;
       color: var(--text-dark);
       margin-left: 3px;
+      white-space: nowrap;
     }
 
     .role-benchmark-status {
@@ -1600,18 +1601,9 @@
               </div>
             </div>
 
-            <div class="readiness-banner">
-              <div class="readiness-text-col" style="flex: 1;">
-                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;" id="raid-target-label">20-Man Raid Target</span>
-                <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);" id="raid-target-headline">Loading...</span>
-                <div class="readiness-bar-track">
-                  <div class="readiness-bar-fill" id="raid-progress-bar" style="width: 0%;"></div>
-                </div>
-              </div>
-              <div style="text-align: right; margin-left: 16px;">
-                <div class="readiness-pct" id="raid-progress-pct">0%</div>
-                <span style="font-size: 0.72rem; color: var(--text-muted);" id="raid-needed-count"></span>
-              </div>
+            <!-- Dynamic Raid Groups Readiness Container (Supports 1st, 2nd, 3rd groups past 120%) -->
+            <div class="raid-groups-container" id="raid-groups-container" style="display: flex; flex-direction: column; gap: 10px;">
+              <!-- Dynamically populated via renderRaidReadiness() -->
             </div>
 
             <!-- Role Benchmark Details Grid -->
@@ -2464,30 +2456,89 @@
     }
 
     function renderRaidReadiness() {
+      const groupsContainer = document.getElementById('raid-groups-container');
+      if (!groupsContainer) return;
+
       const cfg = RAID_CONFIGS[currentRaidSizeTarget] || RAID_CONFIGS[20];
+      const targetSize = cfg.targetSize;
       const total = rosterList.length;
-      const pct = Math.min(100, Math.round((total / cfg.targetSize) * 100));
 
-      const labelEl = document.getElementById('raid-target-label');
-      const headlineEl = document.getElementById('raid-target-headline');
-      const barEl = document.getElementById('raid-progress-bar');
-      const pctEl = document.getElementById('raid-progress-pct');
-      const neededEl = document.getElementById('raid-needed-count');
-
-      if (labelEl) labelEl.textContent = cfg.name;
-      if (headlineEl) {
-        if (total >= cfg.targetSize) {
-          headlineEl.textContent = `${total} / ${cfg.targetSize} Members Ready (+${total - cfg.targetSize} Reserves)`;
-        } else {
-          headlineEl.textContent = `${total} / ${cfg.targetSize} Members Signed Up (${cfg.targetSize - total} more needed)`;
+      // Determine number of raid groups:
+      // For 10 and 20 man, start a second bar for a 2nd raid group (or 3rd) once roster numbers go past 120% of filling a raid group
+      // 10-man: 10 * 1.2 = 12. At 13+, start group 2. At 25+, start group 3.
+      // 20-man: 20 * 1.2 = 24. At 25+, start group 2. At 49+, start group 3.
+      let numGroups = 1;
+      if (targetSize === 10 || targetSize === 20) {
+        while (total > numGroups * targetSize * 1.2) {
+          numGroups++;
         }
       }
-      if (barEl) barEl.style.width = `${pct}%`;
-      if (pctEl) pctEl.textContent = `${pct}%`;
-      if (neededEl) {
-        neededEl.textContent = total >= cfg.targetSize ? 'Raid Cap Reached!' : `${cfg.targetSize - total} spots remaining`;
+
+      let groupsHtml = '';
+      for (let g = 1; g <= numGroups; g++) {
+        const assignedBefore = (g - 1) * targetSize;
+        const groupMembersCount = Math.max(0, total - assignedBefore);
+        const isFull = groupMembersCount >= targetSize;
+        const isLastGroup = g === numGroups;
+
+        let pct = 0;
+        let headline = '';
+        let statusBadge = '';
+        let subCountText = '';
+        let barFillWidth = 0;
+
+        if (isFull) {
+          pct = 100;
+          barFillWidth = 100;
+          const surplus = groupMembersCount - targetSize;
+          if (surplus > 0 && isLastGroup) {
+            headline = `${targetSize} / ${targetSize} Members Ready (+${surplus} Reserve${surplus === 1 ? '' : 's'})`;
+            subCountText = `+${surplus} reserve${surplus === 1 ? '' : 's'}`;
+          } else {
+            headline = `${targetSize} / ${targetSize} Members Confirmed • Ready to Raid`;
+            subCountText = 'Full team';
+          }
+          statusBadge = `<span style="font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3);">Team Ready</span>`;
+        } else {
+          pct = Math.round((groupMembersCount / targetSize) * 100);
+          barFillWidth = pct;
+          const needed = targetSize - groupMembersCount;
+          headline = `${groupMembersCount} / ${targetSize} Members Signed Up (${needed} more needed)`;
+          subCountText = `${needed} spot${needed === 1 ? '' : 's'} remaining`;
+          statusBadge = `<span style="font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3);">Forming Team</span>`;
+        }
+
+        const groupTitle = numGroups > 1 
+          ? `Raid Group ${g} — ${targetSize}-Man Target` 
+          : `${cfg.name}`;
+
+        groupsHtml += `
+          <div class="readiness-banner">
+            <div class="readiness-text-col" style="flex: 1;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; flex-wrap: wrap; gap: 6px;">
+                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                  ${escapeHtml(groupTitle)}
+                </span>
+                ${statusBadge}
+              </div>
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
+                ${escapeHtml(headline)}
+              </span>
+              <div class="readiness-bar-track">
+                <div class="readiness-bar-fill" style="width: ${barFillWidth}%;"></div>
+              </div>
+            </div>
+            <div style="text-align: right; margin-left: 16px; min-width: 65px;">
+              <div class="readiness-pct" style="color: ${pct === 100 ? '#22c55e' : 'var(--accent)'};">${pct}%</div>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(subCountText)}</span>
+            </div>
+          </div>
+        `;
       }
 
+      groupsContainer.innerHTML = groupsHtml;
+
+      // Role Benchmark Details Grid (scaled by number of active raid groups)
       const benchmarkGrid = document.getElementById('role-benchmark-grid');
       if (!benchmarkGrid) return;
 
@@ -2497,18 +2548,23 @@
           return rList.includes(rCfg.role);
         }).length;
 
+        const scaledMin = rCfg.min * numGroups;
+        const scaledMax = rCfg.max * numGroups;
+
         let statusHtml = '';
-        if (count < rCfg.min) {
-          const diff = rCfg.min - count;
+        if (count < scaledMin) {
+          const diff = scaledMin - count;
           statusHtml = `<span class="role-benchmark-status role-status-need">Need ${diff} more</span>`;
-        } else if (count > rCfg.max) {
-          const surplus = count - rCfg.max;
+        } else if (count > scaledMax) {
+          const surplus = count - scaledMax;
           statusHtml = `<span class="role-benchmark-status role-status-surplus">+${surplus} Surplus</span>`;
         } else {
           statusHtml = `<span class="role-benchmark-status role-status-met">Balanced Target</span>`;
         }
 
-        const targetLabel = rCfg.min === rCfg.max ? `${rCfg.min}` : `${rCfg.min}-${rCfg.max}`;
+        const targetRangeStr = scaledMin === scaledMax ? `${scaledMin}` : `${scaledMin}-${scaledMax}`;
+        const groupSuffix = numGroups > 1 ? ` (${numGroups} Groups)` : '';
+        const targetLabel = `${targetRangeStr}${groupSuffix}`;
         const iconUrl = getIconUrl(ROLE_ICONS[rCfg.role] || rCfg.icon);
 
         return `
@@ -2518,10 +2574,10 @@
                 <img src="${iconUrl}" style="width:14px;height:14px;border-radius:3px;" alt="${rCfg.role}">
                 ${rCfg.role}
               </span>
-              <span class="role-benchmark-target">Tgt: ${targetLabel}</span>
+              <span class="role-benchmark-target" style="white-space: nowrap;">Tgt: ${targetRangeStr}</span>
             </div>
             <div class="role-benchmark-count">
-              ${count} <span style="font-size:0.72rem; font-weight:normal; color:var(--text-muted);">/ ${targetLabel}</span>
+              ${count} <span style="font-size:0.72rem; font-weight:normal; color:var(--text-muted); white-space: nowrap;">/ ${targetLabel}</span>
             </div>
             <div>${statusHtml}</div>
           </div>
