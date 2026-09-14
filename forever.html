@@ -1587,7 +1587,7 @@
     </section>
 
     <!-- Main Layout: Submission Form + Roster Directory -->
-    <div class="roster-layout" id="roster-main-layout">
+    <div class="roster-layout sidebar-retracted" id="roster-main-layout">
       
       <!-- Character Form Card -->
       <aside class="form-card" id="signup-form-container">
@@ -1817,9 +1817,9 @@
             </div>
             
             <!-- Submit Character Expand / Retract Toggle Button -->
-            <button type="button" class="toolbar-action-btn" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" title="Toggle Submit Character menu">
-              <svg id="btn-toggle-sidebar-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              <span id="btn-toggle-sidebar-text">Retract Menu</span>
+            <button type="button" class="toolbar-action-btn btn-submit-highlight" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" title="Expand Submit Character menu (moves cards to 2 columns)">
+              <svg id="btn-toggle-sidebar-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+              <span id="btn-toggle-sidebar-text">Submit Character</span>
             </button>
 
             <!-- Admin Mode Toggle Button -->
@@ -2016,7 +2016,7 @@
   </div>
 
   <!-- Floating Quick Expand Button when sidebar is retracted -->
-  <button type="button" class="floating-submit-fab" id="btn-floating-submit" onclick="toggleFormCollapse(true)" title="Submit Character" style="display: none;">
+  <button type="button" class="floating-submit-fab" id="btn-floating-submit" onclick="toggleFormCollapse(true)" title="Submit Character">
     <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
     <span>Submit Character</span>
   </button>
@@ -2179,7 +2179,8 @@
     let currentViewMode = localStorage.getItem('tbs_view_mode') || 'cards';
     let currentRaidSizeTarget = 20; // 10, 20, 40
     let currentTableSort = { field: 'playerName', asc: true };
-    let isFormRetracted = localStorage.getItem('tbs_form_retracted') === 'true';
+    // Default to retracted unless user explicitly expanded it ('false')
+    let isFormRetracted = localStorage.getItem('tbs_form_retracted') !== 'false';
 
     const ARMOR_DATA = {
       "Plate": { classes: ["Warrior", "Paladin"], color: "#94a3b8" },
@@ -2962,6 +2963,16 @@
             `).join('')}
           </div>
         ` : '';
+
+        let dateStr = '';
+        if (m.updatedAt || m.createdAt) {
+          try {
+            const d = new Date(m.updatedAt || m.createdAt);
+            if (!isNaN(d.getTime())) {
+              dateStr = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+            }
+          } catch(e) {}
+        }
 
         return `
           <div class="member-card" style="--card-accent-color: ${classColor};" id="card-${m.id}">
