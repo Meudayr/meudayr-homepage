@@ -473,9 +473,11 @@ export default {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
         'Cache-Control': 'no-cache, no-store, must-revalidate'
       };
+
+      const validAdminKey = (env && env.ADMIN_KEY) || 'dontgivemeadpi';
 
       if (request.method === 'OPTIONS') {
         return new Response(null, { status: 204, headers: rosterCorsHeaders });
@@ -503,6 +505,24 @@ export default {
 
       if (request.method === 'GET') {
         try {
+          if (url.searchParams.get('verify_admin') === '1') {
+            const headerKey = request.headers.get('x-admin-key');
+            const paramKey = url.searchParams.get('admin_key');
+            const providedKey = headerKey || paramKey;
+
+            if (providedKey && providedKey === validAdminKey) {
+              return new Response(JSON.stringify({ success: true, verified: true }), {
+                status: 200,
+                headers: rosterCorsHeaders
+              });
+            } else {
+              return new Response(JSON.stringify({ success: false, verified: false, error: 'Invalid admin password.' }), {
+                status: 403,
+                headers: rosterCorsHeaders
+              });
+            }
+          }
+
           const roster = await getWorkerRoster();
           return new Response(JSON.stringify({ success: true, roster }), {
             status: 200,
@@ -547,7 +567,8 @@ export default {
             return item.playerName.toLowerCase() === cleanName.toLowerCase();
           });
 
-          const isAdmin = admin === true || request.headers.get('x-admin-key') === 'meudayr';
+          const providedAdminKey = request.headers.get('x-admin-key') || body.adminKey;
+          const isAdmin = Boolean(providedAdminKey && providedAdminKey === validAdminKey);
           const nowIso = new Date().toISOString();
           let savedEntry = null;
 
@@ -623,17 +644,18 @@ export default {
         try {
           let targetId = url.searchParams.get('id');
           let givenPin = url.searchParams.get('pin');
-          let isAdmin = request.headers.get('x-admin-key') === 'meudayr';
-          if (url.searchParams.get('admin') === 'true') isAdmin = true;
+          let providedAdminKey = request.headers.get('x-admin-key') || url.searchParams.get('admin_key');
 
           if (!targetId) {
             try {
               const body = await request.json();
               targetId = body.id;
               givenPin = body.pin;
-              if (body.admin === true) isAdmin = true;
+              if (body.adminKey) providedAdminKey = body.adminKey;
             } catch (e) {}
           }
+
+          const isAdmin = Boolean(providedAdminKey && providedAdminKey === validAdminKey);
 
           if (!targetId) {
             return new Response(JSON.stringify({ success: false, error: 'Target ID is required.' }), {

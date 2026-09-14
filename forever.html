@@ -1099,9 +1099,9 @@
             </div>
             
             <!-- Admin Mode Toggle Button -->
-            <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="toggleAdminMode()" title="Toggle Admin Mode to edit any entry without PIN">
-              <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-              <span id="admin-toggle-label">Admin: Off</span>
+            <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="handleAdminClick()" title="Unlock Admin Mode to manage entries without PIN">
+              <svg id="admin-toggle-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+              <span id="admin-toggle-label">Admin</span>
             </button>
 
             <button class="toolbar-action-btn" onclick="copyDiscordRoster()" title="Copy Markdown table for Discord">
@@ -1133,7 +1133,8 @@
 
             <!-- Admin Active Indicator -->
             <span id="admin-active-badge" class="admin-indicator-pill" style="display: none; margin-left: auto;">
-              🛡️ Admin Mode Active (PINs Bypassed)
+              🛡️ Admin Active (PINs Bypassed)
+              <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 6px; padding: 0;" title="Lock Admin Mode">Lock</button>
             </span>
           </div>
         </div>
@@ -1159,6 +1160,28 @@
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closePinModal()">Cancel</button>
         <button class="form-btn-submit" style="margin: 0; width: auto; padding: 8px 16px;" onclick="confirmPinModal()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Authentication Modal -->
+  <div class="pin-modal-overlay" id="admin-modal">
+    <div class="pin-modal-box">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="pin-modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg style="width: 18px; height: 18px; color: #f59e0b;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+          Admin Authentication
+        </div>
+        <button type="button" onclick="closeAdminModal()" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 4px;" title="Close">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+        Enter the guild admin password to manage and edit roster entries without individual character PINs.
+      </p>
+      <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') confirmAdminUnlock()">
+      <div id="admin-pass-error" style="color: #ef4444; font-size: 0.8rem; font-weight: 600; display: none;">Incorrect admin password. Please try again.</div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closeAdminModal()">Cancel</button>
+        <button class="form-btn-submit" id="btn-admin-unlock" style="margin: 0; width: auto; padding: 8px 16px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b;" onclick="confirmAdminUnlock()">Unlock Admin</button>
       </div>
     </div>
   </div>
@@ -1313,7 +1336,8 @@
     let activeRoleFilter = "all";
     let selectedRoles = ["Melee DPS"];
     let selectedPlaystyles = ["Hardcore Raiding"];
-    let isAdminMode = localStorage.getItem('tbs_admin_mode') === 'true';
+    let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
+    let isAdminMode = Boolean(adminPasskey);
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
 
     function getIconUrl(iconName) {
@@ -1322,34 +1346,141 @@
     }
 
     // ==========================================
-    // Admin Mode Controls
+    // Admin Mode Controls (Password Protected)
     // ==========================================
 
     function updateAdminUI() {
       const btn = document.getElementById('btn-admin-toggle');
       const label = document.getElementById('admin-toggle-label');
       const badge = document.getElementById('admin-active-badge');
+      const icon = document.getElementById('admin-toggle-icon');
 
-      if (isAdminMode) {
+      if (isAdminMode && adminPasskey) {
         btn.classList.add('active');
-        label.textContent = 'Admin: ON';
+        label.textContent = 'Admin: Unlocked';
+        btn.setAttribute('title', 'Admin Mode active (Click to lock)');
         badge.style.display = 'inline-flex';
+        if (icon) {
+          icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H4.5A2.25 2.25 0 002.25 10.5v6.75a2.25 2.25 0 002.25 2.25z"/>';
+        }
       } else {
         btn.classList.remove('active');
-        label.textContent = 'Admin: Off';
+        label.textContent = 'Admin';
+        btn.setAttribute('title', 'Click to enter password and unlock Admin Mode');
         badge.style.display = 'none';
+        if (icon) {
+          icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>';
+        }
       }
     }
 
-    function toggleAdminMode() {
-      isAdminMode = !isAdminMode;
-      localStorage.setItem('tbs_admin_mode', isAdminMode ? 'true' : 'false');
-      updateAdminUI();
-      if (isAdminMode) {
-        showToast('Admin Mode Active: PIN bypass enabled!');
+    function handleAdminClick() {
+      if (isAdminMode && adminPasskey) {
+        if (confirm('Admin Mode is currently unlocked. Lock it now?')) {
+          lockAdminMode();
+        }
       } else {
-        showToast('Admin Mode Deactivated.');
+        openAdminModal();
       }
+    }
+
+    function openAdminModal() {
+      const input = document.getElementById('admin-pass-input');
+      const errEl = document.getElementById('admin-pass-error');
+      if (input) input.value = '';
+      if (errEl) errEl.style.display = 'none';
+      document.getElementById('admin-modal').classList.add('open');
+      setTimeout(() => input && input.focus(), 80);
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.remove('open');
+    }
+
+    async function confirmAdminUnlock() {
+      const input = document.getElementById('admin-pass-input');
+      const errEl = document.getElementById('admin-pass-error');
+      const btn = document.getElementById('btn-admin-unlock');
+      const entered = input.value.trim();
+
+      if (!entered) {
+        errEl.textContent = 'Please enter the admin password.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      errEl.style.display = 'none';
+
+      try {
+        const res = await fetch(`/api/roster?verify_admin=1`, {
+          headers: { 'x-admin-key': entered }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          adminPasskey = entered;
+          isAdminMode = true;
+          localStorage.setItem('tbs_admin_passkey', entered);
+          updateAdminUI();
+          closeAdminModal();
+          showToast('Admin Mode Unlocked! PIN bypass active.');
+        } else {
+          errEl.textContent = data.error || 'Incorrect admin password.';
+          errEl.style.display = 'block';
+          input.select();
+        }
+      } catch (e) {
+        // Local offline check fallback
+        if (entered === 'dontgivemeadpi') {
+          adminPasskey = entered;
+          isAdminMode = true;
+          localStorage.setItem('tbs_admin_passkey', entered);
+          updateAdminUI();
+          closeAdminModal();
+          showToast('Admin Mode Unlocked.');
+        } else {
+          errEl.textContent = 'Verification failed or incorrect password.';
+          errEl.style.display = 'block';
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Unlock Admin';
+      }
+    }
+
+    function lockAdminMode() {
+      adminPasskey = '';
+      isAdminMode = false;
+      localStorage.removeItem('tbs_admin_passkey');
+      localStorage.removeItem('tbs_admin_mode');
+      updateAdminUI();
+      showToast('Admin Mode locked.');
+    }
+
+    // Auto-detect secret link: ?admin=dontgivemeadpi or ?admin_key=...
+    async function checkUrlAdminParam() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlKey = params.get('admin') || params.get('admin_key');
+        if (urlKey) {
+          const res = await fetch(`/api/roster?verify_admin=1`, {
+            headers: { 'x-admin-key': urlKey }
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            adminPasskey = urlKey;
+            isAdminMode = true;
+            localStorage.setItem('tbs_admin_passkey', urlKey);
+            updateAdminUI();
+            showToast('Admin Mode Unlocked via secure link!');
+            params.delete('admin');
+            params.delete('admin_key');
+            const newQuery = params.toString() ? '?' + params.toString() : '';
+            window.history.replaceState({}, document.title, window.location.pathname + newQuery);
+          }
+        }
+      } catch (e) {}
     }
 
     // ==========================================
@@ -1741,12 +1872,12 @@
         playstyle: selectedPlaystyles[0],
         notes,
         pin,
-        admin: isAdminMode
+        adminKey: (isAdminMode && adminPasskey) ? adminPasskey : undefined
       };
 
       try {
         const headers = { 'Content-Type': 'application/json' };
-        if (isAdminMode) headers['x-admin-key'] = 'meudayr';
+        if (isAdminMode && adminPasskey) headers['x-admin-key'] = adminPasskey;
 
         const res = await fetch('/api/roster', {
           method: 'POST',
@@ -1787,8 +1918,8 @@
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
-      // If Admin Mode is active, bypass PIN check completely!
-      if (!isAdminMode && entry.pin && entry.pin.trim() !== '') {
+      // If Admin Mode is active and passkey verified, bypass PIN check completely!
+      if (!(isAdminMode && adminPasskey) && entry.pin && entry.pin.trim() !== '') {
         pendingModalAction = { type: 'edit', entry };
         document.getElementById('pin-modal-title').textContent = `Unlock ${entry.playerName}`;
         document.getElementById('pin-modal-desc').textContent = 'This entry is PIN protected. Enter the PIN to edit.';
@@ -1852,8 +1983,8 @@
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
-      // If Admin Mode is active, bypass PIN check completely!
-      if (!isAdminMode && entry.pin && entry.pin.trim() !== '') {
+      // If Admin Mode is active and passkey verified, bypass PIN check completely!
+      if (!(isAdminMode && adminPasskey) && entry.pin && entry.pin.trim() !== '') {
         pendingModalAction = { type: 'delete', entry };
         document.getElementById('pin-modal-title').textContent = `Remove ${entry.playerName}?`;
         document.getElementById('pin-modal-desc').textContent = 'Enter your 4-digit PIN to delete this entry from the roster.';
@@ -1871,9 +2002,13 @@
     async function executeDelete(id, pin) {
       try {
         const headers = {};
-        if (isAdminMode) headers['x-admin-key'] = 'meudayr';
+        let url = `/api/roster?id=${encodeURIComponent(id)}&pin=${encodeURIComponent(pin)}`;
+        if (isAdminMode && adminPasskey) {
+          headers['x-admin-key'] = adminPasskey;
+          url += `&admin_key=${encodeURIComponent(adminPasskey)}`;
+        }
 
-        const res = await fetch(`/api/roster?id=${encodeURIComponent(id)}&pin=${encodeURIComponent(pin)}&admin=${isAdminMode}`, {
+        const res = await fetch(url, {
           method: 'DELETE',
           headers
         });
@@ -1963,6 +2098,7 @@
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
       updateAdminUI();
+      checkUrlAdminParam();
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();

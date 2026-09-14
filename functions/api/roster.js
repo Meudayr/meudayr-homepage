@@ -20,6 +20,10 @@ export async function onRequestOptions() {
   });
 }
 
+function getValidAdminKey(env) {
+  return (env && env.ADMIN_KEY) || 'dontgivemeadpi';
+}
+
 async function getBaselineRoster(context) {
   // 1. Try reading from Cloudflare KV
   if (context.env && context.env.LOGS_KV) {
@@ -55,6 +59,26 @@ async function getBaselineRoster(context) {
 
 export async function onRequestGet(context) {
   try {
+    const url = new URL(context.request.url);
+    if (url.searchParams.get('verify_admin') === '1') {
+      const headerKey = context.request.headers.get('x-admin-key');
+      const paramKey = url.searchParams.get('admin_key');
+      const providedKey = headerKey || paramKey;
+      const validKey = getValidAdminKey(context.env);
+
+      if (providedKey && providedKey === validKey) {
+        return new Response(JSON.stringify({ success: true, verified: true }), {
+          status: 200,
+          headers: corsHeaders()
+        });
+      } else {
+        return new Response(JSON.stringify({ success: false, verified: false, error: 'Invalid admin password.' }), {
+          status: 403,
+          headers: corsHeaders()
+        });
+      }
+    }
+
     const roster = await getBaselineRoster(context);
     return new Response(JSON.stringify({ success: true, roster }), {
       status: 200,
@@ -101,7 +125,9 @@ export async function onRequestPost(context) {
       return item.playerName.toLowerCase() === cleanName.toLowerCase();
     });
 
-    const isAdmin = admin === true || context.request.headers.get('x-admin-key') === 'meudayr';
+    const validKey = getValidAdminKey(context.env);
+    const providedAdminKey = context.request.headers.get('x-admin-key') || body.adminKey;
+    const isAdmin = Boolean(providedAdminKey && providedAdminKey === validKey);
     const nowIso = new Date().toISOString();
     let savedEntry = null;
 
@@ -184,23 +210,25 @@ export async function onRequestPost(context) {
 
 export async function onRequestDelete(context) {
   try {
+    const validKey = getValidAdminKey(context.env);
     let targetId = null;
     let givenPin = null;
-    let isAdmin = context.request.headers.get('x-admin-key') === 'meudayr';
 
     const url = new URL(context.request.url);
     targetId = url.searchParams.get('id');
     givenPin = url.searchParams.get('pin');
-    if (url.searchParams.get('admin') === 'true') isAdmin = true;
+    let providedAdminKey = context.request.headers.get('x-admin-key') || url.searchParams.get('admin_key');
 
     if (!targetId && context.request.method === 'DELETE') {
       try {
         const body = await context.request.json();
         targetId = body.id;
         givenPin = body.pin;
-        if (body.admin === true) isAdmin = true;
+        if (body.adminKey) providedAdminKey = body.adminKey;
       } catch (e) {}
     }
+
+    const isAdmin = Boolean(providedAdminKey && providedAdminKey === validKey);
 
     if (!targetId) {
       return new Response(JSON.stringify({ success: false, error: 'Target ID is required to delete.' }), {
