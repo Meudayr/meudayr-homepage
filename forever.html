@@ -138,21 +138,45 @@
       margin-bottom: 60px;
     }
 
-    @media (max-width: 960px) {
-      .roster-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
     /* Character Form Card */
     .form-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
       padding: 24px;
-      position: sticky;
-      top: 24px;
       box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    }
+
+    /* Only make form sticky on desktop when side-by-side with roster */
+    @media (min-width: 961px) {
+      .form-card {
+        position: sticky;
+        top: 24px;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .roster-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .form-card {
+        position: static;
+        top: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .form-card {
+        padding: 18px 16px;
+      }
+
+      .toolbar-wrapper {
+        padding: 14px 16px;
+      }
     }
 
     .form-card-title {
