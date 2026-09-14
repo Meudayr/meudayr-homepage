@@ -3667,9 +3667,19 @@
             `).join('')}</div>`
           : '<span style="color:var(--text-dark);">-</span>';
 
-        const playstyleBadges = playstyles.map(p => `
-          <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
-        `).join(' ');
+        const hasAllPlaystyles = playstyles.length >= 3 || (
+          playstyles.includes('Raiding') &&
+          playstyles.includes('PvP') &&
+          (playstyles.includes('Leveling & Dungeons') || playstyles.includes('Leveling &amp; Dungeons'))
+        );
+
+        const playstyleBadges = hasAllPlaystyles
+          ? `<span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 8px; font-weight:700;" title="Raiding, Leveling &amp; Dungeons, PvP">All</span>`
+          : (playstyles.length > 0
+              ? playstyles.map(p => `
+                  <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
+                `).join(' ')
+              : '<span style="color:var(--text-dark);">-</span>');
 
         const notesShort = m.notes ? (m.notes.length > 60 ? escapeHtml(m.notes.slice(0, 60)) + '...' : escapeHtml(m.notes)) : '-';
 
