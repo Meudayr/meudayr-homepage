@@ -643,33 +643,6 @@
       color: #fff;
     }
 
-    .floating-submit-fab {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      z-index: 100;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #181b22;
-      border: 1.5px solid rgba(192, 157, 82, 0.5);
-      color: #fef08a;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
-      padding: 10px 18px;
-      border-radius: 9999px;
-      font-size: 0.84rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .floating-submit-fab:hover {
-      background: #232732;
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8);
-    }
-
     /* Dedicated Standout Submit Character Action Box */
     .submit-cta-card {
       flex: 0 0 auto;
@@ -823,10 +796,6 @@
         max-width: 100% !important;
         padding-top: 0px !important;
         padding-bottom: 0px !important;
-      }
-
-      .floating-submit-fab {
-        display: none !important;
       }
     }
 
@@ -2280,12 +2249,6 @@
     </div>
   </div>
 
-  <!-- Floating Quick Expand Button when sidebar is retracted -->
-  <button type="button" class="floating-submit-fab" id="btn-floating-submit" onclick="toggleFormCollapse(true)" title="Submit Character">
-    <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-    <span>Submit Character</span>
-  </button>
-
   <!-- Toast Notification -->
   <div class="toast-popup" id="toast-popup">
     <svg style="width: 18px; height: 18px; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -2688,7 +2651,6 @@
       const toggleIcon = document.getElementById('btn-toggle-sidebar-icon');
       const toggleText = document.getElementById('btn-toggle-sidebar-text');
       const toggleAction = document.getElementById('btn-toggle-sidebar-action');
-      const floatingFab = document.getElementById('btn-floating-submit');
 
       if (!layout) return;
 
@@ -2707,16 +2669,10 @@
         if (toggleAction) {
           toggleAction.innerHTML = '<span class="submit-cta-badge">+ Open</span>';
         }
-        if (floatingFab) {
-          floatingFab.style.display = 'inline-flex';
-        }
       } else {
         layout.classList.remove('sidebar-retracted');
         if (ctaCard) {
           ctaCard.style.display = '';
-        }
-        if (floatingFab) {
-          floatingFab.style.display = 'none';
         }
       }
     }
