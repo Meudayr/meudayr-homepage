@@ -131,20 +131,44 @@
 
     /* Main Content Layout: Form & Roster */
     .roster-layout {
-      display: grid;
-      grid-template-columns: 390px 1fr;
+      display: flex;
       gap: 32px;
       align-items: start;
       margin-bottom: 60px;
-      transition: grid-template-columns 0.3s ease;
+      transition: gap 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .roster-layout.sidebar-retracted {
-      grid-template-columns: 1fr;
+      gap: 0px;
     }
 
-    .roster-layout.sidebar-retracted #signup-form-container {
-      display: none !important;
+    /* Animated Expanding Sidebar Column */
+    .form-sidebar-col {
+      width: 390px;
+      flex-shrink: 0;
+      overflow: hidden;
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      transform-origin: top left;
+      visibility: visible;
+      transition: width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.38s;
+      will-change: width, opacity, transform;
+    }
+
+    .roster-layout.sidebar-retracted .form-sidebar-col {
+      width: 0px;
+      opacity: 0;
+      transform: translateX(-20px) scale(0.95);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .roster-panel {
+      flex: 1;
+      min-width: 0;
     }
 
     .form-collapse-btn {
@@ -188,11 +212,26 @@
 
     /* Character Form Card */
     .form-card {
+      width: 390px;
+      box-sizing: border-box;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
       padding: 24px;
       box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #f59e0b, #fef08a, transparent);
+      opacity: 0.85;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
     /* Only make form sticky on desktop when side-by-side with roster */
@@ -207,13 +246,37 @@
 
     @media (max-width: 960px) {
       .roster-layout {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 24px;
       }
 
+      .roster-layout.sidebar-retracted {
+        gap: 0px;
+      }
+
+      .form-sidebar-col {
+        width: 100%;
+        max-height: 2500px;
+        transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.28s ease,
+                    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.4s;
+      }
+
+      .roster-layout.sidebar-retracted .form-sidebar-col {
+        width: 100%;
+        max-height: 0px;
+        opacity: 0;
+        transform: translateY(-18px) scale(0.97);
+        visibility: hidden;
+        pointer-events: none;
+      }
+
       .form-card {
+        width: 100%;
         position: static;
         top: auto;
+        max-height: none;
       }
     }
 
@@ -619,10 +682,18 @@
       gap: 12px;
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(254, 240, 138, 0.15);
-      transition: all 0.25s ease;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.25s ease,
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-width 0.35s ease,
+                  transform 0.25s ease,
+                  visibility 0.35s;
       position: relative;
       overflow: hidden;
       user-select: none;
+      max-width: 340px;
+      opacity: 1;
+      visibility: visible;
     }
 
     .submit-cta-card::before {
@@ -722,9 +793,17 @@
       color: #fff;
     }
 
-    /* When form is expanded, completely hide the CTA card (retract is handled directly in the form header) */
+    /* When form is expanded, smoothly collapse the CTA card into the expanding form */
     .roster-layout:not(.sidebar-retracted) .submit-cta-card {
-      display: none !important;
+      max-width: 0px !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+      border-width: 0px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden;
     }
 
     @media (max-width: 960px) {
@@ -735,7 +814,15 @@
 
       .submit-cta-card {
         width: 100%;
+        max-width: 100%;
         padding: 12px 16px;
+      }
+
+      .roster-layout:not(.sidebar-retracted) .submit-cta-card {
+        max-height: 0px !important;
+        max-width: 100% !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
       }
 
       .floating-submit-fab {
@@ -1755,8 +1842,10 @@
     <!-- Main Layout: Submission Form + Roster Directory -->
     <div class="roster-layout sidebar-retracted" id="roster-main-layout">
       
-      <!-- Character Form Card -->
-      <aside class="form-card" id="signup-form-container">
+      <!-- Animated Expanding Sidebar Column -->
+      <div class="form-sidebar-col" id="form-sidebar-col">
+        <!-- Character Form Card -->
+        <aside class="form-card" id="signup-form-container">
         <div class="form-card-title">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span id="form-heading-text">Submit Character</span>
@@ -1954,6 +2043,7 @@
           </button>
         </form>
       </aside>
+    </div>
 
       <!-- Live Roster Directory Panel -->
       <section class="roster-panel">
@@ -2623,7 +2713,7 @@
       } else {
         layout.classList.remove('sidebar-retracted');
         if (ctaCard) {
-          ctaCard.style.display = 'none';
+          ctaCard.style.display = '';
         }
         if (floatingFab) {
           floatingFab.style.display = 'none';
