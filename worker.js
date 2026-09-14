@@ -487,7 +487,7 @@ export default {
         if (env.LOGS_KV) {
           try {
             const kvData = await env.LOGS_KV.get('forever_roster', 'json');
-            if (Array.isArray(kvData) && kvData.length > 0) return kvData;
+            if (Array.isArray(kvData)) return kvData;
           } catch (e) {}
         }
         if (env.ASSETS) {
@@ -658,6 +658,16 @@ export default {
           }
 
           const isAdmin = Boolean(providedAdminKey && providedAdminKey === validAdminKey);
+
+          if (isAdmin && (url.searchParams.get('clear_all') === '1' || targetId === 'all')) {
+            if (env.LOGS_KV) {
+              await env.LOGS_KV.put('forever_roster', JSON.stringify([]));
+            }
+            return new Response(JSON.stringify({ success: true, cleared: true, roster: [] }), {
+              status: 200,
+              headers: rosterCorsHeaders
+            });
+          }
 
           if (!targetId) {
             return new Response(JSON.stringify({ success: false, error: 'Target ID is required.' }), {

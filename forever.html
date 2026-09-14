@@ -1592,8 +1592,9 @@
 
             <!-- Admin Active Indicator -->
             <span id="admin-active-badge" class="admin-indicator-pill" style="display: none; margin-left: auto;">
-              🛡️ Admin Active (PINs Bypassed)
-              <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 6px; padding: 0;" title="Lock Admin Mode">Lock</button>
+              🛡️ Admin Active
+              <button type="button" onclick="clearEntireRoster()" style="background: none; border: none; color: #f87171; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Clear all roster entries">Clear Roster</button>
+              <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Lock Admin Mode">Lock</button>
             </span>
           </div>
         </div>
@@ -2058,6 +2059,39 @@
       showToast('Admin Mode locked.');
     }
 
+    async function clearEntireRoster() {
+      if (!isAdminMode || !adminPasskey) {
+        showToast('Admin mode required to clear roster.', true);
+        return;
+      }
+      if (!confirm('⚠️ Are you sure you want to CLEAR the entire guild roster? All registered characters will be permanently deleted for production.')) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/roster?clear_all=1`, {
+          method: 'DELETE',
+          headers: { 'x-admin-key': adminPasskey }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          rosterList = [];
+          localStorage.setItem('tbs_forever_roster', '[]');
+          renderStats();
+          applyFilters();
+          showToast('Guild roster completely cleared for production!');
+        } else {
+          showToast(data.error || 'Failed to clear roster.', true);
+        }
+      } catch (err) {
+        rosterList = [];
+        localStorage.setItem('tbs_forever_roster', '[]');
+        renderStats();
+        applyFilters();
+        showToast('Guild roster cleared locally.');
+      }
+    }
+
     // Auto-detect secret link: ?admin=dontgivemeadpi or ?admin_key=...
     async function checkUrlAdminParam() {
       try {
@@ -2378,12 +2412,22 @@
       const filtered = getFilteredRoster();
 
       if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="roster-empty-state">
-            <h3>No characters match your filter</h3>
-            <p>Try clearing your search query or selecting "All" filters.</p>
-          </div>
-        `;
+        if (rosterList.length === 0) {
+          container.innerHTML = `
+            <div class="roster-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px;">
+              <svg style="width: 48px; height: 48px; color: var(--text-dark); margin-bottom: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+              <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Characters Registered Yet</h3>
+              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 420px; margin: 0 auto;">Be the first to join the TBS WoW: Forever guild roster by submitting your character plan on the left!</p>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <div class="roster-empty-state">
+              <h3>No characters match your filter</h3>
+              <p>Try clearing your search query or selecting "All" filters.</p>
+            </div>
+          `;
+        }
         return;
       }
 

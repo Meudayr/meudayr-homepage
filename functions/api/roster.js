@@ -29,7 +29,7 @@ async function getBaselineRoster(context) {
   if (context.env && context.env.LOGS_KV) {
     try {
       const kvData = await context.env.LOGS_KV.get('forever_roster', 'json');
-      if (Array.isArray(kvData) && kvData.length > 0) {
+      if (Array.isArray(kvData)) {
         return kvData;
       }
     } catch (e) {
@@ -231,6 +231,16 @@ export async function onRequestDelete(context) {
     }
 
     const isAdmin = Boolean(providedAdminKey && providedAdminKey === validKey);
+
+    if (isAdmin && (url.searchParams.get('clear_all') === '1' || targetId === 'all')) {
+      if (context.env && context.env.LOGS_KV) {
+        await context.env.LOGS_KV.put('forever_roster', JSON.stringify([]));
+      }
+      return new Response(JSON.stringify({ success: true, cleared: true, roster: [] }), {
+        status: 200,
+        headers: corsHeaders()
+      });
+    }
 
     if (!targetId) {
       return new Response(JSON.stringify({ success: false, error: 'Target ID is required to delete.' }), {
