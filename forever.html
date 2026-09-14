@@ -519,6 +519,409 @@
       font-weight: 700;
     }
 
+    /* View Switcher Controls */
+    .view-mode-group {
+      display: inline-flex;
+      align-items: center;
+      background: #121418;
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .view-mode-btn {
+      padding: 5px 12px;
+      border-radius: 9999px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .view-mode-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .view-mode-btn:hover {
+      color: var(--text-main);
+    }
+
+    .view-mode-btn.active {
+      background: #252a35;
+      color: var(--accent);
+      border-color: rgba(192, 157, 82, 0.4);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Analytics Dashboard Layout */
+    .analytics-view {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .analytics-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .analytics-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .analytics-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .analytics-card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .analytics-card-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Raid Size Selector (10, 20, 40-man) */
+    .raid-size-selector {
+      display: inline-flex;
+      align-items: center;
+      background: #111317;
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .raid-size-btn {
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .raid-size-btn.active {
+      background: #dc2626;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
+    }
+
+    /* Raid Readiness & Benchmark Meter */
+    .readiness-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.3);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.04);
+      gap: 14px;
+    }
+
+    .readiness-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .readiness-pct {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .readiness-bar-track {
+      width: 100%;
+      height: 8px;
+      background: #1b1e26;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .readiness-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #dc2626, #f59e0b, #22c55e);
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+
+    .role-benchmark-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .role-benchmark-item {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .role-benchmark-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .role-benchmark-count {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .role-benchmark-target {
+      font-size: 0.72rem;
+      color: var(--text-dark);
+      margin-left: 3px;
+    }
+
+    .role-benchmark-status {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-block;
+      width: fit-content;
+      margin-top: 4px;
+    }
+
+    .role-status-met { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .role-status-need { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .role-status-surplus { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    /* Class Distribution Bars */
+    .class-dist-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .class-dist-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .class-dist-row:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .class-dist-label {
+      width: 110px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .class-dist-label img {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .class-dist-track {
+      flex: 1;
+      height: 14px;
+      background: #171a22;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .class-dist-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+      min-width: 4px;
+    }
+
+    .class-dist-count {
+      width: 50px;
+      text-align: right;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* Armor Loot Groups */
+    .armor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .armor-card {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-top: 3px solid var(--armor-color, #c09d52);
+    }
+
+    .armor-name {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .armor-classes {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .armor-count {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    /* Race Distribution Grid */
+    .race-dist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .race-dist-item {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .race-dist-item img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+    }
+
+    .race-dist-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .race-dist-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .race-dist-count {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Dense Roster Table */
+    .roster-table-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+
+    .roster-table th {
+      background: #111317;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.72rem;
+      border-bottom: 1px solid var(--card-border);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .roster-table th:hover {
+      color: var(--text-main);
+    }
+
+    .roster-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .roster-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
     .filter-chips-row {
       display: flex;
       align-items: center;
@@ -705,6 +1108,18 @@
       padding: 6px 10px;
       border-radius: 0 4px 4px 0;
       font-style: italic;
+      max-height: 100px;
+      overflow-y: auto;
+      word-break: break-word;
+    }
+
+    .member-notes::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .member-notes::-webkit-scrollbar-thumb {
+      background: #2b303c;
+      border-radius: 4px;
     }
 
     .member-offspec-line {
@@ -1063,8 +1478,11 @@
 
           <!-- Notes / Availability -->
           <div class="form-group">
-            <label class="form-label" for="input-notes">Notes &amp; Professions <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
-            <textarea id="input-notes" class="form-textarea" placeholder="Professions planned, raid availability, or notes for officers..."></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="input-notes" style="margin-bottom: 0;">Notes &amp; Professions <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
+              <span id="notes-char-counter" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;"><span id="notes-count">0</span>/300</span>
+            </div>
+            <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Professions planned, raid availability, or notes for officers..." oninput="updateNotesCounter()"></textarea>
           </div>
 
           <!-- Optional 4-digit PIN for edit protection -->
@@ -1097,6 +1515,22 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, notes..." oninput="applyFilters()">
             </div>
+
+            <!-- View Switcher -->
+            <div class="view-mode-group">
+              <button type="button" class="view-mode-btn active" id="btn-view-cards" onclick="setViewMode('cards')" title="Cards Grid View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Cards</span>
+              </button>
+              <button type="button" class="view-mode-btn" id="btn-view-analytics" onclick="setViewMode('analytics')" title="Graphs &amp; Analytics">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <span>Analytics</span>
+              </button>
+              <button type="button" class="view-mode-btn" id="btn-view-table" onclick="setViewMode('table')" title="Dense Roster Table">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>Table</span>
+              </button>
+            </div>
             
             <!-- Admin Mode Toggle Button -->
             <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="handleAdminClick()" title="Unlock Admin Mode to manage entries without PIN">
@@ -1111,7 +1545,7 @@
           </div>
 
           <!-- Filter Pills (Role & Class) -->
-          <div class="filter-chips-row">
+          <div class="filter-chips-row" id="filter-chips-row">
             <span class="filter-group-label">Role:</span>
             <button class="filter-pill active" data-role="all" onclick="setRoleFilter('all', this)">All</button>
             <button class="filter-pill" data-role="Tank" onclick="setRoleFilter('Tank', this)">
@@ -1139,9 +1573,116 @@
           </div>
         </div>
 
-        <!-- Roster Cards Grid -->
+        <!-- View 1: Roster Cards Grid (Default) -->
         <div class="roster-grid" id="roster-grid">
           <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- View 2: Analytics & Graphs View -->
+        <div class="analytics-view" id="roster-analytics-view" style="display: none;">
+          
+          <!-- Raid Readiness & Target Benchmark Card -->
+          <div class="analytics-card full-width">
+            <div class="analytics-card-header">
+              <div>
+                <div class="analytics-card-title">
+                  <svg style="width: 18px; height: 18px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  Raid Composition &amp; Readiness Targets
+                </div>
+                <div class="analytics-card-sub">Evaluate current roster against 10-man, 20-man, and 40-man WoW: Forever raid sizes</div>
+              </div>
+
+              <!-- 10 / 20 / 40-man Selector -->
+              <div class="raid-size-selector">
+                <button type="button" class="raid-size-btn" id="btn-size-10" onclick="setRaidSizeTarget(10)">10-Man</button>
+                <button type="button" class="raid-size-btn active" id="btn-size-20" onclick="setRaidSizeTarget(20)">20-Man</button>
+                <button type="button" class="raid-size-btn" id="btn-size-40" onclick="setRaidSizeTarget(40)">40-Man</button>
+              </div>
+            </div>
+
+            <div class="readiness-banner">
+              <div class="readiness-text-col" style="flex: 1;">
+                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;" id="raid-target-label">20-Man Raid Target</span>
+                <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);" id="raid-target-headline">Loading...</span>
+                <div class="readiness-bar-track">
+                  <div class="readiness-bar-fill" id="raid-progress-bar" style="width: 0%;"></div>
+                </div>
+              </div>
+              <div style="text-align: right; margin-left: 16px;">
+                <div class="readiness-pct" id="raid-progress-pct">0%</div>
+                <span style="font-size: 0.72rem; color: var(--text-muted);" id="raid-needed-count"></span>
+              </div>
+            </div>
+
+            <!-- Role Benchmark Details Grid -->
+            <div class="role-benchmark-grid" id="role-benchmark-grid">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <!-- Class Distribution Horizontal Chart -->
+            <div class="analytics-card">
+              <div class="analytics-card-header">
+                <div>
+                  <div class="analytics-card-title">
+                    <svg style="width: 18px; height: 18px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
+                    Class Distribution
+                  </div>
+                  <div class="analytics-card-sub">Counts and percentage share (hover bar for players)</div>
+                </div>
+              </div>
+              <div class="class-dist-list" id="class-dist-list">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+            <!-- Armor Types & Loot Competition -->
+            <div class="analytics-card">
+              <div class="analytics-card-header">
+                <div>
+                  <div class="analytics-card-title">
+                    <svg style="width: 18px; height: 18px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Armor Types &amp; Loot Competition
+                  </div>
+                  <div class="analytics-card-sub">Gear tier and token competition balance</div>
+                </div>
+              </div>
+              <div class="armor-grid" id="armor-grid">
+                <!-- Dynamically rendered -->
+              </div>
+
+              <!-- Race Spread -->
+              <div style="margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Race Representation</div>
+                <div class="race-dist-grid" id="race-dist-grid">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- View 3: Dense Roster Table -->
+        <div class="roster-table-wrapper" id="roster-table-view" style="display: none;">
+          <table class="roster-table" id="roster-table">
+            <thead>
+              <tr>
+                <th onclick="sortTable('playerName')">Player &#x25B4;&#x25BE;</th>
+                <th onclick="sortTable('race')">Race &#x25B4;&#x25BE;</th>
+                <th onclick="sortTable('className')">Class &amp; Spec &#x25B4;&#x25BE;</th>
+                <th onclick="sortTable('role')">Roles &#x25B4;&#x25BE;</th>
+                <th>Offspec</th>
+                <th>Playstyles</th>
+                <th style="min-width: 180px;">Notes</th>
+                <th style="text-align: right; width: 100px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="roster-table-body">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
         </div>
 
       </section>
@@ -1339,6 +1880,49 @@
     let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
     let isAdminMode = Boolean(adminPasskey);
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
+    let currentViewMode = localStorage.getItem('tbs_view_mode') || 'cards';
+    let currentRaidSizeTarget = 20; // 10, 20, 40
+    let currentTableSort = { field: 'playerName', asc: true };
+
+    const ARMOR_DATA = {
+      "Plate": { classes: ["Warrior", "Paladin"], color: "#94a3b8" },
+      "Mail": { classes: ["Hunter", "Shaman"], color: "#38bdf8" },
+      "Leather": { classes: ["Rogue", "Druid"], color: "#fbbf24" },
+      "Cloth": { classes: ["Priest", "Mage", "Warlock"], color: "#c084fc" }
+    };
+
+    const RAID_CONFIGS = {
+      10: {
+        name: '10-Man Raid Target',
+        targetSize: 10,
+        roles: [
+          { role: 'Tank', min: 2, max: 2, icon: 'inv_shield_06' },
+          { role: 'Healer', min: 2, max: 3, icon: 'spell_holy_flashheal' },
+          { role: 'Melee DPS', min: 2, max: 3, icon: 'ability_dualwield' },
+          { role: 'Ranged DPS', min: 3, max: 4, icon: 'spell_fire_fireball02' }
+        ]
+      },
+      20: {
+        name: '20-Man Raid Target',
+        targetSize: 20,
+        roles: [
+          { role: 'Tank', min: 2, max: 3, icon: 'inv_shield_06' },
+          { role: 'Healer', min: 4, max: 5, icon: 'spell_holy_flashheal' },
+          { role: 'Melee DPS', min: 6, max: 7, icon: 'ability_dualwield' },
+          { role: 'Ranged DPS', min: 6, max: 8, icon: 'spell_fire_fireball02' }
+        ]
+      },
+      40: {
+        name: '40-Man Raid Target',
+        targetSize: 40,
+        roles: [
+          { role: 'Tank', min: 3, max: 4, icon: 'inv_shield_06' },
+          { role: 'Healer', min: 8, max: 10, icon: 'spell_holy_flashheal' },
+          { role: 'Melee DPS', min: 13, max: 15, icon: 'ability_dualwield' },
+          { role: 'Ranged DPS', min: 13, max: 15, icon: 'spell_fire_fireball02' }
+        ]
+      }
+    };
 
     function getIconUrl(iconName) {
       if (!iconName) return '';
@@ -1652,8 +2236,8 @@
         if (cached) {
           try {
             rosterList = JSON.parse(cached);
-            renderRoster();
             renderStats();
+            applyFilters();
           } catch(e) {}
         }
 
@@ -1663,8 +2247,8 @@
           if (data && Array.isArray(data.roster)) {
             rosterList = data.roster;
             localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
-            renderRoster();
             renderStats();
+            applyFilters();
           }
         }
       } catch (err) {
@@ -1691,41 +2275,91 @@
       document.getElementById('stat-ranged-count').textContent = rangedDps;
     }
 
-    function applyFilters() {
-      renderRoster();
-    }
-
-    function setRoleFilter(role, btn) {
-      activeRoleFilter = role;
-      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderRoster();
-    }
-
-    function renderRoster() {
-      const container = document.getElementById('roster-grid');
-      if (!container) return;
-
+    function getFilteredRoster() {
       const searchTerm = (document.getElementById('roster-search-input')?.value || '').toLowerCase().trim();
 
-      const filtered = rosterList.filter(item => {
+      return rosterList.filter(item => {
         // Multi-role filter match
         if (activeRoleFilter !== 'all') {
           const roles = Array.isArray(item.roles) && item.roles.length > 0 ? item.roles : (item.role ? [item.role] : []);
           if (!roles.includes(activeRoleFilter)) return false;
         }
 
-        // Search filter
+        // Search filter across player, class, spec, race, notes
         if (searchTerm) {
-          const matchName = item.playerName.toLowerCase().includes(searchTerm);
-          const matchClass = item.className.toLowerCase().includes(searchTerm);
-          const matchSpec = item.spec.toLowerCase().includes(searchTerm);
+          const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
+          const matchClass = (item.className || '').toLowerCase().includes(searchTerm);
+          const matchSpec = (item.spec || '').toLowerCase().includes(searchTerm);
           const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
-          const matchRace = item.race.toLowerCase().includes(searchTerm);
+          const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
           if (!matchName && !matchClass && !matchSpec && !matchNotes && !matchRace) return false;
         }
         return true;
       });
+    }
+
+    // ==========================================
+    // View Switcher & Filter Management
+    // ==========================================
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      localStorage.setItem('tbs_view_mode', mode);
+
+      const cardsBtn = document.getElementById('btn-view-cards');
+      const analyticsBtn = document.getElementById('btn-view-analytics');
+      const tableBtn = document.getElementById('btn-view-table');
+
+      const cardsView = document.getElementById('roster-grid');
+      const analyticsView = document.getElementById('roster-analytics-view');
+      const tableView = document.getElementById('roster-table-view');
+
+      if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
+      if (analyticsBtn) analyticsBtn.classList.toggle('active', mode === 'analytics');
+      if (tableBtn) tableBtn.classList.toggle('active', mode === 'table');
+
+      if (cardsView) cardsView.style.display = mode === 'cards' ? 'grid' : 'none';
+      if (analyticsView) analyticsView.style.display = mode === 'analytics' ? 'flex' : 'none';
+      if (tableView) tableView.style.display = mode === 'table' ? 'block' : 'none';
+
+      applyFilters();
+    }
+
+    function setRaidSizeTarget(size) {
+      currentRaidSizeTarget = parseInt(size, 10);
+      [10, 20, 40].forEach(s => {
+        const btn = document.getElementById(`btn-size-${s}`);
+        if (btn) btn.classList.toggle('active', s === currentRaidSizeTarget);
+      });
+      renderRaidReadiness();
+    }
+
+    function applyFilters() {
+      if (currentViewMode === 'cards') {
+        renderRoster();
+      } else if (currentViewMode === 'analytics') {
+        renderAnalytics();
+      } else if (currentViewMode === 'table') {
+        renderTable();
+      }
+    }
+
+    function setRoleFilter(role, btn) {
+      activeRoleFilter = role;
+      btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    }
+
+    // ==========================================
+    // View 1: Roster Cards Grid
+    // ==========================================
+
+    function renderRoster() {
+      const container = document.getElementById('roster-grid');
+      if (!container) return;
+
+      const filtered = getFilteredRoster();
 
       if (filtered.length === 0) {
         container.innerHTML = `
@@ -1818,6 +2452,332 @@
       }).join('');
     }
 
+    // ==========================================
+    // View 2: Analytics & Composition Graphs
+    // ==========================================
+
+    function renderAnalytics() {
+      renderRaidReadiness();
+      renderClassDistribution();
+      renderArmorDistribution();
+      renderRaceDistribution();
+    }
+
+    function renderRaidReadiness() {
+      const cfg = RAID_CONFIGS[currentRaidSizeTarget] || RAID_CONFIGS[20];
+      const total = rosterList.length;
+      const pct = Math.min(100, Math.round((total / cfg.targetSize) * 100));
+
+      const labelEl = document.getElementById('raid-target-label');
+      const headlineEl = document.getElementById('raid-target-headline');
+      const barEl = document.getElementById('raid-progress-bar');
+      const pctEl = document.getElementById('raid-progress-pct');
+      const neededEl = document.getElementById('raid-needed-count');
+
+      if (labelEl) labelEl.textContent = cfg.name;
+      if (headlineEl) {
+        if (total >= cfg.targetSize) {
+          headlineEl.textContent = `${total} / ${cfg.targetSize} Members Ready (+${total - cfg.targetSize} Reserves)`;
+        } else {
+          headlineEl.textContent = `${total} / ${cfg.targetSize} Members Signed Up (${cfg.targetSize - total} more needed)`;
+        }
+      }
+      if (barEl) barEl.style.width = `${pct}%`;
+      if (pctEl) pctEl.textContent = `${pct}%`;
+      if (neededEl) {
+        neededEl.textContent = total >= cfg.targetSize ? 'Raid Cap Reached!' : `${cfg.targetSize - total} spots remaining`;
+      }
+
+      const benchmarkGrid = document.getElementById('role-benchmark-grid');
+      if (!benchmarkGrid) return;
+
+      benchmarkGrid.innerHTML = cfg.roles.map(rCfg => {
+        const count = rosterList.filter(m => {
+          const rList = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+          return rList.includes(rCfg.role);
+        }).length;
+
+        let statusHtml = '';
+        if (count < rCfg.min) {
+          const diff = rCfg.min - count;
+          statusHtml = `<span class="role-benchmark-status role-status-need">Need ${diff} more</span>`;
+        } else if (count > rCfg.max) {
+          const surplus = count - rCfg.max;
+          statusHtml = `<span class="role-benchmark-status role-status-surplus">+${surplus} Surplus</span>`;
+        } else {
+          statusHtml = `<span class="role-benchmark-status role-status-met">Balanced Target</span>`;
+        }
+
+        const targetLabel = rCfg.min === rCfg.max ? `${rCfg.min}` : `${rCfg.min}-${rCfg.max}`;
+        const iconUrl = getIconUrl(ROLE_ICONS[rCfg.role] || rCfg.icon);
+
+        return `
+          <div class="role-benchmark-item">
+            <div class="role-benchmark-top">
+              <span style="display:flex; align-items:center; gap:5px;">
+                <img src="${iconUrl}" style="width:14px;height:14px;border-radius:3px;" alt="${rCfg.role}">
+                ${rCfg.role}
+              </span>
+              <span class="role-benchmark-target">Tgt: ${targetLabel}</span>
+            </div>
+            <div class="role-benchmark-count">
+              ${count} <span style="font-size:0.72rem; font-weight:normal; color:var(--text-muted);">/ ${targetLabel}</span>
+            </div>
+            <div>${statusHtml}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderClassDistribution() {
+      const container = document.getElementById('class-dist-list');
+      if (!container) return;
+
+      const dataset = getFilteredRoster();
+      const classCounts = {};
+      const classPlayers = {};
+      const allClasses = Object.keys(CLASS_COLORS);
+
+      allClasses.forEach(c => {
+        classCounts[c] = 0;
+        classPlayers[c] = [];
+      });
+
+      dataset.forEach(m => {
+        if (classCounts[m.className] !== undefined) {
+          classCounts[m.className]++;
+          classPlayers[m.className].push(m.playerName);
+        }
+      });
+
+      const sortedClasses = [...allClasses].sort((a, b) => classCounts[b] - classCounts[a] || a.localeCompare(b));
+
+      container.innerHTML = sortedClasses.map(className => {
+        const count = classCounts[className];
+        const pct = dataset.length > 0 ? Math.round((count / dataset.length) * 100) : 0;
+        const color = CLASS_COLORS[className] || '#dc2626';
+        const icon = CLASS_ICONS[className] || 'inv_misc_questionmark';
+        const playerTooltip = classPlayers[className].length > 0 ? classPlayers[className].join(', ') : 'No players registered';
+
+        return `
+          <div class="class-dist-row" onclick="filterByClassQuick('${className}')" title="Click to filter roster by ${className} (Players: ${escapeHtml(playerTooltip)})">
+            <div class="class-dist-label">
+              <img src="${getIconUrl(icon)}" alt="${className}">
+              <span style="color: ${color};">${className}</span>
+            </div>
+            <div class="class-dist-track" title="${className}: ${escapeHtml(playerTooltip)}">
+              <div class="class-dist-fill" style="width: ${pct}%; background: ${color};"></div>
+            </div>
+            <div class="class-dist-count">
+              ${count} <span style="font-size: 0.7rem; color: var(--text-dark);">(${pct}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterByClassQuick(className) {
+      const searchInput = document.getElementById('roster-search-input');
+      if (!searchInput) return;
+      if (searchInput.value.toLowerCase() === className.toLowerCase()) {
+        searchInput.value = '';
+      } else {
+        searchInput.value = className;
+      }
+      applyFilters();
+    }
+
+    function renderArmorDistribution() {
+      const container = document.getElementById('armor-grid');
+      if (!container) return;
+
+      const dataset = getFilteredRoster();
+
+      container.innerHTML = Object.entries(ARMOR_DATA).map(([armorType, data]) => {
+        const matching = dataset.filter(m => data.classes.includes(m.className));
+        const count = matching.length;
+        const pct = dataset.length > 0 ? Math.round((count / dataset.length) * 100) : 0;
+        const playerNames = matching.map(m => m.playerName).join(', ') || 'None';
+
+        return `
+          <div class="armor-card" style="--armor-color: ${data.color};" title="Players: ${escapeHtml(playerNames)}">
+            <div class="armor-name" style="color: ${data.color};">${armorType}</div>
+            <div class="armor-classes">${data.classes.join(', ')}</div>
+            <div class="armor-count">${count} <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(${pct}%)</span></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRaceDistribution() {
+      const container = document.getElementById('race-dist-grid');
+      if (!container) return;
+
+      const dataset = getFilteredRoster();
+      const allRaces = Object.keys(HORDE_RACE_CLASSES);
+
+      container.innerHTML = allRaces.map(race => {
+        const matching = dataset.filter(m => m.race === race);
+        const count = matching.length;
+        const pct = dataset.length > 0 ? Math.round((count / dataset.length) * 100) : 0;
+        const icon = RACE_ICONS[race] || 'inv_misc_questionmark';
+
+        return `
+          <div class="race-dist-item" title="${race}: ${escapeHtml(matching.map(m => m.playerName).join(', ') || 'None')}">
+            <img src="${getIconUrl(icon)}" alt="${race}">
+            <div class="race-dist-info">
+              <span class="race-dist-name">${race}</span>
+              <span class="race-dist-count">${count} members (${pct}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // View 3: Dense Roster Table
+    // ==========================================
+
+    function sortTable(field) {
+      if (currentTableSort.field === field) {
+        currentTableSort.asc = !currentTableSort.asc;
+      } else {
+        currentTableSort.field = field;
+        currentTableSort.asc = true;
+      }
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('roster-table-body');
+      if (!tbody) return;
+
+      const dataset = [...getFilteredRoster()];
+      const { field, asc } = currentTableSort;
+
+      dataset.sort((a, b) => {
+        let valA = '';
+        let valB = '';
+
+        if (field === 'playerName') {
+          valA = (a.playerName || '').toLowerCase();
+          valB = (b.playerName || '').toLowerCase();
+        } else if (field === 'race') {
+          valA = (a.race || '').toLowerCase();
+          valB = (b.race || '').toLowerCase();
+        } else if (field === 'className') {
+          valA = `${a.className} ${a.spec}`.toLowerCase();
+          valB = `${b.className} ${b.spec}`.toLowerCase();
+        } else if (field === 'role') {
+          const rA = Array.isArray(a.roles) ? a.roles.join(', ') : (a.role || '');
+          const rB = Array.isArray(b.roles) ? b.roles.join(', ') : (b.role || '');
+          valA = rA.toLowerCase();
+          valB = rB.toLowerCase();
+        }
+
+        if (valA < valB) return asc ? -1 : 1;
+        if (valA > valB) return asc ? 1 : -1;
+        return 0;
+      });
+
+      if (dataset.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center; padding: 28px; color: var(--text-muted);">
+              No characters match your filter criteria.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = dataset.map(m => {
+        const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
+        const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
+        const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
+
+        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+        const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
+
+        const roleBadges = roles.map(r => {
+          let roleTagClass = 'role-melee';
+          const rIcon = ROLE_ICONS[r] || 'ability_dualwield';
+          if (r === 'Tank') roleTagClass = 'role-tank';
+          else if (r === 'Healer') roleTagClass = 'role-healer';
+          else if (r === 'Ranged DPS') roleTagClass = 'role-ranged';
+          return `
+            <span class="member-role-badge ${roleTagClass}" style="font-size:0.68rem; padding: 2px 6px;">
+              <img src="${getIconUrl(rIcon)}" style="width:12px;height:12px;" alt="${r}">
+              ${escapeHtml(r)}
+            </span>
+          `;
+        }).join(' ');
+
+        const playstyleBadges = playstyles.map(p => `
+          <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
+        `).join(' ');
+
+        const notesShort = m.notes ? (m.notes.length > 60 ? escapeHtml(m.notes.slice(0, 60)) + '...' : escapeHtml(m.notes)) : '-';
+
+        return `
+          <tr>
+            <td>
+              <strong style="color:var(--text-main); font-weight:700;">${escapeHtml(m.playerName)}</strong>
+              ${m.pin ? '<svg style="width:11px;height:11px;color:var(--text-dark);vertical-align:middle;margin-left:3px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
+            </td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:5px;">
+                <img src="${getIconUrl(raceIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${m.race}">
+                ${escapeHtml(m.race)}
+              </span>
+            </td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:5px; color: ${classColor}; font-weight: 700;">
+                <img src="${getIconUrl(specIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${m.spec}">
+                ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
+              </span>
+            </td>
+            <td><div style="display:flex; flex-wrap:wrap; gap:4px;">${roleBadges}</div></td>
+            <td style="color:var(--text-muted); font-size:0.75rem;">${m.offspec ? escapeHtml(m.offspec) : '-'}</td>
+            <td><div style="display:flex; flex-wrap:wrap; gap:3px;">${playstyleBadges}</div></td>
+            <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.75rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${notesShort}
+            </td>
+            <td style="text-align: right; white-space: nowrap;">
+              <div style="display:inline-flex; gap:4px;">
+                <button class="card-action-btn edit-btn" style="padding:4px 8px; font-size:0.72rem;" onclick="startEdit('${m.id}')">Edit</button>
+                <button class="card-action-btn delete-btn" style="padding:4px 8px; font-size:0.72rem;" onclick="startDelete('${m.id}')" title="Delete">✕</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // Character Notes Counter
+    // ==========================================
+
+    function updateNotesCounter() {
+      const notesInput = document.getElementById('input-notes');
+      const countEl = document.getElementById('notes-count');
+      const counterWrapper = document.getElementById('notes-char-counter');
+      if (!notesInput || !countEl) return;
+      const len = notesInput.value.length;
+      countEl.textContent = len;
+      if (counterWrapper) {
+        if (len >= 300) {
+          counterWrapper.classList.add('limit');
+          counterWrapper.style.color = '#ef4444';
+          counterWrapper.style.fontWeight = '700';
+        } else {
+          counterWrapper.classList.remove('limit');
+          counterWrapper.style.color = 'var(--text-muted)';
+          counterWrapper.style.fontWeight = '600';
+        }
+      }
+    }
+
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -1904,8 +2864,8 @@
           rosterList.unshift({ id: `tbs-local-${Date.now()}`, ...payload, createdAt: nowIso, updatedAt: nowIso });
         }
         localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
-        renderRoster();
         renderStats();
+        applyFilters();
         cancelEditMode();
         showToast('Saved locally!');
       } finally {
@@ -1938,6 +2898,7 @@
       document.getElementById('input-offspec').value = entry.offspec || '';
       document.getElementById('input-notes').value = entry.notes || '';
       document.getElementById('input-pin').value = entry.pin || '';
+      updateNotesCounter();
 
       // Set Race, Class, Spec
       populateRaceSelect(entry.race);
@@ -1977,6 +2938,7 @@
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
+      updateNotesCounter();
     }
 
     function startDelete(id) {
@@ -2023,8 +2985,8 @@
         // Fallback local removal
         rosterList = rosterList.filter(x => x.id !== id);
         localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
-        renderRoster();
         renderStats();
+        applyFilters();
         showToast('Removed locally.');
       }
     }
@@ -2102,6 +3064,8 @@
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
+      updateNotesCounter();
+      setViewMode(currentViewMode);
       loadRoster();
     });
   </script>

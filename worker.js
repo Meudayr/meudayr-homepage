@@ -572,6 +572,8 @@ export default {
           const nowIso = new Date().toISOString();
           let savedEntry = null;
 
+          const cleanNotes = notes ? notes.trim().slice(0, 300) : '';
+
           if (existingIndex >= 0) {
             const existing = roster[existingIndex];
             if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
@@ -598,7 +600,7 @@ export default {
               offspec: offspec ? offspec.trim() : '',
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
-              notes: notes ? notes.trim() : '',
+              notes: cleanNotes,
               pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
               updatedAt: nowIso
             };
@@ -616,7 +618,7 @@ export default {
               offspec: offspec ? offspec.trim() : '',
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
-              notes: notes ? notes.trim() : '',
+              notes: cleanNotes,
               pin: pin ? pin.trim() : '',
               createdAt: nowIso,
               updatedAt: nowIso

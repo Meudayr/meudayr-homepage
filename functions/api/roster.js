@@ -131,6 +131,8 @@ export async function onRequestPost(context) {
     const nowIso = new Date().toISOString();
     let savedEntry = null;
 
+    const cleanNotes = notes ? notes.trim().slice(0, 300) : '';
+
     if (existingIndex >= 0) {
       const existing = roster[existingIndex];
       // PIN check: if existing entry has a PIN, require matching PIN unless admin
@@ -158,7 +160,7 @@ export async function onRequestPost(context) {
         offspec: offspec ? offspec.trim() : '',
         playstyle: primaryPlaystyle,
         playstyles: resolvedPlaystyles,
-        notes: notes ? notes.trim() : '',
+        notes: cleanNotes,
         pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
         updatedAt: nowIso
       };
@@ -178,7 +180,7 @@ export async function onRequestPost(context) {
         offspec: offspec ? offspec.trim() : '',
         playstyle: primaryPlaystyle,
         playstyles: resolvedPlaystyles,
-        notes: notes ? notes.trim() : '',
+        notes: cleanNotes,
         pin: pin ? pin.trim() : '',
         createdAt: nowIso,
         updatedAt: nowIso
