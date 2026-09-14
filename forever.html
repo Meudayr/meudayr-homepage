@@ -760,6 +760,50 @@
     .role-status-need { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
     .role-status-surplus { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
 
+    .role-benchmark-flex-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(192, 157, 82, 0.15);
+      border: 1px solid rgba(192, 157, 82, 0.35);
+      color: #fef08a;
+      white-space: nowrap;
+      cursor: help;
+      margin-left: 5px;
+    }
+
+    .raid-flex-summary-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .raid-flex-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .raid-flex-item img {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
     /* Class Distribution Bars */
     .class-dist-list {
       display: flex;
@@ -1155,6 +1199,26 @@
       gap: 4px;
     }
 
+    .member-offspec-badge {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      width: fit-content;
+    }
+
+    .member-offspec-badge img {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+
     .member-playstyles-row {
       display: flex;
       flex-wrap: wrap;
@@ -1447,36 +1511,57 @@
             <div class="preview-text" id="preview-selection-text">Select Race, Class &amp; Spec</div>
           </div>
 
-          <!-- Primary Roles (Multi-Select Supported) -->
+          <!-- Primary Role (Single-Select for 1:1 Raid Spot Planning) -->
           <div class="form-group">
             <label class="form-label">
-              <span>Primary Role(s) <span class="req">*</span></span>
-              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Select all that apply</span>
+              <span>Primary Role <span class="req">*</span></span>
+              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Main raid role (1 spot)</span>
             </label>
             <div class="role-chips-grid">
-              <div class="role-toggle-chip" data-role="Tank" onclick="toggleRole('Tank')">
+              <div class="role-toggle-chip" data-role="Tank" onclick="setPrimaryRole('Tank')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tank">
                 <span>Tank</span>
               </div>
-              <div class="role-toggle-chip" data-role="Healer" onclick="toggleRole('Healer')">
+              <div class="role-toggle-chip" data-role="Healer" onclick="setPrimaryRole('Healer')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healer">
                 <span>Healer</span>
               </div>
-              <div class="role-toggle-chip" data-role="Melee DPS" onclick="toggleRole('Melee DPS')">
+              <div class="role-toggle-chip" data-role="Melee DPS" onclick="setPrimaryRole('Melee DPS')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee">
                 <span>Melee DPS</span>
               </div>
-              <div class="role-toggle-chip" data-role="Ranged DPS" onclick="toggleRole('Ranged DPS')">
+              <div class="role-toggle-chip" data-role="Ranged DPS" onclick="setPrimaryRole('Ranged DPS')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_fire_fireball02.jpg" alt="Ranged">
                 <span>Ranged DPS</span>
               </div>
             </div>
           </div>
 
-          <!-- Secondary / Offspec (Optional) -->
+          <!-- Secondary / Offspec (Structured Spec + Role) -->
           <div class="form-group">
-            <label class="form-label" for="input-offspec">Secondary / Offspec <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
-            <input type="text" id="input-offspec" class="form-input" placeholder="e.g. Resto Healer offspec">
+            <label class="form-label">
+              <span>Secondary / Offspec <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></span>
+              <span style="font-size: 0.72rem; color: var(--text-dark);">For flex raid roles</span>
+            </label>
+            <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 8px;">
+              <div>
+                <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)">
+                  <!-- Dynamically populated via JS -->
+                </select>
+              </div>
+              <div>
+                <select id="select-offspec-role" class="form-select" onchange="onOffspecRoleChange(this.value)" disabled>
+                  <option value="">No Role</option>
+                  <option value="Tank">Tank</option>
+                  <option value="Healer">Healer</option>
+                  <option value="Melee DPS">Melee DPS</option>
+                  <option value="Ranged DPS">Ranged DPS</option>
+                </select>
+              </div>
+            </div>
+            <div style="font-size: 0.72rem; color: var(--text-dark); margin-top: 3px;">
+              Pick another spec or your current spec with a secondary role (e.g. Feral Tank or Resto Healer).
+            </div>
           </div>
 
           <!-- Multi-Select Focus / Playstyle -->
@@ -1630,6 +1715,11 @@
 
             <!-- Role Benchmark Details Grid -->
             <div class="role-benchmark-grid" id="role-benchmark-grid">
+              <!-- Dynamically rendered -->
+            </div>
+
+            <!-- Raid Flex Depth Summary -->
+            <div id="raid-flex-summary" class="raid-flex-summary-bar" style="display: none;">
               <!-- Dynamically rendered -->
             </div>
           </div>
@@ -1889,6 +1979,7 @@
     // State Variables
     let rosterList = [];
     let activeRoleFilter = "all";
+    let selectedRole = "Melee DPS";
     let selectedRoles = ["Melee DPS"];
     let selectedPlaystyles = ["Raiding"];
     let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
@@ -2164,7 +2255,82 @@
       onClassChange(selectClass.value);
     }
 
-    function onClassChange(className, selectedSpec = null) {
+    function populateOffspecSelect(className, selectedOffspec = null, selectedOffspecRole = null) {
+      const selectOffspec = document.getElementById('select-offspec');
+      const selectOffspecRole = document.getElementById('select-offspec-role');
+      if (!selectOffspec || !selectOffspecRole) return;
+
+      selectOffspec.innerHTML = '<option value="">None (No Offspec)</option>';
+      const specsObj = SPEC_DATA[className] || {};
+      const specNames = Object.keys(specsObj);
+
+      specNames.forEach(spec => {
+        const opt = document.createElement('option');
+        opt.value = spec;
+        opt.textContent = spec;
+        selectOffspec.appendChild(opt);
+      });
+
+      if (selectedOffspec && specNames.includes(selectedOffspec)) {
+        selectOffspec.value = selectedOffspec;
+      } else {
+        selectOffspec.value = '';
+      }
+
+      if (selectedOffspecRole) {
+        selectOffspecRole.value = selectedOffspecRole;
+      } else {
+        selectOffspecRole.value = '';
+      }
+
+      selectOffspecRole.disabled = !selectOffspec.value;
+    }
+
+    function onOffspecChange(specName) {
+      const selectOffspecRole = document.getElementById('select-offspec-role');
+      const className = document.getElementById('select-class').value;
+      const currentMainSpec = document.getElementById('select-spec').value;
+
+      if (!specName) {
+        selectOffspecRole.value = '';
+        selectOffspecRole.disabled = true;
+      } else {
+        selectOffspecRole.disabled = false;
+        const offspecSpecInfo = SPEC_DATA[className]?.[specName];
+
+        // Intelligent auto-suggest for offspec role
+        if (offspecSpecInfo && offspecSpecInfo.defaultRoles) {
+          if (specName === currentMainSpec) {
+            // Same spec selected (e.g. Feral Combat main + Feral Combat offspec)
+            if (offspecSpecInfo.defaultRoles.length > 1) {
+              const alternate = offspecSpecInfo.defaultRoles.find(r => r !== selectedRole);
+              selectOffspecRole.value = alternate || offspecSpecInfo.defaultRoles[0];
+            } else {
+              selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : offspecSpecInfo.defaultRoles[0];
+            }
+          } else {
+            // Different spec selected
+            selectOffspecRole.value = offspecSpecInfo.defaultRoles[0];
+          }
+        }
+      }
+
+      updateSelectionPreview(
+        document.getElementById('select-race').value,
+        className,
+        currentMainSpec
+      );
+    }
+
+    function onOffspecRoleChange(roleVal) {
+      updateSelectionPreview(
+        document.getElementById('select-race').value,
+        document.getElementById('select-class').value,
+        document.getElementById('select-spec').value
+      );
+    }
+
+    function onClassChange(className, selectedSpec = null, targetOffspec = null, targetOffspecRole = null) {
       const selectSpec = document.getElementById('select-spec');
       selectSpec.innerHTML = '';
       const specsObj = SPEC_DATA[className] || {};
@@ -2183,6 +2349,7 @@
         selectSpec.value = specNames[0];
       }
 
+      populateOffspecSelect(className, targetOffspec, targetOffspecRole);
       onSpecChange(selectSpec.value);
     }
 
@@ -2191,10 +2358,13 @@
       const race = document.getElementById('select-race').value;
       const specInfo = SPEC_DATA[className]?.[specName];
 
-      // Auto-set default role(s) based on spec
-      if (specInfo && specInfo.defaultRoles) {
-        selectedRoles = [...specInfo.defaultRoles];
-        renderRoleChips();
+      // Auto-set primary role based on spec default
+      if (specInfo && specInfo.defaultRoles && specInfo.defaultRoles.length > 0) {
+        if (!specInfo.defaultRoles.includes(selectedRole)) {
+          setPrimaryRole(specInfo.defaultRoles[0]);
+        } else {
+          renderRoleChips();
+        }
       }
 
       // Update Live Preview Bar
@@ -2202,20 +2372,12 @@
     }
 
     // ==========================================
-    // Multi-Role & Multi-Playstyle Handling
+    // Primary Role & Multi-Playstyle Handling
     // ==========================================
 
-    function toggleRole(roleName) {
-      if (selectedRoles.includes(roleName)) {
-        if (selectedRoles.length > 1) {
-          selectedRoles = selectedRoles.filter(r => r !== roleName);
-        } else {
-          showToast('At least one role must be selected!', true);
-          return;
-        }
-      } else {
-        selectedRoles.push(roleName);
-      }
+    function setPrimaryRole(roleName) {
+      selectedRole = roleName;
+      selectedRoles = [roleName];
       renderRoleChips();
       updateSelectionPreview(
         document.getElementById('select-race').value,
@@ -2224,10 +2386,15 @@
       );
     }
 
+    // Retain toggleRole as fallback pointing to setPrimaryRole
+    function toggleRole(roleName) {
+      setPrimaryRole(roleName);
+    }
+
     function renderRoleChips() {
       document.querySelectorAll('.role-toggle-chip').forEach(chip => {
         const role = chip.getAttribute('data-role');
-        chip.classList.toggle('active', selectedRoles.includes(role));
+        chip.classList.toggle('active', role === selectedRole);
       });
     }
 
@@ -2268,9 +2435,16 @@
       specIcon.src = getIconUrl(specIconName);
 
       const classColor = CLASS_COLORS[className] || 'var(--text-main)';
-      const rolesLabel = selectedRoles.join(' / ');
-      previewText.innerHTML = `<span style="color: ${classColor}; font-weight:700;">${specName} ${className}</span> &bull; ${race} (${rolesLabel})`;
+      const offspecVal = document.getElementById('select-offspec')?.value || '';
+      const offspecRoleVal = document.getElementById('select-offspec-role')?.value || '';
+      let offspecSnippet = '';
+      if (offspecVal) {
+        offspecSnippet = ` &bull; <span style="color: #fef08a; font-weight:600;">OS: ${offspecVal}${offspecRoleVal ? ' (' + offspecRoleVal + ')' : ''}</span>`;
+      }
+
+      previewText.innerHTML = `<span style="color: ${classColor}; font-weight:700;">${specName} ${className}</span> &bull; ${race} (${selectedRole})${offspecSnippet}`;
     }
+
 
     // ==========================================
     // Fetch & Render Roster
@@ -2308,11 +2482,11 @@
       let tanks = 0, healers = 0, meleeDps = 0, rangedDps = 0;
 
       rosterList.forEach(m => {
-        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
-        if (roles.includes('Tank')) tanks++;
-        if (roles.includes('Healer')) healers++;
-        if (roles.includes('Melee DPS')) meleeDps++;
-        if (roles.includes('Ranged DPS')) rangedDps++;
+        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
+        if (primRole === 'Tank') tanks++;
+        else if (primRole === 'Healer') healers++;
+        else if (primRole === 'Melee DPS') meleeDps++;
+        else if (primRole === 'Ranged DPS') rangedDps++;
       });
 
       document.getElementById('stat-total-count').textContent = total;
@@ -2326,20 +2500,24 @@
       const searchTerm = (document.getElementById('roster-search-input')?.value || '').toLowerCase().trim();
 
       return rosterList.filter(item => {
-        // Multi-role filter match
+        // Role filter match: checks primary role or offspec role
         if (activeRoleFilter !== 'all') {
-          const roles = Array.isArray(item.roles) && item.roles.length > 0 ? item.roles : (item.role ? [item.role] : []);
-          if (!roles.includes(activeRoleFilter)) return false;
+          const primRole = item.role || (Array.isArray(item.roles) && item.roles.length > 0 ? item.roles[0] : '');
+          const isPrimary = primRole === activeRoleFilter;
+          const isOffspec = item.offspecRole === activeRoleFilter;
+          if (!isPrimary && !isOffspec) return false;
         }
 
-        // Search filter across player, class, spec, race, notes
+        // Search filter across player, class, spec, offspec, race, notes
         if (searchTerm) {
           const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
           const matchClass = (item.className || '').toLowerCase().includes(searchTerm);
           const matchSpec = (item.spec || '').toLowerCase().includes(searchTerm);
+          const matchOffspec = (item.offspec || '').toLowerCase().includes(searchTerm);
+          const matchOffspecRole = (item.offspecRole || '').toLowerCase().includes(searchTerm);
           const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
           const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
-          if (!matchName && !matchClass && !matchSpec && !matchNotes && !matchRace) return false;
+          if (!matchName && !matchClass && !matchSpec && !matchOffspec && !matchOffspecRole && !matchNotes && !matchRace) return false;
         }
         return true;
       });
@@ -2434,23 +2612,38 @@
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
         const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
 
-        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
         const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
 
-        const roleBadgesHtml = roles.map(r => {
-          let roleTagClass = 'role-melee';
-          const rIcon = ROLE_ICONS[r] || 'ability_dualwield';
-          if (r === 'Tank') roleTagClass = 'role-tank';
-          else if (r === 'Healer') roleTagClass = 'role-healer';
-          else if (r === 'Ranged DPS') roleTagClass = 'role-ranged';
+        let primTagClass = 'role-melee';
+        const primIcon = ROLE_ICONS[primRole] || 'ability_dualwield';
+        if (primRole === 'Tank') primTagClass = 'role-tank';
+        else if (primRole === 'Healer') primTagClass = 'role-healer';
+        else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
 
-          return `
-            <span class="member-role-badge ${roleTagClass}">
-              <img src="${getIconUrl(rIcon)}" alt="${r}">
-              ${escapeHtml(r)}
-            </span>
+        let offspecHtml = '';
+        if (m.offspec) {
+          const offspecSpecIcon = SPEC_DATA[m.className]?.[m.offspec]?.icon || 'inv_misc_questionmark';
+          let offRoleClass = 'role-melee';
+          const offRoleIcon = ROLE_ICONS[m.offspecRole] || 'ability_dualwield';
+          if (m.offspecRole === 'Tank') offRoleClass = 'role-tank';
+          else if (m.offspecRole === 'Healer') offRoleClass = 'role-healer';
+          else if (m.offspecRole === 'Ranged DPS') offRoleClass = 'role-ranged';
+
+          offspecHtml = `
+            <div class="member-offspec-badge">
+              <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Offspec:</span>
+              <img src="${getIconUrl(offspecSpecIcon)}" alt="${m.offspec}" title="${m.offspec}">
+              <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-main);">${escapeHtml(m.offspec)}</span>
+              ${m.offspecRole ? `
+                <span class="member-role-badge ${offRoleClass}" style="font-size: 0.68rem; padding: 2px 6px;">
+                  <img src="${getIconUrl(offRoleIcon)}" alt="${m.offspecRole}">
+                  ${escapeHtml(m.offspecRole)}
+                </span>
+              ` : ''}
+            </div>
           `;
-        }).join('');
+        }
 
         const playstyleBadgesHtml = playstyles.map(p => `
           <span class="member-playstyle-pill">${escapeHtml(p)}</span>
@@ -2483,10 +2676,13 @@
             </div>
 
             <div class="member-roles-container">
-              ${roleBadgesHtml}
+              <span class="member-role-badge ${primTagClass}">
+                <img src="${getIconUrl(primIcon)}" alt="${primRole}">
+                ${escapeHtml(primRole)} (Main)
+              </span>
             </div>
 
-            ${m.offspec ? `<div class="member-offspec-line"><strong>Offspec:</strong> ${escapeHtml(m.offspec)}</div>` : ''}
+            ${offspecHtml}
             ${m.notes ? `<div class="member-notes">"${escapeHtml(m.notes)}"</div>` : ''}
 
             <div class="member-playstyles-row">
@@ -2607,11 +2803,25 @@
       const benchmarkGrid = document.getElementById('role-benchmark-grid');
       if (!benchmarkGrid) return;
 
+      const totalFlexAvailable = { Tank: 0, Healer: 0, 'Melee DPS': 0, 'Ranged DPS': 0 };
+
       benchmarkGrid.innerHTML = cfg.roles.map(rCfg => {
-        const count = rosterList.filter(m => {
-          const rList = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
-          return rList.includes(rCfg.role);
-        }).length;
+        // Strict 1:1 primary count (1 player = 1 spot)
+        const primaryMembers = rosterList.filter(m => {
+          const prim = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
+          return prim === rCfg.role;
+        });
+        const count = primaryMembers.length;
+
+        // Flex raiders: players who can flex into this role via offspec
+        const flexMembers = rosterList.filter(m => {
+          const prim = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
+          return prim !== rCfg.role && m.offspecRole === rCfg.role;
+        });
+        const flexCount = flexMembers.length;
+        if (totalFlexAvailable[rCfg.role] !== undefined) {
+          totalFlexAvailable[rCfg.role] = flexCount;
+        }
 
         const scaledMin = rCfg.min * numGroups;
         const scaledMax = rCfg.max * numGroups;
@@ -2632,6 +2842,10 @@
         const targetLabel = `${targetRangeStr}${groupSuffix}`;
         const iconUrl = getIconUrl(ROLE_ICONS[rCfg.role] || rCfg.icon);
 
+        const flexBadgeHtml = flexCount > 0
+          ? `<span class="role-benchmark-flex-badge" title="Flex raiders with ${rCfg.role} offspec (${flexCount}): ${flexMembers.map(m => m.playerName).join(', ')}">+${flexCount} Flex</span>`
+          : '';
+
         return `
           <div class="role-benchmark-item">
             <div class="role-benchmark-top">
@@ -2643,11 +2857,30 @@
             </div>
             <div class="role-benchmark-count">
               ${count} <span style="font-size:0.72rem; font-weight:normal; color:var(--text-muted); white-space: nowrap;">/ ${targetLabel}</span>
+              ${flexBadgeHtml}
             </div>
             <div>${statusHtml}</div>
           </div>
         `;
       }).join('');
+
+      // Render Raid Flex Depth Summary
+      const flexSummaryEl = document.getElementById('raid-flex-summary');
+      if (flexSummaryEl) {
+        const totalFlexAny = Object.values(totalFlexAvailable).reduce((a, b) => a + b, 0);
+        if (totalFlexAny > 0) {
+          flexSummaryEl.style.display = 'flex';
+          flexSummaryEl.innerHTML = `
+            <span style="font-weight: 700; color: var(--accent); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">Flex Depth Available:</span>
+            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Tank'])}" alt="Tank"> ${totalFlexAvailable['Tank']} Tank${totalFlexAvailable['Tank'] === 1 ? '' : 's'}</span>
+            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Healer'])}" alt="Healer"> ${totalFlexAvailable['Healer']} Healer${totalFlexAvailable['Healer'] === 1 ? '' : 's'}</span>
+            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Melee DPS'])}" alt="Melee"> ${totalFlexAvailable['Melee DPS']} Melee</span>
+            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Ranged DPS'])}" alt="Ranged"> ${totalFlexAvailable['Ranged DPS']} Ranged</span>
+          `;
+        } else {
+          flexSummaryEl.style.display = 'none';
+        }
+      }
     }
 
     function renderClassDistribution() {
@@ -2817,22 +3050,44 @@
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
         const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
 
-        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
         const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
 
-        const roleBadges = roles.map(r => {
-          let roleTagClass = 'role-melee';
-          const rIcon = ROLE_ICONS[r] || 'ability_dualwield';
-          if (r === 'Tank') roleTagClass = 'role-tank';
-          else if (r === 'Healer') roleTagClass = 'role-healer';
-          else if (r === 'Ranged DPS') roleTagClass = 'role-ranged';
-          return `
-            <span class="member-role-badge ${roleTagClass}" style="font-size:0.68rem; padding: 2px 6px;">
-              <img src="${getIconUrl(rIcon)}" style="width:12px;height:12px;" alt="${r}">
-              ${escapeHtml(r)}
+        let primTagClass = 'role-melee';
+        const primIcon = ROLE_ICONS[primRole] || 'ability_dualwield';
+        if (primRole === 'Tank') primTagClass = 'role-tank';
+        else if (primRole === 'Healer') primTagClass = 'role-healer';
+        else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
+
+        const roleBadge = `
+          <span class="member-role-badge ${primTagClass}" style="font-size:0.68rem; padding: 2px 6px;">
+            <img src="${getIconUrl(primIcon)}" style="width:12px;height:12px;" alt="${primRole}">
+            ${escapeHtml(primRole)}
+          </span>
+        `;
+
+        let offspecDisplay = '-';
+        if (m.offspec) {
+          const offspecSpecIcon = SPEC_DATA[m.className]?.[m.offspec]?.icon || 'inv_misc_questionmark';
+          let offRoleClass = 'role-melee';
+          const offRoleIcon = ROLE_ICONS[m.offspecRole] || 'ability_dualwield';
+          if (m.offspecRole === 'Tank') offRoleClass = 'role-tank';
+          else if (m.offspecRole === 'Healer') offRoleClass = 'role-healer';
+          else if (m.offspecRole === 'Ranged DPS') offRoleClass = 'role-ranged';
+
+          offspecDisplay = `
+            <span style="display:inline-flex; align-items:center; gap:5px;">
+              <img src="${getIconUrl(offspecSpecIcon)}" style="width:14px;height:14px;border-radius:3px;" alt="${m.offspec}">
+              ${escapeHtml(m.offspec)}
+              ${m.offspecRole ? `
+                <span class="member-role-badge ${offRoleClass}" style="font-size:0.65rem; padding:1px 5px;">
+                  <img src="${getIconUrl(offRoleIcon)}" style="width:10px;height:10px;" alt="">
+                  ${escapeHtml(m.offspecRole)}
+                </span>
+              ` : ''}
             </span>
           `;
-        }).join(' ');
+        }
 
         const playstyleBadges = playstyles.map(p => `
           <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
@@ -2858,8 +3113,8 @@
                 ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
               </span>
             </td>
-            <td><div style="display:flex; flex-wrap:wrap; gap:4px;">${roleBadges}</div></td>
-            <td style="color:var(--text-muted); font-size:0.75rem;">${m.offspec ? escapeHtml(m.offspec) : '-'}</td>
+            <td>${roleBadge}</td>
+            <td style="color:var(--text-muted); font-size:0.75rem;">${offspecDisplay}</td>
             <td><div style="display:flex; flex-wrap:wrap; gap:3px;">${playstyleBadges}</div></td>
             <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.75rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${notesShort}
@@ -2922,7 +3177,8 @@
       const race = document.getElementById('select-race').value;
       const className = document.getElementById('select-class').value;
       const spec = document.getElementById('select-spec').value;
-      const offspec = document.getElementById('input-offspec').value.trim();
+      const offspec = document.getElementById('select-offspec')?.value.trim() || '';
+      const offspecRole = document.getElementById('select-offspec-role')?.value.trim() || '';
       const notes = document.getElementById('input-notes').value.trim();
       const pin = document.getElementById('input-pin').value.trim();
 
@@ -2931,9 +3187,18 @@
         return;
       }
 
-      if (selectedRoles.length === 0) {
-        showToast('Please select at least one role!', true);
+      if (!selectedRole) {
+        showToast('Please select a primary role!', true);
         return;
+      }
+
+      // If offspec spec is picked but role was left blank, auto-assign default role
+      let finalOffspecRole = offspecRole;
+      if (offspec && !finalOffspecRole) {
+        const offspecSpecInfo = SPEC_DATA[className]?.[offspec];
+        if (offspecSpecInfo && offspecSpecInfo.defaultRoles) {
+          finalOffspecRole = offspecSpecInfo.defaultRoles[0];
+        }
       }
 
       submitBtn.disabled = true;
@@ -2946,9 +3211,10 @@
         race,
         className,
         spec,
-        roles: selectedRoles,
-        role: selectedRoles[0],
-        offspec,
+        roles: [selectedRole],
+        role: selectedRole,
+        offspec: offspec || '',
+        offspecRole: offspec ? finalOffspecRole : '',
         playstyles: selectedPlaystyles,
         playstyle: selectedPlaystyles[0],
         notes,
@@ -3016,19 +3282,19 @@
     function loadEntryIntoForm(entry) {
       document.getElementById('entry-id').value = entry.id;
       document.getElementById('player-name').value = entry.playerName;
-      document.getElementById('input-offspec').value = entry.offspec || '';
       document.getElementById('input-notes').value = entry.notes || '';
       document.getElementById('input-pin').value = entry.pin || '';
       updateNotesCounter();
 
-      // Set Race, Class, Spec
+      // Primary Role restore
+      selectedRole = entry.role || (Array.isArray(entry.roles) && entry.roles[0]) || 'Melee DPS';
+      selectedRoles = [selectedRole];
+      renderRoleChips();
+
+      // Set Race, Class, Spec, Offspec
       populateRaceSelect(entry.race);
       onRaceChange(entry.race, entry.className);
-      onClassChange(entry.className, entry.spec);
-
-      // Multi-Role restore
-      selectedRoles = Array.isArray(entry.roles) && entry.roles.length > 0 ? [...entry.roles] : (entry.role ? [entry.role] : ['Melee DPS']);
-      renderRoleChips();
+      onClassChange(entry.className, entry.spec, entry.offspec, entry.offspecRole);
 
       // Multi-Playstyle restore
       selectedPlaystyles = Array.isArray(entry.playstyles) && entry.playstyles.length > 0 ? [...entry.playstyles] : (entry.playstyle ? [entry.playstyle] : ['Raiding']);
@@ -3054,6 +3320,7 @@
       document.getElementById('btn-submit-text').textContent = 'Submit Intention';
       document.getElementById('btn-cancel-edit').style.display = 'none';
 
+      selectedRole = 'Melee DPS';
       selectedRoles = ['Melee DPS'];
       selectedPlaystyles = ['Raiding'];
       renderRoleChips();
@@ -3146,8 +3413,8 @@
       const roles = ['Tank', 'Healer', 'Melee DPS', 'Ranged DPS'];
       roles.forEach(role => {
         const group = rosterList.filter(x => {
-          const rList = Array.isArray(x.roles) && x.roles.length > 0 ? x.roles : (x.role ? [x.role] : []);
-          return rList.includes(role);
+          const prim = x.role || (Array.isArray(x.roles) && x.roles.length > 0 ? x.roles[0] : '');
+          return prim === role;
         });
         md += `__**${role}s (${group.length}):**__\n`;
         if (group.length === 0) {
@@ -3155,7 +3422,11 @@
         } else {
           group.forEach(m => {
             const pStyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles.join(', ') : (m.playstyle || '');
-            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race})${m.offspec ? ` [OS: ${m.offspec}]` : ''}${pStyles ? ` [${pStyles}]` : ''}\n`;
+            let osTag = '';
+            if (m.offspec) {
+              osTag = ` [OS: ${m.offspec}${m.offspecRole ? ' (' + m.offspecRole + ')' : ''}]`;
+            }
+            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race})${osTag}${pStyles ? ` [${pStyles}]` : ''}\n`;
           });
         }
         md += `\n`;

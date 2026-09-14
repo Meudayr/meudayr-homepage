@@ -539,7 +539,7 @@ export default {
       if (request.method === 'POST') {
         try {
           const body = await request.json();
-          const { id, playerName, faction, race, className, spec, role, roles, offspec, playstyle, playstyles, notes, pin, admin } = body;
+          const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, notes, pin, admin } = body;
 
           if (!playerName || !playerName.trim()) {
             return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -598,6 +598,7 @@ export default {
               role: primaryRole,
               roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
+              offspecRole: offspecRole ? offspecRole.trim() : '',
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
               notes: cleanNotes,
@@ -616,6 +617,7 @@ export default {
               role: primaryRole,
               roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
+              offspecRole: offspecRole ? offspecRole.trim() : '',
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
               notes: cleanNotes,
