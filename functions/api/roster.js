@@ -1,13 +1,14 @@
 // functions/api/roster.js
 // Cloudflare Pages Function to manage TBS Guild Roster for WoW: Forever
 // Supports GET, POST (create or update), and DELETE with Cloudflare KV & static JSON fallback.
+// Supports multi-role, multi-playstyle, and admin mode PIN bypass.
 
 function corsHeaders() {
   return {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
     'Cache-Control': 'no-cache, no-store, must-revalidate'
   };
 }
@@ -70,7 +71,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-    const { id, playerName, faction, race, className, spec, role, offspec, playstyle, notes, pin } = body;
+    const { id, playerName, faction, race, className, spec, role, roles, offspec, playstyle, playstyles, notes, pin, admin } = body;
 
     if (!playerName || !playerName.trim()) {
       return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -79,12 +80,17 @@ export async function onRequestPost(context) {
       });
     }
 
-    if (!faction || !race || !className || !spec || !role) {
-      return new Response(JSON.stringify({ success: false, error: 'Faction, race, class, spec, and role are required.' }), {
+    const resolvedRoles = Array.isArray(roles) && roles.length > 0 ? roles : (role ? [role] : []);
+    if (!race || !className || !spec || resolvedRoles.length === 0) {
+      return new Response(JSON.stringify({ success: false, error: 'Race, class, spec, and at least one role are required.' }), {
         status: 400,
         headers: corsHeaders()
       });
     }
+
+    const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Casual Raiding']);
+    const primaryRole = resolvedRoles[0];
+    const primaryPlaystyle = resolvedPlaystyles[0];
 
     const cleanName = playerName.trim();
     const roster = await getBaselineRoster(context);
@@ -95,17 +101,18 @@ export async function onRequestPost(context) {
       return item.playerName.toLowerCase() === cleanName.toLowerCase();
     });
 
+    const isAdmin = admin === true || context.request.headers.get('x-admin-key') === 'meudayr';
     const nowIso = new Date().toISOString();
     let savedEntry = null;
 
     if (existingIndex >= 0) {
       const existing = roster[existingIndex];
-      // PIN check: if existing entry has a non-empty PIN, require matching PIN
-      if (existing.pin && existing.pin.trim() !== '') {
+      // PIN check: if existing entry has a PIN, require matching PIN unless admin
+      if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
         if (!pin || pin.trim() !== existing.pin.trim()) {
           return new Response(JSON.stringify({
             success: false,
-            error: 'This character is protected with an edit PIN. Please provide the correct PIN to update.'
+            error: 'This character is protected with an edit PIN. Please provide the correct PIN to update (or use Admin Mode).'
           }), {
             status: 403,
             headers: corsHeaders()
@@ -116,13 +123,15 @@ export async function onRequestPost(context) {
       savedEntry = {
         ...existing,
         playerName: cleanName,
-        faction,
+        faction: 'Horde',
         race,
         className,
         spec,
-        role,
+        role: primaryRole,
+        roles: resolvedRoles,
         offspec: offspec ? offspec.trim() : '',
-        playstyle: playstyle || 'Raid Casual',
+        playstyle: primaryPlaystyle,
+        playstyles: resolvedPlaystyles,
         notes: notes ? notes.trim() : '',
         pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
         updatedAt: nowIso
@@ -134,13 +143,15 @@ export async function onRequestPost(context) {
       savedEntry = {
         id: id || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
         playerName: cleanName,
-        faction,
+        faction: 'Horde',
         race,
         className,
         spec,
-        role,
+        role: primaryRole,
+        roles: resolvedRoles,
         offspec: offspec ? offspec.trim() : '',
-        playstyle: playstyle || 'Raid Casual',
+        playstyle: primaryPlaystyle,
+        playstyles: resolvedPlaystyles,
         notes: notes ? notes.trim() : '',
         pin: pin ? pin.trim() : '',
         createdAt: nowIso,
@@ -175,16 +186,19 @@ export async function onRequestDelete(context) {
   try {
     let targetId = null;
     let givenPin = null;
+    let isAdmin = context.request.headers.get('x-admin-key') === 'meudayr';
 
     const url = new URL(context.request.url);
     targetId = url.searchParams.get('id');
     givenPin = url.searchParams.get('pin');
+    if (url.searchParams.get('admin') === 'true') isAdmin = true;
 
     if (!targetId && context.request.method === 'DELETE') {
       try {
         const body = await context.request.json();
         targetId = body.id;
         givenPin = body.pin;
+        if (body.admin === true) isAdmin = true;
       } catch (e) {}
     }
 
@@ -206,11 +220,11 @@ export async function onRequestDelete(context) {
     }
 
     const existing = roster[existingIndex];
-    if (existing.pin && existing.pin.trim() !== '') {
+    if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
       if (!givenPin || givenPin.trim() !== existing.pin.trim()) {
         return new Response(JSON.stringify({
           success: false,
-          error: 'This character is protected with an edit PIN. Please provide the correct PIN to remove.'
+          error: 'This character is protected with an edit PIN. Please provide the correct PIN to remove (or use Admin Mode).'
         }), {
           status: 403,
           headers: corsHeaders()

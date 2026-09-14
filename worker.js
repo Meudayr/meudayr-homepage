@@ -519,7 +519,7 @@ export default {
       if (request.method === 'POST') {
         try {
           const body = await request.json();
-          const { id, playerName, faction, race, className, spec, role, offspec, playstyle, notes, pin } = body;
+          const { id, playerName, faction, race, className, spec, role, roles, offspec, playstyle, playstyles, notes, pin, admin } = body;
 
           if (!playerName || !playerName.trim()) {
             return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -528,12 +528,17 @@ export default {
             });
           }
 
-          if (!faction || !race || !className || !spec || !role) {
-            return new Response(JSON.stringify({ success: false, error: 'Faction, race, class, spec, and role are required.' }), {
+          const resolvedRoles = Array.isArray(roles) && roles.length > 0 ? roles : (role ? [role] : []);
+          if (!race || !className || !spec || resolvedRoles.length === 0) {
+            return new Response(JSON.stringify({ success: false, error: 'Race, class, spec, and at least one role are required.' }), {
               status: 400,
               headers: rosterCorsHeaders
             });
           }
+
+          const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Casual Raiding']);
+          const primaryRole = resolvedRoles[0];
+          const primaryPlaystyle = resolvedPlaystyles[0];
 
           const cleanName = playerName.trim();
           const roster = await getWorkerRoster();
@@ -542,16 +547,17 @@ export default {
             return item.playerName.toLowerCase() === cleanName.toLowerCase();
           });
 
+          const isAdmin = admin === true || request.headers.get('x-admin-key') === 'meudayr';
           const nowIso = new Date().toISOString();
           let savedEntry = null;
 
           if (existingIndex >= 0) {
             const existing = roster[existingIndex];
-            if (existing.pin && existing.pin.trim() !== '') {
+            if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
               if (!pin || pin.trim() !== existing.pin.trim()) {
                 return new Response(JSON.stringify({
                   success: false,
-                  error: 'This character is protected with an edit PIN. Please provide the correct PIN to update.'
+                  error: 'This character is protected with an edit PIN. Please provide the correct PIN to update (or use Admin Mode).'
                 }), {
                   status: 403,
                   headers: rosterCorsHeaders
@@ -562,13 +568,15 @@ export default {
             savedEntry = {
               ...existing,
               playerName: cleanName,
-              faction,
+              faction: 'Horde',
               race,
               className,
               spec,
-              role,
+              role: primaryRole,
+              roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
-              playstyle: playstyle || 'Raid Casual',
+              playstyle: primaryPlaystyle,
+              playstyles: resolvedPlaystyles,
               notes: notes ? notes.trim() : '',
               pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
               updatedAt: nowIso
@@ -578,13 +586,15 @@ export default {
             savedEntry = {
               id: id || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
               playerName: cleanName,
-              faction,
+              faction: 'Horde',
               race,
               className,
               spec,
-              role,
+              role: primaryRole,
+              roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
-              playstyle: playstyle || 'Raid Casual',
+              playstyle: primaryPlaystyle,
+              playstyles: resolvedPlaystyles,
               notes: notes ? notes.trim() : '',
               pin: pin ? pin.trim() : '',
               createdAt: nowIso,
@@ -613,12 +623,15 @@ export default {
         try {
           let targetId = url.searchParams.get('id');
           let givenPin = url.searchParams.get('pin');
+          let isAdmin = request.headers.get('x-admin-key') === 'meudayr';
+          if (url.searchParams.get('admin') === 'true') isAdmin = true;
 
           if (!targetId) {
             try {
               const body = await request.json();
               targetId = body.id;
               givenPin = body.pin;
+              if (body.admin === true) isAdmin = true;
             } catch (e) {}
           }
 
@@ -640,11 +653,11 @@ export default {
           }
 
           const existing = roster[existingIndex];
-          if (existing.pin && existing.pin.trim() !== '') {
+          if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
             if (!givenPin || givenPin.trim() !== existing.pin.trim()) {
               return new Response(JSON.stringify({
                 success: false,
-                error: 'This character is protected with an edit PIN. Please provide the correct PIN to remove.'
+                error: 'This character is protected with an edit PIN. Please provide the correct PIN to remove (or use Admin Mode).'
               }), {
                 status: 403,
                 headers: rosterCorsHeaders

@@ -6,13 +6,13 @@
   
   <!-- SEO Meta Tags -->
   <title>TBS Guild Roster — World of Warcraft: Forever - Meudayr</title>
-  <meta name="description" content="TBS Guild Roster and character planner for World of Warcraft: Forever. Submit your race, class, and spec intentions, view fellow guild members, and update your answer anytime.">
-  <meta name="keywords" content="WoW Forever, TBS Guild, World of Warcraft Forever, Classic+, Guild Roster, Race Class Specs, Meudayr">
+  <meta name="description" content="Horde TBS Guild Roster and character planner for World of Warcraft: Forever. Submit your race, class, and spec intentions, view fellow guild members, and update your answer anytime.">
+  <meta name="keywords" content="WoW Forever, TBS Guild, World of Warcraft Forever, Horde, Classic+, Guild Roster, Race Class Specs, Meudayr">
   <meta name="author" content="Meudayr">
 
   <!-- OpenGraph Social Tags -->
-  <meta property="og:title" content="TBS Guild Roster — World of Warcraft: Forever">
-  <meta property="og:description" content="Submit your race/class/spec intentions for World of Warcraft: Forever and see what your TBS guild members are playing.">
+  <meta property="og:title" content="TBS Guild Roster — World of Warcraft: Forever (Horde)">
+  <meta property="og:description" content="Submit your race/class/spec intentions for World of Warcraft: Forever and see what your TBS Horde guild members are playing.">
   <meta property="og:image" content="https://meudayr.com/assets/logo.png">
   <meta property="og:url" content="https://meudayr.com/forever.html">
   <meta property="og:type" content="website">
@@ -24,7 +24,7 @@
   <link rel="icon" type="image/png" href="assets/logo.png">
 
   <style>
-    /* Custom Styles for WoW Forever Roster Page */
+    /* Custom Styles for WoW Forever Horde Roster Page */
     .forever-header {
       text-align: center;
       padding: 50px 0 24px;
@@ -33,17 +33,23 @@
     .guild-tag-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 14px;
-      background: rgba(192, 157, 82, 0.12);
-      border: 1px solid rgba(192, 157, 82, 0.3);
-      color: var(--accent);
+      gap: 8px;
+      padding: 5px 16px;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
       border-radius: 9999px;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
       margin-bottom: 12px;
+    }
+
+    .guild-tag-pill img {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
     }
 
     .forever-header h1 {
@@ -63,22 +69,22 @@
       line-height: 1.5;
     }
 
-    /* Summary Stats Grid */
+    /* Summary Stats Grid (5 Cards: Total, Tanks, Healers, Melee DPS, Ranged DPS) */
     .stats-dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
     }
 
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       transition: var(--transition);
     }
 
@@ -87,25 +93,20 @@
       transform: translateY(-2px);
     }
 
-    .stat-icon-wrapper {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .stat-wow-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid var(--card-border);
+      object-fit: cover;
       flex-shrink: 0;
+      background: #111317;
     }
 
-    .stat-icon-wrapper svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .stat-icon-total { background: rgba(192, 157, 82, 0.15); color: var(--accent); }
-    .stat-icon-tank { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-    .stat-icon-healer { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
-    .stat-icon-dps { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+    .stat-card.stat-tank .stat-wow-icon { border-color: rgba(59, 130, 246, 0.4); }
+    .stat-card.stat-healer .stat-wow-icon { border-color: rgba(34, 197, 94, 0.4); }
+    .stat-card.stat-melee .stat-wow-icon { border-color: rgba(249, 115, 22, 0.4); }
+    .stat-card.stat-ranged .stat-wow-icon { border-color: rgba(168, 85, 247, 0.4); }
 
     .stat-content {
       display: flex;
@@ -114,77 +115,24 @@
 
     .stat-number {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 800;
       color: var(--text-main);
       line-height: 1.1;
     }
 
     .stat-label {
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    /* Faction Ratio Bar */
-    .faction-bar-wrapper {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 16px 20px;
-      margin-bottom: 36px;
-    }
-
-    .faction-bar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .faction-alliance-label {
-      color: #60a5fa;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .faction-horde-label {
-      color: #f87171;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .faction-progress-track {
-      height: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 9999px;
-      display: flex;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .faction-progress-alliance {
-      background: linear-gradient(90deg, #1d4ed8, #3b82f6);
-      height: 100%;
-      transition: width 0.4s ease;
-    }
-
-    .faction-progress-horde {
-      background: linear-gradient(90deg, #ef4444, #b91c1c);
-      height: 100%;
-      transition: width 0.4s ease;
-    }
-
     /* Main Content Layout: Form & Roster */
     .roster-layout {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 390px 1fr;
       gap: 32px;
       align-items: start;
       margin-bottom: 60px;
@@ -221,7 +169,7 @@
     .form-card-subtitle {
       font-size: 0.82rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .edit-mode-badge {
@@ -278,56 +226,7 @@
 
     .form-textarea {
       resize: vertical;
-      min-height: 60px;
-    }
-
-    /* Faction Selector Segment */
-    .faction-toggle-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .faction-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      background: #15171d;
-      border: 1.5px solid var(--card-border);
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .faction-btn:hover {
-      border-color: var(--card-border-hover);
-      color: var(--text-main);
-    }
-
-    .faction-btn.alliance.active {
-      background: rgba(37, 99, 235, 0.18);
-      border-color: #3b82f6;
-      color: #93c5fd;
-      box-shadow: 0 0 16px rgba(59, 130, 246, 0.25);
-    }
-
-    .faction-btn.horde.active {
-      background: rgba(220, 38, 38, 0.18);
-      border-color: #ef4444;
-      color: #fca5a5;
-      box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
-    }
-
-    .faction-icon-crest {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
+      min-height: 56px;
     }
 
     /* Live Preview Pill inside Form */
@@ -366,75 +265,104 @@
       text-overflow: ellipsis;
     }
 
-    /* Role Pills */
-    .role-chips-group {
+    /* Multi-Select Role Chips */
+    .role-chips-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
-    .role-chip {
-      padding: 7px 4px;
+    .role-toggle-chip {
+      padding: 8px 10px;
       border-radius: var(--radius-md);
       background: #15171d;
-      border: 1px solid var(--card-border);
+      border: 1.5px solid var(--card-border);
       color: var(--text-muted);
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      text-align: center;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 8px;
+      user-select: none;
     }
 
-    .role-chip svg {
-      width: 14px;
-      height: 14px;
+    .role-toggle-chip img {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      object-fit: cover;
+      flex-shrink: 0;
     }
 
-    .role-chip:hover {
+    .role-toggle-chip:hover {
       border-color: var(--card-border-hover);
       color: var(--text-main);
     }
 
-    .role-chip.active {
-      background: rgba(56, 142, 60, 0.2);
-      border-color: var(--primary);
-      color: #81c784;
-    }
-
-    .role-chip.active[data-role="Tank"] {
-      background: rgba(59, 130, 246, 0.2);
+    .role-toggle-chip.active[data-role="Tank"] {
+      background: rgba(59, 130, 246, 0.18);
       border-color: #3b82f6;
       color: #93c5fd;
     }
 
-    .role-chip.active[data-role="Healer"] {
-      background: rgba(34, 197, 94, 0.2);
+    .role-toggle-chip.active[data-role="Healer"] {
+      background: rgba(34, 197, 94, 0.18);
       border-color: #22c55e;
       color: #86efac;
     }
 
-    .role-chip.active[data-role="Melee DPS"] {
-      background: rgba(249, 115, 22, 0.2);
+    .role-toggle-chip.active[data-role="Melee DPS"] {
+      background: rgba(249, 115, 22, 0.18);
       border-color: #f97316;
       color: #fdba74;
     }
 
-    .role-chip.active[data-role="Ranged DPS"] {
-      background: rgba(168, 85, 247, 0.2);
+    .role-toggle-chip.active[data-role="Ranged DPS"] {
+      background: rgba(168, 85, 247, 0.18);
       border-color: #a855f7;
       color: #d8b4fe;
+    }
+
+    /* Multi-Select Playstyle Chips */
+    .playstyle-chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .playstyle-toggle-chip {
+      padding: 6px 12px;
+      border-radius: 9999px;
+      background: #15171d;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .playstyle-toggle-chip:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .playstyle-toggle-chip.active {
+      background: rgba(192, 157, 82, 0.18);
+      border-color: var(--accent);
+      color: #fef08a;
+      box-shadow: 0 0 10px rgba(192, 157, 82, 0.2);
     }
 
     /* Form Actions */
     .form-btn-submit {
       width: 100%;
       padding: 12px 18px;
-      background: linear-gradient(135deg, #2e7d32, #1b5e20);
+      background: linear-gradient(135deg, #b91c1c, #991b1b);
       color: #ffffff;
       border: none;
       border-radius: var(--radius-md);
@@ -447,13 +375,13 @@
       justify-content: center;
       gap: 8px;
       transition: var(--transition);
-      box-shadow: 0 4px 16px rgba(46, 125, 50, 0.35);
+      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.35);
       margin-top: 8px;
     }
 
     .form-btn-submit:hover {
-      background: linear-gradient(135deg, #388e3c, #2e7d32);
-      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.5);
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
       transform: translateY(-1px);
     }
 
@@ -531,12 +459,12 @@
     }
 
     .search-box:focus {
-      border-color: var(--primary);
+      border-color: #ef4444;
       background: #16181f;
     }
 
     .toolbar-action-btn {
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 9999px;
       background: #1d2028;
       border: 1px solid var(--card-border);
@@ -553,6 +481,42 @@
     .toolbar-action-btn:hover {
       border-color: var(--card-border-hover);
       color: var(--text-main);
+    }
+
+    /* Admin Mode Button & Badge */
+    .admin-toggle-btn {
+      padding: 8px 14px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .admin-toggle-btn.active {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: #22c55e;
+      color: #86efac;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+    }
+
+    .admin-indicator-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.76rem;
+      font-weight: 700;
     }
 
     .filter-chips-row {
@@ -611,7 +575,7 @@
       padding: 18px 20px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       position: relative;
       overflow: hidden;
       transition: var(--transition);
@@ -630,7 +594,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: var(--card-accent-color, #388e3c);
+      background: var(--card-accent-color, #dc2626);
     }
 
     .member-card-header {
@@ -659,33 +623,6 @@
     .member-created-date {
       font-size: 0.72rem;
       color: var(--text-dark);
-    }
-
-    .member-badges-top {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .badge-faction {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-faction.alliance {
-      background: rgba(37, 99, 235, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      color: #93c5fd;
-    }
-
-    .badge-faction.horde {
-      background: rgba(220, 38, 38, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
     }
 
     .member-spec-row {
@@ -730,21 +667,34 @@
       color: var(--text-muted);
     }
 
-    .member-role-tag {
+    /* Multi-Role Tags Container */
+    .member-roles-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .member-role-badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 3px 10px;
+      padding: 3px 8px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      align-self: flex-start;
     }
 
-    .member-role-tag.role-tank { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-    .member-role-tag.role-healer { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-    .member-role-tag.role-melee { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
-    .member-role-tag.role-ranged { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .member-role-badge img {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+      object-fit: cover;
+    }
+
+    .member-role-badge.role-tank { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .member-role-badge.role-healer { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .member-role-badge.role-melee { background: rgba(249, 115, 22, 0.15); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.3); }
+    .member-role-badge.role-ranged { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
 
     .member-notes {
       font-size: 0.82rem;
@@ -758,11 +708,27 @@
     }
 
     .member-offspec-line {
-      font-size: 0.76rem;
-      color: var(--text-dark);
+      font-size: 0.78rem;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
       gap: 4px;
+    }
+
+    .member-playstyles-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .member-playstyle-pill {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(192, 157, 82, 0.1);
+      border: 1px solid rgba(192, 157, 82, 0.25);
+      padding: 2px 7px;
+      border-radius: 4px;
     }
 
     .member-card-footer {
@@ -774,19 +740,11 @@
       margin-top: auto;
     }
 
-    .member-playstyle-pill {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
     .member-actions {
       display: flex;
       align-items: center;
       gap: 6px;
+      margin-left: auto;
     }
 
     .card-action-btn {
@@ -946,73 +904,55 @@
     <!-- Hero Header -->
     <section class="forever-header">
       <div class="guild-tag-pill">
-        <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-        Guild TBS &bull; WoW Forever
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_horde_round.jpg" alt="Horde" onerror="this.style.display='none'">
+        <span>Horde Guild TBS &bull; WoW Forever</span>
       </div>
       <h1>World of Warcraft: Forever Roster</h1>
-      <p>Lock in your race, class, and spec for the upcoming WoW: Forever release. Explore what your TBS guild mates are rolling, balance our raid composition, and update your answer anytime.</p>
+      <p>Plan your Horde race, class, and specs for WoW: Forever. Coordinate raid roles, see what TBS guild mates are rolling, and update your answer anytime.</p>
     </section>
 
-    <!-- Composition Stats Dashboard -->
+    <!-- Composition Stats Dashboard (WoW Asset Icons) -->
     <section class="stats-dashboard" id="stats-dashboard">
       <div class="stat-card">
-        <div class="stat-icon-wrapper stat-icon-total">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-        </div>
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_horde_round.jpg" alt="Signups" class="stat-wow-icon">
         <div class="stat-content">
           <span class="stat-number" id="stat-total-count">0</span>
           <span class="stat-label">Signups</span>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon-wrapper stat-icon-tank">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-        </div>
+      <div class="stat-card stat-tank">
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tanks" class="stat-wow-icon">
         <div class="stat-content">
           <span class="stat-number" id="stat-tank-count">0</span>
           <span class="stat-label">Tanks</span>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon-wrapper stat-icon-healer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-        </div>
+      <div class="stat-card stat-healer">
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healers" class="stat-wow-icon">
         <div class="stat-content">
           <span class="stat-number" id="stat-healer-count">0</span>
           <span class="stat-label">Healers</span>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon-wrapper stat-icon-dps">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
-        </div>
+      <div class="stat-card stat-melee">
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee DPS" class="stat-wow-icon">
         <div class="stat-content">
-          <span class="stat-number" id="stat-dps-count">0</span>
-          <span class="stat-label">Damage (DPS)</span>
+          <span class="stat-number" id="stat-melee-count">0</span>
+          <span class="stat-label">Melee DPS</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-ranged">
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_bow_02.jpg" alt="Ranged DPS" class="stat-wow-icon">
+        <div class="stat-content">
+          <span class="stat-number" id="stat-ranged-count">0</span>
+          <span class="stat-label">Ranged DPS</span>
         </div>
       </div>
     </section>
-
-    <!-- Faction Balance Bar -->
-    <div class="faction-bar-wrapper">
-      <div class="faction-bar-header">
-        <div class="faction-alliance-label">
-          <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_alliance_round.jpg" alt="Alliance" class="faction-icon-crest" onerror="this.style.display='none'">
-          <span>Alliance: <span id="count-alliance">0</span> (<span id="pct-alliance">50%</span>)</span>
-        </div>
-        <div class="faction-horde-label">
-          <span>Horde: <span id="count-horde">0</span> (<span id="pct-horde">50%</span>)</span>
-          <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_horde_round.jpg" alt="Horde" class="faction-icon-crest" onerror="this.style.display='none'">
-        </div>
-      </div>
-      <div class="faction-progress-track">
-        <div class="faction-progress-alliance" id="bar-alliance" style="width: 50%;"></div>
-        <div class="faction-progress-horde" id="bar-horde" style="width: 50%;"></div>
-      </div>
-    </div>
 
     <!-- Main Layout: Submission Form + Roster Directory -->
     <div class="roster-layout">
@@ -1026,7 +966,7 @@
             Editing Entry
           </span>
         </div>
-        <p class="form-card-subtitle" id="form-subheading-text">Select your race, class, and spec for WoW Forever.</p>
+        <p class="form-card-subtitle" id="form-subheading-text">Select your Horde race, class, spec, and roles for WoW Forever.</p>
 
         <form id="character-form" onsubmit="handleFormSubmit(event)">
           <!-- Hidden ID for edit tracking -->
@@ -1038,26 +978,11 @@
             <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr or Meudayr#1234" required maxlength="30">
           </div>
 
-          <!-- Faction Toggle -->
+          <!-- Race Selector (Horde Only) -->
           <div class="form-group">
-            <label class="form-label">Faction <span class="req">*</span></label>
-            <div class="faction-toggle-group">
-              <button type="button" class="faction-btn alliance active" id="btn-faction-alliance" onclick="setFaction('Alliance')">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_alliance_round.jpg" alt="Alliance" class="faction-icon-crest" onerror="this.style.display='none'">
-                Alliance
-              </button>
-              <button type="button" class="faction-btn horde" id="btn-faction-horde" onclick="setFaction('Horde')">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/ui_horde_round.jpg" alt="Horde" class="faction-icon-crest" onerror="this.style.display='none'">
-                Horde
-              </button>
-            </div>
-          </div>
-
-          <!-- Race Selector -->
-          <div class="form-group">
-            <label class="form-label" for="select-race">Race <span class="req">*</span></label>
+            <label class="form-label" for="select-race">Horde Race <span class="req">*</span></label>
             <select id="select-race" class="form-select" onchange="onRaceChange(this.value)" required>
-              <!-- Populated via JS based on Faction -->
+              <!-- Populated via JS -->
             </select>
           </div>
 
@@ -1087,45 +1012,58 @@
             <div class="preview-text" id="preview-selection-text">Select Race, Class &amp; Spec</div>
           </div>
 
-          <!-- Primary Role -->
+          <!-- Primary Roles (Multi-Select Supported) -->
           <div class="form-group">
-            <label class="form-label">Primary Role <span class="req">*</span></label>
-            <div class="role-chips-group">
-              <div class="role-chip" data-role="Tank" onclick="setRole('Tank')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-                Tank
+            <label class="form-label">
+              <span>Primary Role(s) <span class="req">*</span></span>
+              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Select all that apply</span>
+            </label>
+            <div class="role-chips-grid">
+              <div class="role-toggle-chip" data-role="Tank" onclick="toggleRole('Tank')">
+                <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tank">
+                <span>Tank</span>
               </div>
-              <div class="role-chip" data-role="Healer" onclick="setRole('Healer')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                Healer
+              <div class="role-toggle-chip" data-role="Healer" onclick="toggleRole('Healer')">
+                <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healer">
+                <span>Healer</span>
               </div>
-              <div class="role-chip" data-role="Melee DPS" onclick="setRole('Melee DPS')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
-                Melee
+              <div class="role-toggle-chip" data-role="Melee DPS" onclick="toggleRole('Melee DPS')">
+                <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee">
+                <span>Melee DPS</span>
               </div>
-              <div class="role-chip" data-role="Ranged DPS" onclick="setRole('Ranged DPS')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/></svg>
-                Ranged
+              <div class="role-toggle-chip" data-role="Ranged DPS" onclick="toggleRole('Ranged DPS')">
+                <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_bow_02.jpg" alt="Ranged">
+                <span>Ranged DPS</span>
               </div>
             </div>
-            <input type="hidden" id="selected-role" value="Melee DPS" required>
           </div>
 
           <!-- Secondary / Offspec (Optional) -->
           <div class="form-group">
             <label class="form-label" for="input-offspec">Secondary / Offspec <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
-            <input type="text" id="input-offspec" class="form-input" placeholder="e.g. Resto Healer offspec, PvP spec">
+            <input type="text" id="input-offspec" class="form-input" placeholder="e.g. Resto Healer offspec">
           </div>
 
-          <!-- Playstyle / Focus -->
+          <!-- Multi-Select Focus / Playstyle -->
           <div class="form-group">
-            <label class="form-label" for="select-playstyle">Focus / Playstyle</label>
-            <select id="select-playstyle" class="form-select">
-              <option value="Raid Hardcore">Hardcore Progression Raiding</option>
-              <option value="Raid Casual" selected>Casual Raiding &amp; Dungeons</option>
-              <option value="PvP &amp; Battlegrounds">PvP &amp; Battlegrounds</option>
-              <option value="Leveling &amp; Social">Leveling &amp; Social</option>
-            </select>
+            <label class="form-label">
+              <span>Focus / Playstyle</span>
+              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Multi-select</span>
+            </label>
+            <div class="playstyle-chips-grid">
+              <div class="playstyle-toggle-chip active" data-style="Hardcore Raiding" onclick="togglePlaystyle('Hardcore Raiding', this)">
+                Hardcore Raiding
+              </div>
+              <div class="playstyle-toggle-chip" data-style="Casual Raiding" onclick="togglePlaystyle('Casual Raiding', this)">
+                Casual Raiding
+              </div>
+              <div class="playstyle-toggle-chip" data-style="PvP &amp; Battlegrounds" onclick="togglePlaystyle('PvP &amp; Battlegrounds', this)">
+                PvP &amp; Battlegrounds
+              </div>
+              <div class="playstyle-toggle-chip" data-style="Leveling &amp; Dungeons" onclick="togglePlaystyle('Leveling &amp; Dungeons', this)">
+                Leveling &amp; Dungeons
+              </div>
+            </div>
           </div>
 
           <!-- Notes / Availability -->
@@ -1135,7 +1073,7 @@
           </div>
 
           <!-- Optional 4-digit PIN for edit protection -->
-          <div class="form-group">
+          <div class="form-group" id="pin-form-group">
             <label class="form-label" for="input-pin">
               <span>Edit PIN <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional 4-digits)</span></span>
               <svg style="width: 14px; height: 14px; color: var(--text-dark);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
@@ -1164,25 +1102,44 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, notes..." oninput="applyFilters()">
             </div>
+            
+            <!-- Admin Mode Toggle Button -->
+            <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="toggleAdminMode()" title="Toggle Admin Mode to edit any entry without PIN">
+              <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+              <span id="admin-toggle-label">Admin: Off</span>
+            </button>
+
             <button class="toolbar-action-btn" onclick="copyDiscordRoster()" title="Copy Markdown table for Discord">
               <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copy for Discord
             </button>
           </div>
 
-          <!-- Filter Pills -->
+          <!-- Filter Pills (Role & Class) -->
           <div class="filter-chips-row">
-            <span class="filter-group-label">Faction:</span>
-            <button class="filter-pill active" data-faction="all" onclick="setFactionFilter('all', this)">All</button>
-            <button class="filter-pill" data-faction="Alliance" onclick="setFactionFilter('Alliance', this)">Alliance</button>
-            <button class="filter-pill" data-faction="Horde" onclick="setFactionFilter('Horde', this)">Horde</button>
-
-            <span class="filter-group-label" style="margin-left: 12px;">Role:</span>
+            <span class="filter-group-label">Role:</span>
             <button class="filter-pill active" data-role="all" onclick="setRoleFilter('all', this)">All</button>
-            <button class="filter-pill" data-role="Tank" onclick="setRoleFilter('Tank', this)">Tanks</button>
-            <button class="filter-pill" data-role="Healer" onclick="setRoleFilter('Healer', this)">Healers</button>
-            <button class="filter-pill" data-role="Melee DPS" onclick="setRoleFilter('Melee DPS', this)">Melee</button>
-            <button class="filter-pill" data-role="Ranged DPS" onclick="setRoleFilter('Ranged DPS', this)">Ranged</button>
+            <button class="filter-pill" data-role="Tank" onclick="setRoleFilter('Tank', this)">
+              <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
+              Tanks
+            </button>
+            <button class="filter-pill" data-role="Healer" onclick="setRoleFilter('Healer', this)">
+              <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
+              Healers
+            </button>
+            <button class="filter-pill" data-role="Melee DPS" onclick="setRoleFilter('Melee DPS', this)">
+              <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
+              Melee
+            </button>
+            <button class="filter-pill" data-role="Ranged DPS" onclick="setRoleFilter('Ranged DPS', this)">
+              <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_bow_02.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
+              Ranged
+            </button>
+
+            <!-- Admin Active Indicator -->
+            <span id="admin-active-badge" class="admin-indicator-pill" style="display: none; margin-left: auto;">
+              🛡️ Admin Mode Active (PINs Bypassed)
+            </span>
           </div>
         </div>
 
@@ -1196,7 +1153,7 @@
     </div>
   </main>
 
-  <!-- PIN Modal for editing protected records -->
+  <!-- PIN Modal for editing protected records (Bypassed in Admin Mode) -->
   <div class="pin-modal-overlay" id="pin-modal">
     <div class="pin-modal-box">
       <div class="pin-modal-title" id="pin-modal-title">Enter Character PIN</div>
@@ -1252,7 +1209,7 @@
     checkPlexStatus();
 
     // ==========================================
-    // WoW Forever Database & Combinations Matrix
+    // WoW Forever Horde Database & Matrix
     // ==========================================
     
     // Official WoW Class Colors
@@ -1281,91 +1238,87 @@
       "Druid": "classicon_druid"
     };
 
+    // Role WoW Asset Icons
+    const ROLE_ICONS = {
+      "Tank": "inv_shield_06",
+      "Healer": "spell_holy_flashheal",
+      "Melee DPS": "ability_dualwield",
+      "Ranged DPS": "inv_weapon_bow_02"
+    };
+
     // Spec Icons and Default Role Mapping
     const SPEC_DATA = {
       "Warrior": {
-        "Arms": { icon: "ability_warrior_savageblow", defaultRole: "Melee DPS" },
-        "Fury": { icon: "ability_warrior_innerrage", defaultRole: "Melee DPS" },
-        "Protection": { icon: "ability_warrior_defensivestance", defaultRole: "Tank" }
+        "Arms": { icon: "ability_warrior_savageblow", defaultRoles: ["Melee DPS"] },
+        "Fury": { icon: "ability_warrior_innerrage", defaultRoles: ["Melee DPS"] },
+        "Protection": { icon: "ability_warrior_defensivestance", defaultRoles: ["Tank"] }
       },
       "Paladin": {
-        "Holy": { icon: "spell_holy_holybolt", defaultRole: "Healer" },
-        "Protection": { icon: "spell_holy_auraofprotection", defaultRole: "Tank" },
-        "Retribution": { icon: "spell_holy_auraoflight", defaultRole: "Melee DPS" }
+        "Holy": { icon: "spell_holy_holybolt", defaultRoles: ["Healer"] },
+        "Protection": { icon: "spell_holy_auraofprotection", defaultRoles: ["Tank"] },
+        "Retribution": { icon: "spell_holy_auraoflight", defaultRoles: ["Melee DPS"] }
       },
       "Hunter": {
-        "Beast Mastery": { icon: "ability_hunter_beasttaming", defaultRole: "Ranged DPS" },
-        "Marksmanship": { icon: "ability_marksmanship", defaultRole: "Ranged DPS" },
-        "Survival": { icon: "ability_hunter_swiftstrike", defaultRole: "Melee DPS" }
+        "Beast Mastery": { icon: "ability_hunter_beasttaming", defaultRoles: ["Ranged DPS"] },
+        "Marksmanship": { icon: "ability_marksmanship", defaultRoles: ["Ranged DPS"] },
+        "Survival": { icon: "ability_hunter_swiftstrike", defaultRoles: ["Melee DPS"] }
       },
       "Rogue": {
-        "Assassination": { icon: "ability_rogue_eviscerate", defaultRole: "Melee DPS" },
-        "Combat": { icon: "ability_backstab", defaultRole: "Melee DPS" },
-        "Subtlety": { icon: "ability_stealth", defaultRole: "Melee DPS" }
+        "Assassination": { icon: "ability_rogue_eviscerate", defaultRoles: ["Melee DPS"] },
+        "Combat": { icon: "ability_backstab", defaultRoles: ["Melee DPS"] },
+        "Subtlety": { icon: "ability_stealth", defaultRoles: ["Melee DPS"] }
       },
       "Priest": {
-        "Discipline": { icon: "spell_holy_powerwordshield", defaultRole: "Healer" },
-        "Holy": { icon: "spell_holy_guardianspirit", defaultRole: "Healer" },
-        "Shadow": { icon: "spell_shadow_shadowwordpain", defaultRole: "Ranged DPS" }
+        "Discipline": { icon: "spell_holy_powerwordshield", defaultRoles: ["Healer"] },
+        "Holy": { icon: "spell_holy_guardianspirit", defaultRoles: ["Healer"] },
+        "Shadow": { icon: "spell_shadow_shadowwordpain", defaultRoles: ["Ranged DPS"] }
       },
       "Shaman": {
-        "Elemental": { icon: "spell_nature_lightning", defaultRole: "Ranged DPS" },
-        "Enhancement": { icon: "spell_nature_lightningshield", defaultRole: "Melee DPS" },
-        "Restoration": { icon: "spell_nature_magicimmunity", defaultRole: "Healer" }
+        "Elemental": { icon: "spell_nature_lightning", defaultRoles: ["Ranged DPS"] },
+        "Enhancement": { icon: "spell_nature_lightningshield", defaultRoles: ["Melee DPS"] },
+        "Restoration": { icon: "spell_nature_magicimmunity", defaultRoles: ["Healer"] }
       },
       "Mage": {
-        "Arcane": { icon: "spell_holy_magicalsentry", defaultRole: "Ranged DPS" },
-        "Fire": { icon: "spell_fire_firebolt02", defaultRole: "Ranged DPS" },
-        "Frost": { icon: "spell_frost_frostbolt02", defaultRole: "Ranged DPS" }
+        "Arcane": { icon: "spell_holy_magicalsentry", defaultRoles: ["Ranged DPS"] },
+        "Fire": { icon: "spell_fire_firebolt02", defaultRoles: ["Ranged DPS"] },
+        "Frost": { icon: "spell_frost_frostbolt02", defaultRoles: ["Ranged DPS"] }
       },
       "Warlock": {
-        "Affliction": { icon: "spell_shadow_deathcoil", defaultRole: "Ranged DPS" },
-        "Demonology": { icon: "spell_shadow_metamorphosis", defaultRole: "Ranged DPS" },
-        "Destruction": { icon: "spell_shadow_rainoffire", defaultRole: "Ranged DPS" }
+        "Affliction": { icon: "spell_shadow_deathcoil", defaultRoles: ["Ranged DPS"] },
+        "Demonology": { icon: "spell_shadow_metamorphosis", defaultRoles: ["Ranged DPS"] },
+        "Destruction": { icon: "spell_shadow_rainoffire", defaultRoles: ["Ranged DPS"] }
       },
       "Druid": {
-        "Balance": { icon: "spell_nature_starfall", defaultRole: "Ranged DPS" },
-        "Feral Combat": { icon: "ability_racial_bearform", defaultRole: "Melee DPS" },
-        "Restoration": { icon: "spell_nature_healingtouch", defaultRole: "Healer" }
+        "Balance": { icon: "spell_nature_starfall", defaultRoles: ["Ranged DPS"] },
+        "Feral Combat": { icon: "ability_racial_bearform", defaultRoles: ["Melee DPS", "Tank"] },
+        "Restoration": { icon: "spell_nature_healingtouch", defaultRoles: ["Healer"] }
       }
     };
 
-    // Race Icons from Wowhead CDN (Skyborne uses high-res themed storm/wing icon with fallback)
+    // Race Icons from Wowhead CDN (Horde Races)
     const RACE_ICONS = {
-      "Human": "race_human_male",
-      "Dwarf": "race_dwarf_male",
-      "Night Elf": "race_nightelf_female",
-      "Gnome": "race_gnome_male",
-      "Skyborne": "ability_racial_avatar_storm",
       "Orc": "race_orc_male",
       "Undead": "race_undead_male",
       "Tauren": "race_tauren_male",
-      "Troll": "race_troll_male"
+      "Troll": "race_troll_male",
+      "Skyborne": "ability_racial_avatar_storm"
     };
 
-    // WoW Forever Confirmed Race/Class Combinations Matrix
-    const RACE_CLASSES = {
-      "Alliance": {
-        "Human": ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Mage", "Warlock"],
-        "Dwarf": ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman"],
-        "Night Elf": ["Warrior", "Hunter", "Rogue", "Priest", "Druid"],
-        "Gnome": ["Warrior", "Rogue", "Priest", "Mage", "Warlock"],
-        "Skyborne": ["Warrior", "Hunter", "Rogue", "Priest", "Mage"]
-      },
-      "Horde": {
-        "Orc": ["Warrior", "Hunter", "Rogue", "Shaman", "Mage", "Warlock"],
-        "Undead": ["Warrior", "Paladin", "Rogue", "Priest", "Mage", "Warlock"],
-        "Tauren": ["Warrior", "Hunter", "Shaman", "Druid"],
-        "Troll": ["Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock"],
-        "Skyborne": ["Warrior", "Hunter", "Rogue", "Shaman", "Druid"]
-      }
+    // WoW Forever Confirmed Horde Race/Class Combinations Matrix
+    const HORDE_RACE_CLASSES = {
+      "Orc": ["Warrior", "Hunter", "Rogue", "Shaman", "Mage", "Warlock"],
+      "Undead": ["Warrior", "Paladin", "Rogue", "Priest", "Mage", "Warlock"],
+      "Tauren": ["Warrior", "Hunter", "Shaman", "Druid"],
+      "Troll": ["Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock"],
+      "Skyborne": ["Warrior", "Hunter", "Rogue", "Shaman", "Druid"]
     };
 
     // State Variables
-    let currentFaction = "Alliance";
     let rosterList = [];
-    let activeFactionFilter = "all";
     let activeRoleFilter = "all";
+    let selectedRoles = ["Melee DPS"];
+    let selectedPlaystyles = ["Hardcore Raiding"];
+    let isAdminMode = localStorage.getItem('tbs_admin_mode') === 'true';
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
 
     function getIconUrl(iconName) {
@@ -1374,25 +1327,49 @@
     }
 
     // ==========================================
-    // Form Dynamic Selectors
+    // Admin Mode Controls
     // ==========================================
 
-    function setFaction(faction) {
-      currentFaction = faction;
-      document.getElementById('btn-faction-alliance').classList.toggle('active', faction === 'Alliance');
-      document.getElementById('btn-faction-horde').classList.toggle('active', faction === 'Horde');
-      populateRaceSelect();
+    function updateAdminUI() {
+      const btn = document.getElementById('btn-admin-toggle');
+      const label = document.getElementById('admin-toggle-label');
+      const badge = document.getElementById('admin-active-badge');
+
+      if (isAdminMode) {
+        btn.classList.add('active');
+        label.textContent = 'Admin: ON';
+        badge.style.display = 'inline-flex';
+      } else {
+        btn.classList.remove('active');
+        label.textContent = 'Admin: Off';
+        badge.style.display = 'none';
+      }
     }
+
+    function toggleAdminMode() {
+      isAdminMode = !isAdminMode;
+      localStorage.setItem('tbs_admin_mode', isAdminMode ? 'true' : 'false');
+      updateAdminUI();
+      if (isAdminMode) {
+        showToast('Admin Mode Active: PIN bypass enabled!');
+      } else {
+        showToast('Admin Mode Deactivated.');
+      }
+    }
+
+    // ==========================================
+    // Form Dynamic Selectors (Horde Only)
+    // ==========================================
 
     function populateRaceSelect(selectedRace = null) {
       const selectRace = document.getElementById('select-race');
       selectRace.innerHTML = '';
-      const availableRaces = Object.keys(RACE_CLASSES[currentFaction]);
+      const availableRaces = Object.keys(HORDE_RACE_CLASSES);
 
       availableRaces.forEach(race => {
         const opt = document.createElement('option');
         opt.value = race;
-        opt.textContent = race === 'Skyborne' ? 'Skyborne (New Race)' : race;
+        opt.textContent = race === 'Skyborne' ? 'Skyborne (New Horde Race)' : race;
         selectRace.appendChild(opt);
       });
 
@@ -1408,18 +1385,14 @@
     function onRaceChange(race, selectedClass = null) {
       const selectClass = document.getElementById('select-class');
       selectClass.innerHTML = '';
-      const availableClasses = RACE_CLASSES[currentFaction][race] || [];
+      const availableClasses = HORDE_RACE_CLASSES[race] || [];
 
       availableClasses.forEach(className => {
         const opt = document.createElement('option');
         opt.value = className;
-        // Highlight new WoW Forever pairings
         let label = className;
-        if (race === 'Dwarf' && className === 'Shaman') label += ' ★ (New)';
         if (race === 'Undead' && className === 'Paladin') label += ' ★ (New)';
-        if (race === 'Human' && className === 'Hunter') label += ' ★ (New)';
         if (race === 'Orc' && className === 'Mage') label += ' ★ (New)';
-        if (race === 'Gnome' && className === 'Priest') label += ' ★ (New)';
         if (race === 'Troll' && className === 'Warlock') label += ' ★ (New)';
         opt.textContent = label;
         selectClass.appendChild(opt);
@@ -1461,19 +1434,65 @@
       const race = document.getElementById('select-race').value;
       const specInfo = SPEC_DATA[className]?.[specName];
 
-      // Auto-set default role if user hasn't explicitly locked one
-      if (specInfo && specInfo.defaultRole) {
-        setRole(specInfo.defaultRole);
+      // Auto-set default role(s) based on spec
+      if (specInfo && specInfo.defaultRoles) {
+        selectedRoles = [...specInfo.defaultRoles];
+        renderRoleChips();
       }
 
       // Update Live Preview Bar
       updateSelectionPreview(race, className, specName);
     }
 
-    function setRole(roleName) {
-      document.getElementById('selected-role').value = roleName;
-      document.querySelectorAll('.role-chip').forEach(chip => {
-        chip.classList.toggle('active', chip.getAttribute('data-role') === roleName);
+    // ==========================================
+    // Multi-Role & Multi-Playstyle Handling
+    // ==========================================
+
+    function toggleRole(roleName) {
+      if (selectedRoles.includes(roleName)) {
+        if (selectedRoles.length > 1) {
+          selectedRoles = selectedRoles.filter(r => r !== roleName);
+        } else {
+          showToast('At least one role must be selected!', true);
+          return;
+        }
+      } else {
+        selectedRoles.push(roleName);
+      }
+      renderRoleChips();
+      updateSelectionPreview(
+        document.getElementById('select-race').value,
+        document.getElementById('select-class').value,
+        document.getElementById('select-spec').value
+      );
+    }
+
+    function renderRoleChips() {
+      document.querySelectorAll('.role-toggle-chip').forEach(chip => {
+        const role = chip.getAttribute('data-role');
+        chip.classList.toggle('active', selectedRoles.includes(role));
+      });
+    }
+
+    function togglePlaystyle(styleName, chip) {
+      if (selectedPlaystyles.includes(styleName)) {
+        if (selectedPlaystyles.length > 1) {
+          selectedPlaystyles = selectedPlaystyles.filter(s => s !== styleName);
+          chip.classList.remove('active');
+        } else {
+          showToast('At least one playstyle must be selected!', true);
+          return;
+        }
+      } else {
+        selectedPlaystyles.push(styleName);
+        chip.classList.add('active');
+      }
+    }
+
+    function renderPlaystyleChips() {
+      document.querySelectorAll('.playstyle-toggle-chip').forEach(chip => {
+        const style = chip.getAttribute('data-style');
+        chip.classList.toggle('active', selectedPlaystyles.includes(style));
       });
     }
 
@@ -1492,7 +1511,8 @@
       specIcon.src = getIconUrl(specIconName);
 
       const classColor = CLASS_COLORS[className] || 'var(--text-main)';
-      previewText.innerHTML = `<span style="color: ${classColor}; font-weight:700;">${specName} ${className}</span> &bull; ${race} (${currentFaction})`;
+      const rolesLabel = selectedRoles.join(' / ');
+      previewText.innerHTML = `<span style="color: ${classColor}; font-weight:700;">${specName} ${className}</span> &bull; ${race} (${rolesLabel})`;
     }
 
     // ==========================================
@@ -1528,43 +1548,24 @@
 
     function renderStats() {
       const total = rosterList.length;
-      let tanks = 0, healers = 0, dps = 0;
-      let allianceCount = 0, hordeCount = 0;
+      let tanks = 0, healers = 0, meleeDps = 0, rangedDps = 0;
 
       rosterList.forEach(m => {
-        if (m.role === 'Tank') tanks++;
-        else if (m.role === 'Healer') healers++;
-        else dps++;
-
-        if (m.faction === 'Alliance') allianceCount++;
-        else hordeCount++;
+        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+        if (roles.includes('Tank')) tanks++;
+        if (roles.includes('Healer')) healers++;
+        if (roles.includes('Melee DPS')) meleeDps++;
+        if (roles.includes('Ranged DPS')) rangedDps++;
       });
 
       document.getElementById('stat-total-count').textContent = total;
       document.getElementById('stat-tank-count').textContent = tanks;
       document.getElementById('stat-healer-count').textContent = healers;
-      document.getElementById('stat-dps-count').textContent = dps;
-
-      document.getElementById('count-alliance').textContent = allianceCount;
-      document.getElementById('count-horde').textContent = hordeCount;
-
-      const allyPct = total > 0 ? Math.round((allianceCount / total) * 100) : 50;
-      const hordePct = total > 0 ? 100 - allyPct : 50;
-
-      document.getElementById('pct-alliance').textContent = `${allyPct}%`;
-      document.getElementById('pct-horde').textContent = `${hordePct}%`;
-      document.getElementById('bar-alliance').style.width = `${allyPct}%`;
-      document.getElementById('bar-horde').style.width = `${hordePct}%`;
+      document.getElementById('stat-melee-count').textContent = meleeDps;
+      document.getElementById('stat-ranged-count').textContent = rangedDps;
     }
 
     function applyFilters() {
-      renderRoster();
-    }
-
-    function setFactionFilter(faction, btn) {
-      activeFactionFilter = faction;
-      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
       renderRoster();
     }
 
@@ -1582,10 +1583,12 @@
       const searchTerm = (document.getElementById('roster-search-input')?.value || '').toLowerCase().trim();
 
       const filtered = rosterList.filter(item => {
-        // Faction filter
-        if (activeFactionFilter !== 'all' && item.faction !== activeFactionFilter) return false;
-        // Role filter
-        if (activeRoleFilter !== 'all' && item.role !== activeRoleFilter) return false;
+        // Multi-role filter match
+        if (activeRoleFilter !== 'all') {
+          const roles = Array.isArray(item.roles) && item.roles.length > 0 ? item.roles : (item.role ? [item.role] : []);
+          if (!roles.includes(activeRoleFilter)) return false;
+        }
+
         // Search filter
         if (searchTerm) {
           const matchName = item.playerName.toLowerCase().includes(searchTerm);
@@ -1609,23 +1612,32 @@
       }
 
       container.innerHTML = filtered.map(m => {
-        const classColor = CLASS_COLORS[m.className] || '#388e3c';
+        const classColor = CLASS_COLORS[m.className] || '#dc2626';
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
         const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
 
-        let roleTagClass = 'role-melee';
-        let roleSvg = `<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>`;
-        if (m.role === 'Tank') {
-          roleTagClass = 'role-tank';
-          roleSvg = `<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>`;
-        } else if (m.role === 'Healer') {
-          roleTagClass = 'role-healer';
-          roleSvg = `<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>`;
-        } else if (m.role === 'Ranged DPS') {
-          roleTagClass = 'role-ranged';
-          roleSvg = `<svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/></svg>`;
-        }
+        const roles = Array.isArray(m.roles) && m.roles.length > 0 ? m.roles : (m.role ? [m.role] : []);
+        const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
+
+        const roleBadgesHtml = roles.map(r => {
+          let roleTagClass = 'role-melee';
+          const rIcon = ROLE_ICONS[r] || 'ability_dualwield';
+          if (r === 'Tank') roleTagClass = 'role-tank';
+          else if (r === 'Healer') roleTagClass = 'role-healer';
+          else if (r === 'Ranged DPS') roleTagClass = 'role-ranged';
+
+          return `
+            <span class="member-role-badge ${roleTagClass}">
+              <img src="${getIconUrl(rIcon)}" alt="${r}">
+              ${escapeHtml(r)}
+            </span>
+          `;
+        }).join('');
+
+        const playstyleBadgesHtml = playstyles.map(p => `
+          <span class="member-playstyle-pill">${escapeHtml(p)}</span>
+        `).join('');
 
         const dateStr = m.updatedAt ? new Date(m.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '';
 
@@ -1635,12 +1647,9 @@
               <div class="member-name-group">
                 <span class="member-player-name">
                   ${escapeHtml(m.playerName)}
-                  ${m.pin ? '<svg style="width:12px;height:12px;color:var(--text-dark);" title="Protected with PIN" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
+                  ${m.pin ? '<svg style="width:12px;height:12px;color:var(--text-dark);" title="PIN Protected" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
                 </span>
                 <span class="member-created-date">${dateStr ? 'Updated ' + dateStr : ''}</span>
-              </div>
-              <div class="member-badges-top">
-                <span class="badge-faction ${m.faction.toLowerCase()}">${m.faction}</span>
               </div>
             </div>
 
@@ -1652,20 +1661,22 @@
               </div>
               <div class="member-spec-text">
                 <span class="member-class-spec">${escapeHtml(m.spec)} ${escapeHtml(m.className)}</span>
-                <span class="member-race-faction">${escapeHtml(m.race)}</span>
+                <span class="member-race-faction">${escapeHtml(m.race)} &bull; Horde</span>
               </div>
             </div>
 
-            <div class="member-role-tag ${roleTagClass}">
-              ${roleSvg}
-              ${escapeHtml(m.role)}
+            <div class="member-roles-container">
+              ${roleBadgesHtml}
             </div>
 
             ${m.offspec ? `<div class="member-offspec-line"><strong>Offspec:</strong> ${escapeHtml(m.offspec)}</div>` : ''}
             ${m.notes ? `<div class="member-notes">"${escapeHtml(m.notes)}"</div>` : ''}
 
+            <div class="member-playstyles-row">
+              ${playstyleBadgesHtml}
+            </div>
+
             <div class="member-card-footer">
-              <span class="member-playstyle-pill">${escapeHtml(m.playstyle || 'Casual')}</span>
               <div class="member-actions">
                 <button class="card-action-btn edit-btn" onclick="startEdit('${m.id}')">
                   <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/></svg>
@@ -1704,14 +1715,17 @@
       const race = document.getElementById('select-race').value;
       const className = document.getElementById('select-class').value;
       const spec = document.getElementById('select-spec').value;
-      const role = document.getElementById('selected-role').value;
       const offspec = document.getElementById('input-offspec').value.trim();
-      const playstyle = document.getElementById('select-playstyle').value;
       const notes = document.getElementById('input-notes').value.trim();
       const pin = document.getElementById('input-pin').value.trim();
 
       if (!playerName) {
         showToast('Player name is required!', true);
+        return;
+      }
+
+      if (selectedRoles.length === 0) {
+        showToast('Please select at least one role!', true);
         return;
       }
 
@@ -1721,21 +1735,27 @@
       const payload = {
         id: id || undefined,
         playerName,
-        faction: currentFaction,
+        faction: 'Horde',
         race,
         className,
         spec,
-        role,
+        roles: selectedRoles,
+        role: selectedRoles[0],
         offspec,
-        playstyle,
+        playstyles: selectedPlaystyles,
+        playstyle: selectedPlaystyles[0],
         notes,
-        pin
+        pin,
+        admin: isAdminMode
       };
 
       try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (isAdminMode) headers['x-admin-key'] = 'meudayr';
+
         const res = await fetch('/api/roster', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify(payload)
         });
 
@@ -1772,7 +1792,8 @@
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
-      if (entry.pin && entry.pin.trim() !== '') {
+      // If Admin Mode is active, bypass PIN check completely!
+      if (!isAdminMode && entry.pin && entry.pin.trim() !== '') {
         pendingModalAction = { type: 'edit', entry };
         document.getElementById('pin-modal-title').textContent = `Unlock ${entry.playerName}`;
         document.getElementById('pin-modal-desc').textContent = 'This entry is PIN protected. Enter the PIN to edit.';
@@ -1789,16 +1810,21 @@
       document.getElementById('entry-id').value = entry.id;
       document.getElementById('player-name').value = entry.playerName;
       document.getElementById('input-offspec').value = entry.offspec || '';
-      document.getElementById('select-playstyle').value = entry.playstyle || 'Raid Casual';
       document.getElementById('input-notes').value = entry.notes || '';
       document.getElementById('input-pin').value = entry.pin || '';
 
-      // Set Faction & Race/Class/Spec
-      setFaction(entry.faction);
+      // Set Race, Class, Spec
       populateRaceSelect(entry.race);
       onRaceChange(entry.race, entry.className);
       onClassChange(entry.className, entry.spec);
-      setRole(entry.role);
+
+      // Multi-Role restore
+      selectedRoles = Array.isArray(entry.roles) && entry.roles.length > 0 ? [...entry.roles] : (entry.role ? [entry.role] : ['Melee DPS']);
+      renderRoleChips();
+
+      // Multi-Playstyle restore
+      selectedPlaystyles = Array.isArray(entry.playstyles) && entry.playstyles.length > 0 ? [...entry.playstyles] : (entry.playstyle ? [entry.playstyle] : ['Hardcore Raiding']);
+      renderPlaystyleChips();
 
       // UI states
       document.getElementById('form-heading-text').textContent = 'Edit Character';
@@ -1815,18 +1841,24 @@
       document.getElementById('character-form').reset();
       document.getElementById('entry-id').value = '';
       document.getElementById('form-heading-text').textContent = 'Submit Character';
-      document.getElementById('form-subheading-text').textContent = 'Select your race, class, and spec for WoW Forever.';
+      document.getElementById('form-subheading-text').textContent = 'Select your Horde race, class, spec, and roles for WoW Forever.';
       document.getElementById('edit-mode-badge').style.display = 'none';
       document.getElementById('btn-submit-text').textContent = 'Submit Intention';
       document.getElementById('btn-cancel-edit').style.display = 'none';
-      setFaction('Alliance');
+
+      selectedRoles = ['Melee DPS'];
+      selectedPlaystyles = ['Hardcore Raiding'];
+      renderRoleChips();
+      renderPlaystyleChips();
+      populateRaceSelect();
     }
 
     function startDelete(id) {
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
-      if (entry.pin && entry.pin.trim() !== '') {
+      // If Admin Mode is active, bypass PIN check completely!
+      if (!isAdminMode && entry.pin && entry.pin.trim() !== '') {
         pendingModalAction = { type: 'delete', entry };
         document.getElementById('pin-modal-title').textContent = `Remove ${entry.playerName}?`;
         document.getElementById('pin-modal-desc').textContent = 'Enter your 4-digit PIN to delete this entry from the roster.';
@@ -1843,8 +1875,12 @@
 
     async function executeDelete(id, pin) {
       try {
-        const res = await fetch(`/api/roster?id=${encodeURIComponent(id)}&pin=${encodeURIComponent(pin)}`, {
-          method: 'DELETE'
+        const headers = {};
+        if (isAdminMode) headers['x-admin-key'] = 'meudayr';
+
+        const res = await fetch(`/api/roster?id=${encodeURIComponent(id)}&pin=${encodeURIComponent(pin)}&admin=${isAdminMode}`, {
+          method: 'DELETE',
+          headers
         });
         const data = await res.json();
         if (res.ok && data.success) {
@@ -1891,18 +1927,22 @@
     // ==========================================
 
     function copyDiscordRoster() {
-      let md = `**⚔️ TBS Guild Roster — World of Warcraft: Forever**\n`;
-      md += `*Total: ${rosterList.length} Members | Alliance: ${document.getElementById('count-alliance').textContent} | Horde: ${document.getElementById('count-horde').textContent}*\n\n`;
+      let md = `**⚔️ TBS Guild Roster — World of Warcraft: Forever (Horde)**\n`;
+      md += `*Total Registered: ${rosterList.length} Members*\n\n`;
       
       const roles = ['Tank', 'Healer', 'Melee DPS', 'Ranged DPS'];
       roles.forEach(role => {
-        const group = rosterList.filter(x => x.role === role);
+        const group = rosterList.filter(x => {
+          const rList = Array.isArray(x.roles) && x.roles.length > 0 ? x.roles : (x.role ? [x.role] : []);
+          return rList.includes(role);
+        });
         md += `__**${role}s (${group.length}):**__\n`;
         if (group.length === 0) {
           md += `*None registered yet*\n`;
         } else {
           group.forEach(m => {
-            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race} ${m.faction})${m.offspec ? ` [OS: ${m.offspec}]` : ''}\n`;
+            const pStyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles.join(', ') : (m.playstyle || '');
+            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race})${m.offspec ? ` [OS: ${m.offspec}]` : ''}${pStyles ? ` [${pStyles}]` : ''}\n`;
           });
         }
         md += `\n`;
@@ -1927,7 +1967,10 @@
 
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
-      setFaction('Alliance');
+      updateAdminUI();
+      renderRoleChips();
+      renderPlaystyleChips();
+      populateRaceSelect();
       loadRoster();
     });
   </script>
