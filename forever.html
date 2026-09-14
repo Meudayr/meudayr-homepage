@@ -2919,16 +2919,6 @@
         specs: null
       },
       {
-        id: 'spirit',
-        name: 'Divine Spirit',
-        category: 'Raid Buff',
-        type: 'raid',
-        icon: 'spell_holy_divinespirit',
-        description: '+Spirit to raid members (+40 Spirit at max rank)',
-        classes: ['Priest'],
-        specs: ['Discipline', 'Holy']
-      },
-      {
         id: 'shadow_prot',
         name: 'Shadow Protection',
         category: 'Raid Buff',
@@ -2943,7 +2933,7 @@
         name: 'Blood Pact (Imp)',
         category: 'Raid Buff',
         type: 'raid',
-        icon: 'spell_shadow_bloodpact',
+        icon: 'spell_shadow_bloodboil',
         description: '+Stamina aura (+42 Stamina from Warlock Imp minion)',
         classes: ['Warlock'],
         specs: null
@@ -3005,17 +2995,6 @@
         isPartyOnly: true
       },
       {
-        id: 'tremor_totem',
-        name: 'Tremor Totem',
-        category: 'Group Totem',
-        type: 'group',
-        icon: 'spell_nature_tremortotem',
-        description: 'Pulses every 4 sec to cleanse Fear, Sleep & Charm effects',
-        classes: ['Shaman'],
-        specs: null,
-        isPartyOnly: true
-      },
-      {
         id: 'battle_shout',
         name: 'Battle Shout',
         category: 'Group Buff',
@@ -3027,14 +3006,14 @@
         isPartyOnly: true
       },
       {
-        id: 'lotp',
-        name: 'Leader of the Pack',
+        id: 'druid_crit_aura',
+        name: 'Leader of the Pack / Moonkin Aura',
         category: 'Group Aura',
         type: 'group',
         icon: 'spell_nature_unyeildingstamina',
-        description: '+3% Melee & Ranged Critical Strike chance aura for party',
+        description: '+3% Critical Strike chance aura for party (from Feral Combat or Balance Druid)',
         classes: ['Druid'],
-        specs: ['Feral Combat'],
+        specs: ['Feral Combat', 'Balance'],
         isPartyOnly: true
       },
       {
@@ -3049,14 +3028,14 @@
         isPartyOnly: true
       },
       {
-        id: 'moonkin',
-        name: 'Moonkin Aura',
+        id: 'paladin_auras',
+        name: 'Paladin Auras',
         category: 'Group Aura',
         type: 'group',
-        icon: 'spell_nature_moonglow',
-        description: '+3% Spell Critical Strike chance aura for party',
-        classes: ['Druid'],
-        specs: ['Balance'],
+        icon: 'spell_holy_devotionaura',
+        description: 'Devotion (+Armor), Concentration (-Interrupt), Resistance (Fire/Frost/Shadow), Retribution',
+        classes: ['Paladin'],
+        specs: null,
         isPartyOnly: true
       },
 
@@ -3082,23 +3061,23 @@
         specs: null
       },
       {
-        id: 'coe',
-        name: 'Curse of the Elements',
+        id: 'curses',
+        name: 'Warlock Curses',
         category: 'Raid Debuff',
         type: 'debuff',
-        icon: 'spell_shadow_chilltouch',
-        description: '+10% Fire & Frost damage taken, -75 Fire & Frost resistances',
+        icon: 'spell_shadow_curseofachimonde',
+        description: 'Elements (+10% Fire/Frost dmg), Recklessness (-Armor), Shadows (+Shadow/Arcane dmg), Tongues',
         classes: ['Warlock'],
         specs: null
       },
       {
-        id: 'cor',
-        name: 'Curse of Recklessness',
-        category: 'Raid Debuff',
+        id: 'fear_ward',
+        name: 'Fear Ward',
+        category: 'Raid Utility',
         type: 'debuff',
-        icon: 'spell_shadow_unholystrength',
-        description: 'Reduces boss armor by 640 and prevents fleeing/fear',
-        classes: ['Warlock'],
+        icon: 'spell_holy_excorcism',
+        description: 'Wards friendly target against fear effects (every Priest has Fear Ward in Forever)',
+        classes: ['Priest'],
         specs: null
       },
       {
