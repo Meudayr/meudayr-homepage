@@ -737,6 +737,10 @@
         width: 100%;
         padding: 12px 16px;
       }
+
+      .floating-submit-fab {
+        display: none !important;
+      }
     }
 
     /* Admin Mode Button & Badge */
@@ -2635,13 +2639,6 @@
       }
       localStorage.setItem('tbs_form_retracted', isFormRetracted ? 'true' : 'false');
       updateFormCollapseUI();
-
-      if (!isFormRetracted) {
-        const formEl = document.getElementById('signup-form-container');
-        if (formEl) {
-          formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
     }
 
     // ==========================================
