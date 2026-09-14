@@ -150,22 +150,40 @@
     .form-collapse-btn {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      border-radius: 6px;
-      padding: 4px 9px;
-      font-size: 0.74rem;
-      font-weight: 600;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(192, 157, 82, 0.26) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.55);
+      color: #fef08a;
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
       cursor: pointer;
-      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(254, 240, 138, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .form-collapse-btn svg {
+      transition: transform 0.2s ease;
+      color: #fef08a;
     }
 
     .form-collapse-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-      border-color: var(--card-border-hover);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(192, 157, 82, 0.45) 100%);
+      border-color: #f59e0b;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(254, 240, 138, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .form-collapse-btn:hover svg {
+      transform: translateX(-2px);
+      color: #ffffff;
+    }
+
+    .form-collapse-btn:active {
+      transform: translateY(0);
     }
 
     /* Character Form Card */
@@ -704,34 +722,9 @@
       color: #fff;
     }
 
-    /* When form is expanded (retract state for the card) */
-    .submit-cta-card.expanded-mode {
-      background: linear-gradient(140deg, #1b1e28 0%, #151821 100%);
-      border-color: var(--card-border);
-    }
-
-    .submit-cta-card.expanded-mode:hover {
-      border-color: var(--card-border-hover);
-      background: #232732;
-    }
-
-    .submit-cta-card.expanded-mode .submit-cta-title {
-      color: var(--text-main);
-    }
-
-    .submit-cta-card.expanded-mode .submit-cta-sub {
-      color: var(--text-muted);
-    }
-
-    .submit-cta-card.expanded-mode .submit-cta-icon-box {
-      border-color: var(--card-border);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .submit-cta-card.expanded-mode .submit-cta-badge {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: var(--card-border);
-      color: var(--text-muted);
+    /* When form is expanded, completely hide the CTA card (retract is handled directly in the form header) */
+    .roster-layout:not(.sidebar-retracted) .submit-cta-card {
+      display: none !important;
     }
 
     @media (max-width: 960px) {
@@ -1769,7 +1762,7 @@
             </span>
           </div>
           <button type="button" class="form-collapse-btn" onclick="toggleFormCollapse()" title="Retract Submit Character panel to view 3 columns of cards">
-            <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
             <span>Retract</span>
           </button>
         </div>
@@ -2609,6 +2602,7 @@
       if (isFormRetracted) {
         layout.classList.add('sidebar-retracted');
         if (ctaCard) {
+          ctaCard.style.display = '';
           ctaCard.classList.remove('expanded-mode');
           ctaCard.classList.add('retracted-mode');
           ctaCard.setAttribute('title', 'Expand Submit Character menu (moves cards to 2 columns)');
@@ -2626,16 +2620,7 @@
       } else {
         layout.classList.remove('sidebar-retracted');
         if (ctaCard) {
-          ctaCard.classList.remove('retracted-mode');
-          ctaCard.classList.add('expanded-mode');
-          ctaCard.setAttribute('title', 'Retract Submit Character menu (views 3 columns of cards)');
-        }
-        if (toggleText) toggleText.textContent = 'Retract Menu';
-        if (toggleIcon) {
-          toggleIcon.innerHTML = '<svg class="submit-cta-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>';
-        }
-        if (toggleAction) {
-          toggleAction.innerHTML = '<span class="submit-cta-badge">◂ Hide</span>';
+          ctaCard.style.display = 'none';
         }
         if (floatingFab) {
           floatingFab.style.display = 'none';
@@ -3823,6 +3808,10 @@
           showToast(id ? 'Character updated successfully!' : 'Joined TBS WoW: Forever roster!');
           cancelEditMode();
           await loadRoster();
+          // Auto-retract menu after submission
+          isFormRetracted = true;
+          localStorage.setItem('tbs_form_retracted', 'true');
+          updateFormCollapseUI();
         } else {
           showToast(data.error || 'Submission failed.', true);
         }
@@ -3842,6 +3831,10 @@
         applyFilters();
         cancelEditMode();
         showToast('Saved locally!');
+        // Auto-retract menu after submission
+        isFormRetracted = true;
+        localStorage.setItem('tbs_form_retracted', 'true');
+        updateFormCollapseUI();
       } finally {
         submitBtn.disabled = false;
         submitText.textContent = id ? 'Update Character' : 'Submit Intention';
