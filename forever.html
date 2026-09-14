@@ -591,12 +591,11 @@
 
     /* Dedicated Standout Submit Character Action Box */
     .submit-cta-card {
-      width: 275px;
-      flex-shrink: 0;
-      background: linear-gradient(140deg, rgba(38, 30, 20, 0.92) 0%, rgba(18, 20, 26, 0.98) 100%);
-      border: 1.5px solid rgba(192, 157, 82, 0.5);
+      flex: 0 0 auto;
+      background: linear-gradient(140deg, rgba(38, 30, 20, 0.94) 0%, rgba(18, 20, 26, 0.98) 100%);
+      border: 1.5px solid rgba(192, 157, 82, 0.55);
       border-radius: var(--radius-lg);
-      padding: 14px 18px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -642,8 +641,8 @@
 
     .submit-cta-icon-box {
       position: relative;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       flex-shrink: 0;
       border-radius: 8px;
       display: flex;
@@ -667,24 +666,14 @@
       color: #fef08a;
     }
 
-    .submit-cta-text-group {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
     .submit-cta-title {
       font-family: var(--font-display);
-      font-size: 0.96rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: #fef08a;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.35px;
       line-height: 1.2;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       transition: color 0.2s ease;
     }
 
@@ -692,31 +681,20 @@
       color: #fff;
     }
 
-    .submit-cta-sub {
-      font-size: 0.73rem;
-      font-weight: 600;
-      color: var(--accent);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
     .submit-cta-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
-      padding: 4px 9px;
-      background: rgba(192, 157, 82, 0.2);
-      border: 1px solid rgba(192, 157, 82, 0.5);
+      padding: 5px 12px;
+      background: rgba(192, 157, 82, 0.22);
+      border: 1px solid rgba(192, 157, 82, 0.55);
       color: #fef08a;
       border-radius: 9999px;
-      font-size: 0.70rem;
+      font-size: 0.74rem;
       font-weight: 700;
       flex-shrink: 0;
+      white-space: nowrap;
       transition: var(--transition);
     }
 
@@ -1985,6 +1963,18 @@
         
         <!-- Search & Filter Toolbar + Submit Action Box -->
         <div class="toolbar-section-row">
+          <!-- Dedicated Standout Submit Character Action Box (Left Side, opens into form) -->
+          <div class="submit-cta-card retracted-mode" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" onkeydown="if(event.key==='Enter'||event.key===' '){ event.preventDefault(); toggleFormCollapse(); }" role="button" tabindex="0" title="Expand Submit Character menu (moves cards to 2 columns)">
+            <div class="submit-cta-icon-box" id="btn-toggle-sidebar-icon">
+              <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_01.jpg" alt="Submit" class="submit-cta-wow-icon">
+            </div>
+            <span class="submit-cta-title" id="btn-toggle-sidebar-text">Submit Character</span>
+            <div class="submit-cta-action-arrow" id="btn-toggle-sidebar-action">
+              <span class="submit-cta-badge">+ Open</span>
+            </div>
+          </div>
+
+          <!-- Search & Filter Toolbar (Right Side) -->
           <div class="toolbar-wrapper">
             <div class="toolbar-top-row">
               <div class="search-input-wrapper">
@@ -2047,20 +2037,6 @@
                 <button type="button" onclick="clearEntireRoster()" style="background: none; border: none; color: #f87171; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Clear all roster entries">Clear Roster</button>
                 <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Lock Admin Mode">Lock</button>
               </span>
-            </div>
-          </div>
-
-          <!-- Dedicated Standout Submit Character Action Box (Side-by-Side) -->
-          <div class="submit-cta-card retracted-mode" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" onkeydown="if(event.key==='Enter'||event.key===' '){ event.preventDefault(); toggleFormCollapse(); }" role="button" tabindex="0" title="Expand Submit Character menu (moves cards to 2 columns)">
-            <div class="submit-cta-icon-box" id="btn-toggle-sidebar-icon">
-              <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_01.jpg" alt="Submit" class="submit-cta-wow-icon">
-            </div>
-            <div class="submit-cta-text-group">
-              <div class="submit-cta-title" id="btn-toggle-sidebar-text">Submit Character</div>
-              <div class="submit-cta-sub" id="btn-toggle-sidebar-sub">Join the TBS Guild Roster</div>
-            </div>
-            <div class="submit-cta-action-arrow" id="btn-toggle-sidebar-action">
-              <span class="submit-cta-badge">+ Open</span>
             </div>
           </div>
         </div>
@@ -2623,7 +2599,6 @@
       const ctaCard = document.getElementById('btn-toggle-sidebar');
       const toggleIcon = document.getElementById('btn-toggle-sidebar-icon');
       const toggleText = document.getElementById('btn-toggle-sidebar-text');
-      const toggleSub = document.getElementById('btn-toggle-sidebar-sub');
       const toggleAction = document.getElementById('btn-toggle-sidebar-action');
       const floatingFab = document.getElementById('btn-floating-submit');
 
@@ -2637,7 +2612,6 @@
           ctaCard.setAttribute('title', 'Expand Submit Character menu (moves cards to 2 columns)');
         }
         if (toggleText) toggleText.textContent = 'Submit Character';
-        if (toggleSub) toggleSub.textContent = 'Join the TBS Guild Roster';
         if (toggleIcon) {
           toggleIcon.innerHTML = '<img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_01.jpg" alt="Submit" class="submit-cta-wow-icon">';
         }
@@ -2655,7 +2629,6 @@
           ctaCard.setAttribute('title', 'Retract Submit Character menu (views 3 columns of cards)');
         }
         if (toggleText) toggleText.textContent = 'Retract Menu';
-        if (toggleSub) toggleSub.textContent = 'View 3 columns of cards';
         if (toggleIcon) {
           toggleIcon.innerHTML = '<svg class="submit-cta-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>';
         }
