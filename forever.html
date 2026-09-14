@@ -1595,7 +1595,7 @@
           <!-- Optional 4-digit PIN for edit protection -->
           <div class="form-group" id="pin-form-group">
             <label class="form-label" for="input-pin">
-              <span>Edit PIN <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional 4-digits)</span></span>
+              <span id="pin-label-text">Edit PIN <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional 4-digits)</span></span>
               <svg style="width: 14px; height: 14px; color: var(--text-dark);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
             </label>
             <input type="password" id="input-pin" class="form-input" placeholder="Keep blank or set 4 digits" maxlength="8">
@@ -1801,7 +1801,7 @@
       <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;" id="pin-modal-desc">
         This character was submitted with edit protection. Enter the 4-digit PIN to continue.
       </p>
-      <input type="password" id="modal-pin-input" class="form-input" placeholder="4-digit PIN" maxlength="8">
+      <input type="password" id="modal-pin-input" class="form-input" placeholder="4-digit PIN" maxlength="8" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmPinModal();}else if(event.key==='Escape'){closePinModal();}">
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closePinModal()">Cancel</button>
         <button class="form-btn-submit" style="margin: 0; width: auto; padding: 8px 16px;" onclick="confirmPinModal()">Confirm</button>
@@ -1822,7 +1822,7 @@
       <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
         Enter the guild admin password to manage and edit roster entries without individual character PINs.
       </p>
-      <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') confirmAdminUnlock()">
+      <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmAdminUnlock();}else if(event.key==='Escape'){closeAdminModal();}">
       <div id="admin-pass-error" style="color: #ef4444; font-size: 0.8rem; font-weight: 600; display: none;">Incorrect admin password. Please try again.</div>
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closeAdminModal()">Cancel</button>
@@ -1982,6 +1982,7 @@
     let selectedRole = "Melee DPS";
     let selectedRoles = ["Melee DPS"];
     let selectedPlaystyles = ["Raiding"];
+    let editingCurrentPin = "";
     let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
     let isAdminMode = Boolean(adminPasskey);
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
@@ -3201,6 +3202,9 @@
         }
       }
 
+      const isEditing = Boolean(id);
+      const newPinVal = document.getElementById('input-pin').value.trim();
+
       submitBtn.disabled = true;
       submitText.textContent = 'Saving...';
 
@@ -3218,7 +3222,9 @@
         playstyles: selectedPlaystyles,
         playstyle: selectedPlaystyles[0],
         notes,
-        pin,
+        currentPin: isEditing ? editingCurrentPin : undefined,
+        newPin: isEditing ? newPinVal : undefined,
+        pin: isEditing ? (editingCurrentPin || newPinVal) : newPinVal,
         adminKey: (isAdminMode && adminPasskey) ? adminPasskey : undefined
       };
 
@@ -3245,10 +3251,11 @@
         console.warn('POST failed, applying locally:', err);
         const existingIdx = rosterList.findIndex(x => (id && x.id === id) || x.playerName.toLowerCase() === playerName.toLowerCase());
         const nowIso = new Date().toISOString();
+        const finalSavedPin = isEditing && newPinVal !== undefined ? newPinVal : (payload.pin || '');
         if (existingIdx >= 0) {
-          rosterList[existingIdx] = { ...rosterList[existingIdx], ...payload, updatedAt: nowIso };
+          rosterList[existingIdx] = { ...rosterList[existingIdx], ...payload, pin: finalSavedPin, updatedAt: nowIso };
         } else {
-          rosterList.unshift({ id: `tbs-local-${Date.now()}`, ...payload, createdAt: nowIso, updatedAt: nowIso });
+          rosterList.unshift({ id: `tbs-local-${Date.now()}`, ...payload, pin: newPinVal, createdAt: nowIso, updatedAt: nowIso });
         }
         localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
         renderStats();
@@ -3272,10 +3279,11 @@
         document.getElementById('pin-modal-desc').textContent = 'This entry is PIN protected. Enter the PIN to edit.';
         document.getElementById('modal-pin-input').value = '';
         document.getElementById('pin-modal').classList.add('open');
-        document.getElementById('modal-pin-input').focus();
+        setTimeout(() => document.getElementById('modal-pin-input')?.focus(), 60);
         return;
       }
 
+      editingCurrentPin = entry.pin || '';
       loadEntryIntoForm(entry);
     }
 
@@ -3284,6 +3292,10 @@
       document.getElementById('player-name').value = entry.playerName;
       document.getElementById('input-notes').value = entry.notes || '';
       document.getElementById('input-pin').value = entry.pin || '';
+      const pinLabelText = document.getElementById('pin-label-text');
+      if (pinLabelText) {
+        pinLabelText.innerHTML = 'Edit PIN <span style="font-size: 0.72rem; color: #86efac; font-weight: 600;">(Unlocked — Enter new PIN or leave blank to remove)</span>';
+      }
       updateNotesCounter();
 
       // Primary Role restore
@@ -3320,6 +3332,12 @@
       document.getElementById('btn-submit-text').textContent = 'Submit Intention';
       document.getElementById('btn-cancel-edit').style.display = 'none';
 
+      const pinLabelText = document.getElementById('pin-label-text');
+      if (pinLabelText) {
+        pinLabelText.innerHTML = 'Edit PIN <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional 4-digits)</span>';
+      }
+
+      editingCurrentPin = '';
       selectedRole = 'Melee DPS';
       selectedRoles = ['Melee DPS'];
       selectedPlaystyles = ['Raiding'];
@@ -3340,7 +3358,7 @@
         document.getElementById('pin-modal-desc').textContent = 'Enter your 4-digit PIN to delete this entry from the roster.';
         document.getElementById('modal-pin-input').value = '';
         document.getElementById('pin-modal').classList.add('open');
-        document.getElementById('modal-pin-input').focus();
+        setTimeout(() => document.getElementById('modal-pin-input')?.focus(), 60);
         return;
       }
 
@@ -3396,6 +3414,7 @@
 
       closePinModal();
       if (type === 'edit') {
+        editingCurrentPin = pin;
         loadEntryIntoForm(entry);
       } else if (type === 'delete') {
         executeDelete(entry.id, pin);

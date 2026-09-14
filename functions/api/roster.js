@@ -95,7 +95,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-    const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, notes, pin, admin } = body;
+    const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, notes, pin, currentPin, newPin, admin } = body;
 
     if (!playerName || !playerName.trim()) {
       return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -136,8 +136,9 @@ export async function onRequestPost(context) {
     if (existingIndex >= 0) {
       const existing = roster[existingIndex];
       // PIN check: if existing entry has a PIN, require matching PIN unless admin
+      const authPin = (currentPin !== undefined && currentPin !== null) ? currentPin : pin;
       if (!isAdmin && existing.pin && existing.pin.trim() !== '') {
-        if (!pin || pin.trim() !== existing.pin.trim()) {
+        if (!authPin || authPin.trim() !== existing.pin.trim()) {
           return new Response(JSON.stringify({
             success: false,
             error: 'This character is protected with an edit PIN. Please provide the correct PIN to update (or use Admin Mode).'
@@ -146,6 +147,14 @@ export async function onRequestPost(context) {
             headers: corsHeaders()
           });
         }
+      }
+
+      // Determine saved PIN: if newPin is explicitly provided (even empty string to remove PIN), use it.
+      let finalPin = existing.pin || '';
+      if (newPin !== undefined && newPin !== null) {
+        finalPin = newPin.trim();
+      } else if (pin && pin.trim() !== '') {
+        finalPin = pin.trim();
       }
 
       savedEntry = {
@@ -162,7 +171,7 @@ export async function onRequestPost(context) {
         playstyle: primaryPlaystyle,
         playstyles: resolvedPlaystyles,
         notes: cleanNotes,
-        pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
+        pin: finalPin,
         updatedAt: nowIso
       };
 
