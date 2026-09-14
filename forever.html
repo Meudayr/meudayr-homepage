@@ -3955,11 +3955,6 @@
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
-      // If sidebar is retracted, automatically expand it so user sees the edit form!
-      if (isFormRetracted) {
-        toggleFormCollapse(true);
-      }
-
       // If Admin Mode is active and passkey verified, bypass PIN check completely!
       if (!(isAdminMode && adminPasskey) && entry.pin && entry.pin.trim() !== '') {
         pendingModalAction = { type: 'edit', entry };
@@ -3969,6 +3964,11 @@
         document.getElementById('pin-modal').classList.add('open');
         setTimeout(() => document.getElementById('modal-pin-input')?.focus(), 60);
         return;
+      }
+
+      // If sidebar is retracted, expand it now that authentication passed or isn't required
+      if (isFormRetracted) {
+        toggleFormCollapse(true);
       }
 
       editingCurrentPin = entry.pin || '';
