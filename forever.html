@@ -482,22 +482,22 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      padding: 16px 20px;
+      padding: 12px 18px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .toolbar-top-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .search-input-wrapper {
       flex: 1;
-      min-width: 220px;
+      min-width: 170px;
       position: relative;
       display: flex;
       align-items: center;
@@ -517,9 +517,9 @@
       background: #121418;
       border: 1px solid var(--card-border);
       border-radius: 9999px;
-      padding: 9px 16px 9px 38px;
+      padding: 8px 14px 8px 36px;
       color: var(--text-main);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       outline: none;
       transition: var(--transition);
     }
@@ -595,10 +595,10 @@
       background: linear-gradient(140deg, rgba(38, 30, 20, 0.94) 0%, rgba(18, 20, 26, 0.98) 100%);
       border: 1.5px solid rgba(192, 157, 82, 0.55);
       border-radius: var(--radius-lg);
-      padding: 12px 20px;
+      padding: 10px 18px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(254, 240, 138, 0.15);
       transition: all 0.25s ease;
@@ -2003,14 +2003,9 @@
                 <svg id="admin-toggle-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                 <span id="admin-toggle-label">Admin</span>
               </button>
-
-              <button class="toolbar-action-btn" onclick="copyDiscordRoster()" title="Copy Markdown table for Discord">
-                <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                Copy for Discord
-              </button>
             </div>
 
-            <!-- Filter Pills (Role & Class) -->
+            <!-- Filter Pills (Role & Class) + Right Utility Actions -->
             <div class="filter-chips-row" id="filter-chips-row">
               <span class="filter-group-label">Role:</span>
               <button class="filter-pill active" data-role="all" onclick="setRoleFilter('all', this)">All</button>
@@ -2031,12 +2026,19 @@
                 Ranged
               </button>
 
-              <!-- Admin Active Indicator -->
-              <span id="admin-active-badge" class="admin-indicator-pill" style="display: none; margin-left: auto;">
-                🛡️ Admin Active
-                <button type="button" onclick="clearEntireRoster()" style="background: none; border: none; color: #f87171; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Clear all roster entries">Clear Roster</button>
-                <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Lock Admin Mode">Lock</button>
-              </span>
+              <div class="filter-row-actions" style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px;">
+                <button class="toolbar-action-btn" onclick="copyDiscordRoster()" title="Copy Markdown table for Discord">
+                  <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  Copy for Discord
+                </button>
+
+                <!-- Admin Active Indicator -->
+                <span id="admin-active-badge" class="admin-indicator-pill" style="display: none;">
+                  🛡️ Admin Active
+                  <button type="button" onclick="clearEntireRoster()" style="background: none; border: none; color: #f87171; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Clear all roster entries">Clear Roster</button>
+                  <button type="button" onclick="lockAdminMode()" style="background: none; border: none; color: #86efac; text-decoration: underline; cursor: pointer; font-size: 0.72rem; margin-left: 8px; padding: 0;" title="Lock Admin Mode">Lock</button>
+                </span>
+              </div>
             </div>
           </div>
         </div>
