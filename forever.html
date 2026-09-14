@@ -961,7 +961,7 @@
             Editing Entry
           </span>
         </div>
-        <p class="form-card-subtitle" id="form-subheading-text">Select your Horde race, class, spec, and roles for WoW Forever.</p>
+        <p class="form-card-subtitle" id="form-subheading-text">Select your race, class, spec, and roles for WoW Forever.</p>
 
         <form id="character-form" onsubmit="handleFormSubmit(event)">
           <!-- Hidden ID for edit tracking -->
@@ -973,9 +973,9 @@
             <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr or Meudayr#1234" required maxlength="30">
           </div>
 
-          <!-- Race Selector (Horde Only) -->
+          <!-- Race Selector -->
           <div class="form-group">
-            <label class="form-label" for="select-race">Horde Race <span class="req">*</span></label>
+            <label class="form-label" for="select-race">Race <span class="req">*</span></label>
             <select id="select-race" class="form-select" onchange="onRaceChange(this.value)" required>
               <!-- Populated via JS -->
             </select>
@@ -1316,10 +1316,10 @@
     // Race Icons from Wowhead CDN (Horde Races)
     const RACE_ICONS = {
       "Orc": "race_orc_male",
-      "Undead": "race_undead_male",
+      "Undead": "race_scourge_male",
       "Tauren": "race_tauren_male",
       "Troll": "race_troll_male",
-      "Skyborne": "ability_racial_avatar_storm"
+      "Skyborne": "race_voidelf_male"
     };
 
     // WoW Forever Confirmed Horde Race/Class Combinations Matrix
@@ -1495,7 +1495,7 @@
       availableRaces.forEach(race => {
         const opt = document.createElement('option');
         opt.value = race;
-        opt.textContent = race === 'Skyborne' ? 'Skyborne (New Horde Race)' : race;
+        opt.textContent = race === 'Skyborne' ? 'Skyborne (New Race)' : race;
         selectRace.appendChild(opt);
       });
 
@@ -1787,7 +1787,7 @@
               </div>
               <div class="member-spec-text">
                 <span class="member-class-spec">${escapeHtml(m.spec)} ${escapeHtml(m.className)}</span>
-                <span class="member-race-faction">${escapeHtml(m.race)} &bull; Horde</span>
+                <span class="member-race-faction">${escapeHtml(m.race)}</span>
               </div>
             </div>
 
@@ -1967,7 +1967,7 @@
       document.getElementById('character-form').reset();
       document.getElementById('entry-id').value = '';
       document.getElementById('form-heading-text').textContent = 'Submit Character';
-      document.getElementById('form-subheading-text').textContent = 'Select your Horde race, class, spec, and roles for WoW Forever.';
+      document.getElementById('form-subheading-text').textContent = 'Select your race, class, spec, and roles for WoW Forever.';
       document.getElementById('edit-mode-badge').style.display = 'none';
       document.getElementById('btn-submit-text').textContent = 'Submit Intention';
       document.getElementById('btn-cancel-edit').style.display = 'none';
@@ -2057,7 +2057,7 @@
     // ==========================================
 
     function copyDiscordRoster() {
-      let md = `**⚔️ TBS Guild Roster — World of Warcraft: Forever (Horde)**\n`;
+      let md = `**⚔️ TBS Guild Roster — World of Warcraft: Forever**\n`;
       md += `*Total Registered: ${rosterList.length} Members*\n\n`;
       
       const roles = ['Tank', 'Healer', 'Melee DPS', 'Ranged DPS'];
