@@ -2130,9 +2130,8 @@
               <tr>
                 <th onclick="sortTable('playerName')">Player &#x25B4;&#x25BE;</th>
                 <th onclick="sortTable('race')">Race &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('className')">Class &amp; Spec &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('role')">Roles &#x25B4;&#x25BE;</th>
-                <th>Offspec</th>
+                <th onclick="sortTable('className')">Main Spec &amp; Role &#x25B4;&#x25BE;</th>
+                <th onclick="sortTable('offspec')">Offspec &amp; Role &#x25B4;&#x25BE;</th>
                 <th onclick="sortTable('professions')">Professions &#x25B4;&#x25BE;</th>
                 <th>Playstyles</th>
                 <th style="min-width: 180px;">Notes</th>
@@ -3563,6 +3562,14 @@
         } else if (field === 'className') {
           valA = `${a.className} ${a.spec}`.toLowerCase();
           valB = `${b.className} ${b.spec}`.toLowerCase();
+        } else if (field === 'offspec') {
+          const hasA = Boolean(a.offspec);
+          const hasB = Boolean(b.offspec);
+          if (hasA !== hasB) {
+            return hasA ? (asc ? -1 : 1) : (asc ? 1 : -1);
+          }
+          valA = `${a.offspec || ''} ${a.offspecRole || ''}`.toLowerCase();
+          valB = `${b.offspec || ''} ${b.offspecRole || ''}`.toLowerCase();
         } else if (field === 'role') {
           const rA = Array.isArray(a.roles) ? a.roles.join(', ') : (a.role || '');
           const rB = Array.isArray(b.roles) ? b.roles.join(', ') : (b.role || '');
@@ -3583,7 +3590,7 @@
       if (dataset.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" style="text-align:center; padding: 28px; color: var(--text-muted);">
+            <td colspan="8" style="text-align:center; padding: 28px; color: var(--text-muted);">
               No characters match your filter criteria.
             </td>
           </tr>
@@ -3605,14 +3612,22 @@
         else if (primRole === 'Healer') primTagClass = 'role-healer';
         else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
 
-        const roleBadge = `
-          <span class="member-role-badge ${primTagClass}" style="font-size:0.68rem; padding: 2px 6px;">
-            <img src="${getIconUrl(primIcon)}" style="width:12px;height:12px;" alt="${primRole}">
-            ${escapeHtml(primRole)}
-          </span>
+        const mainSpecCell = `
+          <div style="display:inline-flex; align-items:center; gap:8px; vertical-align:middle;">
+            <img src="${getIconUrl(specIcon)}" style="width:24px;height:24px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.spec}">
+            <div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">
+              <span style="color:${classColor}; font-weight:700; font-size:0.82rem; white-space:nowrap; line-height:1.2;">
+                ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
+              </span>
+              <span class="member-role-badge ${primTagClass}" style="font-size:0.65rem; padding:1px 6px; line-height:1.2;">
+                <img src="${getIconUrl(primIcon)}" style="width:10px;height:10px;" alt="${primRole}">
+                ${escapeHtml(primRole)}
+              </span>
+            </div>
+          </div>
         `;
 
-        let offspecDisplay = '-';
+        let offspecCell = '<span style="color:var(--text-dark); font-size:0.95rem; font-weight:600; padding-left:8px;">—</span>';
         if (m.offspec) {
           const offspecSpecIcon = SPEC_DATA[m.className]?.[m.offspec]?.icon || 'inv_misc_questionmark';
           let offRoleClass = 'role-melee';
@@ -3621,17 +3636,21 @@
           else if (m.offspecRole === 'Healer') offRoleClass = 'role-healer';
           else if (m.offspecRole === 'Ranged DPS') offRoleClass = 'role-ranged';
 
-          offspecDisplay = `
-            <span style="display:inline-flex; align-items:center; gap:5px;">
-              <img src="${getIconUrl(offspecSpecIcon)}" style="width:14px;height:14px;border-radius:3px;" alt="${m.offspec}">
-              ${escapeHtml(m.offspec)}
-              ${m.offspecRole ? `
-                <span class="member-role-badge ${offRoleClass}" style="font-size:0.65rem; padding:1px 5px;">
-                  <img src="${getIconUrl(offRoleIcon)}" style="width:10px;height:10px;" alt="">
-                  ${escapeHtml(m.offspecRole)}
+          offspecCell = `
+            <div style="display:inline-flex; align-items:center; gap:8px; vertical-align:middle;">
+              <img src="${getIconUrl(offspecSpecIcon)}" style="width:24px;height:24px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.offspec}">
+              <div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">
+                <span style="color:var(--text-main); font-weight:600; font-size:0.82rem; white-space:nowrap; line-height:1.2;">
+                  ${escapeHtml(m.offspec)}
                 </span>
-              ` : ''}
-            </span>
+                ${m.offspecRole ? `
+                  <span class="member-role-badge ${offRoleClass}" style="font-size:0.65rem; padding:1px 6px; line-height:1.2;">
+                    <img src="${getIconUrl(offRoleIcon)}" style="width:10px;height:10px;" alt="">
+                    ${escapeHtml(m.offspecRole)}
+                  </span>
+                ` : ''}
+              </div>
+            </div>
           `;
         }
 
@@ -3666,14 +3685,8 @@
                 ${escapeHtml(m.race)}
               </span>
             </td>
-            <td>
-              <span style="display:inline-flex; align-items:center; gap:5px; color: ${classColor}; font-weight: 700;">
-                <img src="${getIconUrl(specIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${m.spec}">
-                ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
-              </span>
-            </td>
-            <td>${roleBadge}</td>
-            <td style="color:var(--text-muted); font-size:0.75rem;">${offspecDisplay}</td>
+            <td>${mainSpecCell}</td>
+            <td>${offspecCell}</td>
             <td>${profsTableHtml}</td>
             <td><div style="display:flex; flex-wrap:wrap; gap:3px;">${playstyleBadges}</div></td>
             <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.75rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
