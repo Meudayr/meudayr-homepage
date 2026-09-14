@@ -129,11 +129,34 @@ export async function onRequestPost(context) {
     const cleanName = playerName.trim();
     const roster = await getBaselineRoster(context);
 
-    // Look for existing entry by ID or by player name (case-insensitive)
-    const existingIndex = roster.findIndex(item => {
-      if (id && item.id === id) return true;
-      return item.playerName.toLowerCase() === cleanName.toLowerCase();
-    });
+    // Look for existing entry strictly by ID for edits, or verify no duplicate name for new entries
+    if (!id) {
+      // New character submission: cannot overwrite any existing character with the same name
+      const nameConflict = roster.find(item => item.playerName.toLowerCase() === cleanName.toLowerCase());
+      if (nameConflict) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: `A character named "${cleanName}" already exists in the roster. Characters cannot be overwritten — to make changes or re-submit, please delete the existing character first.`
+        }), {
+          status: 409,
+          headers: corsHeaders()
+        });
+      }
+    } else {
+      // Editing existing character by ID: ensure no other character has this name
+      const duplicateName = roster.find(item => item.id !== id && item.playerName.toLowerCase() === cleanName.toLowerCase());
+      if (duplicateName) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: `Another character named "${cleanName}" already exists in the roster.`
+        }), {
+          status: 409,
+          headers: corsHeaders()
+        });
+      }
+    }
+
+    const existingIndex = id ? roster.findIndex(item => item.id === id) : -1;
 
     const validKey = getValidAdminKey(context.env);
     const providedAdminKey = context.request.headers.get('x-admin-key') || body.adminKey;

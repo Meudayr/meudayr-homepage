@@ -4764,6 +4764,23 @@
       }
 
       const isEditing = Boolean(id);
+      const cleanPlayerName = playerName.trim();
+
+      // Enforce: cannot overwrite existing characters with the same name!
+      if (!isEditing) {
+        const nameConflict = rosterList.find(x => x.playerName.toLowerCase() === cleanPlayerName.toLowerCase());
+        if (nameConflict) {
+          showToast(`A character named "${cleanPlayerName}" already exists in the roster! Characters cannot be overwritten — please delete the existing character first.`, true);
+          return;
+        }
+      } else {
+        const duplicateName = rosterList.find(x => x.id !== id && x.playerName.toLowerCase() === cleanPlayerName.toLowerCase());
+        if (duplicateName) {
+          showToast(`Another character named "${cleanPlayerName}" already exists in the roster!`, true);
+          return;
+        }
+      }
+
       const newPinVal = document.getElementById('input-pin').value.trim();
 
       submitBtn.disabled = true;
@@ -4771,7 +4788,7 @@
 
       const payload = {
         id: id || undefined,
-        playerName,
+        playerName: cleanPlayerName,
         faction: 'Horde',
         race,
         className,
@@ -4817,19 +4834,26 @@
       } catch (err) {
         // Local offline / client fallback
         console.warn('POST failed, applying locally:', err);
-        const existingIdx = rosterList.findIndex(x => (id && x.id === id) || x.playerName.toLowerCase() === playerName.toLowerCase());
         const nowIso = new Date().toISOString();
-        const finalSavedPin = isEditing && newPinVal !== undefined ? newPinVal : (payload.pin || '');
-        if (existingIdx >= 0) {
-          rosterList[existingIdx] = { ...rosterList[existingIdx], ...payload, pin: finalSavedPin, updatedAt: nowIso };
-        } else {
+        if (!isEditing) {
+          const nameConflict = rosterList.find(x => x.playerName.toLowerCase() === cleanPlayerName.toLowerCase());
+          if (nameConflict) {
+            showToast(`A character named "${cleanPlayerName}" already exists! Characters cannot be overwritten — please delete the existing character first.`, true);
+            return;
+          }
           rosterList.unshift({ id: `tbs-local-${Date.now()}`, ...payload, pin: newPinVal, createdAt: nowIso, updatedAt: nowIso });
+        } else {
+          const existingIdx = rosterList.findIndex(x => x.id === id);
+          if (existingIdx >= 0) {
+            const finalSavedPin = newPinVal !== undefined ? newPinVal : (payload.pin || '');
+            rosterList[existingIdx] = { ...rosterList[existingIdx], ...payload, pin: finalSavedPin, updatedAt: nowIso };
+          }
         }
         localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
         renderStats();
         applyFilters();
         cancelEditMode();
-        showToast('Saved locally!');
+        showToast(isEditing ? 'Character updated locally!' : 'Saved locally!');
         // Auto-retract menu after submission
         isFormRetracted = true;
         localStorage.setItem('tbs_form_retracted', 'true');
