@@ -1333,42 +1333,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
 
-    .table-view-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 18px;
-      border-bottom: 1px solid var(--card-border);
-      background: rgba(18, 20, 26, 0.85);
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .table-view-header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .table-view-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .table-view-count {
-      font-size: 0.74rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
-      color: var(--accent);
-      padding: 2px 9px;
-      border-radius: 9999px;
-      font-weight: 700;
-    }
-
     .btn-export-csv {
       background: rgba(34, 197, 94, 0.12);
       border-color: rgba(34, 197, 94, 0.35);
@@ -2314,19 +2278,6 @@
 
         <!-- View 3: Dense Roster Table -->
         <div class="roster-table-wrapper" id="roster-table-view" style="display: none;">
-          <div class="table-view-header">
-            <div class="table-view-header-left">
-              <span class="table-view-title">
-                <svg style="width: 15px; height: 15px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                Roster Table
-              </span>
-              <span class="table-view-count" id="table-record-count">0 members</span>
-            </div>
-            <button type="button" class="toolbar-action-btn btn-export-csv" onclick="exportTableToCSV()" title="Export currently filtered table to a .CSV spreadsheet">
-              <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Export to .CSV</span>
-            </button>
-          </div>
           <table class="roster-table" id="roster-table">
             <thead>
               <tr>
@@ -3854,11 +3805,6 @@
       if (!tbody) return;
 
       const dataset = getSortedTableDataset();
-
-      const countEl = document.getElementById('table-record-count');
-      if (countEl) {
-        countEl.textContent = `${dataset.length} member${dataset.length === 1 ? '' : 's'}`;
-      }
 
       if (dataset.length === 0) {
         tbody.innerHTML = `
