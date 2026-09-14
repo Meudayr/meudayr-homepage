@@ -548,7 +548,29 @@ export default {
             });
           }
 
-          const resolvedRoles = Array.isArray(roles) && roles.length > 0 ? roles : (role ? [role] : []);
+          // Hardlock roles to spec defaults (server-side enforcement)
+          const SPEC_DEFAULT_ROLES = {
+            'Warrior': { 'Arms': 'Melee DPS', 'Fury': 'Melee DPS', 'Protection': 'Tank' },
+            'Paladin': { 'Holy': 'Healer', 'Protection': 'Tank', 'Retribution': 'Melee DPS' },
+            'Hunter': { 'Beast Mastery': 'Ranged DPS', 'Marksmanship': 'Ranged DPS', 'Survival': 'Melee DPS' },
+            'Rogue': { 'Assassination': 'Melee DPS', 'Combat': 'Melee DPS', 'Subtlety': 'Melee DPS' },
+            'Priest': { 'Discipline': 'Healer', 'Holy': 'Healer', 'Shadow': 'Ranged DPS' },
+            'Shaman': { 'Elemental': 'Ranged DPS', 'Enhancement': 'Melee DPS', 'Restoration': 'Healer' },
+            'Mage': { 'Arcane': 'Ranged DPS', 'Fire': 'Ranged DPS', 'Frost': 'Ranged DPS' },
+            'Warlock': { 'Affliction': 'Ranged DPS', 'Demonology': 'Ranged DPS', 'Destruction': 'Ranged DPS' },
+            'Druid': { 'Balance': 'Ranged DPS', 'Restoration': 'Healer' }
+          };
+
+          let primaryRole = (Array.isArray(roles) && roles.length > 0 ? roles[0] : role) || '';
+          if (className === 'Druid' && spec === 'Feral Combat') {
+            if (primaryRole !== 'Tank' && primaryRole !== 'Melee DPS') {
+              primaryRole = 'Melee DPS';
+            }
+          } else if (SPEC_DEFAULT_ROLES[className]?.[spec]) {
+            primaryRole = SPEC_DEFAULT_ROLES[className][spec];
+          }
+
+          const resolvedRoles = primaryRole ? [primaryRole] : [];
           if (!race || !className || !spec || resolvedRoles.length === 0) {
             return new Response(JSON.stringify({ success: false, error: 'Race, class, spec, and at least one role are required.' }), {
               status: 400,
@@ -556,8 +578,20 @@ export default {
             });
           }
 
+          let finalOffspecRole = (offspecRole || '').trim();
+          if (offspec) {
+            if (className === 'Druid' && offspec === 'Feral Combat') {
+              if (finalOffspecRole !== 'Tank' && finalOffspecRole !== 'Melee DPS') {
+                finalOffspecRole = primaryRole === 'Tank' ? 'Melee DPS' : 'Tank';
+              }
+            } else if (SPEC_DEFAULT_ROLES[className]?.[offspec]) {
+              finalOffspecRole = SPEC_DEFAULT_ROLES[className][offspec];
+            }
+          } else {
+            finalOffspecRole = '';
+          }
+
           const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Raiding']);
-          const primaryRole = resolvedRoles[0];
           const primaryPlaystyle = resolvedPlaystyles[0];
 
           let resolvedProfessions = [];
@@ -641,7 +675,7 @@ export default {
               role: primaryRole,
               roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
-              offspecRole: offspecRole ? offspecRole.trim() : '',
+              offspecRole: finalOffspecRole,
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
               professions: resolvedProfessions,
@@ -663,7 +697,7 @@ export default {
               role: primaryRole,
               roles: resolvedRoles,
               offspec: offspec ? offspec.trim() : '',
-              offspecRole: offspecRole ? offspecRole.trim() : '',
+              offspecRole: finalOffspecRole,
               playstyle: primaryPlaystyle,
               playstyles: resolvedPlaystyles,
               professions: resolvedProfessions,

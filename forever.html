@@ -2263,28 +2263,20 @@
             <div class="preview-text" id="preview-selection-text">Select Race, Class &amp; Spec</div>
           </div>
 
-          <!-- Primary Role (Single-Select for 1:1 Raid Spot Planning) -->
-          <div class="form-group">
+          <!-- Feral Role Option (Only visible when Feral Combat Druid is selected) -->
+          <div class="form-group" id="feral-role-container" style="display: none;">
             <label class="form-label">
-              <span>Primary Role <span class="req">*</span></span>
-              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Main raid role (1 spot)</span>
+              <span>Feral Role Option <span class="req">*</span></span>
+              <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Choose Tank (Bear) or Melee DPS (Cat)</span>
             </label>
             <div class="role-chips-grid">
               <div class="role-toggle-chip" data-role="Tank" onclick="setPrimaryRole('Tank')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tank">
-                <span>Tank</span>
-              </div>
-              <div class="role-toggle-chip" data-role="Healer" onclick="setPrimaryRole('Healer')">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healer">
-                <span>Healer</span>
+                <span>Tank (Bear)</span>
               </div>
               <div class="role-toggle-chip" data-role="Melee DPS" onclick="setPrimaryRole('Melee DPS')">
                 <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee">
-                <span>Melee DPS</span>
-              </div>
-              <div class="role-toggle-chip" data-role="Ranged DPS" onclick="setPrimaryRole('Ranged DPS')">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_fire_fireball02.jpg" alt="Ranged">
-                <span>Ranged DPS</span>
+                <span>Melee DPS (Cat)</span>
               </div>
             </div>
           </div>
@@ -3426,26 +3418,26 @@
       const currentMainSpec = document.getElementById('select-spec').value;
 
       if (!specName) {
+        selectOffspecRole.innerHTML = '<option value="">No Role</option>';
         selectOffspecRole.value = '';
         selectOffspecRole.disabled = true;
       } else {
-        selectOffspecRole.disabled = false;
         const offspecSpecInfo = SPEC_DATA[className]?.[specName];
+        const isFeral = (className === 'Druid' && specName === 'Feral Combat');
 
-        // Intelligent auto-suggest for offspec role
-        if (offspecSpecInfo && offspecSpecInfo.defaultRoles) {
-          if (specName === currentMainSpec) {
-            // Same spec selected (e.g. Feral Combat main + Feral Combat offspec)
-            if (offspecSpecInfo.defaultRoles.length > 1) {
-              const alternate = offspecSpecInfo.defaultRoles.find(r => r !== selectedRole);
-              selectOffspecRole.value = alternate || offspecSpecInfo.defaultRoles[0];
-            } else {
-              selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : offspecSpecInfo.defaultRoles[0];
-            }
-          } else {
-            // Different spec selected
-            selectOffspecRole.value = offspecSpecInfo.defaultRoles[0];
-          }
+        if (isFeral) {
+          selectOffspecRole.innerHTML = `
+            <option value="Tank">Tank</option>
+            <option value="Melee DPS">Melee DPS</option>
+          `;
+          selectOffspecRole.disabled = false;
+          // Suggest the alternate of main role if main role is Tank or Melee DPS
+          selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
+        } else if (offspecSpecInfo && offspecSpecInfo.defaultRoles && offspecSpecInfo.defaultRoles.length > 0) {
+          const lockedRole = offspecSpecInfo.defaultRoles[0];
+          selectOffspecRole.innerHTML = `<option value="${lockedRole}">${lockedRole}</option>`;
+          selectOffspecRole.value = lockedRole;
+          selectOffspecRole.disabled = true;
         }
       }
 
@@ -3492,14 +3484,26 @@
       const race = document.getElementById('select-race').value;
       const specInfo = SPEC_DATA[className]?.[specName];
 
-      // Auto-set primary role based on spec default
-      if (specInfo && specInfo.defaultRoles && specInfo.defaultRoles.length > 0) {
-        if (!specInfo.defaultRoles.includes(selectedRole)) {
-          setPrimaryRole(specInfo.defaultRoles[0]);
-        } else {
-          renderRoleChips();
+      const feralContainer = document.getElementById('feral-role-container');
+      const isFeral = (className === 'Druid' && specName === 'Feral Combat');
+
+      if (isFeral) {
+        if (feralContainer) feralContainer.style.display = 'block';
+        // For Feral Combat, allow Tank or Melee DPS; default to Tank or preserve if already valid
+        if (selectedRole !== 'Tank' && selectedRole !== 'Melee DPS') {
+          selectedRole = 'Tank';
+        }
+        selectedRoles = [selectedRole];
+      } else {
+        if (feralContainer) feralContainer.style.display = 'none';
+        // Hardlock role directly to spec default!
+        if (specInfo && specInfo.defaultRoles && specInfo.defaultRoles.length > 0) {
+          selectedRole = specInfo.defaultRoles[0];
+          selectedRoles = [selectedRole];
         }
       }
+
+      renderRoleChips();
 
       // Update Live Preview Bar
       updateSelectionPreview(race, className, specName);
@@ -3510,13 +3514,28 @@
     // ==========================================
 
     function setPrimaryRole(roleName) {
+      const className = document.getElementById('select-class').value;
+      const specName = document.getElementById('select-spec').value;
+      const isFeral = (className === 'Druid' && specName === 'Feral Combat');
+
+      if (!isFeral) {
+        const specInfo = SPEC_DATA[className]?.[specName];
+        if (specInfo && specInfo.defaultRoles && specInfo.defaultRoles.length > 0) {
+          roleName = specInfo.defaultRoles[0];
+        }
+      } else {
+        if (roleName !== 'Tank' && roleName !== 'Melee DPS') {
+          roleName = 'Tank';
+        }
+      }
+
       selectedRole = roleName;
       selectedRoles = [roleName];
       renderRoleChips();
       updateSelectionPreview(
         document.getElementById('select-race').value,
-        document.getElementById('select-class').value,
-        document.getElementById('select-spec').value
+        className,
+        specName
       );
     }
 
@@ -4749,18 +4768,32 @@
         return;
       }
 
-      if (!selectedRole) {
-        showToast('Please select a primary role!', true);
-        return;
+      // Enforce role hardlocking to spec (or Feral Combat choice)
+      const isFeral = (className === 'Druid' && spec === 'Feral Combat');
+      const specInfo = SPEC_DATA[className]?.[spec];
+      if (isFeral) {
+        if (selectedRole !== 'Tank' && selectedRole !== 'Melee DPS') {
+          selectedRole = 'Tank';
+        }
+      } else if (specInfo && specInfo.defaultRoles && specInfo.defaultRoles.length > 0) {
+        selectedRole = specInfo.defaultRoles[0];
       }
+      selectedRoles = [selectedRole];
 
-      // If offspec spec is picked but role was left blank, auto-assign default role
+      // Hardlock offspec role to spec default (or Feral choice)
       let finalOffspecRole = offspecRole;
-      if (offspec && !finalOffspecRole) {
+      if (offspec) {
+        const isOffspecFeral = (className === 'Druid' && offspec === 'Feral Combat');
         const offspecSpecInfo = SPEC_DATA[className]?.[offspec];
-        if (offspecSpecInfo && offspecSpecInfo.defaultRoles) {
+        if (isOffspecFeral) {
+          if (finalOffspecRole !== 'Tank' && finalOffspecRole !== 'Melee DPS') {
+            finalOffspecRole = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
+          }
+        } else if (offspecSpecInfo && offspecSpecInfo.defaultRoles && offspecSpecInfo.defaultRoles.length > 0) {
           finalOffspecRole = offspecSpecInfo.defaultRoles[0];
         }
+      } else {
+        finalOffspecRole = '';
       }
 
       const isEditing = Boolean(id);
@@ -4958,6 +4991,8 @@
       selectedRole = 'Melee DPS';
       selectedRoles = ['Melee DPS'];
       selectedPlaystyles = ['Raiding'];
+      const feralContainer = document.getElementById('feral-role-container');
+      if (feralContainer) feralContainer.style.display = 'none';
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
