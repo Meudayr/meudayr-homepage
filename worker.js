@@ -467,6 +467,209 @@ export default {
       }
     }
 
+    // Route: /api/roster (GET, POST, DELETE, OPTIONS)
+    if (url.pathname === '/api/roster') {
+      const rosterCorsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      };
+
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: rosterCorsHeaders });
+      }
+
+      async function getWorkerRoster() {
+        if (env.LOGS_KV) {
+          try {
+            const kvData = await env.LOGS_KV.get('forever_roster', 'json');
+            if (Array.isArray(kvData) && kvData.length > 0) return kvData;
+          } catch (e) {}
+        }
+        if (env.ASSETS) {
+          try {
+            const assetUrl = new URL('/data/forever-roster.json', request.url);
+            const res = await env.ASSETS.fetch(new Request(assetUrl));
+            if (res && res.ok) {
+              const data = await res.json();
+              if (Array.isArray(data)) return data;
+            }
+          } catch (e) {}
+        }
+        return [];
+      }
+
+      if (request.method === 'GET') {
+        try {
+          const roster = await getWorkerRoster();
+          return new Response(JSON.stringify({ success: true, roster }), {
+            status: 200,
+            headers: rosterCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: rosterCorsHeaders
+          });
+        }
+      }
+
+      if (request.method === 'POST') {
+        try {
+          const body = await request.json();
+          const { id, playerName, faction, race, className, spec, role, offspec, playstyle, notes, pin } = body;
+
+          if (!playerName || !playerName.trim()) {
+            return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
+              status: 400,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          if (!faction || !race || !className || !spec || !role) {
+            return new Response(JSON.stringify({ success: false, error: 'Faction, race, class, spec, and role are required.' }), {
+              status: 400,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          const cleanName = playerName.trim();
+          const roster = await getWorkerRoster();
+          const existingIndex = roster.findIndex(item => {
+            if (id && item.id === id) return true;
+            return item.playerName.toLowerCase() === cleanName.toLowerCase();
+          });
+
+          const nowIso = new Date().toISOString();
+          let savedEntry = null;
+
+          if (existingIndex >= 0) {
+            const existing = roster[existingIndex];
+            if (existing.pin && existing.pin.trim() !== '') {
+              if (!pin || pin.trim() !== existing.pin.trim()) {
+                return new Response(JSON.stringify({
+                  success: false,
+                  error: 'This character is protected with an edit PIN. Please provide the correct PIN to update.'
+                }), {
+                  status: 403,
+                  headers: rosterCorsHeaders
+                });
+              }
+            }
+
+            savedEntry = {
+              ...existing,
+              playerName: cleanName,
+              faction,
+              race,
+              className,
+              spec,
+              role,
+              offspec: offspec ? offspec.trim() : '',
+              playstyle: playstyle || 'Raid Casual',
+              notes: notes ? notes.trim() : '',
+              pin: pin && pin.trim() !== '' ? pin.trim() : (existing.pin || ''),
+              updatedAt: nowIso
+            };
+            roster[existingIndex] = savedEntry;
+          } else {
+            savedEntry = {
+              id: id || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              playerName: cleanName,
+              faction,
+              race,
+              className,
+              spec,
+              role,
+              offspec: offspec ? offspec.trim() : '',
+              playstyle: playstyle || 'Raid Casual',
+              notes: notes ? notes.trim() : '',
+              pin: pin ? pin.trim() : '',
+              createdAt: nowIso,
+              updatedAt: nowIso
+            };
+            roster.unshift(savedEntry);
+          }
+
+          if (env.LOGS_KV) {
+            await env.LOGS_KV.put('forever_roster', JSON.stringify(roster));
+          }
+
+          return new Response(JSON.stringify({ success: true, entry: savedEntry, roster }), {
+            status: 200,
+            headers: rosterCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: rosterCorsHeaders
+          });
+        }
+      }
+
+      if (request.method === 'DELETE') {
+        try {
+          let targetId = url.searchParams.get('id');
+          let givenPin = url.searchParams.get('pin');
+
+          if (!targetId) {
+            try {
+              const body = await request.json();
+              targetId = body.id;
+              givenPin = body.pin;
+            } catch (e) {}
+          }
+
+          if (!targetId) {
+            return new Response(JSON.stringify({ success: false, error: 'Target ID is required.' }), {
+              status: 400,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          const roster = await getWorkerRoster();
+          const existingIndex = roster.findIndex(item => item.id === targetId);
+
+          if (existingIndex < 0) {
+            return new Response(JSON.stringify({ success: false, error: 'Entry not found.' }), {
+              status: 404,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          const existing = roster[existingIndex];
+          if (existing.pin && existing.pin.trim() !== '') {
+            if (!givenPin || givenPin.trim() !== existing.pin.trim()) {
+              return new Response(JSON.stringify({
+                success: false,
+                error: 'This character is protected with an edit PIN. Please provide the correct PIN to remove.'
+              }), {
+                status: 403,
+                headers: rosterCorsHeaders
+              });
+            }
+          }
+
+          roster.splice(existingIndex, 1);
+          if (env.LOGS_KV) {
+            await env.LOGS_KV.put('forever_roster', JSON.stringify(roster));
+          }
+
+          return new Response(JSON.stringify({ success: true, deletedId: targetId, roster }), {
+            status: 200,
+            headers: rosterCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: rosterCorsHeaders
+          });
+        }
+      }
+    }
+
     // Default: pass through to static assets
     if (env.ASSETS) {
       return env.ASSETS.fetch(request);

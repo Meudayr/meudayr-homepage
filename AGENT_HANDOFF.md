@@ -148,6 +148,12 @@ checkPlexStatus();
    - Fast client-side multi-dimensional search (search by title, player name, player class, difficulty, keystone level, date, day of week, report code).
    - Instant edge retrieval via `/api/logs` (Cloudflare KV + static asset fallback) and zero-latency `localStorage` initial render.
    - On-demand "Refresh Logs" with live stepped progress bar calling `/api/refresh` directly on Cloudflare Edge in ~3 seconds.
+5. **`forever.html` (TBS Guild Roster — WoW: Forever):**
+   - Guild character planning dashboard for World of Warcraft: Forever.
+   - Dynamic race/class combinations matrix with automatic role suggestions and Wowhead icon assets.
+   - Real-time signup, edit in place, and delete with optional PIN edit protection.
+   - Edge persistence via `/api/roster` (Cloudflare KV `forever_roster` + fallback to `data/forever-roster.json`).
+   - One-click formatted Discord roster summary export.
 
 ---
 
@@ -157,7 +163,10 @@ checkPlexStatus();
 * **Endpoints:**
   - `GET /api/logs`: Reads from Cloudflare KV (`LOGS_KV`), falls back seamlessly to `data/logs.json`.
   - `POST /api/refresh`: Authenticates with WarcraftLogs using Cloudflare Pages environment variables (`WCL_CLIENT_ID`, `WCL_CLIENT_SECRET`), queries all 4 accounts in parallel (`Promise.all`), merges with historical data, updates KV, and returns fresh JSON in ~2–4 seconds.
-* **Instant F5 Persistence:** The client caches the fresh response in `localStorage`, guaranteeing 0ms perceived load time across page reloads (F5) while background-validating against `/api/logs`.
+  - `GET /api/roster`: Reads guild roster from Cloudflare KV (`LOGS_KV` key `forever_roster`), falls back to `data/forever-roster.json`.
+  - `POST /api/roster`: Creates or updates character entries with optional PIN protection and syncs directly to KV.
+  - `DELETE /api/roster`: Removes an entry by ID (and validates PIN if set).
+* **Instant F5 Persistence:** The client caches the fresh response in `localStorage`, guaranteeing 0ms perceived load time across page reloads (F5) while background-validating against `/api/logs` or `/api/roster`.
 
 ### B. Large Data Files (>1 MB) on GitHub REST API
 * **Problem:** GitHub's standard Contents API (`Accept: application/vnd.github.v3+json`) drops the base64 `content` payload for files exceeding 1 MB. As multi-player logs grew to 3+ MB, the API returned empty content.
@@ -212,10 +221,12 @@ When asked to create a new page (e.g. `mypage.html`):
    - Include the standard `checkPlexStatus()` JavaScript.
 2. **Update Navigation Across Existing Pages:**
    - Add `<a href="mypage.html" class="nav-link" id="nav-mypage-link">Page Name</a>` to the `<nav class="nav-menu">` in:
-     - `index.html`
-     - `deals.html`
-     - `dr.html`
-     - `logs.html`
+      - `index.html`
+      - `forever.html`
+      - `deals.html`
+      - `dr.html`
+      - `logs.html`
+      - `champions.html`
 3. **Optionally Add Hero Card to `index.html`:**
    - If the new page is a major utility or portfolio section, add a `.hero-tool-card` inside `<div class="hero-tools" id="hero-tools">` in `index.html`.
 4. **Deploy & Verify:**
