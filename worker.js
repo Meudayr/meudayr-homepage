@@ -556,7 +556,7 @@ export default {
             });
           }
 
-          const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Casual Raiding']);
+          const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Raiding']);
           const primaryRole = resolvedRoles[0];
           const primaryPlaystyle = resolvedPlaystyles[0];
 

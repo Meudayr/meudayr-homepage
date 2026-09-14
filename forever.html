@@ -1486,14 +1486,11 @@
               <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Multi-select</span>
             </label>
             <div class="playstyle-chips-grid">
-              <div class="playstyle-toggle-chip active" data-style="Hardcore Raiding" onclick="togglePlaystyle('Hardcore Raiding', this)">
-                Hardcore Raiding
+              <div class="playstyle-toggle-chip active" data-style="Raiding" onclick="togglePlaystyle('Raiding', this)">
+                Raiding
               </div>
-              <div class="playstyle-toggle-chip" data-style="Casual Raiding" onclick="togglePlaystyle('Casual Raiding', this)">
-                Casual Raiding
-              </div>
-              <div class="playstyle-toggle-chip" data-style="PvP &amp; Battlegrounds" onclick="togglePlaystyle('PvP &amp; Battlegrounds', this)">
-                PvP &amp; Battlegrounds
+              <div class="playstyle-toggle-chip" data-style="PvP" onclick="togglePlaystyle('PvP', this)">
+                PvP
               </div>
               <div class="playstyle-toggle-chip" data-style="Leveling &amp; Dungeons" onclick="togglePlaystyle('Leveling &amp; Dungeons', this)">
                 Leveling &amp; Dungeons
@@ -1893,7 +1890,7 @@
     let rosterList = [];
     let activeRoleFilter = "all";
     let selectedRoles = ["Melee DPS"];
-    let selectedPlaystyles = ["Hardcore Raiding"];
+    let selectedPlaystyles = ["Raiding"];
     let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
     let isAdminMode = Boolean(adminPasskey);
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
@@ -3034,7 +3031,7 @@
       renderRoleChips();
 
       // Multi-Playstyle restore
-      selectedPlaystyles = Array.isArray(entry.playstyles) && entry.playstyles.length > 0 ? [...entry.playstyles] : (entry.playstyle ? [entry.playstyle] : ['Hardcore Raiding']);
+      selectedPlaystyles = Array.isArray(entry.playstyles) && entry.playstyles.length > 0 ? [...entry.playstyles] : (entry.playstyle ? [entry.playstyle] : ['Raiding']);
       renderPlaystyleChips();
 
       // UI states
@@ -3058,7 +3055,7 @@
       document.getElementById('btn-cancel-edit').style.display = 'none';
 
       selectedRoles = ['Melee DPS'];
-      selectedPlaystyles = ['Hardcore Raiding'];
+      selectedPlaystyles = ['Raiding'];
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
