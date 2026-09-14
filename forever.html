@@ -1249,6 +1249,31 @@
       border-radius: 4px;
     }
 
+    .member-professions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .member-prof-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    .member-prof-badge img {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
     .member-card-footer {
       display: flex;
       justify-content: space-between;
@@ -1597,13 +1622,65 @@
             </div>
           </div>
 
+          <!-- Dual Dropdown Professions (Optional) -->
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Professions <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></span>
+              <span style="font-size: 0.72rem; color: var(--text-dark);">Select up to 2</span>
+            </label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <select id="select-profession-1" class="form-select" onchange="onProfessionChange()">
+                  <option value="">None (Profession 1)</option>
+                  <optgroup label="Primary Professions">
+                    <option value="Alchemy">Alchemy</option>
+                    <option value="Blacksmithing">Blacksmithing</option>
+                    <option value="Enchanting">Enchanting</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Herbalism">Herbalism</option>
+                    <option value="Leatherworking">Leatherworking</option>
+                    <option value="Mining">Mining</option>
+                    <option value="Skinning">Skinning</option>
+                    <option value="Tailoring">Tailoring</option>
+                  </optgroup>
+                  <optgroup label="Secondary Professions">
+                    <option value="Cooking">Cooking</option>
+                    <option value="First Aid">First Aid</option>
+                    <option value="Fishing">Fishing</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <select id="select-profession-2" class="form-select" onchange="onProfessionChange()">
+                  <option value="">None (Profession 2)</option>
+                  <optgroup label="Primary Professions">
+                    <option value="Alchemy">Alchemy</option>
+                    <option value="Blacksmithing">Blacksmithing</option>
+                    <option value="Enchanting">Enchanting</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Herbalism">Herbalism</option>
+                    <option value="Leatherworking">Leatherworking</option>
+                    <option value="Mining">Mining</option>
+                    <option value="Skinning">Skinning</option>
+                    <option value="Tailoring">Tailoring</option>
+                  </optgroup>
+                  <optgroup label="Secondary Professions">
+                    <option value="Cooking">Cooking</option>
+                    <option value="First Aid">First Aid</option>
+                    <option value="Fishing">Fishing</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+
           <!-- Notes / Availability -->
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <label class="form-label" for="input-notes" style="margin-bottom: 0;">Notes &amp; Professions <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
+              <label class="form-label" for="input-notes" style="margin-bottom: 0;">Notes <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
               <span id="notes-char-counter" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;"><span id="notes-count">0</span>/300</span>
             </div>
-            <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Professions planned, raid availability, or notes for officers..." oninput="updateNotesCounter()"></textarea>
+            <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Raid availability, scheduling, or notes for officers..." oninput="updateNotesCounter()"></textarea>
           </div>
 
           <!-- Optional 4-digit PIN for edit protection -->
@@ -1634,7 +1711,7 @@
           <div class="toolbar-top-row">
             <div class="search-input-wrapper">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, notes..." oninput="applyFilters()">
+              <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, professions, notes..." oninput="applyFilters()">
             </div>
 
             <!-- View Switcher -->
@@ -1792,6 +1869,7 @@
                 <th onclick="sortTable('className')">Class &amp; Spec &#x25B4;&#x25BE;</th>
                 <th onclick="sortTable('role')">Roles &#x25B4;&#x25BE;</th>
                 <th>Offspec</th>
+                <th onclick="sortTable('professions')">Professions &#x25B4;&#x25BE;</th>
                 <th>Playstyles</th>
                 <th style="min-width: 180px;">Notes</th>
                 <th style="text-align: right; width: 100px;">Actions</th>
@@ -2042,6 +2120,21 @@
           { role: 'Ranged DPS', min: 13, max: 15, icon: 'spell_fire_fireball02' }
         ]
       }
+    };
+
+    const PROFESSION_ICONS = {
+      'Alchemy': 'trade_alchemy',
+      'Blacksmithing': 'trade_blacksmithing',
+      'Enchanting': 'trade_engraving',
+      'Engineering': 'trade_engineering',
+      'Herbalism': 'trade_herbalism',
+      'Leatherworking': 'trade_leatherworking',
+      'Mining': 'trade_mining',
+      'Skinning': 'inv_misc_pelt_wolf_01',
+      'Tailoring': 'trade_tailoring',
+      'Cooking': 'inv_misc_food_15',
+      'First Aid': 'spell_holy_sealofsacrifice',
+      'Fishing': 'trade_fishing'
     };
 
     function getIconUrl(iconName) {
@@ -2435,6 +2528,41 @@
       });
     }
 
+    function onProfessionChange() {
+      const p1 = document.getElementById('select-profession-1');
+      const p2 = document.getElementById('select-profession-2');
+      if (!p1 || !p2) return;
+      if (p1.value && p2.value && p1.value === p2.value) {
+        p2.value = '';
+        showToast('You cannot select the same profession twice.', true);
+      }
+      updateProfessionOptions();
+    }
+
+    function updateProfessionOptions() {
+      const p1 = document.getElementById('select-profession-1');
+      const p2 = document.getElementById('select-profession-2');
+      if (!p1 || !p2) return;
+      const val1 = p1.value;
+      const val2 = p2.value;
+
+      Array.from(p2.options).forEach(opt => {
+        if (opt.value && opt.value === val1) {
+          opt.disabled = true;
+        } else {
+          opt.disabled = false;
+        }
+      });
+
+      Array.from(p1.options).forEach(opt => {
+        if (opt.value && opt.value === val2) {
+          opt.disabled = true;
+        } else {
+          opt.disabled = false;
+        }
+      });
+    }
+
     function updateSelectionPreview(race, className, specName) {
       const previewText = document.getElementById('preview-selection-text');
       const raceIcon = document.getElementById('preview-race-icon');
@@ -2523,7 +2651,7 @@
           if (!isPrimary && !isOffspec) return false;
         }
 
-        // Search filter across player, class, spec, offspec, race, notes
+        // Search filter across player, class, spec, offspec, race, professions, notes
         if (searchTerm) {
           const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
           const matchClass = (item.className || '').toLowerCase().includes(searchTerm);
@@ -2532,7 +2660,9 @@
           const matchOffspecRole = (item.offspecRole || '').toLowerCase().includes(searchTerm);
           const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
           const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
-          if (!matchName && !matchClass && !matchSpec && !matchOffspec && !matchOffspecRole && !matchNotes && !matchRace) return false;
+          const profsStr = Array.isArray(item.professions) ? item.professions.join(' ') : `${item.profession1 || ''} ${item.profession2 || ''}`;
+          const matchProf = profsStr.toLowerCase().includes(searchTerm);
+          if (!matchName && !matchClass && !matchSpec && !matchOffspec && !matchOffspecRole && !matchNotes && !matchRace && !matchProf) return false;
         }
         return true;
       });
@@ -2664,7 +2794,20 @@
           <span class="member-playstyle-pill">${escapeHtml(p)}</span>
         `).join('');
 
-        const dateStr = m.updatedAt ? new Date(m.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '';
+        const profs = Array.isArray(m.professions) && m.professions.length > 0
+          ? m.professions
+          : [m.profession1, m.profession2].filter(Boolean);
+
+        const professionsHtml = profs.length > 0 ? `
+          <div class="member-professions-row">
+            ${profs.map(p => `
+              <span class="member-prof-badge" title="${escapeHtml(p)}">
+                <img src="${getIconUrl(PROFESSION_ICONS[p] || 'inv_misc_gear_01')}" alt="${escapeHtml(p)}">
+                ${escapeHtml(p)}
+              </span>
+            `).join('')}
+          </div>
+        ` : '';
 
         return `
           <div class="member-card" style="--card-accent-color: ${classColor};" id="card-${m.id}">
@@ -2698,6 +2841,7 @@
             </div>
 
             ${offspecHtml}
+            ${professionsHtml}
             ${m.notes ? `<div class="member-notes">"${escapeHtml(m.notes)}"</div>` : ''}
 
             <div class="member-playstyles-row">
@@ -3082,6 +3226,11 @@
           const rB = Array.isArray(b.roles) ? b.roles.join(', ') : (b.role || '');
           valA = rA.toLowerCase();
           valB = rB.toLowerCase();
+        } else if (field === 'professions') {
+          const pA = Array.isArray(a.professions) ? a.professions.join(', ') : `${a.profession1 || ''} ${a.profession2 || ''}`;
+          const pB = Array.isArray(b.professions) ? b.professions.join(', ') : `${b.profession1 || ''} ${b.profession2 || ''}`;
+          valA = pA.toLowerCase();
+          valB = pB.toLowerCase();
         }
 
         if (valA < valB) return asc ? -1 : 1;
@@ -3092,7 +3241,7 @@
       if (dataset.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align:center; padding: 28px; color: var(--text-muted);">
+            <td colspan="9" style="text-align:center; padding: 28px; color: var(--text-muted);">
               No characters match your filter criteria.
             </td>
           </tr>
@@ -3144,6 +3293,19 @@
           `;
         }
 
+        const profs = Array.isArray(m.professions) && m.professions.length > 0
+          ? m.professions
+          : [m.profession1, m.profession2].filter(Boolean);
+
+        const profsTableHtml = profs.length > 0
+          ? `<div style="display:flex; flex-wrap:wrap; gap:3px;">${profs.map(p => `
+              <span class="member-prof-badge" style="font-size:0.65rem; padding:1px 5px;" title="${escapeHtml(p)}">
+                <img src="${getIconUrl(PROFESSION_ICONS[p] || 'inv_misc_gear_01')}" style="width:11px;height:11px;border-radius:2px;" alt="">
+                ${escapeHtml(p)}
+              </span>
+            `).join('')}</div>`
+          : '<span style="color:var(--text-dark);">-</span>';
+
         const playstyleBadges = playstyles.map(p => `
           <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
         `).join(' ');
@@ -3170,6 +3332,7 @@
             </td>
             <td>${roleBadge}</td>
             <td style="color:var(--text-muted); font-size:0.75rem;">${offspecDisplay}</td>
+            <td>${profsTableHtml}</td>
             <td><div style="display:flex; flex-wrap:wrap; gap:3px;">${playstyleBadges}</div></td>
             <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.75rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${notesShort}
@@ -3234,6 +3397,9 @@
       const spec = document.getElementById('select-spec').value;
       const offspec = document.getElementById('select-offspec')?.value.trim() || '';
       const offspecRole = document.getElementById('select-offspec-role')?.value.trim() || '';
+      const prof1 = document.getElementById('select-profession-1')?.value.trim() || '';
+      const prof2 = document.getElementById('select-profession-2')?.value.trim() || '';
+      const professions = [prof1, prof2].filter(Boolean);
       const notes = document.getElementById('input-notes').value.trim();
       const pin = document.getElementById('input-pin').value.trim();
 
@@ -3273,6 +3439,9 @@
         role: selectedRole,
         offspec: offspec || '',
         offspecRole: offspec ? finalOffspecRole : '',
+        professions,
+        profession1: prof1,
+        profession2: prof2,
         playstyles: selectedPlaystyles,
         playstyle: selectedPlaystyles[0],
         notes,
@@ -3362,6 +3531,16 @@
       onRaceChange(entry.race, entry.className);
       onClassChange(entry.className, entry.spec, entry.offspec, entry.offspecRole);
 
+      // Professions restore
+      const profs = Array.isArray(entry.professions) && entry.professions.length > 0
+        ? entry.professions
+        : [entry.profession1, entry.profession2].filter(Boolean);
+      const profSelect1 = document.getElementById('select-profession-1');
+      const profSelect2 = document.getElementById('select-profession-2');
+      if (profSelect1) profSelect1.value = profs[0] || '';
+      if (profSelect2) profSelect2.value = profs[1] || '';
+      updateProfessionOptions();
+
       // Multi-Playstyle restore
       selectedPlaystyles = Array.isArray(entry.playstyles) && entry.playstyles.length > 0 ? [...entry.playstyles] : (entry.playstyle ? [entry.playstyle] : ['Raiding']);
       renderPlaystyleChips();
@@ -3390,6 +3569,12 @@
       if (pinLabelText) {
         pinLabelText.innerHTML = 'Edit PIN <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional 4-digits)</span>';
       }
+
+      const profSelect1 = document.getElementById('select-profession-1');
+      const profSelect2 = document.getElementById('select-profession-2');
+      if (profSelect1) profSelect1.value = '';
+      if (profSelect2) profSelect2.value = '';
+      updateProfessionOptions();
 
       editingCurrentPin = '';
       selectedRole = 'Melee DPS';
@@ -3499,7 +3684,12 @@
             if (m.offspec) {
               osTag = ` [OS: ${m.offspec}${m.offspecRole ? ' (' + m.offspecRole + ')' : ''}]`;
             }
-            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race})${osTag}${pStyles ? ` [${pStyles}]` : ''}\n`;
+            let profTag = '';
+            const profs = Array.isArray(m.professions) && m.professions.length > 0 ? m.professions : [m.profession1, m.profession2].filter(Boolean);
+            if (profs.length > 0) {
+              profTag = ` [${profs.join(', ')}]`;
+            }
+            md += `• **${m.playerName}** — ${m.spec} ${m.className} (${m.race})${osTag}${profTag}${pStyles ? ` [${pStyles}]` : ''}\n`;
           });
         }
         md += `\n`;

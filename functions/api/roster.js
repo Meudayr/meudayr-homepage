@@ -95,7 +95,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-    const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, notes, pin, currentPin, newPin, admin } = body;
+    const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, professions, profession1, profession2, notes, pin, currentPin, newPin, admin } = body;
 
     if (!playerName || !playerName.trim()) {
       return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -115,6 +115,16 @@ export async function onRequestPost(context) {
     const resolvedPlaystyles = Array.isArray(playstyles) && playstyles.length > 0 ? playstyles : (playstyle ? [playstyle] : ['Raiding']);
     const primaryRole = resolvedRoles[0];
     const primaryPlaystyle = resolvedPlaystyles[0];
+
+    let resolvedProfessions = [];
+    if (Array.isArray(professions)) {
+      resolvedProfessions = professions.filter(p => typeof p === 'string' && p.trim() !== '').map(p => p.trim()).slice(0, 2);
+    } else {
+      const p1 = (profession1 || '').trim();
+      const p2 = (profession2 || '').trim();
+      if (p1) resolvedProfessions.push(p1);
+      if (p2 && p2 !== p1) resolvedProfessions.push(p2);
+    }
 
     const cleanName = playerName.trim();
     const roster = await getBaselineRoster(context);
@@ -170,6 +180,9 @@ export async function onRequestPost(context) {
         offspecRole: offspecRole ? offspecRole.trim() : '',
         playstyle: primaryPlaystyle,
         playstyles: resolvedPlaystyles,
+        professions: resolvedProfessions,
+        profession1: resolvedProfessions[0] || '',
+        profession2: resolvedProfessions[1] || '',
         notes: cleanNotes,
         pin: finalPin,
         updatedAt: nowIso
@@ -191,6 +204,9 @@ export async function onRequestPost(context) {
         offspecRole: offspecRole ? offspecRole.trim() : '',
         playstyle: primaryPlaystyle,
         playstyles: resolvedPlaystyles,
+        professions: resolvedProfessions,
+        profession1: resolvedProfessions[0] || '',
+        profession2: resolvedProfessions[1] || '',
         notes: cleanNotes,
         pin: pin ? pin.trim() : '',
         createdAt: nowIso,
