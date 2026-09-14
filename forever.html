@@ -1324,6 +1324,309 @@
       color: var(--text-muted);
     }
 
+    /* ==========================================
+       Buff Analyzer Section
+       ========================================== */
+    .buff-analyzer-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+    }
+
+    .buff-summary-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .buff-summary-metrics {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .buff-metric-pill {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .buff-metric-pill.metric-covered {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .buff-metric-pill.metric-missing {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .buff-metric-pill.metric-rate {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde047;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .buff-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #191c24;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .buff-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+      border-radius: 9999px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .buff-filter-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .buff-filter-btn {
+      padding: 5px 12px;
+      background: #14171e;
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .buff-filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--card-border-hover);
+    }
+
+    .buff-filter-btn.active {
+      background: #252a35;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .buff-filter-btn.btn-filter-missing.active {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    /* Grid of Buff Cards */
+    .buff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px;
+    }
+
+    .buff-card {
+      background: rgba(18, 20, 26, 0.65);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .buff-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .buff-card.buff-covered {
+      border-color: rgba(34, 197, 94, 0.35);
+      background: linear-gradient(145deg, rgba(34, 197, 94, 0.06) 0%, rgba(18, 20, 26, 0.7) 100%);
+    }
+
+    .buff-card.buff-flex {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.06) 0%, rgba(18, 20, 26, 0.7) 100%);
+    }
+
+    .buff-card.buff-missing {
+      border-color: rgba(239, 68, 68, 0.3);
+      border-style: dashed;
+      background: rgba(18, 20, 26, 0.45);
+      opacity: 0.85;
+    }
+
+    .buff-card.buff-missing:hover {
+      opacity: 1;
+      border-color: rgba(239, 68, 68, 0.6);
+    }
+
+    .buff-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .buff-wow-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1.5px solid var(--card-border);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #111317;
+    }
+
+    .buff-card.buff-covered .buff-wow-icon {
+      border-color: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.35);
+    }
+
+    .buff-card.buff-flex .buff-wow-icon {
+      border-color: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
+    }
+
+    .buff-card.buff-missing .buff-wow-icon {
+      border-color: rgba(239, 68, 68, 0.5);
+      filter: grayscale(0.5);
+    }
+
+    .buff-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .buff-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .buff-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .buff-cat-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-dark);
+    }
+
+    .buff-status-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .buff-status-badge.status-covered {
+      background: rgba(34, 197, 94, 0.18);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .buff-status-badge.status-flex {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fde047;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .buff-status-badge.status-missing {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .buff-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .buff-providers-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: auto;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .buff-provider-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .buff-provider-tag.is-offspec {
+      border-style: dashed;
+      color: #fde047;
+    }
+
+    .buff-party-coverage-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+      margin-left: auto;
+    }
+
+    .buff-missing-req {
+      font-size: 0.72rem;
+      color: #f87171;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     /* Dense Roster Table */
     .roster-table-wrapper {
       background: var(--card-bg);
@@ -2232,6 +2535,47 @@
             </div>
           </div>
 
+          <!-- Buff & Aura Coverage Analyzer Card -->
+          <div class="analytics-card full-width" id="buff-analyzer-card">
+            <div class="analytics-card-header">
+              <div>
+                <div class="analytics-card-title">
+                  <svg style="width: 18px; height: 18px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  Raid &amp; Group Buff Analyzer
+                </div>
+                <div class="analytics-card-sub">Classic WoW raid buffs, group totem &amp; aura coverage, and missing gaps</div>
+              </div>
+
+              <!-- Filter Tabs -->
+              <div class="buff-filter-tabs" id="buff-filter-tabs">
+                <button type="button" class="buff-filter-btn active" data-buff-filter="all" onclick="setBuffFilter('all', this)">All</button>
+                <button type="button" class="buff-filter-btn" data-buff-filter="raid" onclick="setBuffFilter('raid', this)">Raid Buffs</button>
+                <button type="button" class="buff-filter-btn" data-buff-filter="group" onclick="setBuffFilter('group', this)">Group Auras</button>
+                <button type="button" class="buff-filter-btn" data-buff-filter="debuff" onclick="setBuffFilter('debuff', this)">Debuffs &amp; Utility</button>
+                <button type="button" class="buff-filter-btn btn-filter-missing" data-buff-filter="missing" onclick="setBuffFilter('missing', this)">✕ Missing Only</button>
+              </div>
+            </div>
+
+            <!-- Top Summary & Rate Bar -->
+            <div class="buff-analyzer-top-bar">
+              <div class="buff-summary-col">
+                <div class="buff-summary-metrics">
+                  <span class="buff-metric-pill metric-rate" id="buff-metric-coverage">0 / 0 Covered (0%)</span>
+                  <span class="buff-metric-pill metric-covered" id="buff-metric-covered">0 Active</span>
+                  <span class="buff-metric-pill metric-missing" id="buff-metric-missing">0 Missing</span>
+                </div>
+                <div class="buff-progress-track">
+                  <div class="buff-progress-fill" id="buff-progress-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid of Buff Cards -->
+            <div class="buff-grid" id="buff-analyzer-grid">
+              <!-- Dynamically populated via renderBuffAnalyzer() -->
+            </div>
+          </div>
+
           <div class="analytics-grid">
             <!-- Class Distribution Horizontal Chart -->
             <div class="analytics-card">
@@ -2539,6 +2883,245 @@
         ]
       }
     };
+
+    let activeBuffFilter = 'all';
+
+    const CLASSIC_BUFFS = [
+      // === RAID BUFFS ===
+      {
+        id: 'motw',
+        name: 'Mark of the Wild',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_nature_regeneration',
+        description: '+Stats (Str/Agi/Stam/Int/Spt), +Armor & Magic Resistances',
+        classes: ['Druid'],
+        specs: null
+      },
+      {
+        id: 'fort',
+        name: 'Power Word: Fortitude',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_holy_wordfortitude',
+        description: '+Stamina to raid members (+54 Stamina at max rank)',
+        classes: ['Priest'],
+        specs: null
+      },
+      {
+        id: 'ai',
+        name: 'Arcane Intellect',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_holy_magicalsentry',
+        description: '+Intellect to raid members (+31 Intellect at max rank)',
+        classes: ['Mage'],
+        specs: null
+      },
+      {
+        id: 'spirit',
+        name: 'Divine Spirit',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_holy_divinespirit',
+        description: '+Spirit to raid members (+40 Spirit at max rank)',
+        classes: ['Priest'],
+        specs: ['Discipline', 'Holy']
+      },
+      {
+        id: 'shadow_prot',
+        name: 'Shadow Protection',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_holy_prayerofshadowprotection',
+        description: '+Shadow Resistance (+60 Shadow Resist to raid)',
+        classes: ['Priest'],
+        specs: null
+      },
+      {
+        id: 'blood_pact',
+        name: 'Blood Pact (Imp)',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_shadow_bloodpact',
+        description: '+Stamina aura (+42 Stamina from Warlock Imp minion)',
+        classes: ['Warlock'],
+        specs: null
+      },
+      {
+        id: 'blessings',
+        name: 'Paladin Blessings',
+        category: 'Raid Buff',
+        type: 'raid',
+        icon: 'spell_holy_greaterblessingofkings',
+        description: 'Kings (+10% Stats), Might (+AP), Wisdom (MP5), Salvation (-Threat)',
+        classes: ['Paladin'],
+        specs: null
+      },
+
+      // === GROUP AURAS & TOTEMS ===
+      {
+        id: 'wf_totem',
+        name: 'Windfury Totem',
+        category: 'Group Totem',
+        type: 'group',
+        icon: 'spell_nature_windfury',
+        description: '20% extra melee attack chance + bonus Melee AP for party',
+        classes: ['Shaman'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'grace_of_air',
+        name: 'Grace of Air Totem',
+        category: 'Group Totem',
+        type: 'group',
+        icon: 'spell_nature_invisibilitytotem',
+        description: '+77 Agility for party members',
+        classes: ['Shaman'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'strength_of_earth',
+        name: 'Strength of Earth Totem',
+        category: 'Group Totem',
+        type: 'group',
+        icon: 'spell_nature_earthbindtotem',
+        description: '+77 Strength for party members',
+        classes: ['Shaman'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'mana_spring',
+        name: 'Mana Spring Totem',
+        category: 'Group Totem',
+        type: 'group',
+        icon: 'spell_nature_manaregentotem',
+        description: 'Restores 25 Mana every 2 seconds for party members',
+        classes: ['Shaman'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'tremor_totem',
+        name: 'Tremor Totem',
+        category: 'Group Totem',
+        type: 'group',
+        icon: 'spell_nature_tremortotem',
+        description: 'Pulses every 4 sec to cleanse Fear, Sleep & Charm effects',
+        classes: ['Shaman'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'battle_shout',
+        name: 'Battle Shout',
+        category: 'Group Buff',
+        type: 'group',
+        icon: 'ability_warrior_battleshout',
+        description: '+Melee Attack Power (+185 to +232 AP) for party members',
+        classes: ['Warrior'],
+        specs: null,
+        isPartyOnly: true
+      },
+      {
+        id: 'lotp',
+        name: 'Leader of the Pack',
+        category: 'Group Aura',
+        type: 'group',
+        icon: 'spell_nature_unyeildingstamina',
+        description: '+3% Melee & Ranged Critical Strike chance aura for party',
+        classes: ['Druid'],
+        specs: ['Feral Combat'],
+        isPartyOnly: true
+      },
+      {
+        id: 'trueshot',
+        name: 'Trueshot Aura',
+        category: 'Group Aura',
+        type: 'group',
+        icon: 'ability_trueshot',
+        description: '+Ranged & Melee Attack Power aura for party (+50-100 AP)',
+        classes: ['Hunter'],
+        specs: ['Marksmanship'],
+        isPartyOnly: true
+      },
+      {
+        id: 'moonkin',
+        name: 'Moonkin Aura',
+        category: 'Group Aura',
+        type: 'group',
+        icon: 'spell_nature_moonglow',
+        description: '+3% Spell Critical Strike chance aura for party',
+        classes: ['Druid'],
+        specs: ['Balance'],
+        isPartyOnly: true
+      },
+
+      // === KEY RAID DEBUFFS & UTILITIES ===
+      {
+        id: 'sunder',
+        name: 'Sunder Armor',
+        category: 'Raid Debuff',
+        type: 'debuff',
+        icon: 'ability_warrior_sunder',
+        description: 'Reduces boss armor by up to 2250 (5 stacks), boosts physical DPS',
+        classes: ['Warrior'],
+        specs: null
+      },
+      {
+        id: 'faerie_fire',
+        name: 'Faerie Fire',
+        category: 'Raid Debuff',
+        type: 'debuff',
+        icon: 'spell_nature_faeriefire',
+        description: 'Reduces boss armor by 505 and prevents stealth',
+        classes: ['Druid'],
+        specs: null
+      },
+      {
+        id: 'coe',
+        name: 'Curse of the Elements',
+        category: 'Raid Debuff',
+        type: 'debuff',
+        icon: 'spell_shadow_chilltouch',
+        description: '+10% Fire & Frost damage taken, -75 Fire & Frost resistances',
+        classes: ['Warlock'],
+        specs: null
+      },
+      {
+        id: 'cor',
+        name: 'Curse of Recklessness',
+        category: 'Raid Debuff',
+        type: 'debuff',
+        icon: 'spell_shadow_unholystrength',
+        description: 'Reduces boss armor by 640 and prevents fleeing/fear',
+        classes: ['Warlock'],
+        specs: null
+      },
+      {
+        id: 'soulstone',
+        name: 'Soulstone (Wipe Protection)',
+        category: 'Raid Utility',
+        type: 'debuff',
+        icon: 'spell_shadow_soulgem',
+        description: 'Pre-combat resurrection on healer to prevent raid wipes',
+        classes: ['Warlock'],
+        specs: null
+      },
+      {
+        id: 'rebirth',
+        name: 'Rebirth (Battle Res)',
+        category: 'Raid Utility',
+        type: 'debuff',
+        icon: 'spell_nature_reincarnation',
+        description: 'In-combat resurrection to bring back fallen key players',
+        classes: ['Druid'],
+        specs: null
+      }
+    ];
 
     const PROFESSION_ICONS = {
       'Alchemy': 'trade_alchemy',
@@ -3369,9 +3952,204 @@
 
     function renderAnalytics() {
       renderRaidReadiness();
+      renderBuffAnalyzer();
       renderClassDistribution();
       renderArmorDistribution();
       renderRaceDistribution();
+    }
+
+    function setBuffFilter(filter, btn) {
+      activeBuffFilter = filter;
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.buff-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      renderBuffAnalyzer();
+    }
+
+    function getBuffAnalysis(dataset = rosterList) {
+      let totalCovered = 0;
+      let totalFlex = 0;
+      let totalMissing = 0;
+
+      const results = CLASSIC_BUFFS.map(buff => {
+        // Primary providers: active main spec matches
+        const primaryProviders = dataset.filter(m => {
+          if (!buff.classes.includes(m.className)) return false;
+          if (buff.specs && buff.specs.length > 0) {
+            return buff.specs.includes(m.spec);
+          }
+          return true;
+        });
+
+        // Offspec / flex providers: offspec matches (and player not already a primary provider)
+        const offspecProviders = dataset.filter(m => {
+          if (primaryProviders.some(p => p.id === m.id)) return false;
+          if (!buff.classes.includes(m.className)) return false;
+          if (buff.specs && buff.specs.length > 0) {
+            return Boolean(m.offspec && buff.specs.includes(m.offspec));
+          }
+          return Boolean(m.offspec);
+        });
+
+        let status = 'missing';
+        if (primaryProviders.length > 0) {
+          status = 'covered';
+          totalCovered++;
+        } else if (offspecProviders.length > 0) {
+          status = 'flex';
+          totalFlex++;
+        } else {
+          totalMissing++;
+        }
+
+        // Requirements text for missing buffs
+        let reqText = '';
+        if (buff.specs && buff.specs.length > 0) {
+          reqText = `${buff.specs.join('/')} ${buff.classes.join('/')}`;
+        } else {
+          reqText = buff.classes.join(' or ');
+        }
+
+        return {
+          ...buff,
+          primaryProviders,
+          offspecProviders,
+          status,
+          reqText,
+          groupsCovered: buff.isPartyOnly ? primaryProviders.length : null
+        };
+      });
+
+      const totalBuffs = CLASSIC_BUFFS.length;
+      const coveragePct = totalBuffs > 0 ? Math.round((totalCovered / totalBuffs) * 100) : 0;
+
+      return {
+        results,
+        totalCovered,
+        totalFlex,
+        totalMissing,
+        totalBuffs,
+        coveragePct
+      };
+    }
+
+    function renderBuffAnalyzer() {
+      const grid = document.getElementById('buff-analyzer-grid');
+      if (!grid) return;
+
+      const dataset = activeRoleFilter === 'all' ? rosterList : getFilteredRoster();
+      const { results, totalCovered, totalFlex, totalMissing, totalBuffs, coveragePct } = getBuffAnalysis(dataset);
+
+      // Update summary metrics
+      const covEl = document.getElementById('buff-metric-coverage');
+      const covBadgeEl = document.getElementById('buff-metric-covered');
+      const missEl = document.getElementById('buff-metric-missing');
+      const fillEl = document.getElementById('buff-progress-fill');
+
+      if (covEl) covEl.textContent = `${totalCovered} / ${totalBuffs} Covered (${coveragePct}%)`;
+      if (covBadgeEl) covBadgeEl.textContent = `${totalCovered} Active${totalFlex > 0 ? ' (+' + totalFlex + ' Flex)' : ''}`;
+      if (missEl) missEl.textContent = `${totalMissing} Missing`;
+      if (fillEl) fillEl.style.width = `${coveragePct}%`;
+
+      // Filter results according to activeBuffFilter
+      let filtered = results;
+      if (activeBuffFilter === 'raid') {
+        filtered = results.filter(b => b.type === 'raid');
+      } else if (activeBuffFilter === 'group') {
+        filtered = results.filter(b => b.type === 'group');
+      } else if (activeBuffFilter === 'debuff') {
+        filtered = results.filter(b => b.type === 'debuff');
+      } else if (activeBuffFilter === 'missing') {
+        filtered = results.filter(b => b.status === 'missing' || b.status === 'flex');
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 32px 16px; color: var(--text-muted);">
+            <p style="font-size: 0.9rem;">No buffs match the selected filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(b => {
+        let statusClass = 'buff-missing';
+        let statusBadgeHtml = `<span class="buff-status-badge status-missing">✕ Missing</span>`;
+
+        if (b.status === 'covered') {
+          statusClass = 'buff-covered';
+          const providerCount = b.primaryProviders.length;
+          statusBadgeHtml = `<span class="buff-status-badge status-covered">✓ ${providerCount} Provider${providerCount === 1 ? '' : 's'}</span>`;
+        } else if (b.status === 'flex') {
+          statusClass = 'buff-flex';
+          statusBadgeHtml = `<span class="buff-status-badge status-flex">⚡ Flex (${b.offspecProviders.length})</span>`;
+        }
+
+        // Party coverage badge for totems/auras
+        let partyBadge = '';
+        if (b.isPartyOnly) {
+          if (b.groupsCovered > 0) {
+            partyBadge = `<span class="buff-party-coverage-badge" title="Each caster can provide this buff to 1 party of 5 players">Covers ${b.groupsCovered} Group${b.groupsCovered === 1 ? '' : 's'}</span>`;
+          } else {
+            partyBadge = `<span class="buff-party-coverage-badge" style="background: rgba(239, 68, 68, 0.12); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3);">0 Groups</span>`;
+          }
+        }
+
+        // Providers / Missing requirements row
+        let providersHtml = '';
+        if (b.status === 'covered' || b.status === 'flex') {
+          const primaryChips = b.primaryProviders.map(p => {
+            const cColor = CLASS_COLORS[p.className] || 'var(--text-main)';
+            return `<span class="buff-provider-tag" style="color: ${cColor};" title="${p.playerName} (${p.spec} ${p.className})">
+              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${cColor};"></span>
+              ${escapeHtml(p.playerName)}
+            </span>`;
+          }).join('');
+
+          const offspecChips = b.offspecProviders.map(p => {
+            const cColor = CLASS_COLORS[p.className] || 'var(--text-main)';
+            return `<span class="buff-provider-tag is-offspec" style="color: ${cColor};" title="Available if ${p.playerName} swaps to ${p.offspec}">
+              ⚡ ${escapeHtml(p.playerName)} (${escapeHtml(p.offspec || 'OS')})
+            </span>`;
+          }).join('');
+
+          providersHtml = `
+            <div class="buff-providers-row">
+              ${primaryChips}
+              ${offspecChips}
+              ${partyBadge}
+            </div>
+          `;
+        } else {
+          providersHtml = `
+            <div class="buff-providers-row">
+              <span class="buff-missing-req">
+                <svg style="width: 12px; height: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Requires ${b.reqText}
+              </span>
+              ${partyBadge}
+            </div>
+          `;
+        }
+
+        return `
+          <div class="buff-card ${statusClass}">
+            <div class="buff-card-top">
+              <img src="${getIconUrl(b.icon)}" alt="${escapeHtml(b.name)}" class="buff-wow-icon">
+              <div class="buff-meta">
+                <div class="buff-name-row">
+                  <span class="buff-title" title="${escapeHtml(b.name)}">${escapeHtml(b.name)}</span>
+                  ${statusBadgeHtml}
+                </div>
+                <span class="buff-cat-badge">${b.category}</span>
+              </div>
+            </div>
+            <div class="buff-desc">${escapeHtml(b.description)}</div>
+            ${providersHtml}
+          </div>
+        `;
+      }).join('');
     }
 
     function renderRaidReadiness() {
