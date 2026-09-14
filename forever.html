@@ -753,6 +753,8 @@
       border-radius: 4px;
       display: inline-block;
       width: fit-content;
+      max-width: 100%;
+      line-height: 1.35;
       margin-top: 4px;
     }
 
@@ -774,6 +776,18 @@
       white-space: nowrap;
       cursor: help;
       margin-left: 5px;
+    }
+
+    .role-benchmark-flex-badge.flex-off {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .role-benchmark-flex-badge.flex-none {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
     }
 
     .raid-flex-summary-bar {
@@ -2805,6 +2819,9 @@
       if (!benchmarkGrid) return;
 
       const totalFlexAvailable = { Tank: 0, Healer: 0, 'Melee DPS': 0, 'Ranged DPS': 0 };
+      const totalFlexMembers = { Tank: [], Healer: [], 'Melee DPS': [], 'Ranged DPS': [] };
+
+      const cleanAttr = (str) => String(str || '').replace(/"/g, '&quot;');
 
       benchmarkGrid.innerHTML = cfg.roles.map(rCfg => {
         // Strict 1:1 primary count (1 player = 1 spot)
@@ -2815,37 +2832,69 @@
         const count = primaryMembers.length;
 
         // Flex raiders: players who can flex into this role via offspec
-        const flexMembers = rosterList.filter(m => {
+        const swapInMembers = rosterList.filter(m => {
           const prim = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
           return prim !== rCfg.role && m.offspecRole === rCfg.role;
         });
-        const flexCount = flexMembers.length;
+        const swapInCount = swapInMembers.length;
         if (totalFlexAvailable[rCfg.role] !== undefined) {
-          totalFlexAvailable[rCfg.role] = flexCount;
+          totalFlexAvailable[rCfg.role] = swapInCount;
+          totalFlexMembers[rCfg.role] = swapInMembers;
         }
+
+        // Flex raiders: players in this role who can swap off to another role via offspec
+        const swapOffMembers = primaryMembers.filter(m => m.offspecRole && m.offspecRole !== rCfg.role);
+        const swapOffCount = swapOffMembers.length;
 
         const scaledMin = rCfg.min * numGroups;
         const scaledMax = rCfg.max * numGroups;
 
+        const swapInTooltip = swapInCount > 0
+          ? cleanAttr(`Can flex into ${rCfg.role} (${swapInCount}): ` + swapInMembers.map(m => {
+              const prim = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'DPS');
+              return `${m.playerName} (${prim}${m.offspec ? ' - ' + m.offspec : ''})`;
+            }).join(', '))
+          : cleanAttr(`No players available to flex into ${rCfg.role}`);
+
+        const swapOffTooltip = swapOffCount > 0
+          ? cleanAttr(`Can flex off ${rCfg.role} (${swapOffCount}): ` + swapOffMembers.map(m => {
+              return `${m.playerName} → ${m.offspecRole}${m.offspec ? ' (' + m.offspec + ')' : ''}`;
+            }).join(', '))
+          : cleanAttr(`No players in this role have a secondary offspec`);
+
         let statusHtml = '';
+        let flexBadgeHtml = '';
+
         if (count < scaledMin) {
           const diff = scaledMin - count;
-          statusHtml = `<span class="role-benchmark-status role-status-need">Need ${diff} more</span>`;
+          if (swapInCount > 0) {
+            statusHtml = `<span class="role-benchmark-status role-status-need" title="${swapInTooltip}">Need ${diff} more &bull; +${swapInCount} flex in</span>`;
+            flexBadgeHtml = `<span class="role-benchmark-flex-badge" title="${swapInTooltip}">+${swapInCount} Flex In</span>`;
+          } else {
+            statusHtml = `<span class="role-benchmark-status role-status-need">Need ${diff} more</span>`;
+          }
         } else if (count > scaledMax) {
           const surplus = count - scaledMax;
-          statusHtml = `<span class="role-benchmark-status role-status-surplus">+${surplus} Surplus</span>`;
+          if (swapOffCount > 0) {
+            statusHtml = `<span class="role-benchmark-status role-status-surplus" title="${swapOffTooltip}">+${surplus} Surplus &bull; ${swapOffCount} can flex off</span>`;
+            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-off" title="${swapOffTooltip}">${swapOffCount} Flex Off</span>`;
+          } else {
+            statusHtml = `<span class="role-benchmark-status role-status-surplus" title="${swapOffTooltip}">+${surplus} Surplus &bull; 0 can flex off</span>`;
+            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-none" title="${swapOffTooltip}">0 Flex Off</span>`;
+          }
         } else {
           statusHtml = `<span class="role-benchmark-status role-status-met">Balanced Target</span>`;
+          if (swapInCount > 0) {
+            flexBadgeHtml = `<span class="role-benchmark-flex-badge" title="${swapInTooltip}">+${swapInCount} Flex In</span>`;
+          } else if (swapOffCount > 0) {
+            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-off" title="${swapOffTooltip}">${swapOffCount} Flex Off</span>`;
+          }
         }
 
         const targetRangeStr = scaledMin === scaledMax ? `${scaledMin}` : `${scaledMin}-${scaledMax}`;
         const groupSuffix = numGroups > 1 ? ` (${numGroups} Groups)` : '';
         const targetLabel = `${targetRangeStr}${groupSuffix}`;
         const iconUrl = getIconUrl(ROLE_ICONS[rCfg.role] || rCfg.icon);
-
-        const flexBadgeHtml = flexCount > 0
-          ? `<span class="role-benchmark-flex-badge" title="Flex raiders with ${rCfg.role} offspec (${flexCount}): ${flexMembers.map(m => m.playerName).join(', ')}">+${flexCount} Flex</span>`
-          : '';
 
         return `
           <div class="role-benchmark-item">
@@ -2870,13 +2919,18 @@
       if (flexSummaryEl) {
         const totalFlexAny = Object.values(totalFlexAvailable).reduce((a, b) => a + b, 0);
         if (totalFlexAny > 0) {
+          const tankList = totalFlexMembers['Tank'].map(m => m.playerName).join(', ');
+          const healList = totalFlexMembers['Healer'].map(m => m.playerName).join(', ');
+          const meleeList = totalFlexMembers['Melee DPS'].map(m => m.playerName).join(', ');
+          const rangedList = totalFlexMembers['Ranged DPS'].map(m => m.playerName).join(', ');
+
           flexSummaryEl.style.display = 'flex';
           flexSummaryEl.innerHTML = `
             <span style="font-weight: 700; color: var(--accent); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px;">Flex Depth Available:</span>
-            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Tank'])}" alt="Tank"> ${totalFlexAvailable['Tank']} Tank${totalFlexAvailable['Tank'] === 1 ? '' : 's'}</span>
-            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Healer'])}" alt="Healer"> ${totalFlexAvailable['Healer']} Healer${totalFlexAvailable['Healer'] === 1 ? '' : 's'}</span>
-            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Melee DPS'])}" alt="Melee"> ${totalFlexAvailable['Melee DPS']} Melee</span>
-            <span class="raid-flex-item"><img src="${getIconUrl(ROLE_ICONS['Ranged DPS'])}" alt="Ranged"> ${totalFlexAvailable['Ranged DPS']} Ranged</span>
+            <span class="raid-flex-item"${tankList ? ` title="Can flex into Tank: ${cleanAttr(tankList)}"` : ''}><img src="${getIconUrl(ROLE_ICONS['Tank'])}" alt="Tank"> ${totalFlexAvailable['Tank']} Tank${totalFlexAvailable['Tank'] === 1 ? '' : 's'}</span>
+            <span class="raid-flex-item"${healList ? ` title="Can flex into Healer: ${cleanAttr(healList)}"` : ''}><img src="${getIconUrl(ROLE_ICONS['Healer'])}" alt="Healer"> ${totalFlexAvailable['Healer']} Healer${totalFlexAvailable['Healer'] === 1 ? '' : 's'}</span>
+            <span class="raid-flex-item"${meleeList ? ` title="Can flex into Melee: ${cleanAttr(meleeList)}"` : ''}><img src="${getIconUrl(ROLE_ICONS['Melee DPS'])}" alt="Melee"> ${totalFlexAvailable['Melee DPS']} Melee</span>
+            <span class="raid-flex-item"${rangedList ? ` title="Can flex into Ranged: ${cleanAttr(rangedList)}"` : ''}><img src="${getIconUrl(ROLE_ICONS['Ranged DPS'])}" alt="Ranged"> ${totalFlexAvailable['Ranged DPS']} Ranged</span>
           `;
         } else {
           flexSummaryEl.style.display = 'none';
