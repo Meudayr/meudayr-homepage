@@ -152,6 +152,7 @@ checkPlexStatus();
    - Guild character planning dashboard for World of Warcraft: Forever.
    - Dynamic race/class combinations matrix with automatic role suggestions and Wowhead icon assets.
    - Real-time signup, edit in place, and delete with optional PIN edit protection.
+   - Password-protected Admin Mode (`dontgivemeadpi` or `ADMIN_KEY` env var) allowing trusted users to bypass PINs.
    - Edge persistence via `/api/roster` (Cloudflare KV `forever_roster` + fallback to `data/forever-roster.json`).
    - One-click formatted Discord roster summary export.
 
@@ -163,9 +164,9 @@ checkPlexStatus();
 * **Endpoints:**
   - `GET /api/logs`: Reads from Cloudflare KV (`LOGS_KV`), falls back seamlessly to `data/logs.json`.
   - `POST /api/refresh`: Authenticates with WarcraftLogs using Cloudflare Pages environment variables (`WCL_CLIENT_ID`, `WCL_CLIENT_SECRET`), queries all 4 accounts in parallel (`Promise.all`), merges with historical data, updates KV, and returns fresh JSON in ~2–4 seconds.
-  - `GET /api/roster`: Reads guild roster from Cloudflare KV (`LOGS_KV` key `forever_roster`), falls back to `data/forever-roster.json`.
-  - `POST /api/roster`: Creates or updates character entries with optional PIN protection and syncs directly to KV.
-  - `DELETE /api/roster`: Removes an entry by ID (and validates PIN if set).
+  - `GET /api/roster`: Reads guild roster from Cloudflare KV (`LOGS_KV` key `forever_roster`), falls back to `data/forever-roster.json`. Supports `?verify_admin=1` with `x-admin-key` header to authenticate admin sessions.
+  - `POST /api/roster`: Creates or updates character entries with optional PIN protection and syncs directly to KV. Supports `x-admin-key` for PIN-bypass updates.
+  - `DELETE /api/roster`: Removes an entry by ID (validates PIN if set, or bypasses if authenticated with `x-admin-key`).
 * **Instant F5 Persistence:** The client caches the fresh response in `localStorage`, guaranteeing 0ms perceived load time across page reloads (F5) while background-validating against `/api/logs` or `/api/roster`.
 
 ### B. Large Data Files (>1 MB) on GitHub REST API
