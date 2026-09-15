@@ -3200,11 +3200,11 @@
     let adminPasskey = localStorage.getItem('tbs_admin_passkey') || '';
     let isAdminMode = Boolean(adminPasskey);
     let pendingModalAction = null; // { type: 'edit'|'delete', entry }
-    let currentViewMode = localStorage.getItem('tbs_view_mode') || 'cards';
+    let currentViewMode = 'cards';
     let currentRaidSizeTarget = 20; // 10, 20, 40
     let currentTableSort = { field: 'playerName', asc: true };
-    // Default to retracted unless user explicitly expanded it ('false')
-    let isFormRetracted = localStorage.getItem('tbs_form_retracted') !== 'false';
+    // Always default to retracted on page load/refresh
+    let isFormRetracted = true;
 
     const ARMOR_DATA = {
       "Plate": { classes: ["Warrior", "Paladin"], color: "#94a3b8" },
@@ -3697,7 +3697,6 @@
       } else {
         isFormRetracted = !isFormRetracted;
       }
-      localStorage.setItem('tbs_form_retracted', isFormRetracted ? 'true' : 'false');
       updateFormCollapseUI();
     }
 
@@ -4560,7 +4559,6 @@
 
     function setViewMode(mode) {
       currentViewMode = mode;
-      localStorage.setItem('tbs_view_mode', mode);
 
       const cardsBtn = document.getElementById('btn-view-cards');
       const analyticsBtn = document.getElementById('btn-view-analytics');
@@ -5693,7 +5691,6 @@
           await loadRoster();
           // Auto-retract menu after submission
           isFormRetracted = true;
-          localStorage.setItem('tbs_form_retracted', 'true');
           updateFormCollapseUI();
         } else {
           showToast(data.error || 'Submission failed.', true);
@@ -5723,7 +5720,6 @@
         showToast(isEditing ? 'Character updated locally!' : 'Saved locally!');
         // Auto-retract menu after submission
         isFormRetracted = true;
-        localStorage.setItem('tbs_form_retracted', 'true');
         updateFormCollapseUI();
       } finally {
         submitBtn.disabled = false;
@@ -5974,6 +5970,19 @@
 
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
+      // Clear non-sticky preferences from localStorage if previously stored
+      try {
+        localStorage.removeItem('tbs_view_mode');
+        localStorage.removeItem('tbs_form_retracted');
+      } catch(e) {}
+
+      currentViewMode = 'cards';
+      activeRoleFilter = 'all';
+      isFormRetracted = true;
+
+      const searchInput = document.getElementById('roster-search-input');
+      if (searchInput) searchInput.value = '';
+
       updateAdminUI();
       checkUrlAdminParam();
       updateFormCollapseUI();
@@ -5982,7 +5991,7 @@
       populateRaceSelect();
       updateProfessionOptions();
       updateNotesCounter();
-      setViewMode(currentViewMode);
+      setViewMode('cards');
       updateStatCardsActive();
       loadRoster();
     });
