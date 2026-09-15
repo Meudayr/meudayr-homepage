@@ -4528,12 +4528,10 @@
       const searchTerm = (document.getElementById('roster-search-input')?.value || '').toLowerCase().trim();
 
       return rosterList.filter(item => {
-        // Role filter match: checks primary role or offspec role
+        // Role filter match: checks primary/main role only
         if (activeRoleFilter !== 'all') {
           const primRole = item.role || (Array.isArray(item.roles) && item.roles.length > 0 ? item.roles[0] : '');
-          const isPrimary = primRole === activeRoleFilter;
-          const isOffspec = item.offspecRole === activeRoleFilter;
-          if (!isPrimary && !isOffspec) return false;
+          if (primRole !== activeRoleFilter) return false;
         }
 
         // Search filter across player, class, spec, offspec, race, professions, notes
