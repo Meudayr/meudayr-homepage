@@ -700,6 +700,17 @@
       flex-shrink: 0;
     }
 
+    .preview-icon-badge.easter-egg-race {
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .preview-icon-badge.easter-egg-race:hover {
+      border-color: #facc15;
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+    }
+
     .preview-text {
       color: var(--text-main);
       font-weight: 600;
@@ -2541,7 +2552,7 @@
           <!-- Live Visual Preview of Selection -->
           <div class="selection-preview-bar">
             <div class="preview-icons-row" id="preview-icons-row">
-              <img id="preview-race-icon" class="preview-icon-badge" src="" alt="Race">
+              <img id="preview-race-icon" class="preview-icon-badge easter-egg-race" src="" alt="Race" onclick="toggleRaceGender()" title="Click to toggle Race Icon (Body Type / Gender)">
               <img id="preview-class-icon" class="preview-icon-badge" src="" alt="Class">
               <img id="preview-spec-icon" class="preview-icon-badge" src="" alt="Spec">
             </div>
@@ -3131,7 +3142,7 @@
       }
     };
 
-    // Race Icons from Wowhead CDN (Horde Races)
+    // Race Icons from Wowhead CDN (Horde Races - Male / Body Type 1)
     const RACE_ICONS = {
       "Orc": "race_orc_male",
       "Undead": "race_scourge_male",
@@ -3139,6 +3150,33 @@
       "Troll": "race_troll_male",
       "Skyborne": "race_voidelf_male"
     };
+
+    // Race Icons from Wowhead CDN (Horde Races - Female / Body Type 2 Easter Egg)
+    const RACE_ICONS_FEMALE = {
+      "Orc": "race_orc_female",
+      "Undead": "race_scourge_female",
+      "Tauren": "race_tauren_female",
+      "Troll": "race_troll_female",
+      "Skyborne": "race_voidelf_female"
+    };
+
+    let isFemaleRaceIcon = false;
+
+    function toggleRaceGender() {
+      isFemaleRaceIcon = !isFemaleRaceIcon;
+      const race = document.getElementById('select-race')?.value || 'Orc';
+      const className = document.getElementById('select-class')?.value || 'Warrior';
+      const specName = document.getElementById('select-spec')?.value || 'Arms';
+      updateSelectionPreview(race, className, specName);
+
+      const raceIconEl = document.getElementById('preview-race-icon');
+      if (raceIconEl) {
+        raceIconEl.style.transform = 'scale(1.22) rotate(12deg)';
+        setTimeout(() => {
+          raceIconEl.style.transform = '';
+        }, 220);
+      }
+    }
 
     // WoW Forever Confirmed Horde Race/Class Combinations Matrix
     const HORDE_RACE_CLASSES = {
@@ -4398,7 +4436,8 @@
       const classIcon = document.getElementById('preview-class-icon');
       const specIcon = document.getElementById('preview-spec-icon');
 
-      const raceIconName = RACE_ICONS[race] || 'inv_misc_questionmark';
+      const raceMap = isFemaleRaceIcon ? RACE_ICONS_FEMALE : RACE_ICONS;
+      const raceIconName = raceMap[race] || 'inv_misc_questionmark';
       const classIconName = CLASS_ICONS[className] || 'inv_misc_questionmark';
       const specIconName = SPEC_DATA[className]?.[specName]?.icon || 'inv_misc_questionmark';
 
