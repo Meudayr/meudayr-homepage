@@ -2527,37 +2527,50 @@
           </div>
 
           <!-- Secondary / Offspec (Structured Spec + Role) -->
+          <!-- Secondary / Offspec (Structured Spec + Role) -->
           <div class="form-group">
             <label class="form-label">
               <span>Secondary / Offspec <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></span>
               <span style="font-size: 0.72rem; color: var(--text-dark);">For flex raid roles</span>
             </label>
-            <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 8px;">
-              <div>
-                <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)" style="display: none;">
-                  <!-- Dynamically populated via JS -->
-                </select>
-                <div class="wow-select-container" id="wow-offspec-select-container">
-                  <button type="button" class="wow-select-trigger" id="wow-offspec-trigger" onclick="toggleWowDropdown('wow-offspec-menu', this)" aria-haspopup="listbox" aria-expanded="false">
-                    <div class="wow-select-current" id="wow-offspec-current">
-                      <img class="wow-select-current-icon" id="wow-offspec-current-icon" src="" alt="" style="display:none;">
-                      <span class="wow-select-current-text" id="wow-offspec-current-text">None (No Offspec)</span>
-                    </div>
-                    <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                  </button>
-                  <div class="wow-select-menu" id="wow-offspec-menu" role="listbox">
-                    <!-- Dynamically populated -->
-                  </div>
+            <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)" style="display: none;">
+              <!-- Dynamically populated via JS -->
+            </select>
+            <select id="select-offspec-role" class="form-select" onchange="onOffspecRoleChange(this.value)" style="display: none;">
+              <option value="">No Role</option>
+              <option value="Tank">Tank</option>
+              <option value="Healer">Healer</option>
+              <option value="Melee DPS">Melee DPS</option>
+              <option value="Ranged DPS">Ranged DPS</option>
+            </select>
+            <div class="wow-select-container" id="wow-offspec-select-container">
+              <button type="button" class="wow-select-trigger" id="wow-offspec-trigger" onclick="toggleWowDropdown('wow-offspec-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                <div class="wow-select-current" id="wow-offspec-current">
+                  <img class="wow-select-current-icon" id="wow-offspec-current-icon" src="" alt="" style="display:none;">
+                  <span class="wow-select-current-text" id="wow-offspec-current-text">None (No Offspec)</span>
                 </div>
+                <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="wow-select-menu" id="wow-offspec-menu" role="listbox">
+                <!-- Dynamically populated -->
               </div>
-              <div>
-                <select id="select-offspec-role" class="form-select" onchange="onOffspecRoleChange(this.value)" disabled>
-                  <option value="">No Role</option>
-                  <option value="Tank">Tank</option>
-                  <option value="Healer">Healer</option>
-                  <option value="Melee DPS">Melee DPS</option>
-                  <option value="Ranged DPS">Ranged DPS</option>
-                </select>
+            </div>
+
+            <!-- Feral Offspec Role Option (Only visible when Feral Combat Druid is selected as offspec) -->
+            <div class="form-group" id="feral-offspec-role-container" style="display: none; margin-top: 8px; margin-bottom: 0;">
+              <label class="form-label">
+                <span>Offspec Feral Role <span class="req">*</span></span>
+                <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">Choose Tank (Bear) or Melee DPS (Cat)</span>
+              </label>
+              <div class="role-chips-grid">
+                <div class="role-toggle-chip" id="feral-offspec-chip-tank" data-role="Tank" onclick="setOffspecFeralRole('Tank')">
+                  <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tank">
+                  <span>Tank (Bear)</span>
+                </div>
+                <div class="role-toggle-chip" id="feral-offspec-chip-melee" data-role="Melee DPS" onclick="setOffspecFeralRole('Melee DPS')">
+                  <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee">
+                  <span>Melee DPS (Cat)</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2589,8 +2602,8 @@
             </label>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
               <div>
-                <select id="select-profession-1" class="form-select" onchange="onProfessionChange()">
-                  <option value="">None (Profession 1)</option>
+                <select id="select-profession-1" class="form-select" onchange="onProfessionChange()" style="display: none;">
+                  <option value="">None (Slot 1)</option>
                   <option value="Alchemy">Alchemy</option>
                   <option value="Blacksmithing">Blacksmithing</option>
                   <option value="Enchanting">Enchanting</option>
@@ -2601,10 +2614,22 @@
                   <option value="Skinning">Skinning</option>
                   <option value="Tailoring">Tailoring</option>
                 </select>
+                <div class="wow-select-container" id="wow-prof1-select-container">
+                  <button type="button" class="wow-select-trigger" id="wow-prof1-trigger" onclick="toggleWowDropdown('wow-prof1-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                    <div class="wow-select-current" id="wow-prof1-current">
+                      <img class="wow-select-current-icon" id="wow-prof1-current-icon" src="" alt="" style="display:none;">
+                      <span class="wow-select-current-text" id="wow-prof1-current-text">None (Slot 1)</span>
+                    </div>
+                    <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                  <div class="wow-select-menu" id="wow-prof1-menu" role="listbox">
+                    <!-- Dynamically populated -->
+                  </div>
+                </div>
               </div>
               <div>
-                <select id="select-profession-2" class="form-select" onchange="onProfessionChange()">
-                  <option value="">None (Profession 2)</option>
+                <select id="select-profession-2" class="form-select" onchange="onProfessionChange()" style="display: none;">
+                  <option value="">None (Slot 2)</option>
                   <option value="Alchemy">Alchemy</option>
                   <option value="Blacksmithing">Blacksmithing</option>
                   <option value="Enchanting">Enchanting</option>
@@ -2615,6 +2640,18 @@
                   <option value="Skinning">Skinning</option>
                   <option value="Tailoring">Tailoring</option>
                 </select>
+                <div class="wow-select-container" id="wow-prof2-select-container">
+                  <button type="button" class="wow-select-trigger" id="wow-prof2-trigger" onclick="toggleWowDropdown('wow-prof2-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                    <div class="wow-select-current" id="wow-prof2-current">
+                      <img class="wow-select-current-icon" id="wow-prof2-current-icon" src="" alt="" style="display:none;">
+                      <span class="wow-select-current-text" id="wow-prof2-current-text">None (Slot 2)</span>
+                    </div>
+                    <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                  <div class="wow-select-menu" id="wow-prof2-menu" role="listbox">
+                    <!-- Dynamically populated -->
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3802,18 +3839,39 @@
       const menu = document.getElementById('wow-offspec-menu');
       if (!menu) return;
 
+      const specInfo = SPEC_DATA[className]?.[selectedOffspec];
+      const isFeral = (className === 'Druid' && selectedOffspec === 'Feral Combat');
+      const offspecRoleSelect = document.getElementById('select-offspec-role');
+      const offspecRole = isFeral
+        ? (offspecRoleSelect?.value || 'Tank')
+        : (specInfo?.defaultRoles?.[0] || '');
+
+      let roleTagClass = 'role-melee';
+      if (offspecRole === 'Tank') roleTagClass = 'role-tank';
+      else if (offspecRole === 'Healer') roleTagClass = 'role-healer';
+      else if (offspecRole === 'Ranged DPS') roleTagClass = 'role-ranged';
+
       if (!selectedOffspec) {
         if (currentIcon) currentIcon.style.display = 'none';
         if (currentText) currentText.textContent = 'None (No Offspec)';
       } else {
-        const specInfo = SPEC_DATA[className]?.[selectedOffspec];
         const icon = specInfo?.icon || 'inv_misc_questionmark';
         if (currentIcon) {
           currentIcon.style.display = 'block';
           currentIcon.src = getIconUrl(icon);
           currentIcon.alt = selectedOffspec;
         }
-        if (currentText) currentText.textContent = selectedOffspec;
+        if (currentText) {
+          currentText.innerHTML = `
+            <span style="font-weight: 700;">${escapeHtml(selectedOffspec)}</span>
+            ${offspecRole ? `
+              <span class="member-role-badge ${roleTagClass}" style="font-size: 0.62rem; padding: 1px 5px; line-height: 1.2;">
+                <img src="${getIconUrl(ROLE_ICONS[offspecRole])}" style="width: 9px; height: 9px;" alt="">
+                ${escapeHtml(offspecRole)}
+              </span>
+            ` : ''}
+          `;
+        }
       }
 
       const specsObj = SPEC_DATA[className] || {};
@@ -3831,13 +3889,32 @@
       optionsHtml += specNames.map(spec => {
         const sInfo = specsObj[spec];
         const sIcon = sInfo?.icon || 'inv_misc_questionmark';
+        const sRole = sInfo?.defaultRoles?.[0] || '';
         const isSelected = spec === selectedOffspec;
+        const isFeralSpec = (className === 'Druid' && spec === 'Feral Combat');
+
+        let sTagClass = 'role-melee';
+        if (sRole === 'Tank') sTagClass = 'role-tank';
+        else if (sRole === 'Healer') sTagClass = 'role-healer';
+        else if (sRole === 'Ranged DPS') sTagClass = 'role-ranged';
+
         return `
           <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectOffspecOption('${spec}')" role="option" aria-selected="${isSelected}">
             <img class="wow-select-opt-icon" src="${getIconUrl(sIcon)}" alt="${spec}">
             <div class="wow-select-opt-content">
               <span class="wow-select-opt-label">${escapeHtml(spec)}</span>
-              <span class="wow-select-check">✓</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${isFeralSpec ? `
+                  <span class="member-role-badge role-tank" style="font-size: 0.62rem; padding: 1px 4px;">Tank</span>
+                  <span class="member-role-badge role-melee" style="font-size: 0.62rem; padding: 1px 4px;">DPS</span>
+                ` : (sRole ? `
+                  <span class="member-role-badge ${sTagClass}" style="font-size: 0.62rem; padding: 1px 5px;">
+                    <img src="${getIconUrl(ROLE_ICONS[sRole])}" style="width: 9px; height: 9px;" alt="">
+                    ${escapeHtml(sRole)}
+                  </span>
+                ` : '')}
+                <span class="wow-select-check">✓</span>
+              </div>
             </div>
           </div>
         `;
@@ -3851,6 +3928,33 @@
       if (selectOffspec) selectOffspec.value = spec;
       closeAllWowDropdowns();
       onOffspecChange(spec);
+    }
+
+    function setOffspecFeralRole(roleName) {
+      if (roleName !== 'Tank' && roleName !== 'Melee DPS') {
+        roleName = 'Tank';
+      }
+      const selectOffspecRole = document.getElementById('select-offspec-role');
+      if (selectOffspecRole) {
+        selectOffspecRole.value = roleName;
+      }
+      renderOffspecFeralRoleChips();
+      const className = document.getElementById('select-class')?.value || '';
+      const offspec = document.getElementById('select-offspec')?.value || '';
+      updateWowOffspecUI(className, offspec);
+      updateSelectionPreview(
+        document.getElementById('select-race')?.value || 'Orc',
+        className,
+        document.getElementById('select-spec')?.value || ''
+      );
+    }
+
+    function renderOffspecFeralRoleChips() {
+      const currentRole = document.getElementById('select-offspec-role')?.value || 'Tank';
+      const tankChip = document.getElementById('feral-offspec-chip-tank');
+      const meleeChip = document.getElementById('feral-offspec-chip-melee');
+      if (tankChip) tankChip.classList.toggle('active', currentRole === 'Tank');
+      if (meleeChip) meleeChip.classList.toggle('active', currentRole === 'Melee DPS');
     }
 
     // ==========================================
@@ -3912,6 +4016,7 @@
     function populateOffspecSelect(className, selectedOffspec = null, selectedOffspecRole = null) {
       const selectOffspec = document.getElementById('select-offspec');
       const selectOffspecRole = document.getElementById('select-offspec-role');
+      const feralOffspecContainer = document.getElementById('feral-offspec-role-container');
       if (!selectOffspec || !selectOffspecRole) return;
 
       selectOffspec.innerHTML = '<option value="">None (No Offspec)</option>';
@@ -3931,63 +4036,73 @@
         selectOffspec.value = '';
       }
 
-      if (selectedOffspecRole) {
-        selectOffspecRole.value = selectedOffspecRole;
-      } else {
+      const isFeral = (className === 'Druid' && selectOffspec.value === 'Feral Combat');
+
+      if (!selectOffspec.value) {
         selectOffspecRole.value = '';
+        if (feralOffspecContainer) feralOffspecContainer.style.display = 'none';
+      } else if (isFeral) {
+        if (selectedOffspecRole === 'Tank' || selectedOffspecRole === 'Melee DPS') {
+          selectOffspecRole.value = selectedOffspecRole;
+        } else {
+          selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
+        }
+        if (feralOffspecContainer) feralOffspecContainer.style.display = 'block';
+        renderOffspecFeralRoleChips();
+      } else {
+        const defaultRole = specsObj[selectOffspec.value]?.defaultRoles?.[0] || '';
+        selectOffspecRole.value = defaultRole;
+        if (feralOffspecContainer) feralOffspecContainer.style.display = 'none';
       }
 
-      selectOffspecRole.disabled = !selectOffspec.value;
       updateWowOffspecUI(className, selectOffspec.value);
     }
 
     function onOffspecChange(specName) {
       const selectOffspecRole = document.getElementById('select-offspec-role');
-      const className = document.getElementById('select-class').value;
-      const currentMainSpec = document.getElementById('select-spec').value;
-
-      updateWowOffspecUI(className, specName);
+      const feralOffspecContainer = document.getElementById('feral-offspec-role-container');
+      const className = document.getElementById('select-class')?.value || '';
+      const currentMainSpec = document.getElementById('select-spec')?.value || '';
 
       if (!specName) {
-        if (selectOffspecRole) {
-          selectOffspecRole.innerHTML = '<option value="">No Role</option>';
-          selectOffspecRole.value = '';
-          selectOffspecRole.disabled = true;
-        }
+        if (selectOffspecRole) selectOffspecRole.value = '';
+        if (feralOffspecContainer) feralOffspecContainer.style.display = 'none';
       } else {
-        const offspecSpecInfo = SPEC_DATA[className]?.[specName];
         const isFeral = (className === 'Druid' && specName === 'Feral Combat');
-
-        if (selectOffspecRole) {
-          if (isFeral) {
-            selectOffspecRole.innerHTML = `
-              <option value="Tank">Tank</option>
-              <option value="Melee DPS">Melee DPS</option>
-            `;
-            selectOffspecRole.disabled = false;
-            // Suggest the alternate of main role if main role is Tank or Melee DPS
-            selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
-          } else if (offspecSpecInfo && offspecSpecInfo.defaultRoles && offspecSpecInfo.defaultRoles.length > 0) {
-            const lockedRole = offspecSpecInfo.defaultRoles[0];
-            selectOffspecRole.innerHTML = `<option value="${lockedRole}">${lockedRole}</option>`;
-            selectOffspecRole.value = lockedRole;
-            selectOffspecRole.disabled = true;
+        if (isFeral) {
+          if (feralOffspecContainer) feralOffspecContainer.style.display = 'block';
+          if (!selectOffspecRole || (selectOffspecRole.value !== 'Tank' && selectOffspecRole.value !== 'Melee DPS')) {
+            if (selectOffspecRole) {
+              selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
+            }
+          }
+          renderOffspecFeralRoleChips();
+        } else {
+          if (feralOffspecContainer) feralOffspecContainer.style.display = 'none';
+          const offspecSpecInfo = SPEC_DATA[className]?.[specName];
+          if (selectOffspecRole) {
+            selectOffspecRole.value = offspecSpecInfo?.defaultRoles?.[0] || '';
           }
         }
       }
 
+      updateWowOffspecUI(className, specName);
       updateSelectionPreview(
-        document.getElementById('select-race').value,
+        document.getElementById('select-race')?.value || 'Orc',
         className,
         currentMainSpec
       );
     }
 
     function onOffspecRoleChange(roleVal) {
+      const className = document.getElementById('select-class')?.value || '';
+      const offspec = document.getElementById('select-offspec')?.value || '';
+      renderOffspecFeralRoleChips();
+      updateWowOffspecUI(className, offspec);
       updateSelectionPreview(
-        document.getElementById('select-race').value,
-        document.getElementById('select-class').value,
-        document.getElementById('select-spec').value
+        document.getElementById('select-race')?.value || 'Orc',
+        className,
+        document.getElementById('select-spec')?.value || ''
       );
     }
 
@@ -4117,6 +4232,86 @@
       });
     }
 
+    const PRIMARY_PROFESSIONS = [
+      'Alchemy',
+      'Blacksmithing',
+      'Enchanting',
+      'Engineering',
+      'Herbalism',
+      'Leatherworking',
+      'Mining',
+      'Skinning',
+      'Tailoring'
+    ];
+
+    function renderWowProfDropdown(slotNum, currentVal, otherVal) {
+      const currentIcon = document.getElementById(`wow-prof${slotNum}-current-icon`);
+      const currentText = document.getElementById(`wow-prof${slotNum}-current-text`);
+      const menu = document.getElementById(`wow-prof${slotNum}-menu`);
+      if (!menu) return;
+
+      if (!currentVal) {
+        if (currentIcon) currentIcon.style.display = 'none';
+        if (currentText) currentText.textContent = `None (Slot ${slotNum})`;
+      } else {
+        const icon = PROFESSION_ICONS[currentVal] || 'inv_misc_gear_01';
+        if (currentIcon) {
+          currentIcon.style.display = 'block';
+          currentIcon.src = getIconUrl(icon);
+          currentIcon.alt = currentVal;
+        }
+        if (currentText) {
+          currentText.innerHTML = `<span style="font-weight: 700;">${escapeHtml(currentVal)}</span>`;
+        }
+      }
+
+      let optionsHtml = `
+        <div class="wow-select-option ${!currentVal ? 'selected' : ''}" onclick="selectProfessionOption(${slotNum}, '')" role="option">
+          <div class="wow-select-opt-content">
+            <span class="wow-select-opt-label" style="color: var(--text-muted);">None (Slot ${slotNum})</span>
+            <span class="wow-select-check">✓</span>
+          </div>
+        </div>
+      `;
+
+      optionsHtml += PRIMARY_PROFESSIONS.map(prof => {
+        const pIcon = PROFESSION_ICONS[prof] || 'inv_misc_gear_01';
+        const isSelected = (prof === currentVal);
+        const isTaken = (prof === otherVal && Boolean(otherVal));
+
+        if (isTaken) {
+          return `
+            <div class="wow-select-option disabled" style="opacity: 0.35; cursor: not-allowed; pointer-events: none;" role="option" aria-disabled="true">
+              <img class="wow-select-opt-icon" src="${getIconUrl(pIcon)}" alt="${escapeHtml(prof)}">
+              <div class="wow-select-opt-content">
+                <span class="wow-select-opt-label" style="color: var(--text-dark);">${escapeHtml(prof)}</span>
+                <span style="font-size: 0.65rem; color: var(--text-dark); font-style: italic;">Selected in Slot ${slotNum === 1 ? 2 : 1}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectProfessionOption(${slotNum}, '${escapeHtml(prof)}')" role="option" aria-selected="${isSelected}">
+            <img class="wow-select-opt-icon" src="${getIconUrl(pIcon)}" alt="${escapeHtml(prof)}">
+            <div class="wow-select-opt-content">
+              <span class="wow-select-opt-label">${escapeHtml(prof)}</span>
+              <span class="wow-select-check">✓</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      menu.innerHTML = optionsHtml;
+    }
+
+    function selectProfessionOption(slotNum, profName) {
+      const selectEl = document.getElementById(`select-profession-${slotNum}`);
+      if (selectEl) selectEl.value = profName;
+      closeAllWowDropdowns();
+      onProfessionChange();
+    }
+
     function onProfessionChange() {
       const p1 = document.getElementById('select-profession-1');
       const p2 = document.getElementById('select-profession-2');
@@ -4135,21 +4330,28 @@
       const val1 = p1.value;
       const val2 = p2.value;
 
-      Array.from(p2.options).forEach(opt => {
-        if (opt.value && opt.value === val1) {
-          opt.disabled = true;
-        } else {
-          opt.disabled = false;
-        }
-      });
+      if (p2.options) {
+        Array.from(p2.options).forEach(opt => {
+          if (opt.value && opt.value === val1) {
+            opt.disabled = true;
+          } else {
+            opt.disabled = false;
+          }
+        });
+      }
 
-      Array.from(p1.options).forEach(opt => {
-        if (opt.value && opt.value === val2) {
-          opt.disabled = true;
-        } else {
-          opt.disabled = false;
-        }
-      });
+      if (p1.options) {
+        Array.from(p1.options).forEach(opt => {
+          if (opt.value && opt.value === val2) {
+            opt.disabled = true;
+          } else {
+            opt.disabled = false;
+          }
+        });
+      }
+
+      renderWowProfDropdown(1, val1, val2);
+      renderWowProfDropdown(2, val2, val1);
     }
 
     function updateSelectionPreview(race, className, specName) {
@@ -5537,6 +5739,10 @@
       selectedPlaystyles = ['Raiding'];
       const feralContainer = document.getElementById('feral-role-container');
       if (feralContainer) feralContainer.style.display = 'none';
+      const feralOffspecContainer = document.getElementById('feral-offspec-role-container');
+      if (feralOffspecContainer) feralOffspecContainer.style.display = 'none';
+      const selectOffspecRole = document.getElementById('select-offspec-role');
+      if (selectOffspecRole) selectOffspecRole.value = '';
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
@@ -5680,6 +5886,7 @@
       renderRoleChips();
       renderPlaystyleChips();
       populateRaceSelect();
+      updateProfessionOptions();
       updateNotesCounter();
       setViewMode(currentViewMode);
       updateStatCardsActive();
