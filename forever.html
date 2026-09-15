@@ -2482,6 +2482,7 @@
         <form id="character-form" onsubmit="handleFormSubmit(event)">
           <!-- Hidden ID for edit tracking -->
           <input type="hidden" id="entry-id" value="">
+          <input type="hidden" id="select-gender" value="male">
 
           <!-- Player / Discord Name -->
           <div class="form-group">
@@ -3164,6 +3165,8 @@
 
     function toggleRaceGender() {
       isFemaleRaceIcon = !isFemaleRaceIcon;
+      const genderInput = document.getElementById('select-gender');
+      if (genderInput) genderInput.value = isFemaleRaceIcon ? 'female' : 'male';
       const race = document.getElementById('select-race')?.value || 'Orc';
       const className = document.getElementById('select-class')?.value || 'Warrior';
       const specName = document.getElementById('select-spec')?.value || 'Arms';
@@ -5654,7 +5657,7 @@
         playerName: cleanPlayerName,
         faction: 'Horde',
         race,
-        gender: isFemaleRaceIcon ? 'female' : 'male',
+        gender: (document.getElementById('select-gender')?.value || (isFemaleRaceIcon ? 'female' : 'male')),
         className,
         spec,
         roles: [selectedRole],
@@ -5754,6 +5757,8 @@
 
     function loadEntryIntoForm(entry) {
       isFemaleRaceIcon = (entry.gender === 'female');
+      const genderInput = document.getElementById('select-gender');
+      if (genderInput) genderInput.value = isFemaleRaceIcon ? 'female' : 'male';
       document.getElementById('entry-id').value = entry.id;
       document.getElementById('player-name').value = entry.playerName;
       document.getElementById('input-notes').value = entry.notes || '';
@@ -5801,6 +5806,8 @@
 
     function cancelEditMode() {
       isFemaleRaceIcon = false;
+      const genderInput = document.getElementById('select-gender');
+      if (genderInput) genderInput.value = 'male';
       document.getElementById('character-form')?.reset?.();
       document.getElementById('entry-id').value = '';
       document.getElementById('form-heading-text').textContent = 'Submit Character';
