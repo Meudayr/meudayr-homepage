@@ -546,6 +546,31 @@
       animation: wowDropdownEntrance 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
+    #wow-prof1-menu {
+      left: 0;
+      right: auto;
+      min-width: 195px;
+    }
+
+    #wow-prof2-menu {
+      left: auto;
+      right: 0;
+      min-width: 195px;
+    }
+
+    #wow-prof1-trigger, #wow-prof2-trigger {
+      padding: 7px 8px;
+    }
+
+    #wow-prof1-trigger .wow-select-current, #wow-prof2-trigger .wow-select-current {
+      gap: 6px;
+      min-width: 0;
+    }
+
+    #wow-prof1-trigger .wow-select-current-text, #wow-prof2-trigger .wow-select-current-text {
+      font-size: 0.82rem;
+    }
+
     @keyframes wowDropdownEntrance {
       0% {
         opacity: 0;
