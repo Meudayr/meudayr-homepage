@@ -1963,32 +1963,32 @@
       color: var(--accent);
     }
 
-    /* Roster Cards Grid: 2 columns when form expanded, 3 columns when retracted */
+    /* Roster Cards Grid: Responsive auto-fill for high density */
     .roster-grid {
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }
 
     /* Desktop View (min-width: 961px) */
     @media (min-width: 961px) {
       .roster-layout:not(.sidebar-retracted) .roster-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       }
 
       .roster-layout.sidebar-retracted .roster-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       }
     }
 
-    /* Tablet View (681px - 960px) */
-    @media (min-width: 681px) and (max-width: 960px) {
+    /* Tablet View (641px - 960px) */
+    @media (min-width: 641px) and (max-width: 960px) {
       .roster-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    /* Mobile View (<= 680px) */
-    @media (max-width: 680px) {
+    /* Mobile View (<= 640px) */
+    @media (max-width: 640px) {
       .roster-grid {
         grid-template-columns: 1fr;
       }
@@ -1997,11 +1997,11 @@
     .member-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       position: relative;
       overflow: hidden;
       transition: var(--transition);
@@ -2010,7 +2010,7 @@
     .member-card:hover {
       border-color: var(--card-border-hover);
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .member-card::before {
@@ -2026,94 +2026,108 @@
     .member-card-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
     }
 
     .member-name-group {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
+      min-width: 0;
     }
 
     .member-player-name {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.02rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .member-created-date {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: var(--text-dark);
     }
 
     .member-spec-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       background: rgba(0, 0, 0, 0.25);
-      border-radius: var(--radius-md);
-      padding: 10px 12px;
+      border-radius: 6px;
+      padding: 6px 8px;
       border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .member-icons-cluster {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
+      flex-shrink: 0;
     }
 
     .avatar-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      border: 1.5px solid var(--card-border);
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid var(--card-border);
       object-fit: cover;
       background: #111317;
+      flex-shrink: 0;
     }
 
     .member-spec-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
+      min-width: 0;
     }
 
     .member-class-spec {
-      font-size: 0.92rem;
+      font-size: 0.84rem;
       font-weight: 700;
       color: var(--card-accent-color, var(--text-main));
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
     }
 
     .member-race-faction {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
+      line-height: 1.2;
     }
 
     /* Multi-Role Tags Container */
     .member-roles-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      align-items: center;
+      gap: 4px;
     }
 
     .member-role-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.74rem;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.70rem;
       font-weight: 700;
+      line-height: 1.2;
     }
 
     .member-role-badge img {
-      width: 15px;
-      height: 15px;
-      border-radius: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
       object-fit: cover;
     }
 
@@ -2123,15 +2137,15 @@
     .member-role-badge.role-ranged { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
 
     .member-notes {
-      font-size: 0.82rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.3;
       background: rgba(255, 255, 255, 0.02);
       border-left: 2px solid var(--card-border);
-      padding: 6px 10px;
+      padding: 4px 8px;
       border-radius: 0 4px 4px 0;
       font-style: italic;
-      max-height: 100px;
+      max-height: 60px;
       overflow-y: auto;
       word-break: break-word;
     }
@@ -2146,7 +2160,7 @@
     }
 
     .member-offspec-line {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       display: flex;
       align-items: center;
@@ -2157,60 +2171,60 @@
       display: inline-flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.75rem;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.70rem;
       width: fit-content;
     }
 
     .member-offspec-badge img {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
       vertical-align: middle;
     }
 
     .member-playstyles-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 3px;
     }
 
     .member-playstyle-pill {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--accent);
       background: rgba(192, 157, 82, 0.1);
       border: 1px solid rgba(192, 157, 82, 0.25);
-      padding: 2px 7px;
-      border-radius: 4px;
+      padding: 1px 5px;
+      border-radius: 3px;
     }
 
     .member-professions-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 3px;
     }
 
     .member-prof-badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-size: 0.68rem;
+      gap: 3px;
+      font-size: 0.65rem;
       font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 1px 5px;
+      border-radius: 3px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #cbd5e1;
     }
 
     .member-prof-badge img {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       border-radius: 2px;
     }
 
@@ -2218,7 +2232,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 10px;
+      padding-top: 6px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       margin-top: auto;
     }
@@ -2226,7 +2240,7 @@
     .member-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       margin-left: auto;
     }
 
@@ -2234,14 +2248,14 @@
       background: transparent;
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.70rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       transition: var(--transition);
     }
 
