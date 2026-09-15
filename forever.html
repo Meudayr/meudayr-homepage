@@ -4655,7 +4655,7 @@
         const classColor = CLASS_COLORS[m.className] || '#dc2626';
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
-        const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
+        const raceIcon = ((m.gender === 'female' ? RACE_ICONS_FEMALE : RACE_ICONS)[m.race]) || 'inv_misc_questionmark';
 
         const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
         const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
@@ -5426,7 +5426,7 @@
       tbody.innerHTML = dataset.map(m => {
         const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
-        const raceIcon = RACE_ICONS[m.race] || 'inv_misc_questionmark';
+        const raceIcon = ((m.gender === 'female' ? RACE_ICONS_FEMALE : RACE_ICONS)[m.race]) || 'inv_misc_questionmark';
 
         const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
         const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
@@ -5654,6 +5654,7 @@
         playerName: cleanPlayerName,
         faction: 'Horde',
         race,
+        gender: isFemaleRaceIcon ? 'female' : 'male',
         className,
         spec,
         roles: [selectedRole],
@@ -5752,6 +5753,7 @@
     }
 
     function loadEntryIntoForm(entry) {
+      isFemaleRaceIcon = (entry.gender === 'female');
       document.getElementById('entry-id').value = entry.id;
       document.getElementById('player-name').value = entry.playerName;
       document.getElementById('input-notes').value = entry.notes || '';
@@ -5794,11 +5796,12 @@
       document.getElementById('btn-cancel-edit').style.display = 'block';
 
       // Scroll form into view smoothly
-      document.getElementById('signup-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('signup-form-container')?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
     }
 
     function cancelEditMode() {
-      document.getElementById('character-form').reset();
+      isFemaleRaceIcon = false;
+      document.getElementById('character-form')?.reset?.();
       document.getElementById('entry-id').value = '';
       document.getElementById('form-heading-text').textContent = 'Submit Character';
       document.getElementById('form-subheading-text').textContent = 'Select your race, class, spec, and roles for WoW Forever.';

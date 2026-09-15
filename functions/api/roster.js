@@ -95,7 +95,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
-    const { id, playerName, faction, race, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, professions, profession1, profession2, notes, pin, currentPin, newPin, admin } = body;
+    const { id, playerName, faction, race, gender, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, professions, profession1, profession2, notes, pin, currentPin, newPin, admin } = body;
 
     if (!playerName || !playerName.trim()) {
       return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -228,6 +228,7 @@ export async function onRequestPost(context) {
         playerName: cleanName,
         faction: 'Horde',
         race,
+        gender: gender === 'female' ? 'female' : (gender === 'male' ? 'male' : (existing.gender || 'male')),
         className,
         spec,
         role: primaryRole,
@@ -252,6 +253,7 @@ export async function onRequestPost(context) {
         playerName: cleanName,
         faction: 'Horde',
         race,
+        gender: gender === 'female' ? 'female' : 'male',
         className,
         spec,
         role: primaryRole,
