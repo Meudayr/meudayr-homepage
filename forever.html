@@ -25,6 +25,10 @@
 
   <style>
     /* Custom Styles for WoW Forever Horde Roster Page */
+    .container {
+      max-width: 1260px;
+    }
+
     .forever-header {
       text-align: center;
       padding: 50px 0 24px;
@@ -1653,18 +1657,18 @@
     .roster-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       text-align: left;
     }
 
     .roster-table th {
       background: #111317;
-      padding: 12px 16px;
+      padding: 10px 8px;
       color: var(--text-muted);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       border-bottom: 1px solid var(--card-border);
       cursor: pointer;
       user-select: none;
@@ -1676,7 +1680,7 @@
     }
 
     .roster-table td {
-      padding: 12px 16px;
+      padding: 8px 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       color: var(--text-main);
       vertical-align: middle;
@@ -2623,8 +2627,8 @@
                 <th onclick="sortTable('offspec')">Offspec &amp; Role &#x25B4;&#x25BE;</th>
                 <th onclick="sortTable('professions')">Professions &#x25B4;&#x25BE;</th>
                 <th>Playstyles</th>
-                <th style="min-width: 180px;">Notes</th>
-                <th style="text-align: right; width: 100px;">Actions</th>
+                <th>Notes</th>
+                <th style="text-align: right; width: 75px;">Actions</th>
               </tr>
             </thead>
             <tbody id="roster-table-body">
@@ -4608,14 +4612,14 @@
         else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
 
         const mainSpecCell = `
-          <div style="display:inline-flex; align-items:center; gap:8px; vertical-align:middle;">
-            <img src="${getIconUrl(specIcon)}" style="width:24px;height:24px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.spec}">
-            <div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">
-              <span style="color:${classColor}; font-weight:700; font-size:0.82rem; white-space:nowrap; line-height:1.2;">
+          <div style="display:inline-flex; align-items:center; gap:6px; vertical-align:middle;">
+            <img src="${getIconUrl(specIcon)}" style="width:22px;height:22px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.spec}">
+            <div style="display:flex; flex-direction:column; gap:1px; align-items:flex-start;">
+              <span style="color:${classColor}; font-weight:700; font-size:0.78rem; white-space:nowrap; line-height:1.2;">
                 ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
               </span>
-              <span class="member-role-badge ${primTagClass}" style="font-size:0.65rem; padding:1px 6px; line-height:1.2;">
-                <img src="${getIconUrl(primIcon)}" style="width:10px;height:10px;" alt="${primRole}">
+              <span class="member-role-badge ${primTagClass}" style="font-size:0.62rem; padding:1px 5px; line-height:1.2;">
+                <img src="${getIconUrl(primIcon)}" style="width:9px;height:9px;" alt="${primRole}">
                 ${escapeHtml(primRole)}
               </span>
             </div>
@@ -4632,15 +4636,15 @@
           else if (m.offspecRole === 'Ranged DPS') offRoleClass = 'role-ranged';
 
           offspecCell = `
-            <div style="display:inline-flex; align-items:center; gap:8px; vertical-align:middle;">
-              <img src="${getIconUrl(offspecSpecIcon)}" style="width:24px;height:24px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.offspec}">
-              <div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">
-                <span style="color:var(--text-main); font-weight:600; font-size:0.82rem; white-space:nowrap; line-height:1.2;">
+            <div style="display:inline-flex; align-items:center; gap:6px; vertical-align:middle;">
+              <img src="${getIconUrl(offspecSpecIcon)}" style="width:22px;height:22px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.offspec}">
+              <div style="display:flex; flex-direction:column; gap:1px; align-items:flex-start;">
+                <span style="color:var(--text-main); font-weight:600; font-size:0.78rem; white-space:nowrap; line-height:1.2;">
                   ${escapeHtml(m.offspec)}
                 </span>
                 ${m.offspecRole ? `
-                  <span class="member-role-badge ${offRoleClass}" style="font-size:0.65rem; padding:1px 6px; line-height:1.2;">
-                    <img src="${getIconUrl(offRoleIcon)}" style="width:10px;height:10px;" alt="">
+                  <span class="member-role-badge ${offRoleClass}" style="font-size:0.62rem; padding:1px 5px; line-height:1.2;">
+                    <img src="${getIconUrl(offRoleIcon)}" style="width:9px;height:9px;" alt="">
                     ${escapeHtml(m.offspecRole)}
                   </span>
                 ` : ''}
@@ -4654,9 +4658,9 @@
           : [m.profession1, m.profession2].filter(Boolean);
 
         const profsTableHtml = profs.length > 0
-          ? `<div style="display:flex; flex-wrap:wrap; gap:3px;">${profs.map(p => `
-              <span class="member-prof-badge" style="font-size:0.65rem; padding:1px 5px;" title="${escapeHtml(p)}">
-                <img src="${getIconUrl(PROFESSION_ICONS[p] || 'inv_misc_gear_01')}" style="width:11px;height:11px;border-radius:2px;" alt="">
+          ? `<div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">${profs.map(p => `
+              <span class="member-prof-badge" style="font-size:0.62rem; padding:1px 5px; white-space:nowrap;" title="${escapeHtml(p)}">
+                <img src="${getIconUrl(PROFESSION_ICONS[p] || 'inv_misc_gear_01')}" style="width:10px;height:10px;border-radius:2px;" alt="">
                 ${escapeHtml(p)}
               </span>
             `).join('')}</div>`
@@ -4669,14 +4673,14 @@
         );
 
         const playstyleBadges = hasAllPlaystyles
-          ? `<span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 8px; font-weight:700;" title="Raiding, Leveling &amp; Dungeons, PvP">All</span>`
+          ? `<span class="member-playstyle-pill" style="font-size:0.62rem; padding:1px 6px; font-weight:700;" title="Raiding, Leveling &amp; Dungeons, PvP">All</span>`
           : (playstyles.length > 0
               ? playstyles.map(p => `
-                  <span class="member-playstyle-pill" style="font-size:0.68rem; padding:2px 6px;">${escapeHtml(p)}</span>
+                  <span class="member-playstyle-pill" style="font-size:0.62rem; padding:1px 5px; white-space:nowrap;">${escapeHtml(p)}</span>
                 `).join(' ')
               : '<span style="color:var(--text-dark);">-</span>');
 
-        const notesShort = m.notes ? (m.notes.length > 60 ? escapeHtml(m.notes.slice(0, 60)) + '...' : escapeHtml(m.notes)) : '-';
+        const notesShort = m.notes ? (m.notes.length > 50 ? escapeHtml(m.notes.slice(0, 50)) + '...' : escapeHtml(m.notes)) : '-';
 
         return `
           <tr>
@@ -4685,7 +4689,7 @@
               ${m.pin ? '<svg style="width:11px;height:11px;color:var(--text-dark);vertical-align:middle;margin-left:3px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
             </td>
             <td>
-              <span style="display:inline-flex; align-items:center; gap:5px;">
+              <span style="display:inline-flex; align-items:center; gap:5px; white-space:nowrap;">
                 <img src="${getIconUrl(raceIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${m.race}">
                 ${escapeHtml(m.race)}
               </span>
@@ -4693,14 +4697,14 @@
             <td>${mainSpecCell}</td>
             <td>${offspecCell}</td>
             <td>${profsTableHtml}</td>
-            <td><div style="display:flex; flex-wrap:wrap; gap:3px;">${playstyleBadges}</div></td>
-            <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.75rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            <td><div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">${playstyleBadges}</div></td>
+            <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.73rem; max-width:130px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${notesShort}
             </td>
             <td style="text-align: right; white-space: nowrap;">
-              <div style="display:inline-flex; gap:4px;">
-                <button class="card-action-btn edit-btn" style="padding:4px 8px; font-size:0.72rem;" onclick="startEdit('${m.id}')">Edit</button>
-                <button class="card-action-btn delete-btn" style="padding:4px 8px; font-size:0.72rem;" onclick="startDelete('${m.id}')" title="Delete">✕</button>
+              <div style="display:inline-flex; gap:3px;">
+                <button class="card-action-btn edit-btn" style="padding:3px 7px; font-size:0.70rem;" onclick="startEdit('${m.id}')">Edit</button>
+                <button class="card-action-btn delete-btn" style="padding:3px 6px; font-size:0.70rem;" onclick="startDelete('${m.id}')" title="Delete">✕</button>
               </div>
             </td>
           </tr>
