@@ -2435,7 +2435,7 @@
           <!-- Player / Discord Name -->
           <div class="form-group">
             <label class="form-label" for="player-name">Player / Discord Name <span class="req">*</span></label>
-            <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr or Meudayr#1234" required maxlength="30">
+            <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr" required maxlength="30">
           </div>
 
           <!-- Race Selector -->
@@ -2560,9 +2560,6 @@
                 </select>
               </div>
             </div>
-            <div style="font-size: 0.72rem; color: var(--text-dark); margin-top: 3px;">
-              Pick another spec or your current spec with a secondary role (e.g. Feral Tank or Resto Healer).
-            </div>
           </div>
 
           <!-- Multi-Select Focus / Playstyle -->
@@ -2625,7 +2622,7 @@
           <!-- Notes / Availability -->
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <label class="form-label" for="input-notes" style="margin-bottom: 0;">Notes <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></label>
+              <label class="form-label" for="input-notes" style="margin-bottom: 0;"><span>Notes <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">(Optional)</span></span></label>
               <span id="notes-char-counter" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;"><span id="notes-count">0</span>/300</span>
             </div>
             <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Raid availability, scheduling, or notes for officers..." oninput="updateNotesCounter()"></textarea>
