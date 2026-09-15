@@ -2375,6 +2375,64 @@
       font-weight: 700;
       color: var(--text-main);
     }
+
+    /* Offspec Box at End of Filtered Role Grid */
+    .roster-offspec-box {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+      border: 1px dashed rgba(245, 158, 11, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .roster-offspec-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.80rem;
+      font-weight: 700;
+      color: #fef08a;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .roster-offspec-label img {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+    }
+
+    .roster-offspec-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .roster-offspec-player-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      line-height: 1.2;
+      transition: var(--transition);
+    }
+
+    .roster-offspec-player-pill:hover {
+      border-color: rgba(245, 158, 11, 0.55);
+      background: rgba(0, 0, 0, 0.65);
+    }
   </style>
 </head>
 <body>
@@ -4551,6 +4609,57 @@
       });
     }
 
+    function getOffspecRoster() {
+      if (activeRoleFilter === 'all') return [];
+      const searchTerm = (document.getElementById('roster-search-input')?.value || '').toLowerCase().trim();
+
+      return rosterList.filter(item => {
+        const primRole = item.role || (Array.isArray(item.roles) && item.roles.length > 0 ? item.roles[0] : '');
+        // Offspec role matches filter AND primary role does not already match
+        if (item.offspecRole !== activeRoleFilter || primRole === activeRoleFilter) return false;
+
+        if (searchTerm) {
+          const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
+          const matchClass = (item.className || '').toLowerCase().includes(searchTerm);
+          const matchSpec = (item.spec || '').toLowerCase().includes(searchTerm);
+          const matchOffspec = (item.offspec || '').toLowerCase().includes(searchTerm);
+          const matchOffspecRole = (item.offspecRole || '').toLowerCase().includes(searchTerm);
+          const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
+          const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
+          const profsStr = Array.isArray(item.professions) ? item.professions.join(' ') : `${item.profession1 || ''} ${item.profession2 || ''}`;
+          const matchProf = profsStr.toLowerCase().includes(searchTerm);
+          if (!matchName && !matchClass && !matchSpec && !matchOffspec && !matchOffspecRole && !matchNotes && !matchRace && !matchProf) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderOffspecSectionHtml(offspecList) {
+      if (!offspecList || offspecList.length === 0) return '';
+      const roleIcon = ROLE_ICONS[activeRoleFilter] || 'ability_dualwield';
+      return `
+        <div class="roster-offspec-box">
+          <div class="roster-offspec-label">
+            <img src="${getIconUrl(roleIcon)}" alt="${escapeHtml(activeRoleFilter)}">
+            <span>Offspec:</span>
+          </div>
+          <div class="roster-offspec-list">
+            ${offspecList.map(m => {
+              const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
+              const specIcon = SPEC_DATA[m.className]?.[m.offspec]?.icon || 'inv_misc_questionmark';
+              return `
+                <div class="roster-offspec-player-pill" title="Main Spec: ${escapeHtml(m.spec)} ${escapeHtml(m.className)}">
+                  <img src="${getIconUrl(specIcon)}" alt="${escapeHtml(m.offspec)}">
+                  <span style="color: ${classColor}; font-weight: 700;">${escapeHtml(m.playerName)}</span>
+                  <span style="color: var(--text-muted); font-size: 0.72rem;">(${escapeHtml(m.offspec)})</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     // ==========================================
     // View Switcher & Filter Management
     // ==========================================
@@ -4629,6 +4738,7 @@
       if (!container) return;
 
       const filtered = getFilteredRoster();
+      const offspecList = getOffspecRoster();
 
       if (filtered.length === 0) {
         if (rosterList.length === 0) {
@@ -4638,6 +4748,14 @@
               <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Characters Registered Yet</h3>
               <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 420px; margin: 0 auto;">Be the first to join the TBS WoW: Forever guild roster by submitting your character plan on the left!</p>
             </div>
+          `;
+        } else if (offspecList.length > 0) {
+          container.innerHTML = `
+            <div class="roster-empty-state" style="grid-column: 1 / -1; margin-bottom: 8px;">
+              <h3>No characters have ${escapeHtml(activeRoleFilter)} as their main spec</h3>
+              <p>Try clearing your search query or selecting "All" filters.</p>
+            </div>
+            ${renderOffspecSectionHtml(offspecList)}
           `;
         } else {
           container.innerHTML = `
@@ -4650,7 +4768,7 @@
         return;
       }
 
-      container.innerHTML = filtered.map(m => {
+      const cardsHtml = filtered.map(m => {
         const classColor = CLASS_COLORS[m.className] || '#dc2626';
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
         const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
@@ -4771,6 +4889,8 @@
           </div>
         `;
       }).join('');
+
+      container.innerHTML = cardsHtml + renderOffspecSectionHtml(offspecList);
     }
 
     // ==========================================
