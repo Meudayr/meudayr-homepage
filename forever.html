@@ -662,23 +662,24 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-shrink: 0;
     }
 
     .preview-icon-badge {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       object-fit: cover;
       background: #111317;
+      flex-shrink: 0;
     }
 
     .preview-text {
       color: var(--text-main);
       font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
     }
 
     /* Multi-Select Role Chips */
@@ -2527,11 +2528,9 @@
           </div>
 
           <!-- Secondary / Offspec (Structured Spec + Role) -->
-          <!-- Secondary / Offspec (Structured Spec + Role) -->
           <div class="form-group">
             <label class="form-label">
               <span>Secondary / Offspec <span style="font-size: 0.72rem; color: var(--text-dark);">(Optional)</span></span>
-              <span style="font-size: 0.72rem; color: var(--text-dark);">For flex raid roles</span>
             </label>
             <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)" style="display: none;">
               <!-- Dynamically populated via JS -->
@@ -4364,19 +4363,26 @@
       const classIconName = CLASS_ICONS[className] || 'inv_misc_questionmark';
       const specIconName = SPEC_DATA[className]?.[specName]?.icon || 'inv_misc_questionmark';
 
-      raceIcon.src = getIconUrl(raceIconName);
-      classIcon.src = getIconUrl(classIconName);
-      specIcon.src = getIconUrl(specIconName);
+      if (raceIcon) raceIcon.src = getIconUrl(raceIconName);
+      if (classIcon) classIcon.src = getIconUrl(classIconName);
+      if (specIcon) specIcon.src = getIconUrl(specIconName);
 
       const classColor = CLASS_COLORS[className] || 'var(--text-main)';
       const offspecVal = document.getElementById('select-offspec')?.value || '';
       const offspecRoleVal = document.getElementById('select-offspec-role')?.value || '';
       let offspecSnippet = '';
       if (offspecVal) {
-        offspecSnippet = ` &bull; <span style="color: #fef08a; font-weight:600;">OS: ${offspecVal}${offspecRoleVal ? ' (' + offspecRoleVal + ')' : ''}</span>`;
+        offspecSnippet = ` &bull; <span style="color: #fef08a; font-weight:600;">OS: ${escapeHtml(offspecVal)}${offspecRoleVal ? ' (' + escapeHtml(offspecRoleVal) + ')' : ''}</span>`;
       }
 
-      previewText.innerHTML = `<span style="color: ${classColor}; font-weight:700;">${specName} ${className}</span> &bull; ${race} (${selectedRole})${offspecSnippet}`;
+      if (previewText) {
+        previewText.innerHTML = `
+          <div style="font-weight: 700; color: ${classColor}; line-height: 1.25; font-size: 0.82rem;">${escapeHtml(specName)} ${escapeHtml(className)}</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; line-height: 1.25;">
+            <span>${escapeHtml(race)}</span> &bull; <span style="color: var(--text-main); font-weight: 600;">${escapeHtml(selectedRole)}</span>${offspecSnippet}
+          </div>
+        `;
+      }
     }
 
 
@@ -4662,7 +4668,7 @@
             <div class="member-roles-container">
               <span class="member-role-badge ${primTagClass}">
                 <img src="${getIconUrl(primIcon)}" alt="${primRole}">
-                ${escapeHtml(primRole)} (Main)
+                ${escapeHtml(primRole)}
               </span>
             </div>
 
