@@ -4985,7 +4985,7 @@
       const grid = document.getElementById('buff-analyzer-grid');
       if (!grid) return;
 
-      const dataset = activeRoleFilter === 'all' ? rosterList : getFilteredRoster();
+      const dataset = rosterList;
       const { results, totalCovered, totalFlex, totalMissing, totalBuffs, coveragePct } = getBuffAnalysis(dataset);
 
       // Update summary metrics
