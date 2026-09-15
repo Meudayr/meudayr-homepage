@@ -440,6 +440,211 @@
       min-height: 56px;
     }
 
+    /* ==========================================
+       World of Warcraft Custom Dropdowns
+       ========================================== */
+    .wow-select-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .wow-select-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(180deg, #181b22 0%, #101216 100%);
+      border: 1px solid #3d311d;
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      padding: 7px 12px;
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 5px rgba(0, 0, 0, 0.35);
+      user-select: none;
+    }
+
+    .wow-select-trigger:hover {
+      border-color: #c69b3a;
+      background: linear-gradient(180deg, #1f232c 0%, #13161c 100%);
+      box-shadow: 0 0 10px rgba(198, 155, 109, 0.25), inset 0 1px 0 rgba(254, 240, 138, 0.15);
+    }
+
+    .wow-select-trigger.active {
+      border-color: #facc15;
+      background: linear-gradient(180deg, #20242e 0%, #14171d 100%);
+      box-shadow: 0 0 14px rgba(250, 204, 21, 0.3), inset 0 1px 0 rgba(254, 240, 138, 0.25);
+    }
+
+    .wow-select-current {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+      text-align: left;
+    }
+
+    .wow-select-current-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      flex-shrink: 0;
+      background: #000;
+      object-fit: cover;
+    }
+
+    .wow-select-current-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wow-select-arrow {
+      width: 14px;
+      height: 14px;
+      color: #c69b3a;
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wow-select-trigger.active .wow-select-arrow {
+      transform: rotate(180deg);
+      color: #facc15;
+    }
+
+    .wow-select-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      z-index: 120;
+      background: rgba(13, 15, 20, 0.98);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(198, 155, 109, 0.45);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85), 0 0 1px rgba(250, 204, 21, 0.3);
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      padding: 5px;
+      gap: 2px;
+      box-sizing: border-box;
+      animation: wowDropdownEntrance 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes wowDropdownEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .wow-select-menu::-webkit-scrollbar {
+      width: 6px;
+    }
+    .wow-select-menu::-webkit-scrollbar-track {
+      background: #0c0e12;
+      border-radius: 4px;
+    }
+    .wow-select-menu::-webkit-scrollbar-thumb {
+      background: #3d311d;
+      border-radius: 4px;
+    }
+    .wow-select-menu::-webkit-scrollbar-thumb:hover {
+      background: #c69b3a;
+    }
+
+    .wow-select-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-left: 3px solid transparent;
+      user-select: none;
+      color: var(--text-main);
+    }
+
+    .wow-select-option:hover {
+      background: linear-gradient(90deg, rgba(234, 179, 8, 0.16), rgba(234, 179, 8, 0.02));
+      border-left-color: #eab308;
+    }
+
+    .wow-select-option.selected {
+      background: rgba(234, 179, 8, 0.12);
+      border-left-color: #facc15;
+    }
+
+    .wow-select-opt-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+      background: #000;
+      object-fit: cover;
+    }
+
+    .wow-select-opt-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+      min-width: 0;
+      gap: 8px;
+    }
+
+    .wow-select-opt-label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .wow-select-check {
+      color: #facc15;
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .wow-select-option.selected .wow-select-check {
+      opacity: 1;
+    }
+
+    .wow-new-pill {
+      background: rgba(234, 179, 8, 0.2);
+      color: #fef08a;
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      font-size: 0.65rem;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
     /* Live Preview Pill inside Form */
     .selection-preview-bar {
       display: flex;
@@ -2236,25 +2441,61 @@
           <!-- Race Selector -->
           <div class="form-group">
             <label class="form-label" for="select-race">Race <span class="req">*</span></label>
-            <select id="select-race" class="form-select" onchange="onRaceChange(this.value)" required>
+            <select id="select-race" class="form-select" onchange="onRaceChange(this.value)" required style="display: none;">
               <!-- Populated via JS -->
             </select>
+            <div class="wow-select-container" id="wow-race-select-container">
+              <button type="button" class="wow-select-trigger" id="wow-race-trigger" onclick="toggleWowDropdown('wow-race-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                <div class="wow-select-current" id="wow-race-current">
+                  <img class="wow-select-current-icon" id="wow-race-current-icon" src="" alt="">
+                  <span class="wow-select-current-text" id="wow-race-current-text">Select Race</span>
+                </div>
+                <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="wow-select-menu" id="wow-race-menu" role="listbox">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
           </div>
 
           <!-- Class Selector -->
           <div class="form-group">
             <label class="form-label" for="select-class">Class <span class="req">*</span></label>
-            <select id="select-class" class="form-select" onchange="onClassChange(this.value)" required>
+            <select id="select-class" class="form-select" onchange="onClassChange(this.value)" required style="display: none;">
               <!-- Populated via JS based on Race -->
             </select>
+            <div class="wow-select-container" id="wow-class-select-container">
+              <button type="button" class="wow-select-trigger" id="wow-class-trigger" onclick="toggleWowDropdown('wow-class-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                <div class="wow-select-current" id="wow-class-current">
+                  <img class="wow-select-current-icon" id="wow-class-current-icon" src="" alt="">
+                  <span class="wow-select-current-text" id="wow-class-current-text">Select Class</span>
+                </div>
+                <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="wow-select-menu" id="wow-class-menu" role="listbox">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
           </div>
 
           <!-- Spec Selector -->
           <div class="form-group">
             <label class="form-label" for="select-spec">Specialization (Spec) <span class="req">*</span></label>
-            <select id="select-spec" class="form-select" onchange="onSpecChange(this.value)" required>
+            <select id="select-spec" class="form-select" onchange="onSpecChange(this.value)" required style="display: none;">
               <!-- Populated via JS based on Class -->
             </select>
+            <div class="wow-select-container" id="wow-spec-select-container">
+              <button type="button" class="wow-select-trigger" id="wow-spec-trigger" onclick="toggleWowDropdown('wow-spec-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                <div class="wow-select-current" id="wow-spec-current">
+                  <img class="wow-select-current-icon" id="wow-spec-current-icon" src="" alt="">
+                  <span class="wow-select-current-text" id="wow-spec-current-text">Select Spec</span>
+                </div>
+                <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="wow-select-menu" id="wow-spec-menu" role="listbox">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
           </div>
 
           <!-- Live Visual Preview of Selection -->
@@ -2293,9 +2534,21 @@
             </label>
             <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 8px;">
               <div>
-                <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)">
+                <select id="select-offspec" class="form-select" onchange="onOffspecChange(this.value)" style="display: none;">
                   <!-- Dynamically populated via JS -->
                 </select>
+                <div class="wow-select-container" id="wow-offspec-select-container">
+                  <button type="button" class="wow-select-trigger" id="wow-offspec-trigger" onclick="toggleWowDropdown('wow-offspec-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                    <div class="wow-select-current" id="wow-offspec-current">
+                      <img class="wow-select-current-icon" id="wow-offspec-current-icon" src="" alt="" style="display:none;">
+                      <span class="wow-select-current-text" id="wow-offspec-current-text">None (No Offspec)</span>
+                    </div>
+                    <svg class="wow-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                  <div class="wow-select-menu" id="wow-offspec-menu" role="listbox">
+                    <!-- Dynamically populated -->
+                  </div>
+                </div>
               </div>
               <div>
                 <select id="select-offspec-role" class="form-select" onchange="onOffspecRoleChange(this.value)" disabled>
@@ -3336,32 +3589,305 @@
     }
 
     // ==========================================
+    // World of Warcraft Custom Dropdowns Manager
+    // ==========================================
+
+    function toggleWowDropdown(menuId, triggerEl) {
+      const menu = document.getElementById(menuId);
+      if (!menu) return;
+      const isOpen = menu.style.display === 'flex';
+      closeAllWowDropdowns();
+      if (!isOpen) {
+        menu.style.display = 'flex';
+        if (triggerEl) {
+          triggerEl.classList.add('active');
+          triggerEl.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+
+    function closeAllWowDropdowns() {
+      document.querySelectorAll('.wow-select-menu').forEach(m => m.style.display = 'none');
+      document.querySelectorAll('.wow-select-trigger').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      document.addEventListener('click', (e) => {
+        if (!e.target || !e.target.closest || !e.target.closest('.wow-select-container')) {
+          closeAllWowDropdowns();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeAllWowDropdowns();
+        }
+      });
+    }
+
+    function updateWowRaceUI(selectedRace) {
+      const currentIcon = document.getElementById('wow-race-current-icon');
+      const currentText = document.getElementById('wow-race-current-text');
+      const menu = document.getElementById('wow-race-menu');
+      if (!menu) return;
+
+      const icon = RACE_ICONS[selectedRace] || 'inv_misc_questionmark';
+      if (currentIcon) {
+        currentIcon.src = getIconUrl(icon);
+        currentIcon.alt = selectedRace;
+      }
+      if (currentText) {
+        currentText.innerHTML = `${escapeHtml(selectedRace)}${selectedRace === 'Skyborne' ? ' <span class="wow-new-pill">New</span>' : ''}`;
+      }
+
+      const availableRaces = Object.keys(HORDE_RACE_CLASSES);
+      menu.innerHTML = availableRaces.map(race => {
+        const raceIcon = RACE_ICONS[race] || 'inv_misc_questionmark';
+        const isSelected = race === selectedRace;
+        const isNew = race === 'Skyborne';
+        return `
+          <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectRaceOption('${race}')" role="option" aria-selected="${isSelected}">
+            <img class="wow-select-opt-icon" src="${getIconUrl(raceIcon)}" alt="${race}">
+            <div class="wow-select-opt-content">
+              <span class="wow-select-opt-label">
+                ${escapeHtml(race)}
+                ${isNew ? '<span class="wow-new-pill">New</span>' : ''}
+              </span>
+              <span class="wow-select-check">✓</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectRaceOption(race) {
+      const selectRace = document.getElementById('select-race');
+      if (selectRace) selectRace.value = race;
+      closeAllWowDropdowns();
+      onRaceChange(race);
+    }
+
+    function updateWowClassUI(race, selectedClass) {
+      const currentIcon = document.getElementById('wow-class-current-icon');
+      const currentText = document.getElementById('wow-class-current-text');
+      const menu = document.getElementById('wow-class-menu');
+      if (!menu) return;
+
+      const classColor = CLASS_COLORS[selectedClass] || 'var(--text-main)';
+      const icon = CLASS_ICONS[selectedClass] || 'inv_misc_questionmark';
+      if (currentIcon) {
+        currentIcon.src = getIconUrl(icon);
+        currentIcon.alt = selectedClass;
+      }
+      const isNewCombo = (race === 'Undead' && selectedClass === 'Paladin') || 
+                         (race === 'Orc' && selectedClass === 'Mage') || 
+                         (race === 'Troll' && selectedClass === 'Warlock');
+      if (currentText) {
+        currentText.innerHTML = `<span style="color: ${classColor}; font-weight: 700;">${escapeHtml(selectedClass)}</span>${isNewCombo ? ' <span class="wow-new-pill">New</span>' : ''}`;
+      }
+
+      const availableClasses = HORDE_RACE_CLASSES[race] || [];
+      menu.innerHTML = availableClasses.map(className => {
+        const cIcon = CLASS_ICONS[className] || 'inv_misc_questionmark';
+        const cColor = CLASS_COLORS[className] || 'var(--text-main)';
+        const isSelected = className === selectedClass;
+        const isNew = (race === 'Undead' && className === 'Paladin') || 
+                      (race === 'Orc' && className === 'Mage') || 
+                      (race === 'Troll' && className === 'Warlock');
+        return `
+          <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectClassOption('${className}')" role="option" aria-selected="${isSelected}">
+            <img class="wow-select-opt-icon" src="${getIconUrl(cIcon)}" alt="${className}">
+            <div class="wow-select-opt-content">
+              <span class="wow-select-opt-label" style="color: ${cColor}; font-weight: 700;">
+                ${escapeHtml(className)}
+                ${isNew ? '<span class="wow-new-pill">New</span>' : ''}
+              </span>
+              <span class="wow-select-check">✓</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectClassOption(className) {
+      const selectClass = document.getElementById('select-class');
+      if (selectClass) selectClass.value = className;
+      closeAllWowDropdowns();
+      onClassChange(className);
+    }
+
+    function updateWowSpecUI(className, selectedSpec) {
+      const currentIcon = document.getElementById('wow-spec-current-icon');
+      const currentText = document.getElementById('wow-spec-current-text');
+      const menu = document.getElementById('wow-spec-menu');
+      if (!menu) return;
+
+      const specInfo = SPEC_DATA[className]?.[selectedSpec];
+      const icon = specInfo?.icon || 'inv_misc_questionmark';
+      const role = specInfo?.defaultRoles?.[0] || '';
+      
+      let roleTagClass = 'role-melee';
+      if (role === 'Tank') roleTagClass = 'role-tank';
+      else if (role === 'Healer') roleTagClass = 'role-healer';
+      else if (role === 'Ranged DPS') roleTagClass = 'role-ranged';
+
+      if (currentIcon) {
+        currentIcon.src = getIconUrl(icon);
+        currentIcon.alt = selectedSpec;
+      }
+      if (currentText) {
+        const isFeral = (className === 'Druid' && selectedSpec === 'Feral Combat');
+        const displayRole = isFeral ? selectedRole : role;
+        const displayTagClass = isFeral && selectedRole === 'Tank' ? 'role-tank' : (isFeral ? 'role-melee' : roleTagClass);
+        currentText.innerHTML = `
+          <span style="font-weight: 700;">${escapeHtml(selectedSpec)}</span>
+          ${displayRole ? `
+            <span class="member-role-badge ${displayTagClass}" style="font-size: 0.62rem; padding: 1px 5px; line-height: 1.2;">
+              <img src="${getIconUrl(ROLE_ICONS[displayRole])}" style="width: 9px; height: 9px;" alt="">
+              ${escapeHtml(displayRole)}
+            </span>
+          ` : ''}
+        `;
+      }
+
+      const specsObj = SPEC_DATA[className] || {};
+      const specNames = Object.keys(specsObj);
+      menu.innerHTML = specNames.map(spec => {
+        const sInfo = specsObj[spec];
+        const sIcon = sInfo?.icon || 'inv_misc_questionmark';
+        const sRole = sInfo?.defaultRoles?.[0] || '';
+        const isSelected = spec === selectedSpec;
+        const isFeralSpec = (className === 'Druid' && spec === 'Feral Combat');
+
+        let sTagClass = 'role-melee';
+        if (sRole === 'Tank') sTagClass = 'role-tank';
+        else if (sRole === 'Healer') sTagClass = 'role-healer';
+        else if (sRole === 'Ranged DPS') sTagClass = 'role-ranged';
+
+        return `
+          <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectSpecOption('${spec}')" role="option" aria-selected="${isSelected}">
+            <img class="wow-select-opt-icon" src="${getIconUrl(sIcon)}" alt="${spec}">
+            <div class="wow-select-opt-content">
+              <span class="wow-select-opt-label">
+                ${escapeHtml(spec)}
+              </span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${isFeralSpec ? `
+                  <span class="member-role-badge role-tank" style="font-size: 0.62rem; padding: 1px 4px;">Tank</span>
+                  <span class="member-role-badge role-melee" style="font-size: 0.62rem; padding: 1px 4px;">DPS</span>
+                ` : (sRole ? `
+                  <span class="member-role-badge ${sTagClass}" style="font-size: 0.62rem; padding: 1px 5px;">
+                    <img src="${getIconUrl(ROLE_ICONS[sRole])}" style="width: 9px; height: 9px;" alt="">
+                    ${escapeHtml(sRole)}
+                  </span>
+                ` : '')}
+                <span class="wow-select-check">✓</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectSpecOption(spec) {
+      const selectSpec = document.getElementById('select-spec');
+      if (selectSpec) selectSpec.value = spec;
+      closeAllWowDropdowns();
+      onSpecChange(spec);
+    }
+
+    function updateWowOffspecUI(className, selectedOffspec) {
+      const currentIcon = document.getElementById('wow-offspec-current-icon');
+      const currentText = document.getElementById('wow-offspec-current-text');
+      const menu = document.getElementById('wow-offspec-menu');
+      if (!menu) return;
+
+      if (!selectedOffspec) {
+        if (currentIcon) currentIcon.style.display = 'none';
+        if (currentText) currentText.textContent = 'None (No Offspec)';
+      } else {
+        const specInfo = SPEC_DATA[className]?.[selectedOffspec];
+        const icon = specInfo?.icon || 'inv_misc_questionmark';
+        if (currentIcon) {
+          currentIcon.style.display = 'block';
+          currentIcon.src = getIconUrl(icon);
+          currentIcon.alt = selectedOffspec;
+        }
+        if (currentText) currentText.textContent = selectedOffspec;
+      }
+
+      const specsObj = SPEC_DATA[className] || {};
+      const specNames = Object.keys(specsObj);
+
+      let optionsHtml = `
+        <div class="wow-select-option ${!selectedOffspec ? 'selected' : ''}" onclick="selectOffspecOption('')" role="option">
+          <div class="wow-select-opt-content">
+            <span class="wow-select-opt-label" style="color: var(--text-muted);">None (No Offspec)</span>
+            <span class="wow-select-check">✓</span>
+          </div>
+        </div>
+      `;
+
+      optionsHtml += specNames.map(spec => {
+        const sInfo = specsObj[spec];
+        const sIcon = sInfo?.icon || 'inv_misc_questionmark';
+        const isSelected = spec === selectedOffspec;
+        return `
+          <div class="wow-select-option ${isSelected ? 'selected' : ''}" onclick="selectOffspecOption('${spec}')" role="option" aria-selected="${isSelected}">
+            <img class="wow-select-opt-icon" src="${getIconUrl(sIcon)}" alt="${spec}">
+            <div class="wow-select-opt-content">
+              <span class="wow-select-opt-label">${escapeHtml(spec)}</span>
+              <span class="wow-select-check">✓</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      menu.innerHTML = optionsHtml;
+    }
+
+    function selectOffspecOption(spec) {
+      const selectOffspec = document.getElementById('select-offspec');
+      if (selectOffspec) selectOffspec.value = spec;
+      closeAllWowDropdowns();
+      onOffspecChange(spec);
+    }
+
+    // ==========================================
     // Form Dynamic Selectors (Horde Only)
     // ==========================================
 
     function populateRaceSelect(selectedRace = null) {
       const selectRace = document.getElementById('select-race');
-      selectRace.innerHTML = '';
-      const availableRaces = Object.keys(HORDE_RACE_CLASSES);
+      if (selectRace) {
+        selectRace.innerHTML = '';
+        const availableRaces = Object.keys(HORDE_RACE_CLASSES);
 
-      availableRaces.forEach(race => {
-        const opt = document.createElement('option');
-        opt.value = race;
-        opt.textContent = race === 'Skyborne' ? 'Skyborne (New Race)' : race;
-        selectRace.appendChild(opt);
-      });
+        availableRaces.forEach(race => {
+          const opt = document.createElement('option');
+          opt.value = race;
+          opt.textContent = race === 'Skyborne' ? 'Skyborne (New Race)' : race;
+          selectRace.appendChild(opt);
+        });
 
-      if (selectedRace && availableRaces.includes(selectedRace)) {
-        selectRace.value = selectedRace;
-      } else {
-        selectRace.value = availableRaces[0];
+        if (selectedRace && availableRaces.includes(selectedRace)) {
+          selectRace.value = selectedRace;
+        } else {
+          selectRace.value = availableRaces[0];
+        }
+
+        updateWowRaceUI(selectRace.value);
+        onRaceChange(selectRace.value);
       }
-
-      onRaceChange(selectRace.value);
     }
 
     function onRaceChange(race, selectedClass = null) {
+      updateWowRaceUI(race);
       const selectClass = document.getElementById('select-class');
+      if (!selectClass) return;
       selectClass.innerHTML = '';
       const availableClasses = HORDE_RACE_CLASSES[race] || [];
 
@@ -3382,6 +3908,7 @@
         selectClass.value = availableClasses[0];
       }
 
+      updateWowClassUI(race, selectClass.value);
       onClassChange(selectClass.value);
     }
 
@@ -3414,6 +3941,7 @@
       }
 
       selectOffspecRole.disabled = !selectOffspec.value;
+      updateWowOffspecUI(className, selectOffspec.value);
     }
 
     function onOffspecChange(specName) {
@@ -3421,27 +3949,33 @@
       const className = document.getElementById('select-class').value;
       const currentMainSpec = document.getElementById('select-spec').value;
 
+      updateWowOffspecUI(className, specName);
+
       if (!specName) {
-        selectOffspecRole.innerHTML = '<option value="">No Role</option>';
-        selectOffspecRole.value = '';
-        selectOffspecRole.disabled = true;
+        if (selectOffspecRole) {
+          selectOffspecRole.innerHTML = '<option value="">No Role</option>';
+          selectOffspecRole.value = '';
+          selectOffspecRole.disabled = true;
+        }
       } else {
         const offspecSpecInfo = SPEC_DATA[className]?.[specName];
         const isFeral = (className === 'Druid' && specName === 'Feral Combat');
 
-        if (isFeral) {
-          selectOffspecRole.innerHTML = `
-            <option value="Tank">Tank</option>
-            <option value="Melee DPS">Melee DPS</option>
-          `;
-          selectOffspecRole.disabled = false;
-          // Suggest the alternate of main role if main role is Tank or Melee DPS
-          selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
-        } else if (offspecSpecInfo && offspecSpecInfo.defaultRoles && offspecSpecInfo.defaultRoles.length > 0) {
-          const lockedRole = offspecSpecInfo.defaultRoles[0];
-          selectOffspecRole.innerHTML = `<option value="${lockedRole}">${lockedRole}</option>`;
-          selectOffspecRole.value = lockedRole;
-          selectOffspecRole.disabled = true;
+        if (selectOffspecRole) {
+          if (isFeral) {
+            selectOffspecRole.innerHTML = `
+              <option value="Tank">Tank</option>
+              <option value="Melee DPS">Melee DPS</option>
+            `;
+            selectOffspecRole.disabled = false;
+            // Suggest the alternate of main role if main role is Tank or Melee DPS
+            selectOffspecRole.value = selectedRole === 'Tank' ? 'Melee DPS' : 'Tank';
+          } else if (offspecSpecInfo && offspecSpecInfo.defaultRoles && offspecSpecInfo.defaultRoles.length > 0) {
+            const lockedRole = offspecSpecInfo.defaultRoles[0];
+            selectOffspecRole.innerHTML = `<option value="${lockedRole}">${lockedRole}</option>`;
+            selectOffspecRole.value = lockedRole;
+            selectOffspecRole.disabled = true;
+          }
         }
       }
 
@@ -3462,6 +3996,7 @@
 
     function onClassChange(className, selectedSpec = null, targetOffspec = null, targetOffspecRole = null) {
       const selectSpec = document.getElementById('select-spec');
+      if (!selectSpec) return;
       selectSpec.innerHTML = '';
       const specsObj = SPEC_DATA[className] || {};
       const specNames = Object.keys(specsObj);
@@ -3479,6 +4014,10 @@
         selectSpec.value = specNames[0];
       }
 
+      const raceSelect = document.getElementById('select-race');
+      const raceVal = raceSelect ? raceSelect.value : 'Orc';
+      updateWowClassUI(raceVal, className);
+      updateWowSpecUI(className, selectSpec.value);
       populateOffspecSelect(className, targetOffspec, targetOffspecRole);
       onSpecChange(selectSpec.value);
     }
@@ -3507,6 +4046,7 @@
         }
       }
 
+      updateWowSpecUI(className, specName);
       renderRoleChips();
 
       // Update Live Preview Bar
@@ -3535,6 +4075,9 @@
 
       selectedRole = roleName;
       selectedRoles = [roleName];
+      if (isFeral) {
+        updateWowSpecUI(className, specName);
+      }
       renderRoleChips();
       updateSelectionPreview(
         document.getElementById('select-race').value,
