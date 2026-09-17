@@ -5200,13 +5200,11 @@
           : cleanAttr(`No players in this role have a secondary offspec`);
 
         let statusHtml = '';
-        let flexBadgeHtml = '';
 
         if (count < scaledMin) {
           const diff = scaledMin - count;
           if (swapInCount > 0) {
             statusHtml = `<span class="role-benchmark-status role-status-need" title="${swapInTooltip}">Need ${diff} more &bull; +${swapInCount} flex in</span>`;
-            flexBadgeHtml = `<span class="role-benchmark-flex-badge" title="${swapInTooltip}">+${swapInCount} Flex In</span>`;
           } else {
             statusHtml = `<span class="role-benchmark-status role-status-need">Need ${diff} more</span>`;
           }
@@ -5214,18 +5212,11 @@
           const surplus = count - scaledMax;
           if (swapOffCount > 0) {
             statusHtml = `<span class="role-benchmark-status role-status-surplus" title="${swapOffTooltip}">+${surplus} Surplus &bull; ${swapOffCount} can flex off</span>`;
-            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-off" title="${swapOffTooltip}">${swapOffCount} Flex Off</span>`;
           } else {
             statusHtml = `<span class="role-benchmark-status role-status-surplus" title="${swapOffTooltip}">+${surplus} Surplus &bull; 0 can flex off</span>`;
-            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-none" title="${swapOffTooltip}">0 Flex Off</span>`;
           }
         } else {
           statusHtml = `<span class="role-benchmark-status role-status-met">Balanced Target</span>`;
-          if (swapInCount > 0) {
-            flexBadgeHtml = `<span class="role-benchmark-flex-badge" title="${swapInTooltip}">+${swapInCount} Flex In</span>`;
-          } else if (swapOffCount > 0) {
-            flexBadgeHtml = `<span class="role-benchmark-flex-badge flex-off" title="${swapOffTooltip}">${swapOffCount} Flex Off</span>`;
-          }
         }
 
         const targetRangeStr = scaledMin === scaledMax ? `${scaledMin}` : `${scaledMin}-${scaledMax}`;
@@ -5244,7 +5235,6 @@
             </div>
             <div class="role-benchmark-count">
               ${count} <span style="font-size:0.72rem; font-weight:normal; color:var(--text-muted); white-space: nowrap;">/ ${targetLabel}</span>
-              ${flexBadgeHtml}
             </div>
             <div>${statusHtml}</div>
           </div>
