@@ -4,7 +4,7 @@ Welcome to the API for **[meudayr.com](https://meudayr.com)**. This API allows e
 
 ---
 
-## ⚡ Quick Start & Authentication
+## Quick Start & Authentication
 
 * **Base URL:** `https://meudayr.com`
 * **Authentication:** **Required** for all external services, Discord bots, and scripts.
@@ -238,7 +238,7 @@ async function handleLatestLogCommand(interaction) {
 
     const embed = new EmbedBuilder()
       .setColor('#22c55e')
-      .setTitle(`📜 Latest Log: ${report.title}`)
+      .setTitle(`Latest Log: ${report.title}`)
       .setURL(report.url)
       .setDescription(`**Zone:** ${report.zone?.name || 'Unknown'}\n**Date:** ${dateStr}`)
       .addFields(
@@ -269,14 +269,14 @@ async function handleRosterSummaryCommand(interaction) {
 
     const embed = new EmbedBuilder()
       .setColor('#c09d52')
-      .setTitle('🛡️ TBS Guild Roster Summary')
+      .setTitle('TBS Guild Roster Summary')
       .setURL('https://meudayr.com/forever.html')
       .setDescription(`**Total Registered:** ${data.total} Guild Members`)
       .addFields(
-        { name: '🛡️ Tanks', value: `${data.roles['Tank'] || 0}`, inline: true },
-        { name: '💚 Healers', value: `${data.roles['Healer'] || 0}`, inline: true },
-        { name: '⚔️ Melee DPS', value: `${data.roles['Melee DPS'] || 0}`, inline: true },
-        { name: '🏹 Ranged DPS', value: `${data.roles['Ranged DPS'] || 0}`, inline: true },
+        { name: 'Tanks', value: `${data.roles['Tank'] || 0}`, inline: true },
+        { name: 'Healers', value: `${data.roles['Healer'] || 0}`, inline: true },
+        { name: 'Melee DPS', value: `${data.roles['Melee DPS'] || 0}`, inline: true },
+        { name: 'Ranged DPS', value: `${data.roles['Ranged DPS'] || 0}`, inline: true },
         {
           name: 'Class Breakdown',
           value: Object.entries(data.classes).map(([cls, count]) => `**${cls}:** ${count}`).join(' • ')
@@ -325,7 +325,7 @@ async def latest_log(interaction: discord.Interaction):
             date_str = datetime.fromtimestamp(report["startTime"] / 1000).strftime("%b %d, %Y")
             
             embed = discord.Embed(
-                title=f"📜 {report['title']}",
+                title=f"{report['title']}",
                 url=report["url"],
                 description=f"**Zone:** {report.get('zone', {}).get('name', 'N/A')}\n**Date:** {date_str}",
                 color=0x22C55E
@@ -351,15 +351,15 @@ async def roster_summary(interaction: discord.Interaction):
             classes = data.get("classes", {})
             
             embed = discord.Embed(
-                title="🛡️ TBS Guild Roster (WoW: Forever)",
+                title="TBS Guild Roster (WoW: Forever)",
                 url="https://meudayr.com/forever.html",
                 description=f"**Total Registered Members:** {data.get('total', 0)}",
                 color=0xC09D52
             )
-            embed.add_field(name="🛡️ Tanks", value=str(roles.get("Tank", 0)), inline=True)
-            embed.add_field(name="💚 Healers", value=str(roles.get("Healer", 0)), inline=True)
-            embed.add_field(name="⚔️ Melee DPS", value=str(roles.get("Melee DPS", 0)), inline=True)
-            embed.add_field(name="🏹 Ranged DPS", value=str(roles.get("Ranged DPS", 0)), inline=True)
+            embed.add_field(name="Tanks", value=str(roles.get("Tank", 0)), inline=True)
+            embed.add_field(name="Healers", value=str(roles.get("Healer", 0)), inline=True)
+            embed.add_field(name="Melee DPS", value=str(roles.get("Melee DPS", 0)), inline=True)
+            embed.add_field(name="Ranged DPS", value=str(roles.get("Ranged DPS", 0)), inline=True)
             
             class_str = " • ".join([f"**{c}:** {n}" for c, n in classes.items()])
             embed.add_field(name="Class Counts", value=class_str or "None", inline=False)
