@@ -358,6 +358,83 @@ async function performRefresh(env, requestUrl = null) {
   return finalOutput;
 }
 
+function filterLogsResponse(data, url) {
+  const latestParam = url.searchParams.get('latest');
+  const limitParam = url.searchParams.get('limit');
+  const accountParam = url.searchParams.get('account');
+  const playerParam = url.searchParams.get('player');
+  const classParam = url.searchParams.get('class');
+  const difficultyParam = url.searchParams.get('difficulty');
+  const searchParam = url.searchParams.get('search') || url.searchParams.get('q');
+
+  const hasFilter = latestParam || limitParam || accountParam || playerParam || classParam || difficultyParam || searchParam;
+
+  if (!hasFilter) {
+    return data;
+  }
+
+  let reports = [];
+  if (accountParam && data.reportsByAccount && data.reportsByAccount[accountParam.toLowerCase()]) {
+    reports = [...data.reportsByAccount[accountParam.toLowerCase()]];
+  } else if (Array.isArray(data.reports)) {
+    reports = [...data.reports];
+  }
+
+  // Ensure each report has the direct warcraftlogs URL
+  reports = reports.map(r => r.url ? r : { ...r, url: `https://www.warcraftlogs.com/reports/${r.code}` });
+
+  if (playerParam) {
+    const q = playerParam.toLowerCase();
+    reports = reports.filter(r => Array.isArray(r.players) && r.players.some(p => p.toLowerCase().includes(q)));
+  }
+
+  if (classParam) {
+    const q = classParam.toLowerCase();
+    reports = reports.filter(r => Array.isArray(r.classes) && r.classes.some(c => c.toLowerCase() === q));
+  }
+
+  if (difficultyParam) {
+    const q = difficultyParam.toLowerCase();
+    reports = reports.filter(r => Array.isArray(r.difficulties) && r.difficulties.some(d => d.toLowerCase().includes(q)));
+  }
+
+  if (searchParam) {
+    const q = searchParam.toLowerCase();
+    reports = reports.filter(r => {
+      if (r.title && r.title.toLowerCase().includes(q)) return true;
+      if (r.zone?.name && r.zone.name.toLowerCase().includes(q)) return true;
+      if (Array.isArray(r.dungeons) && r.dungeons.some(d => d.toLowerCase().includes(q))) return true;
+      if (Array.isArray(r.bosses) && r.bosses.some(b => b.toLowerCase().includes(q))) return true;
+      return false;
+    });
+  }
+
+  reports.sort((a, b) => (b.startTime || 0) - (a.startTime || 0));
+
+  if (latestParam === 'true' || latestParam === '1') {
+    const latest = reports.length > 0 ? reports[0] : null;
+    return {
+      success: true,
+      fetchedAt: data.fetchedAt,
+      report: latest
+    };
+  }
+
+  const total = reports.length;
+  if (limitParam) {
+    const limit = Math.max(1, parseInt(limitParam, 10) || 10);
+    reports = reports.slice(0, limit);
+  }
+
+  return {
+    success: true,
+    fetchedAt: data.fetchedAt,
+    total,
+    count: reports.length,
+    reports
+  };
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -401,7 +478,8 @@ export default {
               }
             }
 
-            return new Response(JSON.stringify(cached), {
+            const responseData = filterLogsResponse(cached, url);
+            return new Response(JSON.stringify(responseData), {
               headers: {
                 'Content-Type': 'application/json',
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -425,7 +503,8 @@ export default {
             if (Array.isArray(json.reports)) {
               json.reports = filterCleanReports(json.reports);
             }
-            return new Response(JSON.stringify(json), {
+            const responseData = filterLogsResponse(json, url);
+            return new Response(JSON.stringify(responseData), {
               headers: {
                 'Content-Type': 'application/json',
                 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
@@ -523,8 +602,89 @@ export default {
             }
           }
 
-          const roster = await getWorkerRoster();
-          return new Response(JSON.stringify({ success: true, roster }), {
+          const rawRoster = await getWorkerRoster();
+
+          // Summary endpoint: ?summary=1 or ?summary=true
+          if (url.searchParams.get('summary') === '1' || url.searchParams.get('summary') === 'true') {
+            const roles = { 'Tank': 0, 'Healer': 0, 'Melee DPS': 0, 'Ranged DPS': 0 };
+            const classes = {};
+            const playstyles = {};
+
+            for (const item of rawRoster) {
+              const role = item.role || (Array.isArray(item.roles) && item.roles[0]) || 'Unknown';
+              roles[role] = (roles[role] || 0) + 1;
+
+              const cls = item.className || 'Unknown';
+              classes[cls] = (classes[cls] || 0) + 1;
+
+              const psList = Array.isArray(item.playstyles) && item.playstyles.length > 0 ? item.playstyles : (item.playstyle ? [item.playstyle] : []);
+              for (const ps of psList) {
+                playstyles[ps] = (playstyles[ps] || 0) + 1;
+              }
+            }
+
+            return new Response(JSON.stringify({
+              success: true,
+              total: rawRoster.length,
+              roles,
+              classes,
+              playstyles
+            }), {
+              status: 200,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          // Query filters
+          const roleFilter = url.searchParams.get('role');
+          const classFilter = url.searchParams.get('class');
+          const playerFilter = url.searchParams.get('player') || url.searchParams.get('name');
+          const playstyleFilter = url.searchParams.get('playstyle');
+          const cleanParam = url.searchParams.get('clean');
+
+          let filtered = rawRoster;
+
+          if (roleFilter) {
+            const rf = roleFilter.toLowerCase();
+            filtered = filtered.filter(item => {
+              if (item.role && item.role.toLowerCase() === rf) return true;
+              if (Array.isArray(item.roles) && item.roles.some(r => r.toLowerCase() === rf)) return true;
+              if (rf === 'dps' && item.role && item.role.toLowerCase().includes('dps')) return true;
+              return false;
+            });
+          }
+
+          if (classFilter) {
+            const cf = classFilter.toLowerCase();
+            filtered = filtered.filter(item => item.className && item.className.toLowerCase() === cf);
+          }
+
+          if (playerFilter) {
+            const pf = playerFilter.toLowerCase();
+            filtered = filtered.filter(item => item.playerName && item.playerName.toLowerCase().includes(pf));
+          }
+
+          if (playstyleFilter) {
+            const psf = playstyleFilter.toLowerCase();
+            filtered = filtered.filter(item => {
+              if (item.playstyle && item.playstyle.toLowerCase() === psf) return true;
+              if (Array.isArray(item.playstyles) && item.playstyles.some(p => p.toLowerCase() === psf)) return true;
+              return false;
+            });
+          }
+
+          // If any filter is used or clean=1, sanitize pin field for privacy
+          const hasFilter = roleFilter || classFilter || playerFilter || playstyleFilter || cleanParam === '1' || cleanParam === 'true';
+          const finalRoster = hasFilter
+            ? filtered.map(({ pin, ...safeItem }) => ({ ...safeItem, isPinProtected: Boolean(pin && pin.trim()) }))
+            : filtered;
+
+          return new Response(JSON.stringify({
+            success: true,
+            total: rawRoster.length,
+            count: finalRoster.length,
+            roster: finalRoster
+          }), {
             status: 200,
             headers: rosterCorsHeaders
           });

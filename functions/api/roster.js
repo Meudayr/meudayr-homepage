@@ -79,8 +79,89 @@ export async function onRequestGet(context) {
       }
     }
 
-    const roster = await getBaselineRoster(context);
-    return new Response(JSON.stringify({ success: true, roster }), {
+    const rawRoster = await getBaselineRoster(context);
+
+    // Summary endpoint: ?summary=1 or ?summary=true
+    if (url.searchParams.get('summary') === '1' || url.searchParams.get('summary') === 'true') {
+      const roles = { 'Tank': 0, 'Healer': 0, 'Melee DPS': 0, 'Ranged DPS': 0 };
+      const classes = {};
+      const playstyles = {};
+
+      for (const item of rawRoster) {
+        const role = item.role || (Array.isArray(item.roles) && item.roles[0]) || 'Unknown';
+        roles[role] = (roles[role] || 0) + 1;
+
+        const cls = item.className || 'Unknown';
+        classes[cls] = (classes[cls] || 0) + 1;
+
+        const psList = Array.isArray(item.playstyles) && item.playstyles.length > 0 ? item.playstyles : (item.playstyle ? [item.playstyle] : []);
+        for (const ps of psList) {
+          playstyles[ps] = (playstyles[ps] || 0) + 1;
+        }
+      }
+
+      return new Response(JSON.stringify({
+        success: true,
+        total: rawRoster.length,
+        roles,
+        classes,
+        playstyles
+      }), {
+        status: 200,
+        headers: corsHeaders()
+      });
+    }
+
+    // Query filters
+    const roleFilter = url.searchParams.get('role');
+    const classFilter = url.searchParams.get('class');
+    const playerFilter = url.searchParams.get('player') || url.searchParams.get('name');
+    const playstyleFilter = url.searchParams.get('playstyle');
+    const cleanParam = url.searchParams.get('clean');
+
+    let filtered = rawRoster;
+
+    if (roleFilter) {
+      const rf = roleFilter.toLowerCase();
+      filtered = filtered.filter(item => {
+        if (item.role && item.role.toLowerCase() === rf) return true;
+        if (Array.isArray(item.roles) && item.roles.some(r => r.toLowerCase() === rf)) return true;
+        if (rf === 'dps' && item.role && item.role.toLowerCase().includes('dps')) return true;
+        return false;
+      });
+    }
+
+    if (classFilter) {
+      const cf = classFilter.toLowerCase();
+      filtered = filtered.filter(item => item.className && item.className.toLowerCase() === cf);
+    }
+
+    if (playerFilter) {
+      const pf = playerFilter.toLowerCase();
+      filtered = filtered.filter(item => item.playerName && item.playerName.toLowerCase().includes(pf));
+    }
+
+    if (playstyleFilter) {
+      const psf = playstyleFilter.toLowerCase();
+      filtered = filtered.filter(item => {
+        if (item.playstyle && item.playstyle.toLowerCase() === psf) return true;
+        if (Array.isArray(item.playstyles) && item.playstyles.some(p => p.toLowerCase() === psf)) return true;
+        return false;
+      });
+    }
+
+    // If any filter is used or clean=1, sanitize pin field for privacy
+    const hasFilter = roleFilter || classFilter || playerFilter || playstyleFilter || cleanParam === '1' || cleanParam === 'true';
+    const finalRoster = hasFilter
+      ? filtered.map(({ pin, ...safeItem }) => ({ ...safeItem, isPinProtected: Boolean(pin && pin.trim()) }))
+      : filtered;
+
+    return new Response(JSON.stringify({
+      success: true,
+      total: rawRoster.length,
+      count: finalRoster.length,
+      roster: finalRoster
+    }), {
       status: 200,
       headers: corsHeaders()
     });
