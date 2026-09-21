@@ -8,8 +8,46 @@ function corsHeaders() {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
+    'Access-Control-Allow-Headers': 'Content-Type, x-api-key, Authorization, x-admin-key',
     'Cache-Control': 'no-cache, no-store, must-revalidate'
+  };
+}
+
+const DEFAULT_API_KEY = 'meu_live_k8f92a3c71e04b6d9e5f';
+
+function authenticateApiRequest(request, env, url) {
+  const expectedKey = (env && env.API_KEY) || DEFAULT_API_KEY;
+
+  const headerKey = request.headers.get('x-api-key');
+  if (headerKey && headerKey.trim() === expectedKey) return { authorized: true };
+
+  const authHeader = request.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.slice(7).trim();
+    if (token === expectedKey) return { authorized: true };
+  }
+
+  const queryKey = url.searchParams.get('api_key') || url.searchParams.get('key');
+  if (queryKey && queryKey.trim() === expectedKey) return { authorized: true };
+
+  const secFetchSite = request.headers.get('sec-fetch-site');
+  const referer = request.headers.get('referer');
+  const origin = request.headers.get('origin');
+
+  const isInternal = secFetchSite === 'same-origin' ||
+    (referer && (referer.startsWith('https://meudayr.com') || referer.startsWith('http://localhost') || referer.startsWith('http://127.0.0.1'))) ||
+    (origin && (origin === 'https://meudayr.com' || origin === 'http://localhost' || origin === 'http://127.0.0.1'));
+
+  if (isInternal) return { authorized: true, isInternal: true };
+
+  if (headerKey || authHeader || queryKey) {
+    return { authorized: false, status: 403, error: 'Forbidden: Invalid API key.' };
+  }
+
+  return {
+    authorized: false,
+    status: 401,
+    error: 'Unauthorized: An API key is required to access this endpoint. Please provide it via the "x-api-key" header or "?api_key=" query parameter.'
   };
 }
 
@@ -60,6 +98,15 @@ async function getBaselineRoster(context) {
 export async function onRequestGet(context) {
   try {
     const url = new URL(context.request.url);
+
+    const auth = authenticateApiRequest(context.request, context.env, url);
+    if (!auth.authorized) {
+      return new Response(JSON.stringify({ success: false, error: auth.error }), {
+        status: auth.status,
+        headers: corsHeaders()
+      });
+    }
+
     if (url.searchParams.get('verify_admin') === '1') {
       const headerKey = context.request.headers.get('x-admin-key');
       const paramKey = url.searchParams.get('admin_key');

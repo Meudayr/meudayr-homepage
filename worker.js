@@ -435,9 +435,97 @@ function filterLogsResponse(data, url) {
   };
 }
 
+const DEFAULT_API_KEY = 'meu_live_k8f92a3c71e04b6d9e5f';
+
+function authenticateApiRequest(request, env, url) {
+  const expectedKey = (env && env.API_KEY) || DEFAULT_API_KEY;
+
+  // 1. Check x-api-key header
+  const headerKey = request.headers.get('x-api-key');
+  if (headerKey && headerKey.trim() === expectedKey) {
+    return { authorized: true };
+  }
+
+  // 2. Check Authorization: Bearer <key>
+  const authHeader = request.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.slice(7).trim();
+    if (token === expectedKey) {
+      return { authorized: true };
+    }
+  }
+
+  // 3. Check query parameters ?api_key= or ?key=
+  const queryKey = url.searchParams.get('api_key') || url.searchParams.get('key');
+  if (queryKey && queryKey.trim() === expectedKey) {
+    return { authorized: true };
+  }
+
+  // 4. Same-origin browser exemption (allows meudayr.com web visitors to view pages seamlessly)
+  const secFetchSite = request.headers.get('sec-fetch-site');
+  const referer = request.headers.get('referer');
+  const origin = request.headers.get('origin');
+
+  const isInternal = secFetchSite === 'same-origin' ||
+    (referer && (referer.startsWith('https://meudayr.com') || referer.startsWith('http://localhost') || referer.startsWith('http://127.0.0.1'))) ||
+    (origin && (origin === 'https://meudayr.com' || origin === 'http://localhost' || origin === 'http://127.0.0.1'));
+
+  if (isInternal) {
+    return { authorized: true, isInternal: true };
+  }
+
+  // If a key was provided but was invalid
+  if (headerKey || authHeader || queryKey) {
+    return {
+      authorized: false,
+      status: 403,
+      error: 'Forbidden: Invalid API key.'
+    };
+  }
+
+  // If no key was provided from an external source
+  return {
+    authorized: false,
+    status: 401,
+    error: 'Unauthorized: An API key is required to access this endpoint. Please provide it via the "x-api-key" header or "?api_key=" query parameter.'
+  };
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // Global CORS preflight handler for API routes
+    if (request.method === 'OPTIONS' && url.pathname.startsWith('/api/')) {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, x-api-key, Authorization, x-admin-key',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
+      });
+    }
+
+    // Protect all /api/ endpoints with API Key verification (while exempting same-origin browser visitors)
+    if (url.pathname.startsWith('/api/')) {
+      const auth = authenticateApiRequest(request, env, url);
+      if (!auth.authorized) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: auth.error
+        }), {
+          status: auth.status,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type, x-api-key, Authorization, x-admin-key',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          }
+        });
+      }
+    }
 
     // Route: GET /api/logs
     if (url.pathname === '/api/logs') {

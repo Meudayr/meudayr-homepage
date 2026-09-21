@@ -1,15 +1,35 @@
 # Meudayr.com Public API Documentation
 
-Welcome to the public API for **[meudayr.com](https://meudayr.com)**. This API allows external services, Discord bots, web dashboards, and automation scripts to query WarcraftLogs reports and the World of Warcraft: Forever TBS Guild Roster in real time.
+Welcome to the API for **[meudayr.com](https://meudayr.com)**. This API allows external services, Discord bots, web dashboards, and automation scripts to query WarcraftLogs reports and the World of Warcraft: Forever TBS Guild Roster in real time.
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start & Authentication
 
 * **Base URL:** `https://meudayr.com`
-* **Authentication:** None required for `GET` requests.
-* **CORS:** Enabled (`Access-Control-Allow-Origin: *`). You can call these endpoints directly from frontend browsers, Node.js, Python, or Discord bots.
+* **Authentication:** **Required** for all external services, Discord bots, and scripts.
+* **CORS:** Enabled (`Access-Control-Allow-Origin: *`).
 * **Data Format:** Standard `application/json`.
+
+### How to Authenticate
+External requests must provide your API Key using **any** of the following three methods:
+
+1. **Header (Recommended):**
+   ```http
+   x-api-key: meu_live_k8f92a3c71e04b6d9e5f
+   ```
+2. **Bearer Token:**
+   ```http
+   Authorization: Bearer meu_live_k8f92a3c71e04b6d9e5f
+   ```
+3. **URL Query Parameter:**
+   ```http
+   https://meudayr.com/api/logs?latest=1&api_key=meu_live_k8f92a3c71e04b6d9e5f
+   ```
+
+> [!NOTE]
+> Requests missing an API key return `401 Unauthorized`. Requests with an invalid key return `403 Forbidden`.
+> *(Standard browser visits on meudayr.com are exempt via same-origin verification, so human website users are never blocked).*
 
 ---
 
@@ -28,6 +48,7 @@ Fetches parsed WarcraftLogs raid and Mythic+ dungeon reports across all configur
 | `class` | `string` | Filter reports containing a specific class (e.g. `Druid`, `Mage`, `Warrior`). | `/api/logs?class=Druid` |
 | `difficulty` | `string` | Filter by difficulty (`Mythic+`, `Heroic`, `Normal`, `LFR`). | `/api/logs?difficulty=Mythic+` |
 | `q` or `search` | `string` | Freeform text search matching report title, dungeon, boss, or zone. | `/api/logs?q=Blinding+Vale` |
+| `api_key` | `string` | Your API key if not passing via request headers. | `/api/logs?api_key=meu_live_k8f92a3c71e04b6d9e5f` |
 
 #### Example Responses
 
@@ -111,6 +132,7 @@ Fetches the current TBS Horde guild roster registrations, specs, roles, playstyl
 | `player` | `string` | Case-insensitive search for a character by name. | `/api/roster?player=BeastMayo` |
 | `playstyle` | `string` | Filter by playstyle: `Raiding`, `PvP`, `Leveling`, `Casual`. | `/api/roster?playstyle=Raiding` |
 | `clean` | `boolean` (`1` or `true`) | Explicitly sanitizes out internal edit PINs. *(Note: PINs are automatically sanitized whenever any filter or summary is used).* | `/api/roster?clean=1` |
+| `api_key` | `string` | Your API key if not passing via request headers. | `/api/roster?summary=1&api_key=meu_live_k8f92a3c71e04b6d9e5f` |
 
 #### Example Responses
 
@@ -120,10 +142,10 @@ Fetches the current TBS Horde guild roster registrations, specs, roles, playstyl
   "success": true,
   "total": 16,
   "roles": {
-    "Tank": 2,
-    "Healer": 4,
-    "Melee DPS": 6,
-    "Ranged DPS": 4
+    "Tank": 3,
+    "Healer": 2,
+    "Melee DPS": 8,
+    "Ranged DPS": 3
   },
   "classes": {
     "Warrior": 3,
@@ -147,7 +169,7 @@ Fetches the current TBS Horde guild roster registrations, specs, roles, playstyl
 {
   "success": true,
   "total": 16,
-  "count": 2,
+  "count": 3,
   "roster": [
     {
       "id": "tbs-1789671070503-bs4g",
@@ -182,12 +204,25 @@ Fetches the current TBS Horde guild roster registrations, specs, roles, playstyl
 // Example Discord.js v14 slash command handlers
 const { EmbedBuilder } = require('discord.js');
 
+// Set your API key in environment variables (or paste your key here)
+const MEUDAYR_API_KEY = process.env.MEUDAYR_API_KEY || 'meu_live_k8f92a3c71e04b6d9e5f';
+
+// Common helper for authenticated requests
+async function fetchMeudayrApi(endpoint) {
+  return fetch(`https://meudayr.com${endpoint}`, {
+    headers: {
+      'x-api-key': MEUDAYR_API_KEY,
+      'Accept': 'application/json'
+    }
+  });
+}
+
 // 1. /latestlog command
 async function handleLatestLogCommand(interaction) {
   await interaction.deferReply();
 
   try {
-    const res = await fetch('https://meudayr.com/api/logs?latest=1');
+    const res = await fetchMeudayrApi('/api/logs?latest=1');
     const data = await res.json();
 
     if (!data.success || !data.report) {
@@ -225,7 +260,7 @@ async function handleRosterSummaryCommand(interaction) {
   await interaction.deferReply();
 
   try {
-    const res = await fetch('https://meudayr.com/api/roster?summary=1');
+    const res = await fetchMeudayrApi('/api/roster?summary=1');
     const data = await res.json();
 
     if (!data.success) {
@@ -262,10 +297,15 @@ async function handleRosterSummaryCommand(interaction) {
 ### Example B: Python (`discord.py`) Slash Commands
 
 ```python
+import os
 import discord
 from discord import app_commands
 import aiohttp
 from datetime import datetime
+
+# Set your API key in environment variables (or paste your key here)
+MEUDAYR_API_KEY = os.getenv("MEUDAYR_API_KEY", "meu_live_k8f92a3c71e04b6d9e5f")
+HEADERS = {"x-api-key": MEUDAYR_API_KEY}
 
 # 1. /latestlog command
 @app_commands.command(name="latestlog", description="Get the most recent raid or dungeon log")
@@ -273,7 +313,7 @@ async def latest_log(interaction: discord.Interaction):
     await interaction.response.defer()
     
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://meudayr.com/api/logs?latest=1") as resp:
+        async with session.get("https://meudayr.com/api/logs?latest=1", headers=HEADERS) as resp:
             if resp.status != 200:
                 return await interaction.followup.send("Failed to reach meudayr.com logs API.")
             
@@ -302,7 +342,7 @@ async def roster_summary(interaction: discord.Interaction):
     await interaction.response.defer()
     
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://meudayr.com/api/roster?summary=1") as resp:
+        async with session.get("https://meudayr.com/api/roster?summary=1", headers=HEADERS) as resp:
             if resp.status != 200:
                 return await interaction.followup.send("Failed to retrieve roster data.")
             
