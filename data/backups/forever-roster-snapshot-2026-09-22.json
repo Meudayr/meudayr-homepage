@@ -1,0 +1,619 @@
+{
+  "snapshotDate": "2026-09-22T13:10:00.968Z",
+  "totalMembers": 21,
+  "characters": [
+    {
+      "id": "tbs-1790046942062-msi8",
+      "playerName": "Glossy",
+      "faction": "Horde",
+      "race": "Undead",
+      "gender": "male",
+      "className": "Rogue",
+      "spec": "Combat",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Assassination",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Leatherworking",
+        "Skinning"
+      ],
+      "profession1": "Leatherworking",
+      "profession2": "Skinning",
+      "notes": "putting just the tip in the poisons",
+      "pin": "",
+      "createdAt": "2026-09-22T03:15:42.062Z",
+      "updatedAt": "2026-09-22T03:15:42.062Z"
+    },
+    {
+      "id": "tbs-1790046902911-webe",
+      "playerName": "Julie",
+      "faction": "Horde",
+      "race": "Skyborne",
+      "gender": "female",
+      "className": "Shaman",
+      "spec": "Elemental",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "",
+      "offspecRole": "",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Leatherworking",
+        "Mining"
+      ],
+      "profession1": "Leatherworking",
+      "profession2": "Mining",
+      "notes": "",
+      "pin": "",
+      "createdAt": "2026-09-22T03:15:02.911Z",
+      "updatedAt": "2026-09-22T04:19:53.601Z"
+    },
+    {
+      "id": "tbs-1790046760432-x37s",
+      "playerName": "Bill",
+      "faction": "Horde",
+      "race": "Undead",
+      "gender": "male",
+      "className": "Warlock",
+      "spec": "Affliction",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "Destruction",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "PvP",
+      "playstyles": [
+        "PvP",
+        "Leveling & Dungeons",
+        "Raiding"
+      ],
+      "professions": [
+        "Tailoring",
+        "Enchanting"
+      ],
+      "profession1": "Tailoring",
+      "profession2": "Enchanting",
+      "notes": "Casual af",
+      "pin": "",
+      "createdAt": "2026-09-22T03:12:40.432Z",
+      "updatedAt": "2026-09-22T03:12:40.432Z"
+    },
+    {
+      "id": "tbs-1790045060938-w0fi",
+      "playerName": "Stankylegg",
+      "faction": "Horde",
+      "race": "Troll",
+      "gender": "male",
+      "className": "Hunter",
+      "spec": "Marksmanship",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "Beast Mastery",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding"
+      ],
+      "professions": [
+        "Leatherworking",
+        "Skinning"
+      ],
+      "profession1": "Leatherworking",
+      "profession2": "Skinning",
+      "notes": "Possibly picking Skelves",
+      "pin": "",
+      "createdAt": "2026-09-22T02:44:20.938Z",
+      "updatedAt": "2026-09-22T02:56:09.957Z"
+    },
+    {
+      "id": "tbs-1790038683767-z3xc",
+      "playerName": "Moldycheese",
+      "faction": "Horde",
+      "race": "Troll",
+      "gender": "female",
+      "className": "Priest",
+      "spec": "Holy",
+      "role": "Healer",
+      "roles": [
+        "Healer"
+      ],
+      "offspec": "Shadow",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding"
+      ],
+      "professions": [],
+      "profession1": "",
+      "profession2": "",
+      "notes": "Or disc... or druid",
+      "pin": "",
+      "createdAt": "2026-09-22T00:58:03.767Z",
+      "updatedAt": "2026-09-22T03:17:52.083Z"
+    },
+    {
+      "id": "tbs-1789671070503-bs4g",
+      "playerName": "BeastMayo",
+      "faction": "Horde",
+      "race": "Orc",
+      "gender": "male",
+      "className": "Warrior",
+      "spec": "Protection",
+      "role": "Tank",
+      "roles": [
+        "Tank"
+      ],
+      "offspec": "Fury",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding"
+      ],
+      "professions": [],
+      "profession1": "",
+      "profession2": "",
+      "notes": "Usually go mining/smithing, will likely just wait to see what's needed and how i can assist with professions. Shoulds be flexible with specs and raid times.",
+      "pin": "",
+      "createdAt": "2026-09-17T18:51:10.503Z",
+      "updatedAt": "2026-09-17T18:51:10.503Z"
+    },
+    {
+      "id": "tbs-1789657981195-zap2",
+      "playerName": "Rev",
+      "faction": "Horde",
+      "race": "Undead",
+      "gender": "male",
+      "className": "Priest",
+      "spec": "Holy",
+      "role": "Healer",
+      "roles": [
+        "Healer"
+      ],
+      "offspec": "Shadow",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons",
+        "PvP"
+      ],
+      "professions": [
+        "Alchemy",
+        "Herbalism"
+      ],
+      "profession1": "Alchemy",
+      "profession2": "Herbalism",
+      "notes": "Or hunter",
+      "pin": "",
+      "createdAt": "2026-09-17T15:13:01.195Z",
+      "updatedAt": "2026-09-17T15:21:02.846Z"
+    },
+    {
+      "id": "tbs-1789609832705-4v0a",
+      "playerName": "Kyle",
+      "faction": "Horde",
+      "race": "Troll",
+      "gender": "male",
+      "className": "Warlock",
+      "spec": "Affliction",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "Demonology",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Herbalism",
+        "Alchemy"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Alchemy",
+      "notes": "",
+      "pin": "",
+      "createdAt": "2026-09-17T01:50:32.705Z",
+      "updatedAt": "2026-09-17T01:50:32.705Z"
+    },
+    {
+      "id": "tbs-1789575986433-cgrx",
+      "playerName": "Grin",
+      "faction": "Horde",
+      "race": "Undead",
+      "gender": "male",
+      "className": "Rogue",
+      "spec": "Assassination",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "",
+      "offspecRole": "",
+      "playstyle": "PvP",
+      "playstyles": [
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [],
+      "profession1": "",
+      "profession2": "",
+      "notes": "Walker made me do this... something something swords vs. daggers",
+      "pin": "2810",
+      "createdAt": "2026-09-16T16:26:26.433Z",
+      "updatedAt": "2026-09-18T05:57:17.822Z"
+    },
+    {
+      "id": "tbs-1789507128783-xudx",
+      "playerName": "Defib",
+      "faction": "Horde",
+      "race": "Orc",
+      "gender": "male",
+      "className": "Shaman",
+      "spec": "Enhancement",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Restoration",
+      "offspecRole": "Healer",
+      "playstyle": "Leveling & Dungeons",
+      "playstyles": [
+        "Leveling & Dungeons",
+        "PvP",
+        "Raiding"
+      ],
+      "professions": [
+        "Herbalism",
+        "Alchemy"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Alchemy",
+      "notes": "Most interested in shaman, paladin, mage, hunter. Not sure about my main yet. I like healing at 60.",
+      "pin": "",
+      "createdAt": "2026-09-15T21:18:48.783Z",
+      "updatedAt": "2026-09-19T19:18:37.500Z"
+    },
+    {
+      "id": "tbs-1789501514308-nxdk",
+      "playerName": "jeff",
+      "faction": "Horde",
+      "race": "Troll",
+      "gender": "male",
+      "className": "Shaman",
+      "spec": "Enhancement",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Elemental",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [],
+      "profession1": "",
+      "profession2": "",
+      "notes": "WE COULD BE A DWARF",
+      "pin": "1111",
+      "createdAt": "2026-09-15T19:45:14.308Z",
+      "updatedAt": "2026-09-15T19:45:14.308Z"
+    },
+    {
+      "id": "tbs-1789488705670-1v7v",
+      "playerName": "Empress Jaynie",
+      "faction": "Horde",
+      "race": "Tauren",
+      "className": "Druid",
+      "spec": "Balance",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "Restoration",
+      "offspecRole": "Healer",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Herbalism",
+        "Mining"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Mining",
+      "notes": "Moo idk man",
+      "pin": "",
+      "createdAt": "2026-09-15T16:11:45.670Z",
+      "updatedAt": "2026-09-15T21:10:42.048Z",
+      "gender": "female"
+    },
+    {
+      "id": "tbs-1789485083749-23t1",
+      "playerName": "Mudman Dasubstitute",
+      "faction": "Horde",
+      "race": "Tauren",
+      "className": "Hunter",
+      "spec": "Survival",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "",
+      "offspecRole": "",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Engineering",
+        "Mining"
+      ],
+      "profession1": "Engineering",
+      "profession2": "Mining",
+      "notes": "",
+      "pin": "",
+      "createdAt": "2026-09-15T15:11:23.749Z",
+      "updatedAt": "2026-09-20T03:10:17.363Z",
+      "gender": "male"
+    },
+    {
+      "id": "tbs-1789481604006-8hv6",
+      "playerName": "Papascott",
+      "faction": "Horde",
+      "race": "Troll",
+      "className": "Mage",
+      "spec": "Fire",
+      "role": "Ranged DPS",
+      "roles": [
+        "Ranged DPS"
+      ],
+      "offspec": "Arcane",
+      "offspecRole": "Ranged DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Mining",
+        "Engineering"
+      ],
+      "profession1": "Mining",
+      "profession2": "Engineering",
+      "notes": "Mage Main // Warrior alt I think!",
+      "pin": "8853",
+      "createdAt": "2026-09-15T14:13:24.006Z",
+      "updatedAt": "2026-09-15T14:13:24.006Z"
+    },
+    {
+      "id": "tbs-1789439303771-k31g",
+      "playerName": "Aedrix",
+      "faction": "Horde",
+      "race": "Undead",
+      "className": "Paladin",
+      "spec": "Retribution",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Holy",
+      "offspecRole": "Healer",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons"
+      ],
+      "professions": [],
+      "profession1": "",
+      "profession2": "",
+      "notes": "",
+      "pin": "",
+      "createdAt": "2026-09-15T02:28:23.771Z",
+      "updatedAt": "2026-09-15T04:13:38.495Z"
+    },
+    {
+      "id": "tbs-1789434259620-o856",
+      "playerName": "Ferraro Graveward",
+      "faction": "Horde",
+      "race": "Undead",
+      "className": "Paladin",
+      "spec": "Protection",
+      "role": "Tank",
+      "roles": [
+        "Tank"
+      ],
+      "offspec": "Holy",
+      "offspecRole": "Healer",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Mining",
+        "Blacksmithing"
+      ],
+      "profession1": "Mining",
+      "profession2": "Blacksmithing",
+      "notes": "",
+      "pin": "",
+      "createdAt": "2026-09-15T01:04:19.620Z",
+      "updatedAt": "2026-09-20T16:50:46.430Z",
+      "gender": "male"
+    },
+    {
+      "id": "tbs-1789433017585-z5tj",
+      "playerName": "Noog",
+      "faction": "Horde",
+      "race": "Orc",
+      "className": "Rogue",
+      "spec": "Subtlety",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Combat",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding"
+      ],
+      "professions": [
+        "Enchanting",
+        "Engineering"
+      ],
+      "profession1": "Enchanting",
+      "profession2": "Engineering",
+      "notes": "",
+      "pin": "6767",
+      "createdAt": "2026-09-15T00:43:37.585Z",
+      "updatedAt": "2026-09-15T00:43:37.585Z"
+    },
+    {
+      "id": "tbs-1789432541684-7xr2",
+      "playerName": "Mojorisin",
+      "faction": "Horde",
+      "race": "Orc",
+      "className": "Hunter",
+      "spec": "Survival",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "",
+      "offspecRole": "",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding"
+      ],
+      "professions": [
+        "Herbalism",
+        "Mining"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Mining",
+      "notes": "Might go warlock or other unfilled dps class. Dogmeat",
+      "pin": "",
+      "createdAt": "2026-09-15T00:35:41.684Z",
+      "updatedAt": "2026-09-15T17:37:31.165Z"
+    },
+    {
+      "id": "tbs-1789432199929-r8dj",
+      "playerName": "Vember | Taylor",
+      "faction": "Horde",
+      "race": "Tauren",
+      "className": "Shaman",
+      "spec": "Restoration",
+      "role": "Healer",
+      "roles": [
+        "Healer"
+      ],
+      "offspec": "Enhancement",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Herbalism",
+        "Engineering"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Engineering",
+      "notes": "CH and WF",
+      "pin": "1102",
+      "createdAt": "2026-09-15T00:29:59.929Z",
+      "updatedAt": "2026-09-15T00:29:59.929Z"
+    },
+    {
+      "id": "tbs-1789432081809-ibmx",
+      "playerName": "ZORAK ZHENWU HARSH GARLIC CILE",
+      "faction": "Horde",
+      "race": "Orc",
+      "className": "Rogue",
+      "spec": "Combat",
+      "role": "Melee DPS",
+      "roles": [
+        "Melee DPS"
+      ],
+      "offspec": "Assassination",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Herbalism",
+        "Alchemy"
+      ],
+      "profession1": "Herbalism",
+      "profession2": "Alchemy",
+      "notes": "Paladin / Priest backup",
+      "pin": "",
+      "createdAt": "2026-09-15T00:28:01.809Z",
+      "updatedAt": "2026-09-15T17:26:57.652Z"
+    },
+    {
+      "id": "tbs-1789432030405-dfcp",
+      "playerName": "Meudayr",
+      "faction": "Horde",
+      "race": "Tauren",
+      "className": "Druid",
+      "spec": "Feral Combat",
+      "role": "Tank",
+      "roles": [
+        "Tank"
+      ],
+      "offspec": "Feral Combat",
+      "offspecRole": "Melee DPS",
+      "playstyle": "Raiding",
+      "playstyles": [
+        "Raiding",
+        "PvP",
+        "Leveling & Dungeons"
+      ],
+      "professions": [
+        "Leatherworking",
+        "Herbalism"
+      ],
+      "profession1": "Leatherworking",
+      "profession2": "Herbalism",
+      "notes": "HUGE TANKIN N DPS",
+      "pin": "0926",
+      "createdAt": "2026-09-15T00:27:10.405Z",
+      "updatedAt": "2026-09-15T00:30:44.866Z"
+    }
+  ]
+}
