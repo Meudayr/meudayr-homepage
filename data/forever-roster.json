@@ -1,5 +1,239 @@
 [
   {
+    "id": "tbs-1790210462454-t9f5",
+    "playerName": "Bizaro",
+    "faction": "Horde",
+    "race": "Tauren",
+    "gender": "male",
+    "className": "Druid",
+    "spec": "Restoration",
+    "role": "Healer",
+    "roles": [
+      "Healer"
+    ],
+    "offspec": "Balance",
+    "offspecRole": "Ranged DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Leatherworking",
+      "Skinning"
+    ],
+    "profession1": "Leatherworking",
+    "profession2": "Skinning",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-09-24T00:41:02.454Z",
+    "updatedAt": "2026-09-24T00:41:02.454Z"
+  },
+  {
+    "id": "tbs-1790138619644-8w7k",
+    "playerName": "Weiss",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Paladin",
+    "spec": "Protection",
+    "role": "Tank",
+    "roles": [
+      "Tank"
+    ],
+    "offspec": "",
+    "offspecRole": "",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding"
+    ],
+    "professions": [
+      "Blacksmithing"
+    ],
+    "profession1": "Blacksmithing",
+    "profession2": "",
+    "notes": "the most rare class/race combo",
+    "pin": "",
+    "createdAt": "2026-09-23T04:43:39.644Z",
+    "updatedAt": "2026-09-23T04:43:39.644Z"
+  },
+  {
+    "id": "tbs-1790124534372-22s8",
+    "playerName": "When",
+    "faction": "Horde",
+    "race": "Orc",
+    "gender": "male",
+    "className": "Mage",
+    "spec": "Arcane",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "Fire",
+    "offspecRole": "Ranged DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding"
+    ],
+    "professions": [],
+    "profession1": "",
+    "profession2": "",
+    "notes": "When we are born, we cry that we are come to this great stage of fools.",
+    "pin": "",
+    "createdAt": "2026-09-23T00:48:54.372Z",
+    "updatedAt": "2026-09-23T01:52:17.345Z"
+  },
+  {
+    "id": "tbs-1790124387758-rp9r",
+    "playerName": "Trecks",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Paladin",
+    "spec": "Protection",
+    "role": "Tank",
+    "roles": [
+      "Tank"
+    ],
+    "offspec": "Holy",
+    "offspecRole": "Healer",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "PvP",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Blacksmithing",
+      "Mining"
+    ],
+    "profession1": "Blacksmithing",
+    "profession2": "Mining",
+    "notes": "Would be up to switching spec or classes depending on needs",
+    "pin": "",
+    "createdAt": "2026-09-23T00:46:27.758Z",
+    "updatedAt": "2026-09-23T00:46:27.758Z"
+  },
+  {
+    "id": "tbs-1790123383843-ug6j",
+    "playerName": "Egohakai",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Paladin",
+    "spec": "Retribution",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Protection",
+    "offspecRole": "Tank",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Blacksmithing",
+      "Mining"
+    ],
+    "profession1": "Blacksmithing",
+    "profession2": "Mining",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-09-23T00:29:43.843Z",
+    "updatedAt": "2026-09-23T00:29:43.843Z"
+  },
+  {
+    "id": "tbs-1790120851962-ktk4",
+    "playerName": "paincakes",
+    "faction": "Horde",
+    "race": "Tauren",
+    "gender": "male",
+    "className": "Warrior",
+    "spec": "Arms",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Fury",
+    "offspecRole": "Melee DPS",
+    "playstyle": "Leveling & Dungeons",
+    "playstyles": [
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Mining",
+      "Blacksmithing"
+    ],
+    "profession1": "Mining",
+    "profession2": "Blacksmithing",
+    "notes": "Man is sometimes extraordinarily, passionately, in love with suffering.",
+    "pin": "",
+    "createdAt": "2026-09-22T23:47:31.962Z",
+    "updatedAt": "2026-09-22T23:47:31.962Z"
+  },
+  {
+    "id": "tbs-1790116218669-szlh",
+    "playerName": "Noob",
+    "faction": "Horde",
+    "race": "Orc",
+    "gender": "male",
+    "className": "Warrior",
+    "spec": "Fury",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Arms",
+    "offspecRole": "Melee DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Mining",
+      "Blacksmithing"
+    ],
+    "profession1": "Mining",
+    "profession2": "Blacksmithing",
+    "notes": "ZUG ZUG",
+    "pin": "",
+    "createdAt": "2026-09-22T22:30:18.669Z",
+    "updatedAt": "2026-09-22T22:32:55.887Z"
+  },
+  {
+    "id": "tbs-1790115448887-diq3",
+    "playerName": "Varfus",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "female",
+    "className": "Mage",
+    "spec": "Arcane",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "",
+    "offspecRole": "",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Enchanting",
+      "Tailoring"
+    ],
+    "profession1": "Enchanting",
+    "profession2": "Tailoring",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-09-22T22:17:28.887Z",
+    "updatedAt": "2026-09-23T00:27:18.400Z"
+  },
+  {
     "id": "tbs-1790046942062-msi8",
     "playerName": "Glossy",
     "faction": "Horde",
@@ -255,10 +489,10 @@
     "professions": [],
     "profession1": "",
     "profession2": "",
-    "notes": "Walker made me do this... something something swords vs. daggers",
+    "notes": "\"The fear of death follows from the fear of life. A man who lives fully is prepared to die at any time.\"",
     "pin": "2810",
     "createdAt": "2026-09-16T16:26:26.433Z",
-    "updatedAt": "2026-09-18T05:57:17.822Z"
+    "updatedAt": "2026-09-23T00:13:04.978Z"
   },
   {
     "id": "tbs-1789507128783-xudx",
@@ -343,10 +577,10 @@
     ],
     "profession1": "Herbalism",
     "profession2": "Mining",
-    "notes": "Moo idk man",
+    "notes": "If I die does my mother get a refund",
     "pin": "",
     "createdAt": "2026-09-15T16:11:45.670Z",
-    "updatedAt": "2026-09-15T21:10:42.048Z",
+    "updatedAt": "2026-09-23T00:16:57.346Z",
     "gender": "female"
   },
   {
@@ -547,10 +781,11 @@
     ],
     "profession1": "Herbalism",
     "profession2": "Engineering",
-    "notes": "CH and WF",
+    "notes": "I spent 4,000 hours in Azeroth and all I got was a crippling addiction to standing in the fire.",
     "pin": "1102",
     "createdAt": "2026-09-15T00:29:59.929Z",
-    "updatedAt": "2026-09-15T00:29:59.929Z"
+    "updatedAt": "2026-09-23T00:23:25.908Z",
+    "gender": "male"
   },
   {
     "id": "tbs-1789432081809-ibmx",
@@ -577,10 +812,11 @@
     ],
     "profession1": "Herbalism",
     "profession2": "Alchemy",
-    "notes": "Paladin / Priest backup",
+    "notes": "OR WARLOCK",
     "pin": "",
     "createdAt": "2026-09-15T00:28:01.809Z",
-    "updatedAt": "2026-09-15T17:26:57.652Z"
+    "updatedAt": "2026-09-23T18:13:09.198Z",
+    "gender": "male"
   },
   {
     "id": "tbs-1789432030405-dfcp",
@@ -607,9 +843,10 @@
     ],
     "profession1": "Leatherworking",
     "profession2": "Herbalism",
-    "notes": "HUGE TANKIN N DPS",
+    "notes": "Do not cry for what ended, bleed for what was stolen by time.",
     "pin": "0926",
     "createdAt": "2026-09-15T00:27:10.405Z",
-    "updatedAt": "2026-09-15T00:30:44.866Z"
+    "updatedAt": "2026-09-23T00:09:45.993Z",
+    "gender": "male"
   }
 ]
