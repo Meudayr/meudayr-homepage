@@ -383,12 +383,20 @@ header {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-muted);
+  letter-spacing: 0.3px;
 }
 
+.addon-game-badge.modern,
 .addon-game-badge.wow {
-  background: rgba(56, 142, 60, 0.1);
-  border-color: rgba(56, 142, 60, 0.2);
+  background: rgba(56, 142, 60, 0.12);
+  border-color: rgba(56, 142, 60, 0.25);
   color: #81c784;
+}
+
+.addon-game-badge.forever {
+  background: rgba(192, 157, 82, 0.15);
+  border-color: rgba(192, 157, 82, 0.35);
+  color: #e2ba66;
 }
 
 .addon-card h3 {
