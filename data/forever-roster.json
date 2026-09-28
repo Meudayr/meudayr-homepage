@@ -91,16 +91,16 @@
     "id": "tbs-1790124534372-22s8",
     "playerName": "When",
     "faction": "Horde",
-    "race": "Orc",
+    "race": "Troll",
     "gender": "male",
-    "className": "Mage",
-    "spec": "Arcane",
+    "className": "Hunter",
+    "spec": "Marksmanship",
     "role": "Ranged DPS",
     "roles": [
       "Ranged DPS"
     ],
-    "offspec": "Fire",
-    "offspecRole": "Ranged DPS",
+    "offspec": "Survival",
+    "offspecRole": "Melee DPS",
     "playstyle": "Raiding",
     "playstyles": [
       "Raiding"
@@ -111,7 +111,7 @@
     "notes": "When we are born, we cry that we are come to this great stage of fools.",
     "pin": "",
     "createdAt": "2026-09-23T00:48:54.372Z",
-    "updatedAt": "2026-09-23T01:52:17.345Z"
+    "updatedAt": "2026-09-28T01:41:55.460Z"
   },
   {
     "id": "tbs-1790124387758-rp9r",
