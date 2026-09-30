@@ -413,7 +413,7 @@
     "id": "tbs-1789671070503-bs4g",
     "playerName": "BeastMayo",
     "faction": "Horde",
-    "race": "Orc",
+    "race": "Troll",
     "gender": "male",
     "className": "Warrior",
     "spec": "Protection",
@@ -425,7 +425,8 @@
     "offspecRole": "Melee DPS",
     "playstyle": "Raiding",
     "playstyles": [
-      "Raiding"
+      "Raiding",
+      "Leveling & Dungeons"
     ],
     "professions": [],
     "profession1": "",
@@ -433,7 +434,7 @@
     "notes": "Usually go mining/smithing, will likely just wait to see what's needed and how i can assist with professions. Shoulds be flexible with specs and raid times.",
     "pin": "",
     "createdAt": "2026-09-17T18:51:10.503Z",
-    "updatedAt": "2026-09-17T18:51:10.503Z"
+    "updatedAt": "2026-09-30T05:24:45.027Z"
   },
   {
     "id": "tbs-1789657981195-zap2",
@@ -545,15 +546,15 @@
       "Raiding"
     ],
     "professions": [
-      "Herbalism",
+      "Leatherworking",
       "Alchemy"
     ],
-    "profession1": "Herbalism",
+    "profession1": "Leatherworking",
     "profession2": "Alchemy",
-    "notes": "Most interested in shaman, paladin, mage, hunter. Not sure about my main yet. I like healing at 60.",
+    "notes": "Most interested in shaman, mage, hunter, paladin. I usually like healing at endgame.",
     "pin": "",
     "createdAt": "2026-09-15T21:18:48.783Z",
-    "updatedAt": "2026-09-19T19:18:37.500Z"
+    "updatedAt": "2026-09-29T21:52:00.636Z"
   },
   {
     "id": "tbs-1789501514308-nxdk",
