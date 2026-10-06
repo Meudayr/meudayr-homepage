@@ -1,5 +1,33 @@
 [
   {
+    "id": "tbs-1791239997854-0hvg",
+    "playerName": "Mooseyfate",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Rogue",
+    "spec": "Assassination",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "",
+    "offspecRole": "",
+    "playstyle": "Leveling & Dungeons",
+    "playstyles": [
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Engineering"
+    ],
+    "profession1": "Engineering",
+    "profession2": "",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-10-05T22:39:57.854Z",
+    "updatedAt": "2026-10-05T22:39:57.854Z"
+  },
+  {
     "id": "tbs-1790519617726-4chp",
     "playerName": "Graham",
     "faction": "Horde",
@@ -531,14 +559,14 @@
     "faction": "Horde",
     "race": "Orc",
     "gender": "male",
-    "className": "Shaman",
-    "spec": "Enhancement",
-    "role": "Melee DPS",
+    "className": "Mage",
+    "spec": "Arcane",
+    "role": "Ranged DPS",
     "roles": [
-      "Melee DPS"
+      "Ranged DPS"
     ],
-    "offspec": "Restoration",
-    "offspecRole": "Healer",
+    "offspec": "Frost",
+    "offspecRole": "Ranged DPS",
     "playstyle": "Leveling & Dungeons",
     "playstyles": [
       "Leveling & Dungeons",
@@ -546,15 +574,15 @@
       "Raiding"
     ],
     "professions": [
-      "Leatherworking",
-      "Alchemy"
+      "Enchanting",
+      "Tailoring"
     ],
-    "profession1": "Leatherworking",
-    "profession2": "Alchemy",
-    "notes": "Most interested in shaman, mage, hunter, paladin. I usually like healing at endgame.",
+    "profession1": "Enchanting",
+    "profession2": "Tailoring",
+    "notes": "Probably leveling a druid with Ren, and a mage or hunter solo. I usually like to heal at 60. Also I'm an alt-aholic.",
     "pin": "",
     "createdAt": "2026-09-15T21:18:48.783Z",
-    "updatedAt": "2026-09-29T21:52:00.636Z"
+    "updatedAt": "2026-10-05T22:33:37.708Z"
   },
   {
     "id": "tbs-1789501514308-nxdk",
