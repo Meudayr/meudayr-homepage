@@ -1,5 +1,97 @@
 [
   {
+    "id": "tbs-1791390925491-trgg",
+    "playerName": "sttacked",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Paladin",
+    "spec": "Retribution",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Holy",
+    "offspecRole": "Healer",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons",
+      "PvP"
+    ],
+    "professions": [
+      "Mining",
+      "Engineering"
+    ],
+    "profession1": "Mining",
+    "profession2": "Engineering",
+    "notes": "only played classic hardcore",
+    "pin": "42069",
+    "createdAt": "2026-10-07T16:35:25.491Z",
+    "updatedAt": "2026-10-07T16:35:25.491Z"
+  },
+  {
+    "id": "tbs-1791390643774-7ndc",
+    "playerName": "Magic Balls",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Mage",
+    "spec": "Frost",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "Fire",
+    "offspecRole": "Ranged DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Tailoring",
+      "Skinning"
+    ],
+    "profession1": "Tailoring",
+    "profession2": "Skinning",
+    "notes": "",
+    "pin": "2311",
+    "createdAt": "2026-10-07T16:30:43.774Z",
+    "updatedAt": "2026-10-07T16:30:43.774Z"
+  },
+  {
+    "id": "tbs-1791390324193-pqki",
+    "playerName": "Mollenkoffee",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Mage",
+    "spec": "Frost",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "",
+    "offspecRole": "",
+    "playstyle": "PvP",
+    "playstyles": [
+      "PvP",
+      "Leveling & Dungeons",
+      "Raiding"
+    ],
+    "professions": [
+      "Tailoring",
+      "Enchanting"
+    ],
+    "profession1": "Tailoring",
+    "profession2": "Enchanting",
+    "notes": "",
+    "pin": "66666666",
+    "createdAt": "2026-10-07T16:25:24.193Z",
+    "updatedAt": "2026-10-07T16:25:24.193Z"
+  },
+  {
     "id": "tbs-1791239997854-0hvg",
     "playerName": "Mooseyfate",
     "faction": "Horde",
@@ -579,10 +671,10 @@
     ],
     "profession1": "Enchanting",
     "profession2": "Tailoring",
-    "notes": "Probably leveling a druid with Ren, and a mage or hunter solo. I usually like to heal at 60. Also I'm an alt-aholic.",
+    "notes": "Probably leveling a druid with Ren, and a mage or shaman solo. I usually like to heal at 60. Also I'm an alt-aholic.",
     "pin": "",
     "createdAt": "2026-09-15T21:18:48.783Z",
-    "updatedAt": "2026-10-05T22:33:37.708Z"
+    "updatedAt": "2026-10-07T03:43:13.503Z"
   },
   {
     "id": "tbs-1789501514308-nxdk",
