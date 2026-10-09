@@ -90,37 +90,6 @@
     "updatedAt": "2026-10-07T16:30:43.774Z"
   },
   {
-    "id": "tbs-1791390324193-pqki",
-    "playerName": "Mollenkoffee",
-    "faction": "Horde",
-    "race": "Undead",
-    "gender": "male",
-    "className": "Mage",
-    "spec": "Frost",
-    "role": "Ranged DPS",
-    "roles": [
-      "Ranged DPS"
-    ],
-    "offspec": "",
-    "offspecRole": "",
-    "playstyle": "PvP",
-    "playstyles": [
-      "PvP",
-      "Leveling & Dungeons",
-      "Raiding"
-    ],
-    "professions": [
-      "Tailoring",
-      "Enchanting"
-    ],
-    "profession1": "Tailoring",
-    "profession2": "Enchanting",
-    "notes": "",
-    "pin": "66666666",
-    "createdAt": "2026-10-07T16:25:24.193Z",
-    "updatedAt": "2026-10-07T16:25:24.193Z"
-  },
-  {
     "id": "tbs-1791239997854-0hvg",
     "playerName": "Mooseyfate",
     "faction": "Horde",
