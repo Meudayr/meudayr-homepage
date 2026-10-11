@@ -1,5 +1,36 @@
 [
   {
+    "id": "tbs-1791649258553-rq7t",
+    "playerName": "Tropal",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "male",
+    "className": "Paladin",
+    "spec": "Retribution",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Holy",
+    "offspecRole": "Healer",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "PvP",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Blacksmithing",
+      "Mining"
+    ],
+    "profession1": "Blacksmithing",
+    "profession2": "Mining",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-10-10T16:20:58.553Z",
+    "updatedAt": "2026-10-10T16:20:58.553Z"
+  },
+  {
     "id": "tbs-1791392863499-33pa",
     "playerName": "Father jabron/Jabroni",
     "faction": "Horde",
