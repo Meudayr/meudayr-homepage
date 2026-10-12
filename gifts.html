@@ -1503,7 +1503,6 @@
             </div>
           </div>
           <div id="favorites-chips-container" class="chip-row"></div>
-          <div id="quick-owned-strip" class="quick-owned-strip hidden" aria-label="Quick Owned Gifts Strip"></div>
         </div>
 
         <div id="inventory-drawer" class="inventory-drawer hidden" role="region" aria-label="Current Gifts Inventory Manager">
@@ -1516,14 +1515,6 @@
           </div>
 
           <div id="inventory-status-banner" class="inventory-status hidden" role="status" aria-live="polite"></div>
-
-          <div class="owned-gifts-tray-box">
-            <div class="subbar-header">
-              <strong style="font-size:0.94rem;">Currently in My Inventory (<span id="tray-owned-count" class="tabular-nums">0</span> Unique Gifts, <span id="tray-total-copies" class="tabular-nums">0</span> Total Copies)</strong>
-              <span style="font-size:0.82rem; color:var(--ink-2);">Click a gift name to filter recruits who want it, or click -1 / +1 to adjust copies as you give gifts in-game.</span>
-            </div>
-            <div id="owned-gifts-tray" class="chip-row"></div>
-          </div>
 
           <div class="inventory-grid">
             <div class="inventory-box">
@@ -1833,13 +1824,9 @@
       const favoritesChipsContainer = document.getElementById("favorites-chips-container");
       const filterFavoritesBtn = document.getElementById("filter-favorites-btn");
       const toggleInventoryBtn = document.getElementById("toggle-inventory-btn");
-      const quickOwnedStrip = document.getElementById("quick-owned-strip");
 
       const inventoryDrawer = document.getElementById("inventory-drawer");
       const inventoryStatusBanner = document.getElementById("inventory-status-banner");
-      const ownedGiftsTray = document.getElementById("owned-gifts-tray");
-      const trayOwnedCount = document.getElementById("tray-owned-count");
-      const trayTotalCopies = document.getElementById("tray-total-copies");
       const giftFileInput = document.getElementById("gift-file-input");
       const triggerUploadBtn = document.getElementById("trigger-upload-btn");
       const toggleAiPromptBtn = document.getElementById("toggle-ai-prompt-btn");
@@ -2011,70 +1998,9 @@
         return addedCount;
       }
 
-      function renderOwnedGiftsTray() {
-        const slugs = Array.from(ownedGifts).filter(function (s) { return giftBySlug.has(s); });
-        slugs.sort(function (a, b) {
-          return giftBySlug.get(a).name.localeCompare(giftBySlug.get(b).name);
-        });
-
-        let totalCopies = 0;
-        slugs.forEach(function (s) {
-          totalCopies += (ownedGiftCounts.get(s) || 1);
-        });
-
-        trayOwnedCount.textContent = String(slugs.length);
-        trayTotalCopies.textContent = String(totalCopies);
-
-        if (slugs.length === 0) {
-          ownedGiftsTray.innerHTML = '<span class="empty-favorites-hint">Your inventory is currently empty. Paste gift names below, upload a file, or click "+ Have Gift" on any recruit\'s gift row.</span>';
-          quickOwnedStrip.classList.add("hidden");
-          quickOwnedStrip.innerHTML = "";
-          return;
-        }
-
-        const pillsHtml = slugs.map(function (slug) {
-          const g = giftBySlug.get(slug);
-          const qty = ownedGiftCounts.get(slug) || 1;
-          return (
-            '<div class="owned-tray-pill">' +
-              '<button type="button" class="owned-tray-name-btn tabular-nums" data-filter-owned-gift="' + escapeHtml(g.name) + '" title="Filter recruits who Love (++) or Like (+) ' + escapeHtml(g.name) + '">' +
-                escapeHtml(g.name) + ' (x' + qty + ')' +
-              '</button>' +
-              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-dec-gift="' + escapeHtml(slug) + '" title="Use / remove 1 copy of ' + escapeHtml(g.name) + '">' +
-                'Use (-1)' +
-              '</button>' +
-              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-inc-gift="' + escapeHtml(slug) + '" title="Add 1 copy of ' + escapeHtml(g.name) + '">' +
-                '+1' +
-              '</button>' +
-            '</div>'
-          );
-        }).join("");
-
-        ownedGiftsTray.innerHTML = pillsHtml;
-
-        const quickPillsHtml = slugs.map(function (slug) {
-          const g = giftBySlug.get(slug);
-          const qty = ownedGiftCounts.get(slug) || 1;
-          return (
-            '<div class="owned-tray-pill">' +
-              '<button type="button" class="owned-tray-name-btn tabular-nums" data-filter-owned-gift="' + escapeHtml(g.name) + '" title="Click to filter recruits who want ' + escapeHtml(g.name) + '">' +
-                escapeHtml(g.name) + (qty > 1 ? ' (x' + qty + ')' : '') +
-              '</button>' +
-              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-dec-gift="' + escapeHtml(slug) + '" title="Give / use 1 copy of ' + escapeHtml(g.name) + '">' +
-                'Use (-1)' +
-              '</button>' +
-            '</div>'
-          );
-        }).join("");
-
-        quickOwnedStrip.innerHTML = '<span class="quick-owned-label tabular-nums">My Gifts (' + slugs.length + '):</span>' + quickPillsHtml;
-        quickOwnedStrip.classList.remove("hidden");
-      }
-
       function renderInventoryChecklist() {
         ownedCountInline.textContent = String(ownedGifts.size);
         toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
-        renderOwnedGiftsTray();
 
         invTabBtns.forEach(function (b) {
           const t = b.getAttribute("data-inv-tab");
@@ -2734,7 +2660,6 @@
         }
 
         renderFavoritesBar();
-        renderOwnedGiftsTray();
         ownedCountInline.textContent = String(ownedGifts.size);
         toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
 
@@ -3023,40 +2948,6 @@
         state.inventoryFilterQuery = inventoryFilterInput.value;
         renderInventoryChecklist();
       });
-
-      function handleTrayDelegation(e) {
-        const filterBtn = e.target.closest("[data-filter-owned-gift]");
-        if (filterBtn) {
-          const gName = filterBtn.getAttribute("data-filter-owned-gift");
-          state.mode = "character";
-          state.selectedSlug = "";
-          charJumpSelect.value = "";
-          state.searchQuery = gName;
-          mainSearchInput.value = gName;
-          expandedChars.clear();
-          render();
-          return;
-        }
-        const decBtn = e.target.closest("[data-dec-gift]");
-        if (decBtn) {
-          const slug = decBtn.getAttribute("data-dec-gift");
-          addGiftCopy(slug, -1);
-          renderInventoryChecklist();
-          render();
-          return;
-        }
-        const incBtn = e.target.closest("[data-inc-gift]");
-        if (incBtn) {
-          const slug = incBtn.getAttribute("data-inc-gift");
-          addGiftCopy(slug, 1);
-          renderInventoryChecklist();
-          render();
-          return;
-        }
-      }
-
-      ownedGiftsTray.addEventListener("click", handleTrayDelegation);
-      quickOwnedStrip.addEventListener("click", handleTrayDelegation);
 
       inventoryChecklist.addEventListener("click", function (e) {
         const btn = e.target.closest("[data-toggle-owned]");
