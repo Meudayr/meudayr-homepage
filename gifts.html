@@ -180,62 +180,43 @@
       }
     }
 
-    /* Hero Header congruent with meudayr.com tool pages */
+    /* Compact Hero Header */
     .gifts-hero {
       text-align: center;
-      padding: 44px 0 28px;
+      padding: 18px 0 14px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
 
     .gifts-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 14px;
+      padding: 3px 12px;
       background: var(--accent-bg);
       border: 1px solid var(--accent);
       border-radius: 9999px;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 700;
       color: var(--accent-ink);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
     .gifts-hero h1 {
-      margin: 0 0 12px 0;
-      font-size: clamp(1.85rem, 3.8vw, 2.6rem);
+      margin: 0 0 6px 0;
+      font-size: clamp(1.5rem, 3vw, 2.05rem);
       font-weight: 800;
-      line-height: 1.18;
+      line-height: 1.15;
       color: var(--ink-1);
-    }
-
-    .gifts-hero h1::after {
-      content: '';
-      display: block;
-      width: 44px;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 2px;
-      margin: 12px auto 0;
     }
 
     .gifts-hero p {
       margin: 0 auto;
       color: var(--ink-2);
-      max-width: 66ch;
-      font-size: 0.98rem;
-    }
-
-    .hero-controls-bar {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
+      max-width: 68ch;
+      font-size: 0.9rem;
     }
 
     button, select, input, textarea {
@@ -249,13 +230,13 @@
       justify-content: center;
       min-height: 44px;
       min-width: 44px;
-      padding: 8px 16px;
+      padding: 8px 14px;
       background-color: var(--bg-panel);
       color: var(--ink-1);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       text-decoration: none;
       transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
@@ -278,87 +259,25 @@
       background-color: var(--bg-subtle);
     }
 
-    .mode-tabs {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    @media (min-width: 680px) {
-      .mode-tabs {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .mode-tab {
-      min-height: 56px;
-      padding: 14px 18px;
-      text-align: left;
-      background: var(--bg-panel);
-      color: var(--ink-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      transition: background-color 150ms ease, border-color 150ms ease;
-    }
-
-    .mode-tab:hover {
-      background: var(--bg-subtle);
-      border-color: var(--border-strong);
-    }
-
-    .mode-tab[aria-selected="true"] {
-      background: var(--accent-bg);
-      color: var(--accent-ink);
-      border: 1.5px solid var(--accent);
-    }
-
-    .mode-tab-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.02rem;
-    }
-
-    .mode-tab-sub {
-      font-size: 0.84rem;
-      color: var(--ink-2);
-    }
-
-    .mode-tab[aria-selected="true"] .mode-tab-sub {
-      color: var(--accent-ink);
-    }
-
     .search-console {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 24px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
     }
 
-    .search-row {
+    .search-bar-inline {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
     }
 
-    @media (min-width: 640px) {
-      .search-row {
+    @media (min-width: 768px) {
+      .search-bar-inline {
         flex-direction: row;
-        align-items: flex-end;
+        align-items: center;
       }
-    }
-
-    .search-field-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
     }
 
     .field-label {
@@ -368,10 +287,12 @@
     }
 
     .search-input {
+      flex: 1 1 240px;
+      min-width: 0;
       width: 100%;
-      min-height: 48px;
-      padding: 10px 14px;
-      font-size: 1rem;
+      min-height: 44px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
       background: var(--bg-page);
       color: var(--ink-1);
       border: 1px solid var(--border);
@@ -387,32 +308,6 @@
       opacity: 1;
     }
 
-    .filters-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-
-    @media (min-width: 640px) {
-      .filters-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 961px) {
-      .filters-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
     .filter-select {
       width: 100%;
       min-height: 44px;
@@ -421,18 +316,25 @@
       color: var(--ink-1);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+    }
+
+    @media (min-width: 768px) {
+      .search-bar-inline .filter-select {
+        width: auto;
+        flex: 0 1 205px;
+      }
     }
 
     .console-subbar {
       background: var(--bg-panel);
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-lg);
-      padding: 12px 18px;
-      margin-bottom: 16px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       position: sticky;
       top: 8px;
       z-index: 30;
@@ -1348,146 +1250,41 @@
     <section class="gifts-hero">
       <div class="gifts-badge">Fire Emblem: Fortune's Weave</div>
       <h1>Gift &amp; Support Ledger</h1>
-      <p>Spoiler-free, image-free reference for all 60 playable characters and 116 gift items. Pin favorite recruits, upload or paste your current gifts to highlight matches, and view structured town vendor prices.</p>
-
-      <div class="hero-controls-bar">
-        <button type="button" id="theme-toggle-btn" class="btn" aria-pressed="true">
-          Switch to Light Theme
-        </button>
-      </div>
+      <p>Spoiler-free reference for all 60 playable characters and 116 gifts. Search any recruit or gift item, pin favorites, and manage your inventory.</p>
     </section>
 
     <main id="main-content">
-      <div class="mode-tabs" role="tablist" aria-label="Lookup mode">
-        <button
-          type="button"
-          role="tab"
-          id="tab-character"
-          class="mode-tab"
-          aria-selected="true"
-          aria-controls="panel-lookup"
-          data-mode="character"
-        >
-          <span class="mode-tab-title">1. By Character (60)</span>
-          <span class="mode-tab-sub">Put in a character name to see what to give them</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          id="tab-gift"
-          class="mode-tab"
-          aria-selected="false"
-          aria-controls="panel-lookup"
-          data-mode="gift"
-        >
-          <span class="mode-tab-title">2. By Gift Item (116)</span>
-          <span class="mode-tab-sub">Put in a gift item to see who to give it to</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          id="tab-guide"
-          class="mode-tab"
-          aria-selected="false"
-          aria-controls="panel-guide"
-          data-mode="guide"
-        >
-          <span class="mode-tab-title">3. Gift Mechanics &amp; Shops</span>
-          <span class="mode-tab-sub">Weekly rules, Support 3 priority, and vendor discounts</span>
-        </button>
-      </div>
-
-      <section id="panel-lookup" role="tabpanel" aria-labelledby="tab-character">
+      <section id="panel-lookup" aria-label="Character and Gift Lookup">
         <div class="search-console">
-          <div class="search-row">
-            <div class="search-field-wrap">
-              <label for="main-search-input" id="search-label" class="field-label">
-                Search Character Name or Gift Item (e.g., Yang Jie, Dietrich, Cai, Tialla, Portrait of Yu Phas)
-              </label>
-              <input
-                type="search"
-                id="main-search-input"
-                class="search-input"
-                placeholder="Type a character name or gift..."
-                autocomplete="off"
-              >
-            </div>
+          <div class="search-bar-inline">
+            <input
+              type="search"
+              id="main-search-input"
+              class="search-input"
+              aria-label="Search character name or gift item"
+              placeholder="Search character or gift (e.g., Dietrich, Cai, Kitten Figurine)..."
+              autocomplete="off"
+            >
+            <select id="char-priority-filter" class="filter-select" aria-label="Filter recruits">
+              <option value="all">All Recruits (60)</option>
+              <option value="favorites">Favorites Only</option>
+              <option value="owned_match">Matches My Inventory</option>
+              <option value="support3">Support 3 Priority</option>
+              <option value="support2">Support 2 Priority</option>
+              <option value="support1">Support 1 Priority</option>
+              <option value="auto">Auto / Story Recruits</option>
+              <option value="pending">Pending Gift Table (5)</option>
+            </select>
+            <select id="char-tier-filter" class="filter-select" aria-label="Filter or sort gift display">
+              <option value="all">Gifts: Loved (++) &amp; Liked (+)</option>
+              <option value="loved">Gifts: Loved (++) Only</option>
+              <option value="owned">Gifts: My Inventory Only</option>
+              <option value="price">Gifts: Cheapest Price First</option>
+            </select>
             <button type="button" id="clear-search-btn" class="btn">
-              Clear Search (Esc)
+              Clear
             </button>
           </div>
-
-          <div id="character-filters" class="filters-grid">
-            <div class="filter-group">
-              <label for="char-priority-filter" class="field-label">Recruitment Priority</label>
-              <select id="char-priority-filter" class="filter-select">
-                <option value="all">All Playable Characters (60)</option>
-                <option value="favorites">Favorite Recruits Only</option>
-                <option value="owned_match">Recruits Matching My Current Gifts</option>
-                <option value="support3">Support Level 3 Required (High Priority)</option>
-                <option value="support2">Support Level 2 Required (Medium Priority)</option>
-                <option value="support1">Support Level 1 Required (1 Gift Needed)</option>
-                <option value="auto">Automatic / Lord / Story Recruits</option>
-                <option value="pending">Pending Full Gift Table (5 Characters)</option>
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="char-tier-filter" class="field-label">Reaction Tier Display</label>
-              <select id="char-tier-filter" class="filter-select">
-                <option value="all">Show Loved (++) and Liked (+)</option>
-                <option value="loved">Show Loved (++) Gifts Only</option>
-                <option value="owned">Show Only My Current Gifts</option>
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="list-sort-select" class="field-label">Sort Gift List By</label>
-              <select id="list-sort-select" class="filter-select">
-                <option value="owned_first">My Current Gifts First, then A to Z</option>
-                <option value="alpha">Gift Name (A to Z)</option>
-                <option value="price">Cheapest Shop Price First</option>
-                <option value="category">Category (A to Z)</option>
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="char-jump-select" class="field-label">Jump Directly to Character</label>
-              <select id="char-jump-select" class="filter-select">
-                <option value="">Select a character from roster...</option>
-              </select>
-            </div>
-          </div>
-
-          <div id="gift-filters" class="filters-grid hidden">
-            <div class="filter-group">
-              <label for="gift-category-filter" class="field-label">Gift Category</label>
-              <select id="gift-category-filter" class="filter-select">
-                <option value="all">All Gift Categories (116)</option>
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="gift-shop-filter" class="field-label">Acquisition &amp; Inventory</label>
-              <select id="gift-shop-filter" class="filter-select">
-                <option value="all">All Gifts (116)</option>
-                <option value="owned">My Current Gifts (In Inventory)</option>
-                <option value="shop">Sold in Regional Town Shops (82)</option>
-                <option value="universal">Widely Loved (8+ Characters Love It)</option>
-                <option value="food">Food &amp; Drink Gifts Only</option>
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="gift-jump-select" class="field-label">Jump Directly to Gift Item</label>
-              <select id="gift-jump-select" class="filter-select">
-                <option value="">Select a gift item...</option>
-              </select>
-            </div>
-          </div>
-
         </div>
 
         <div class="console-subbar">
@@ -1495,14 +1292,17 @@
             <span id="favorites-bar-title" class="subbar-title tabular-nums">Favorites (0 Recruits):</span>
             <div class="subbar-actions">
               <button type="button" id="filter-favorites-btn" class="btn" aria-pressed="false">
-                Show All Favorites
+                Show All Favorites (0)
               </button>
               <button type="button" id="toggle-inventory-btn" class="btn" aria-expanded="false" aria-controls="inventory-drawer">
                 Upload / Manage Current Gifts (0 Owned)
               </button>
+              <button type="button" id="toggle-guide-btn" class="btn" aria-expanded="false" aria-controls="panel-guide">
+                Mechanics &amp; Shops
+              </button>
             </div>
           </div>
-          <div id="favorites-chips-container" class="chip-row"></div>
+          <div id="favorites-chips-container" class="chip-row hidden"></div>
         </div>
 
         <div id="inventory-drawer" class="inventory-drawer hidden" role="region" aria-label="Current Gifts Inventory Manager">
@@ -1579,6 +1379,85 @@
           </div>
         </div>
 
+        <section id="panel-guide" class="inventory-drawer hidden" role="region" aria-label="Gift Mechanics and Shops Guide">
+          <div class="subbar-header">
+            <strong style="font-size:1rem;">Gift Mechanics, Support Priority &amp; Town Shops</strong>
+            <button type="button" id="close-guide-btn" class="btn">Close Guide</button>
+          </div>
+          <div class="guide-grid">
+            <article class="guide-card">
+              <h2>Core Gift-Giving Rules (Spoiler-Free)</h2>
+              <ul>
+                <li><strong>Weekly Limit:</strong> You can give each character <strong>1 gift per in-game week</strong> during Free Time in Dagsion.</li>
+                <li><strong>First Gift ("New Bond"):</strong> Giving any first gift to a character you have met in Dagsion establishes a New Bond. This reveals their recruitment conditions in your roster and unlocks the ability to share Meals with them, even if that first gift is not one of their favorites.</li>
+                <li><strong>Reaction Tiers:</strong>
+                  <ul>
+                    <li><strong>Loved (++, Double Golden Arrow):</strong> Grants the maximum support point bonus (roughly 2x standard points).</li>
+                    <li><strong>Liked (+, Single Arrow):</strong> Grants a moderate support boost and restores character Motivation.</li>
+                    <li><strong>Neutral / Disliked:</strong> Minimal or zero support gain after the initial New Bond gift.</li>
+                  </ul>
+                </li>
+                <li><strong>Birthday Bonus:</strong> Any gift given on a character's birthday is automatically treated as at least <strong>Really Liked</strong>, making birthdays ideal for inexpensive items.</li>
+              </ul>
+            </article>
+
+            <article class="guide-card">
+              <h2>Recruitment Support Priority</h2>
+              <p style="margin-top:0; color:var(--ink-2);">Many playable characters in Fortune's Weave require a specific Support Level before a chapter deadline to join your roster.</p>
+              <div class="guide-table-wrap">
+                <table class="guide-table tabular-nums">
+                  <thead>
+                    <tr>
+                      <th>Requirement</th>
+                      <th>Gift Strategy</th>
+                      <th>Notable Examples</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Support Level 3</strong></td>
+                      <td>Gift a Loved (++) item every week starting as early as possible</td>
+                      <td>Yang Jie, Tialla, Alexandra, Catania, Elektra</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Support Level 2</strong></td>
+                      <td>Moderate priority; combine 2 to 3 Loved gifts with shared Meals</td>
+                      <td>24 playable characters across routes</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Support Level 1</strong></td>
+                      <td>Low urgency; giving a single initial gift is often enough</td>
+                      <td>18 early and mid-game characters</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="guide-card">
+              <h2>Where to Buy Gifts &amp; How to Save Gold</h2>
+              <ul>
+                <li><strong>Dagsion Shopping Arcade (Marketplace):</strong> Unlocks in Chapter 4. Sells higher-rarity curiosities, instruments, and accessories.</li>
+                <li><strong>Dagsion Lowtown Tavern:</strong> Sells food, snacks, and drink gifts at lower prices. Inventory restocks each chapter.</li>
+                <li><strong>Regional Town Shops (27 Towns):</strong> World map towns stock regional specialties (ranging from 30 G to 2,000 G). Every known town vendor location and Gold price is listed in the right-hand column of each gift row.</li>
+                <li><strong>Gift Crates:</strong> Purchased crates yield random high-rarity gifts at a lower average cost than buying individual expensive items.</li>
+                <li><strong>10% Permanent Discount:</strong> Unlock the <strong>Gifts Discount Boon of Salvation</strong> for <strong>300 Karma Shards</strong> at a Pale Raven's Perch or Shrine of Causality before buying expensive gifts in bulk.</li>
+              </ul>
+            </article>
+
+            <article class="guide-card">
+              <h2>Universal Crowd-Pleaser Gifts</h2>
+              <p style="margin-top:0; color:var(--ink-2);">If you are stocking up from shops or Gift Crates without a single recipient in mind, these items are Loved (++) by the largest number of characters:</p>
+              <ul class="tabular-nums">
+                <li><strong>Portrait of Yu Phas:</strong> Loved (++) by 29 characters, Liked (+) by 22 characters (Sold in regional shops for 500 G).</li>
+                <li><strong>Tales of Adventure:</strong> Loved (++) by 26 characters, Liked (+) by 24 characters (Sold in regional shops for 300 G).</li>
+                <li><strong>Pegasus Panorama:</strong> Widely loved across flyers, nobles, and art admirers.</li>
+                <li><strong>Strategy Manuscript / Home-Recipe Book:</strong> High overlap across tacticians, commanders, and cooks.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
         <div id="state-empty" class="state-panel hidden" role="status" aria-live="polite">
           <h2>No Matching Records Found</h2>
           <p id="empty-state-message">No characters or gift items matched your current search and filter combination.</p>
@@ -1604,81 +1483,6 @@
           </div>
 
           <div id="cards-container" class="cards-stack"></div>
-        </div>
-      </section>
-
-      <section id="panel-guide" role="tabpanel" aria-labelledby="tab-guide" class="hidden">
-        <div class="guide-grid">
-          <article class="guide-card">
-            <h2>Core Gift-Giving Rules (Spoiler-Free)</h2>
-            <ul>
-              <li><strong>Weekly Limit:</strong> You can give each character <strong>1 gift per in-game week</strong> during Free Time in Dagsion.</li>
-              <li><strong>First Gift ("New Bond"):</strong> Giving any first gift to a character you have met in Dagsion establishes a New Bond. This reveals their recruitment conditions in your roster and unlocks the ability to share Meals with them, even if that first gift is not one of their favorites.</li>
-              <li><strong>Reaction Tiers:</strong>
-                <ul>
-                  <li><strong>Loved (++, Double Golden Arrow):</strong> Grants the maximum support point bonus (roughly 2x standard points).</li>
-                  <li><strong>Liked (+, Single Arrow):</strong> Grants a moderate support boost and restores character Motivation.</li>
-                  <li><strong>Neutral / Disliked:</strong> Minimal or zero support gain after the initial New Bond gift.</li>
-                </ul>
-              </li>
-              <li><strong>Birthday Bonus:</strong> Any gift given on a character's birthday is automatically treated as at least <strong>Really Liked</strong>, making birthdays ideal for inexpensive items.</li>
-            </ul>
-          </article>
-
-          <article class="guide-card">
-            <h2>Recruitment Support Priority</h2>
-            <p style="margin-top:0; color:var(--ink-2);">Many playable characters in Fortune's Weave require a specific Support Level before a chapter deadline to join your roster.</p>
-            <div class="guide-table-wrap">
-              <table class="guide-table tabular-nums">
-                <thead>
-                  <tr>
-                    <th>Requirement</th>
-                    <th>Gift Strategy</th>
-                    <th>Notable Examples</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>Support Level 3</strong></td>
-                    <td>Gift a Loved (++) item every week starting as early as possible</td>
-                    <td>Yang Jie, Tialla, Alexandra, Catania, Elektra</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Support Level 2</strong></td>
-                    <td>Moderate priority; combine 2 to 3 Loved gifts with shared Meals</td>
-                    <td>24 playable characters across routes</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Support Level 1</strong></td>
-                    <td>Low urgency; giving a single initial gift is often enough</td>
-                    <td>18 early and mid-game characters</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </article>
-
-          <article class="guide-card">
-            <h2>Where to Buy Gifts &amp; How to Save Gold</h2>
-            <ul>
-              <li><strong>Dagsion Shopping Arcade (Marketplace):</strong> Unlocks in Chapter 4. Sells higher-rarity curiosities, instruments, and accessories.</li>
-              <li><strong>Dagsion Lowtown Tavern:</strong> Sells food, snacks, and drink gifts at lower prices. Inventory restocks each chapter.</li>
-              <li><strong>Regional Town Shops (27 Towns):</strong> World map towns stock regional specialties (ranging from 30 G to 2,000 G). Every known town vendor location and Gold price is listed in the right-hand column of each gift row.</li>
-              <li><strong>Gift Crates:</strong> Purchased crates yield random high-rarity gifts at a lower average cost than buying individual expensive items.</li>
-              <li><strong>10% Permanent Discount:</strong> Unlock the <strong>Gifts Discount Boon of Salvation</strong> for <strong>300 Karma Shards</strong> at a Pale Raven's Perch or Shrine of Causality before buying expensive gifts in bulk.</li>
-            </ul>
-          </article>
-
-          <article class="guide-card">
-            <h2>Universal Crowd-Pleaser Gifts</h2>
-            <p style="margin-top:0; color:var(--ink-2);">If you are stocking up from shops or Gift Crates without a single recipient in mind, these items are Loved (++) by the largest number of characters:</p>
-            <ul class="tabular-nums">
-              <li><strong>Portrait of Yu Phas:</strong> Loved (++) by 29 characters, Liked (+) by 22 characters (Sold in regional shops for 500 G).</li>
-              <li><strong>Tales of Adventure:</strong> Loved (++) by 26 characters, Liked (+) by 24 characters (Sold in regional shops for 300 G).</li>
-              <li><strong>Pegasus Panorama:</strong> Widely loved across flyers, nobles, and art admirers.</li>
-              <li><strong>Strategy Manuscript / Home-Recipe Book:</strong> High overlap across tacticians, commanders, and cooks.</li>
-            </ul>
-          </article>
         </div>
       </section>
     </main>
@@ -1779,46 +1583,26 @@
       const navHistory = [];
 
       const state = {
-        mode: "character",
         searchQuery: "",
         selectedSlug: "",
         charPriorityFilter: "all",
         charTierFilter: "all",
-        listSortBy: "owned_first",
-        giftCategoryFilter: "all",
-        giftShopFilter: "all",
         inventoryDrawerOpen: false,
+        guideDrawerOpen: false,
         aiPromptOpen: false,
         inventoryFilterQuery: "",
         inventoryTab: "all"
       };
 
-      const htmlEl = document.documentElement;
-      const themeToggleBtn = document.getElementById("theme-toggle-btn");
-
-      const tabCharacter = document.getElementById("tab-character");
-      const tabGift = document.getElementById("tab-gift");
-      const tabGuide = document.getElementById("tab-guide");
-      const allTabs = [tabCharacter, tabGift, tabGuide];
-
-      const panelLookup = document.getElementById("panel-lookup");
       const panelGuide = document.getElementById("panel-guide");
+      const toggleGuideBtn = document.getElementById("toggle-guide-btn");
+      const closeGuideBtn = document.getElementById("close-guide-btn");
 
-      const searchLabel = document.getElementById("search-label");
       const mainSearchInput = document.getElementById("main-search-input");
       const clearSearchBtn = document.getElementById("clear-search-btn");
 
-      const characterFilters = document.getElementById("character-filters");
-      const giftFilters = document.getElementById("gift-filters");
-
       const charPriorityFilter = document.getElementById("char-priority-filter");
       const charTierFilter = document.getElementById("char-tier-filter");
-      const listSortSelect = document.getElementById("list-sort-select");
-      const charJumpSelect = document.getElementById("char-jump-select");
-
-      const giftCategoryFilter = document.getElementById("gift-category-filter");
-      const giftShopFilter = document.getElementById("gift-shop-filter");
-      const giftJumpSelect = document.getElementById("gift-jump-select");
 
       const favoritesBarTitle = document.getElementById("favorites-bar-title");
       const favoritesChipsContainer = document.getElementById("favorites-chips-container");
@@ -1875,7 +1659,6 @@
 
       function pushNavHistory(label) {
         navHistory.push({
-          mode: state.mode,
           searchQuery: state.searchQuery,
           selectedSlug: state.selectedSlug,
           charPriorityFilter: state.charPriorityFilter,
@@ -2053,14 +1836,7 @@
 
       function sortGiftRefs(refs) {
         const copy = refs.slice();
-        if (state.listSortBy === "owned_first") {
-          copy.sort(function (a, b) {
-            const oa = ownedGifts.has(a.slug) ? 0 : 1;
-            const ob = ownedGifts.has(b.slug) ? 0 : 1;
-            if (oa !== ob) return oa - ob;
-            return a.name.localeCompare(b.name);
-          });
-        } else if (state.listSortBy === "price") {
+        if (state.charTierFilter === "price") {
           copy.sort(function (a, b) {
             const ga = giftBySlug.get(a.slug);
             const gb = giftBySlug.get(b.slug);
@@ -2069,52 +1845,15 @@
             if (pa !== pb) return pa - pb;
             return a.name.localeCompare(b.name);
           });
-        } else if (state.listSortBy === "category") {
-          copy.sort(function (a, b) {
-            const ga = giftBySlug.get(a.slug);
-            const gb = giftBySlug.get(b.slug);
-            const ca = ga ? ga.category : "";
-            const cb = gb ? gb.category : "";
-            if (ca !== cb) return ca.localeCompare(cb);
-            return a.name.localeCompare(b.name);
-          });
         } else {
           copy.sort(function (a, b) {
+            const oa = ownedGifts.has(a.slug) ? 0 : 1;
+            const ob = ownedGifts.has(b.slug) ? 0 : 1;
+            if (oa !== ob) return oa - ob;
             return a.name.localeCompare(b.name);
           });
         }
         return copy;
-      }
-
-      function initDropdowns() {
-        dataset.characters.forEach(function (c) {
-          const opt = document.createElement("option");
-          opt.value = c.slug;
-          const total = c.loved.length + c.liked.length;
-          opt.textContent = total > 0
-            ? c.name + " (" + c.loved.length + " Loved, " + c.liked.length + " Liked)"
-            : c.name + " (Interests & Category Guide)";
-          charJumpSelect.appendChild(opt);
-        });
-
-        const categoryCounts = {};
-        dataset.gifts.forEach(function (g) {
-          categoryCounts[g.category] = (categoryCounts[g.category] || 0) + 1;
-        });
-
-        Object.keys(categoryCounts).sort().forEach(function (cat) {
-          const opt = document.createElement("option");
-          opt.value = cat;
-          opt.textContent = cat + " (" + categoryCounts[cat] + ")";
-          giftCategoryFilter.appendChild(opt);
-        });
-
-        dataset.gifts.forEach(function (g) {
-          const opt = document.createElement("option");
-          opt.value = g.slug;
-          opt.textContent = g.name + " (" + g.lovedBy.length + " ++ / " + g.likedBy.length + " +)";
-          giftJumpSelect.appendChild(opt);
-        });
       }
 
       function getHighestSupportReq(charObj) {
@@ -2160,18 +1899,18 @@
           return charBySlug.get(a).name.localeCompare(charBySlug.get(b).name);
         });
 
-        favoritesBarTitle.textContent = "Favorites (" + favSlugs.length + (favSlugs.length === 1 ? " Recruit):" : " Recruits):");
-        const isFavFilterActive = state.mode === "character" && state.charPriorityFilter === "favorites" && !state.selectedSlug;
+        const isFavFilterActive = state.charPriorityFilter === "favorites" && !state.selectedSlug;
         filterFavoritesBtn.setAttribute("aria-pressed", isFavFilterActive ? "true" : "false");
         filterFavoritesBtn.textContent = "Show All Favorites (" + favSlugs.length + ")";
 
         if (favSlugs.length === 0) {
-          const hint = document.createElement("span");
-          hint.className = "empty-favorites-hint";
-          hint.textContent = "No favorite recruits pinned yet. Click '+ Favorite Recruit' on any character card below to pin them here for one-click access.";
-          favoritesChipsContainer.appendChild(hint);
+          favoritesBarTitle.textContent = "Favorites (0 Recruits) - click '+ Favorite Recruit' on any card to pin";
+          favoritesChipsContainer.classList.add("hidden");
           return;
         }
+
+        favoritesBarTitle.textContent = "Favorites (" + favSlugs.length + (favSlugs.length === 1 ? " Recruit):" : " Recruits):");
+        favoritesChipsContainer.classList.remove("hidden");
 
         favSlugs.forEach(function (slug) {
           const c = charBySlug.get(slug);
@@ -2180,7 +1919,7 @@
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "chip-btn tabular-nums" + (ownedGifts.size > 0 && ownedMatch.total > 0 ? " has-owned-match" : "");
-          const isSelected = state.mode === "character" && state.selectedSlug === c.slug;
+          const isSelected = state.selectedSlug === c.slug;
           btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
           if (ownedGifts.size > 0 && ownedMatch.total > 0) {
             btn.textContent = c.name + " (" + ownedMatch.lovedOwned + " ++ / " + ownedMatch.likedOwned + " +)";
@@ -2188,14 +1927,11 @@
             btn.textContent = c.name;
           }
           btn.addEventListener("click", function () {
-            state.mode = "character";
             if (state.selectedSlug === c.slug) {
               state.selectedSlug = "";
-              charJumpSelect.value = "";
             } else {
               pushNavHistory(state.selectedSlug && charBySlug.has(state.selectedSlug) ? charBySlug.get(state.selectedSlug).name : "Recruit List");
               state.selectedSlug = c.slug;
-              charJumpSelect.value = c.slug;
               mainSearchInput.value = "";
               state.searchQuery = "";
             }
@@ -2236,41 +1972,6 @@
         });
       }
 
-      function filterGifts() {
-        const q = state.searchQuery.trim().toLowerCase();
-        return dataset.gifts.filter(function (g) {
-          if (state.selectedSlug && g.slug !== state.selectedSlug) {
-            return false;
-          }
-          if (state.giftCategoryFilter !== "all" && g.category !== state.giftCategoryFilter) {
-            return false;
-          }
-          if (state.giftShopFilter === "owned" && !ownedGifts.has(g.slug)) {
-            return false;
-          }
-          if (state.giftShopFilter === "shop" && (!g.shops || g.shops.length === 0)) {
-            return false;
-          }
-          if (state.giftShopFilter === "universal" && g.lovedBy.length < 8) {
-            return false;
-          }
-          if (state.giftShopFilter === "food" && !g.isFood) {
-            return false;
-          }
-          if (!q) return true;
-          const inName = g.name.toLowerCase().indexOf(q) !== -1;
-          const inCat = g.category.toLowerCase().indexOf(q) !== -1;
-          const inDesc = (g.description || "").toLowerCase().indexOf(q) !== -1;
-          const inLovedBy = g.lovedBy.some(function (cRef) {
-            return cRef.name.toLowerCase().indexOf(q) !== -1;
-          });
-          const inLikedBy = g.likedBy.some(function (cRef) {
-            return cRef.name.toLowerCase().indexOf(q) !== -1;
-          });
-          return inName || inCat || inDesc || inLovedBy || inLikedBy;
-        });
-      }
-
       function buildGiftRowHtml(gRef, isLoved) {
         const gObj = giftBySlug.get(gRef.slug);
         const cat = gObj ? gObj.category : "Gift";
@@ -2290,7 +1991,7 @@
           : "+ Have Gift";
         return (
           '<li class="ledger-list-item">' +
-            '<button type="button" class="' + rowClass + '" data-jump-gift="' + escapeHtml(gRef.slug) + '" data-jump-gift-name="' + escapeHtml(gRef.name) + '">' +
+            '<button type="button" class="' + rowClass + '" data-jump-gift="' + escapeHtml(gRef.slug) + '" data-jump-gift-name="' + escapeHtml(gRef.name) + '" title="Filter all recruits who Love (++) or Like (+) ' + escapeHtml(gRef.name) + '">' +
               '<span class="row-col-name">' +
                 '<span class="row-tier-mark tabular-nums">' + (isLoved ? "++" : "+") + '</span>' +
                 '<span>' + escapeHtml(gRef.name) + '</span>' +
@@ -2301,33 +2002,6 @@
             '</button>' +
             '<button type="button" class="row-inv-btn' + (isOwned ? ' is-owned' : '') + ' tabular-nums" data-quick-inv="' + escapeHtml(gRef.slug) + '" title="' + (isOwned ? 'Mark 1 copy as given/used in-game' : 'Add this gift to your current inventory') + '">' +
               escapeHtml(invBtnLabel) +
-            '</button>' +
-          '</li>'
-        );
-      }
-
-      function buildCharRowHtml(cRef, isLoved) {
-        const cObj = charBySlug.get(cRef.slug);
-        const isFav = favoriteChars.has(cRef.slug);
-        const prio = cObj ? getHighestSupportReq(cObj) : "auto";
-        const routeSummary = cObj ? formatRecruitmentSummary(cObj) : "Joins via story";
-        let prioLabel = "Story / Auto Recruit";
-        if (prio === "support3") prioLabel = "High Priority (Support 3)";
-        else if (prio === "support2") prioLabel = "Medium Priority (Support 2)";
-        else if (prio === "support1") prioLabel = "Low Priority (Support 1)";
-
-        let tierClass = isLoved ? "crosslink-btn loved-item" : "crosslink-btn";
-        if (isFav) tierClass += " owned-gift-row";
-        return (
-          '<li class="ledger-list-item">' +
-            '<button type="button" class="' + tierClass + '" data-jump-char="' + escapeHtml(cRef.slug) + '" data-jump-char-name="' + escapeHtml(cRef.name) + '">' +
-              '<span class="row-col-name">' +
-                '<span class="row-tier-mark tabular-nums">' + (isLoved ? "++" : "+") + '</span>' +
-                '<span>' + escapeHtml(cRef.name) + '</span>' +
-                (isFav ? '<span class="owned-pill">FAVORITE</span>' : '') +
-              '</span>' +
-              '<span class="row-col-category tabular-nums">' + escapeHtml(routeSummary) + '</span>' +
-              '<span class="row-col-shop tabular-nums">' + escapeHtml(prioLabel) + '</span>' +
             '</button>' +
           '</li>'
         );
@@ -2431,7 +2105,7 @@
 
           const verifiedCount = c.loved.filter(function (gRef) { return gRef.verified; }).length;
           const sourceNote = hasGiftData
-            ? "Click any gift name to inspect all recipients, or use the right-hand button to add/use gifts from your inventory (" + verifiedCount + " multi-source verified Loved items)."
+            ? "Click any gift name to filter all recruits who want it, or use the right-hand button to add/use gifts from your inventory (" + verifiedCount + " multi-source verified Loved items)."
             : "Roster interests and recruitment data verified; item-by-item reactions pending wiki completion.";
           footerSection = '<div class="card-footer-note">' + escapeHtml(sourceNote) + '</div>';
         } else if (hasGiftSearchMatch) {
@@ -2543,124 +2217,9 @@
         );
       }
 
-      function renderGiftCard(g, isSingleFocus) {
-        const isOwned = ownedGifts.has(g.slug);
-        const qty = ownedGiftCounts.get(g.slug) || 1;
-        const lovedRows = g.lovedBy.map(function (cRef) {
-          return buildCharRowHtml(cRef, true);
-        }).join("");
-
-        let likedSection = "";
-        if (state.charTierFilter !== "loved") {
-          const likedRows = g.likedBy.map(function (cRef) {
-            return buildCharRowHtml(cRef, false);
-          }).join("");
-          likedSection =
-            '<div class="tier-section">' +
-              '<h3 class="tier-heading">' +
-                '<span>Liked By (Moderate Support Boost)</span>' +
-                '<span class="tier-badge-liked tabular-nums">+ (' + g.likedBy.length + ' Characters)</span>' +
-              '</h3>' +
-              (g.likedBy.length > 0
-                ? '<div class="structured-list-wrap">' +
-                    '<div class="list-col-headers char-col-headers" aria-hidden="true">' +
-                      '<span>Character Name</span>' +
-                      '<span>Route Recruitment</span>' +
-                      '<span>Support Priority</span>' +
-                    '</div>' +
-                    '<ul class="ledger-list">' + likedRows + '</ul>' +
-                  '</div>'
-                : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">No characters list this item in the secondary Liked (+) tier.</p>') +
-            '</div>';
-        }
-
-        let shopHtml = "";
-        if (g.shops && g.shops.length > 0) {
-          const items = g.shops.map(function (s) {
-            return '<li class="tabular-nums">' + escapeHtml(s) + '</li>';
-          }).join("");
-          shopHtml =
-            '<div class="shop-box">' +
-              '<strong>Where to Buy (Regional Town Shops):</strong>' +
-              '<ul class="shop-list">' + items + '</ul>' +
-            '</div>';
-        } else {
-          shopHtml =
-            '<div class="shop-box">' +
-              '<strong>Where to Obtain:</strong> Dagsion Shopping Arcade / Lowtown Tavern rotating stock, Gift Crates, or exploration rewards.' +
-            '</div>';
-        }
-
-        return (
-          '<article class="ledger-card' + (isSingleFocus ? " highlighted-card" : "") + '">' +
-            '<div class="card-header">' +
-              '<div>' +
-                '<h2 class="card-title">' + escapeHtml(g.name) + '</h2>' +
-                '<p class="card-subtitle">' + escapeHtml(g.description || "In-game gift item.") + '</p>' +
-              '</div>' +
-              '<div class="tag-row">' +
-                '<span class="ledger-tag">' + escapeHtml(g.category) + '</span>' +
-                (g.isFood ? '<span class="ledger-tag priority-high">Food / Drink</span>' : '') +
-                '<button type="button" class="btn tabular-nums" data-toggle-owned="' + escapeHtml(g.slug) + '" aria-pressed="' + (isOwned ? "true" : "false") + '">' +
-                  (isOwned ? "In My Inventory" + (qty > 1 ? " (x" + qty + ")" : "") : "+ Have This Gift") +
-                '</button>' +
-                (isOwned
-                  ? '<button type="button" class="btn tabular-nums" data-quick-inv="' + escapeHtml(g.slug) + '">' +
-                      'Use / Give (-1)' +
-                    '</button>'
-                  : '') +
-              '</div>' +
-            '</div>' +
-            shopHtml +
-            '<div class="tier-section">' +
-              '<h3 class="tier-heading">' +
-                '<span>Loved By (Best Recipients, Max Support Boost)</span>' +
-                '<span class="tier-badge-loved tabular-nums">++ (' + g.lovedBy.length + ' Characters)</span>' +
-              '</h3>' +
-              (g.lovedBy.length > 0
-                ? '<div class="structured-list-wrap loved-list-wrap">' +
-                    '<div class="list-col-headers char-col-headers" aria-hidden="true">' +
-                      '<span>Character Name</span>' +
-                      '<span>Route Recruitment</span>' +
-                      '<span>Support Priority</span>' +
-                    '</div>' +
-                    '<ul class="ledger-list">' + lovedRows + '</ul>' +
-                  '</div>'
-                : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">No characters list this item as Loved (++); check Liked (+) recipients below.</p>') +
-            '</div>' +
-            likedSection +
-            '<div class="card-footer-note">Click any character row to jump to their full gift list and recruitment requirements.</div>' +
-          '</article>'
-        );
-      }
-
       function render() {
-        allTabs.forEach(function (t) {
-          const isSelected = t.getAttribute("data-mode") === state.mode;
-          t.setAttribute("aria-selected", isSelected ? "true" : "false");
-        });
-
-        if (state.mode === "guide") {
-          panelLookup.classList.add("hidden");
-          panelGuide.classList.remove("hidden");
-          return;
-        }
-
-        panelGuide.classList.add("hidden");
-        panelLookup.classList.remove("hidden");
-        panelLookup.setAttribute("aria-labelledby", state.mode === "character" ? "tab-character" : "tab-gift");
-
-        if (state.mode === "character") {
-          searchLabel.textContent = "Search Character Name or Gift Item (e.g., Yang Jie, Dietrich, Cai, Tialla, Portrait of Yu Phas)";
-          mainSearchInput.placeholder = "Type a character name or gift...";
-          characterFilters.classList.remove("hidden");
-          giftFilters.classList.add("hidden");
-        } else {
-          searchLabel.textContent = "Search Gift Item Name, Category, Clue, or Recipient (e.g., Portrait of Yu Phas, Pastries, Dietrich)";
-          mainSearchInput.placeholder = "Type a gift item name, category, or character...";
-          characterFilters.classList.add("hidden");
-          giftFilters.classList.remove("hidden");
-        }
+        toggleGuideBtn.setAttribute("aria-expanded", state.guideDrawerOpen ? "true" : "false");
+        panelGuide.classList.toggle("hidden", !state.guideDrawerOpen);
 
         renderFavoritesBar();
         ownedCountInline.textContent = String(ownedGifts.size);
@@ -2677,57 +2236,37 @@
         stateEmpty.classList.add("hidden");
         resultsWrapper.classList.add("hidden");
 
-        if (state.mode === "character") {
-          const filteredChars = filterCharacters();
-          if (filteredChars.length === 0) {
-            if (state.charPriorityFilter === "favorites" && favoriteChars.size === 0) {
-              emptyStateMessage.textContent = "You have not pinned any Favorite Recruits yet. Click Reset Search and Filters, then click '+ Favorite Recruit' on any character card.";
-            } else if (state.charPriorityFilter === "owned_match" && ownedGifts.size === 0) {
-              emptyStateMessage.textContent = "You have not added any gifts to your inventory yet. Open 'Upload / Manage Current Gifts' above to upload or select your gifts.";
-            } else {
-              emptyStateMessage.textContent = 'No playable characters matched "' + (state.searchQuery || "your current filters") + '". Try clearing the search or switching to All Playable Characters.';
-            }
-            stateEmpty.classList.remove("hidden");
-            return;
-          }
-
-          resultsWrapper.classList.remove("hidden");
-          resultsSummary.textContent =
-            "Showing " + filteredChars.length + " of " + dataset.characters.length + " playable characters" +
-            (state.selectedSlug ? " (Filtered to single character)" : "") +
-            (ownedGifts.size > 0 ? " | Highlighting " + ownedGifts.size + " owned gift(s)" : "");
-
-          const isSingle = filteredChars.length === 1;
-          if (isSingle) {
-            toggleExpandAllBtn.classList.add("hidden");
+        const filteredChars = filterCharacters();
+        if (filteredChars.length === 0) {
+          if (state.charPriorityFilter === "favorites" && favoriteChars.size === 0) {
+            emptyStateMessage.textContent = "You have not pinned any Favorite Recruits yet. Click Reset Search and Filters, then click '+ Favorite Recruit' on any character card.";
+          } else if (state.charPriorityFilter === "owned_match" && ownedGifts.size === 0) {
+            emptyStateMessage.textContent = "You have not added any gifts to your inventory yet. Open 'Upload / Manage Current Gifts' above to upload or select your gifts.";
           } else {
-            toggleExpandAllBtn.classList.remove("hidden");
-            const allExpanded = filteredChars.every(function (c) { return expandedChars.has(c.slug); });
-            toggleExpandAllBtn.textContent = allExpanded ? "Collapse All" : "Expand All Shown (" + filteredChars.length + ")";
+            emptyStateMessage.textContent = 'No playable characters matched "' + (state.searchQuery || "your current filters") + '". Try clearing the search or switching to All Recruits.';
           }
-
-          cardsContainer.innerHTML = filteredChars.map(function (c) {
-            return renderCharacterCard(c, isSingle);
-          }).join("");
-        } else {
-          toggleExpandAllBtn.classList.add("hidden");
-          const filteredGifts = filterGifts();
-          if (filteredGifts.length === 0) {
-            emptyStateMessage.textContent = 'No gift items matched "' + (state.searchQuery || "your current filters") + '". Try clearing the search or selecting All Gift Categories.';
-            stateEmpty.classList.remove("hidden");
-            return;
-          }
-
-          resultsWrapper.classList.remove("hidden");
-          resultsSummary.textContent =
-            "Showing " + filteredGifts.length + " of " + dataset.gifts.length + " gift items" +
-            (state.selectedSlug ? " (Filtered to single gift item)" : "");
-
-          const isSingle = filteredGifts.length === 1;
-          cardsContainer.innerHTML = filteredGifts.map(function (g) {
-            return renderGiftCard(g, isSingle);
-          }).join("");
+          stateEmpty.classList.remove("hidden");
+          return;
         }
+
+        resultsWrapper.classList.remove("hidden");
+        resultsSummary.textContent =
+          "Showing " + filteredChars.length + " of " + dataset.characters.length + " playable characters" +
+          (state.selectedSlug ? " (Filtered to single character)" : "") +
+          (ownedGifts.size > 0 ? " | Highlighting " + ownedGifts.size + " owned gift(s)" : "");
+
+        const isSingle = filteredChars.length === 1;
+        if (isSingle) {
+          toggleExpandAllBtn.classList.add("hidden");
+        } else {
+          toggleExpandAllBtn.classList.remove("hidden");
+          const allExpanded = filteredChars.every(function (c) { return expandedChars.has(c.slug); });
+          toggleExpandAllBtn.textContent = allExpanded ? "Collapse All" : "Expand All Shown (" + filteredChars.length + ")";
+        }
+
+        cardsContainer.innerHTML = filteredChars.map(function (c) {
+          return renderCharacterCard(c, isSingle);
+        }).join("");
       }
 
       function resetAllFilters() {
@@ -2737,63 +2276,17 @@
         state.selectedSlug = "";
         state.charPriorityFilter = "all";
         state.charTierFilter = "all";
-        state.listSortBy = "owned_first";
-        state.giftCategoryFilter = "all";
-        state.giftShopFilter = "all";
         mainSearchInput.value = "";
         charPriorityFilter.value = "all";
         charTierFilter.value = "all";
-        listSortSelect.value = "owned_first";
-        charJumpSelect.value = "";
-        giftCategoryFilter.value = "all";
-        giftShopFilter.value = "all";
-        giftJumpSelect.value = "";
         render();
       }
-
-      themeToggleBtn.addEventListener("click", function () {
-        const current = htmlEl.getAttribute("data-theme") || "dark";
-        const next = current === "dark" ? "light" : "dark";
-        htmlEl.setAttribute("data-theme", next);
-        themeToggleBtn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-        themeToggleBtn.textContent = next === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme";
-      });
-
-      allTabs.forEach(function (tab, idx) {
-        tab.addEventListener("click", function () {
-          const newMode = tab.getAttribute("data-mode");
-          if (state.mode !== newMode) {
-            state.mode = newMode;
-            state.selectedSlug = "";
-            expandedChars.clear();
-            charJumpSelect.value = "";
-            giftJumpSelect.value = "";
-            render();
-          }
-        });
-
-        tab.addEventListener("keydown", function (e) {
-          let targetIdx = -1;
-          if (e.key === "ArrowRight") targetIdx = (idx + 1) % allTabs.length;
-          else if (e.key === "ArrowLeft") targetIdx = (idx - 1 + allTabs.length) % allTabs.length;
-          else if (e.key === "Home") targetIdx = 0;
-          else if (e.key === "End") targetIdx = allTabs.length - 1;
-
-          if (targetIdx !== -1) {
-            e.preventDefault();
-            allTabs[targetIdx].focus();
-            allTabs[targetIdx].click();
-          }
-        });
-      });
 
       mainSearchInput.addEventListener("input", function () {
         state.searchQuery = mainSearchInput.value;
         expandedChars.clear();
         if (state.searchQuery.trim() !== "") {
           state.selectedSlug = "";
-          charJumpSelect.value = "";
-          giftJumpSelect.value = "";
         }
         render();
       });
@@ -2817,7 +2310,6 @@
         if (state.charPriorityFilter === "favorites") {
           favoriteChars.forEach(function (s) { expandedChars.add(s); });
         }
-        charJumpSelect.value = "";
         render();
       });
 
@@ -2826,55 +2318,9 @@
         render();
       });
 
-      listSortSelect.addEventListener("change", function () {
-        state.listSortBy = listSortSelect.value;
-        render();
-      });
-
-      charJumpSelect.addEventListener("change", function () {
-        state.selectedSlug = charJumpSelect.value;
-        expandedChars.clear();
-        if (state.selectedSlug) {
-          state.searchQuery = "";
-          mainSearchInput.value = "";
-          state.charPriorityFilter = "all";
-          charPriorityFilter.value = "all";
-        }
-        render();
-      });
-
-      giftCategoryFilter.addEventListener("change", function () {
-        state.giftCategoryFilter = giftCategoryFilter.value;
-        state.selectedSlug = "";
-        giftJumpSelect.value = "";
-        render();
-      });
-
-      giftShopFilter.addEventListener("change", function () {
-        state.giftShopFilter = giftShopFilter.value;
-        state.selectedSlug = "";
-        giftJumpSelect.value = "";
-        render();
-      });
-
-      giftJumpSelect.addEventListener("change", function () {
-        state.selectedSlug = giftJumpSelect.value;
-        if (state.selectedSlug) {
-          state.searchQuery = "";
-          mainSearchInput.value = "";
-          state.giftCategoryFilter = "all";
-          giftCategoryFilter.value = "all";
-          state.giftShopFilter = "all";
-          giftShopFilter.value = "all";
-        }
-        render();
-      });
-
       filterFavoritesBtn.addEventListener("click", function () {
-        state.mode = "character";
         state.selectedSlug = "";
         expandedChars.clear();
-        charJumpSelect.value = "";
         if (state.charPriorityFilter === "favorites") {
           state.charPriorityFilter = "all";
           charPriorityFilter.value = "all";
@@ -2893,6 +2339,16 @@
         if (state.inventoryDrawerOpen) {
           renderInventoryChecklist();
         }
+      });
+
+      toggleGuideBtn.addEventListener("click", function () {
+        state.guideDrawerOpen = !state.guideDrawerOpen;
+        render();
+      });
+
+      closeGuideBtn.addEventListener("click", function () {
+        state.guideDrawerOpen = false;
+        render();
       });
 
       triggerUploadBtn.addEventListener("click", function () {
@@ -3003,7 +2459,6 @@
       backNavBtn.addEventListener("click", function () {
         if (navHistory.length === 0) return;
         const prev = navHistory.pop();
-        state.mode = prev.mode;
         state.searchQuery = prev.searchQuery;
         state.selectedSlug = prev.selectedSlug;
         state.charPriorityFilter = prev.charPriorityFilter;
@@ -3011,8 +2466,6 @@
         mainSearchInput.value = prev.searchQuery;
         charPriorityFilter.value = prev.charPriorityFilter;
         charTierFilter.value = prev.charTierFilter;
-        charJumpSelect.value = prev.mode === "character" ? prev.selectedSlug : "";
-        giftJumpSelect.value = prev.mode === "gift" ? prev.selectedSlug : "";
         expandedChars.clear();
         if (Array.isArray(prev.expandedSlugs)) {
           prev.expandedSlugs.forEach(function (s) { expandedChars.add(s); });
@@ -3074,59 +2527,20 @@
           return;
         }
 
-        const ownedBtn = e.target.closest("[data-toggle-owned]");
-        if (ownedBtn) {
-          const slug = ownedBtn.getAttribute("data-toggle-owned");
-          if (ownedGifts.has(slug)) {
-            ownedGifts.delete(slug);
-            ownedGiftCounts.delete(slug);
-          } else {
-            ownedGifts.add(slug);
-            ownedGiftCounts.set(slug, 1);
-          }
-          saveInventoryState();
-          renderInventoryChecklist();
-          render();
-          return;
-        }
-
         const giftBtn = e.target.closest("[data-jump-gift]");
         if (giftBtn) {
-          const slug = giftBtn.getAttribute("data-jump-gift");
+          const gName = giftBtn.getAttribute("data-jump-gift-name") || "";
           const prevLabel = state.selectedSlug && charBySlug.has(state.selectedSlug)
             ? charBySlug.get(state.selectedSlug).name
-            : (state.charPriorityFilter === "favorites" ? "Favorites" : "Recruit List");
+            : (state.searchQuery ? '"' + state.searchQuery + '"' : "Recruit List");
           pushNavHistory(prevLabel);
-          state.mode = "gift";
-          state.selectedSlug = slug;
-          state.searchQuery = "";
-          mainSearchInput.value = "";
-          state.giftCategoryFilter = "all";
-          giftCategoryFilter.value = "all";
-          state.giftShopFilter = "all";
-          giftShopFilter.value = "all";
-          giftJumpSelect.value = slug;
+          state.selectedSlug = "";
+          state.searchQuery = gName;
+          mainSearchInput.value = gName;
+          expandedChars.clear();
           render();
           window.scrollTo({ top: 0, behavior: "auto" });
           return;
-        }
-
-        const charBtn = e.target.closest("[data-jump-char]");
-        if (charBtn) {
-          const slug = charBtn.getAttribute("data-jump-char");
-          const prevGift = state.selectedSlug && giftBySlug.has(state.selectedSlug)
-            ? giftBySlug.get(state.selectedSlug).name
-            : "Gift List";
-          pushNavHistory(prevGift);
-          state.mode = "character";
-          state.selectedSlug = slug;
-          state.searchQuery = "";
-          mainSearchInput.value = "";
-          state.charPriorityFilter = "all";
-          charPriorityFilter.value = "all";
-          charJumpSelect.value = slug;
-          render();
-          window.scrollTo({ top: 0, behavior: "auto" });
         }
       });
 
@@ -3165,7 +2579,6 @@
         pill.setAttribute("title", "Plex Server: Offline");
       }
 
-      initDropdowns();
       renderInventoryChecklist();
       render();
       checkPlexStatus();
