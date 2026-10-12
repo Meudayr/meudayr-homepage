@@ -1532,12 +1532,12 @@
 
               <div id="ai-prompt-window" class="ai-prompt-window hidden" role="region" aria-label="AI Prompt Generator for In-Game Screenshots or Video">
                 <div class="subbar-header">
-                  <strong style="font-size:0.9rem;">Extract Gift Names from Screenshots, Photos, or Video</strong>
+                  <strong style="font-size:0.9rem;">Extract Gift Names &amp; Quantities from Screenshots, Photos, or Video</strong>
                   <button type="button" id="copy-ai-prompt-btn" class="btn btn-primary">
                     Copy AI Prompt
                   </button>
                 </div>
-                <p>Copy this prompt and send it with screenshots, phone photos, or a video of your in-game gift list to any AI assistant. It includes all 116 exact Fortune's Weave gift names so the AI outputs a clean list ready to paste below.</p>
+                <p>Copy this prompt and send it with screenshots, phone photos, or a video of your in-game gift list to any AI assistant. It includes all 116 exact Fortune's Weave gift names and instructs the AI to include your item quantities (e.g., <code>Kitten Figurine x2</code>) ready to paste below.</p>
                 <label for="ai-prompt-textarea" class="field-label" style="font-size:0.82rem;">Ready-to-Copy AI Prompt:</label>
                 <textarea id="ai-prompt-textarea" class="ai-prompt-textarea" readonly></textarea>
               </div>
@@ -1893,9 +1893,12 @@
         const allGiftNames = dataset.gifts.map(function (g) { return g.name; }).join(", ");
         return (
           "I am attaching screenshots, photos, or a video of my in-game gift inventory from Fire Emblem: Fortune's Weave.\n\n" +
-          "Please extract every gift item visible in my inventory and output ONLY a plain-text list of the exact gift names, with one gift name per line.\n" +
-          "- Do not include quantities, prices, descriptions, bullet points, numbering, or extra commentary.\n" +
-          "- Deduplicate items if the same gift appears across multiple screenshots or video frames.\n" +
+          "Please extract every gift item visible in my inventory along with its owned quantity, and output ONLY a plain-text list with one gift per line in the format:\n" +
+          "Gift Name x<quantity>\n" +
+          "(For example: Kitten Figurine x2 or Strategy Manuscript x1)\n\n" +
+          "- Always include the quantity (e.g., x1, x2, x3) shown for each gift in the inventory.\n" +
+          "- Do not include prices, descriptions, bullet points, numbering, or extra commentary.\n" +
+          "- Deduplicate items if the same inventory slot appears across multiple overlapping screenshots or video frames so quantities are not double-counted.\n" +
           "- Match each item to its exact canonical name from this official list of 116 Fire Emblem: Fortune's Weave gifts:\n\n" +
           allGiftNames
         );
@@ -1953,8 +1956,8 @@
           let tokenStr = String(rawToken || "").trim();
           if (!tokenStr) return;
           let qty = 1;
-          const leadQtyMatch = tokenStr.match(/^(\d+)\s*[xX]\s+(.+)$/);
-          const trailQtyMatch = tokenStr.match(/^(.+?)\s+[xX](\d+)$/);
+          const leadQtyMatch = tokenStr.match(/^(\d+)\s*[xX\u00d7]\s+(.+)$/);
+          const trailQtyMatch = tokenStr.match(/^(.+?)\s+(?:\(\s*)?[xX\u00d7]\s*(\d+)(?:\s*\))?$/);
           if (leadQtyMatch) {
             qty = Math.max(1, parseInt(leadQtyMatch[1], 10));
             tokenStr = leadQtyMatch[2];
