@@ -680,6 +680,80 @@
     .card-header.collapsed-header {
       border-bottom: none;
       padding-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .card-header.collapsed-header .card-title-trigger {
+      flex: 1 1 0%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .card-header.collapsed-header .card-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .card-header.collapsed-header .card-subtitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+      font-size: 0.85rem;
+    }
+
+    .card-header.collapsed-header .tag-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .card-header.collapsed-header .tag-row > *:first-child:nth-last-child(3) {
+      grid-column: 1 / -1;
+    }
+
+    .card-header.collapsed-header .tag-row > * {
+      width: 100%;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+      .card-header.collapsed-header .tag-row {
+        display: flex;
+        flex-wrap: nowrap;
+        width: auto;
+      }
+
+      .card-header.collapsed-header .tag-row > *:first-child:nth-last-child(3) {
+        grid-column: auto;
+      }
+
+      .card-header.collapsed-header .tag-row > * {
+        width: auto;
+        flex-shrink: 0;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .card-header.collapsed-header {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        height: 58px;
+      }
     }
 
     .card-title-trigger {
@@ -2122,14 +2196,16 @@
                     '<h2 class="card-title">' + escapeHtml(c.name) + '</h2>' +
                     '<p class="card-subtitle tabular-nums">Recruitment: ' + escapeHtml(recSummary) + '</p>' +
                   '</div>'
-                : '<button type="button" class="card-title-trigger" data-toggle-expand="' + escapeHtml(c.slug) + '" aria-expanded="' + (isExpanded ? "true" : "false") + '">' +
+                : '<button type="button" class="card-title-trigger" data-toggle-expand="' + escapeHtml(c.slug) + '" aria-expanded="' + (isExpanded ? "true" : "false") + '" title="Recruitment: ' + escapeHtml(recSummary) + '">' +
                     '<h2 class="card-title">' + escapeHtml(c.name) + '</h2>' +
                     '<p class="card-subtitle tabular-nums">Recruitment: ' + escapeHtml(recSummary) + '</p>' +
                   '</button>') +
               '<div class="tag-row">' +
                 (ownedGifts.size > 0
                   ? '<span class="ledger-tag' + (ownedSummary.total > 0 ? " priority-high" : "") + ' tabular-nums">' +
-                      'In Inventory: ' + ownedSummary.lovedOwned + ' Loved (++), ' + ownedSummary.likedOwned + ' Liked (+)' +
+                      (isFullyCollapsed
+                        ? 'Owned: ' + ownedSummary.lovedOwned + ' ++ / ' + ownedSummary.likedOwned + ' +'
+                        : 'In Inventory: ' + ownedSummary.lovedOwned + ' Loved (++), ' + ownedSummary.likedOwned + ' Liked (+)') +
                     '</span>'
                   : '') +
                 '<span class="ledger-tag' + (isHighPrio ? " priority-high" : "") + ' tabular-nums">' +
