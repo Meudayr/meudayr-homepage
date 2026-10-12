@@ -1295,7 +1295,7 @@
                 Show All Favorites (0)
               </button>
               <button type="button" id="toggle-inventory-btn" class="btn" aria-expanded="false" aria-controls="inventory-drawer">
-                Upload / Manage Current Gifts (0 Owned)
+                Manage Current Gifts (0 Owned)
               </button>
               <button type="button" id="toggle-guide-btn" class="btn" aria-expanded="false" aria-controls="panel-guide">
                 Mechanics &amp; Shops
@@ -1318,15 +1318,11 @@
 
           <div class="inventory-grid">
             <div class="inventory-box">
-              <h3>1. Upload or Paste Your Current Gifts</h3>
-              <p>Upload a <code>.txt</code>, <code>.csv</code>, or <code>.json</code> file of gift names, or paste gift names below (one per line or comma-separated; optional quantities like <code>Kitten Figurine x2</code> are supported).</p>
+              <h3>1. Paste Your Current Gifts (or Extract with AI)</h3>
+              <p>Send screenshots, phone photos, or a video of your in-game gift list to any AI with our ready-made prompt, then paste the list below (quantities like <code>Kitten Figurine x2</code> are supported).</p>
               <div class="subbar-actions">
-                <input type="file" id="gift-file-input" accept=".txt,.csv,.json" class="hidden">
-                <button type="button" id="trigger-upload-btn" class="btn btn-primary">
-                  Upload Gift File (.txt, .csv, .json)
-                </button>
-                <button type="button" id="toggle-ai-prompt-btn" class="btn" aria-expanded="false" aria-controls="ai-prompt-window">
-                  AI Prompt for Screenshots / Video
+                <button type="button" id="toggle-ai-prompt-btn" class="btn btn-primary" aria-expanded="false" aria-controls="ai-prompt-window">
+                  Get AI Prompt for Screenshots / Video
                 </button>
               </div>
 
@@ -1342,7 +1338,7 @@
                 <textarea id="ai-prompt-textarea" class="ai-prompt-textarea" readonly></textarea>
               </div>
 
-              <label for="paste-gifts-textarea" class="field-label" style="font-size:0.85rem;">Or Paste Gift Names:</label>
+              <label for="paste-gifts-textarea" class="field-label" style="font-size:0.85rem;">Paste Gift List (One per Line or Comma-Separated):</label>
               <textarea
                 id="paste-gifts-textarea"
                 class="inventory-textarea"
@@ -1611,8 +1607,6 @@
 
       const inventoryDrawer = document.getElementById("inventory-drawer");
       const inventoryStatusBanner = document.getElementById("inventory-status-banner");
-      const giftFileInput = document.getElementById("gift-file-input");
-      const triggerUploadBtn = document.getElementById("trigger-upload-btn");
       const toggleAiPromptBtn = document.getElementById("toggle-ai-prompt-btn");
       const aiPromptWindow = document.getElementById("ai-prompt-window");
       const aiPromptTextarea = document.getElementById("ai-prompt-textarea");
@@ -1786,7 +1780,7 @@
 
       function renderInventoryChecklist() {
         ownedCountInline.textContent = String(ownedGifts.size);
-        toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
+        toggleInventoryBtn.textContent = "Manage Current Gifts (" + ownedGifts.size + " Owned)";
 
         invTabBtns.forEach(function (b) {
           const t = b.getAttribute("data-inv-tab");
@@ -2242,7 +2236,7 @@
 
         renderFavoritesBar();
         ownedCountInline.textContent = String(ownedGifts.size);
-        toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
+        toggleInventoryBtn.textContent = "Manage Current Gifts (" + ownedGifts.size + " Owned)";
 
         if (navHistory.length > 0) {
           const lastItem = navHistory[navHistory.length - 1];
@@ -2260,7 +2254,7 @@
           if (state.charPriorityFilter === "favorites" && favoriteChars.size === 0) {
             emptyStateMessage.textContent = "You have not pinned any Favorite Recruits yet. Click Reset Search and Filters, then click '+ Favorite Recruit' on any character card.";
           } else if (state.charPriorityFilter === "owned_match" && ownedGifts.size === 0) {
-            emptyStateMessage.textContent = "You have not added any gifts to your inventory yet. Open 'Upload / Manage Current Gifts' above to upload or select your gifts.";
+            emptyStateMessage.textContent = "You have not added any gifts to your inventory yet. Open 'Manage Current Gifts' above to paste or select your gifts.";
           } else {
             emptyStateMessage.textContent = 'No playable characters matched "' + (state.searchQuery || "your current filters") + '". Try clearing the search or switching to All Recruits.';
           }
@@ -2376,10 +2370,6 @@
         render();
       });
 
-      triggerUploadBtn.addEventListener("click", function () {
-        giftFileInput.click();
-      });
-
       toggleAiPromptBtn.addEventListener("click", function () {
         state.aiPromptOpen = !state.aiPromptOpen;
         toggleAiPromptBtn.setAttribute("aria-expanded", state.aiPromptOpen ? "true" : "false");
@@ -2397,18 +2387,6 @@
         }
         copyAiPromptBtn.textContent = "Copied AI Prompt!";
         showInventoryStatus("Copied AI Prompt to clipboard. Attach your in-game screenshots or video to any AI chat and paste the prompt.");
-      });
-
-      giftFileInput.addEventListener("change", function () {
-        const file = giftFileInput.files && giftFileInput.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (ev) {
-          const content = String(ev.target.result || "");
-          parseAndAddGiftTokens(content, "uploaded file (" + file.name + ")", false);
-          giftFileInput.value = "";
-        };
-        reader.readAsText(file);
       });
 
       applyPasteBtn.addEventListener("click", function () {
