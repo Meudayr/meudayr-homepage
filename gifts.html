@@ -1941,9 +1941,17 @@
         });
       }
 
+      function getCharSearchRank(c, q) {
+        const nameLower = c.name.toLowerCase();
+        if (nameLower === q) return 0;
+        if (nameLower.indexOf(q) === 0) return 1;
+        if (nameLower.indexOf(q) !== -1) return 2;
+        return 3;
+      }
+
       function filterCharacters() {
         const q = state.searchQuery.trim().toLowerCase();
-        return dataset.characters.filter(function (c) {
+        const filtered = dataset.characters.filter(function (c) {
           if (state.selectedSlug && c.slug !== state.selectedSlug) {
             return false;
           }
@@ -1970,6 +1978,16 @@
           });
           return inName || inNote || inLoved || inLiked;
         });
+
+        if (q) {
+          filtered.sort(function (a, b) {
+            const ra = getCharSearchRank(a, q);
+            const rb = getCharSearchRank(b, q);
+            if (ra !== rb) return ra - rb;
+            return a.name.localeCompare(b.name);
+          });
+        }
+        return filtered;
       }
 
       function buildGiftRowHtml(gRef, isLoved) {
@@ -2170,8 +2188,9 @@
           expandBtnLabel = "Show Gifts (" + totalLovedCount + " ++ / " + totalLikedCount + " +)";
         }
 
+        const isExactCharMatch = q !== "" && c.name.toLowerCase() === q;
         let cardClass = "ledger-card";
-        if (isSingleFocus) cardClass += " highlighted-card";
+        if (isSingleFocus || isExactCharMatch) cardClass += " highlighted-card";
         if (isFullyCollapsed) cardClass += " is-collapsed";
 
         return (
@@ -2285,8 +2304,14 @@
       mainSearchInput.addEventListener("input", function () {
         state.searchQuery = mainSearchInput.value;
         expandedChars.clear();
-        if (state.searchQuery.trim() !== "") {
+        const q = state.searchQuery.trim().toLowerCase();
+        if (q !== "") {
           state.selectedSlug = "";
+          dataset.characters.forEach(function (c) {
+            if (c.name.toLowerCase() === q) {
+              expandedChars.add(c.slug);
+            }
+          });
         }
         render();
       });
