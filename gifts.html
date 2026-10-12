@@ -645,17 +645,22 @@
     .cards-stack {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 14px;
     }
 
     .ledger-card {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 22px;
+      padding: 20px 22px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
+    }
+
+    .ledger-card.is-collapsed {
+      padding: 14px 20px;
+      gap: 0;
     }
 
     .ledger-card.highlighted-card {
@@ -666,22 +671,46 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 14px;
     }
 
+    .card-header.collapsed-header {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .card-title-trigger {
+      background: none;
+      border: none;
+      padding: 4px 0;
+      margin: 0;
+      text-align: left;
+      cursor: pointer;
+      color: inherit;
+      min-height: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-title-trigger:hover .card-title {
+      color: var(--accent);
+    }
+
     .card-title {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--ink-1);
+      transition: color 120ms ease;
     }
 
     .card-subtitle {
-      margin: 4px 0 0 0;
-      font-size: 0.9rem;
+      margin: 2px 0 0 0;
+      font-size: 0.88rem;
       color: var(--ink-2);
     }
 
@@ -1435,6 +1464,7 @@
 
       const favoriteChars = loadStoredSet(STORAGE_FAV_KEY, []);
       const ownedGifts = loadStoredSet(STORAGE_INV_KEY, []);
+      const expandedChars = new Set();
 
       const state = {
         mode: "character",
@@ -1928,6 +1958,7 @@
         const isFav = favoriteChars.has(c.slug);
         const hasGiftData = c.loved.length > 0 || c.liked.length > 0;
         const ownedSummary = countOwnedMatchesForChar(c);
+        const isExpanded = isSingleFocus || expandedChars.has(c.slug);
 
         const lovedSource = state.charTierFilter === "owned"
           ? c.loved.filter(function (gRef) { return ownedGifts.has(gRef.slug); })
@@ -1936,84 +1967,165 @@
           ? c.liked.filter(function (gRef) { return ownedGifts.has(gRef.slug); })
           : c.liked;
 
+        const q = state.searchQuery.trim().toLowerCase();
+        const matchedLoved = q ? lovedSource.filter(function (gRef) {
+          return gRef.name.toLowerCase().indexOf(q) !== -1;
+        }) : [];
+        const matchedLiked = (q && state.charTierFilter !== "loved") ? likedSource.filter(function (gRef) {
+          return gRef.name.toLowerCase().indexOf(q) !== -1;
+        }) : [];
+        const hasGiftSearchMatch = matchedLoved.length > 0 || matchedLiked.length > 0;
+
         let lovedSection = "";
-        if (hasGiftData) {
-          const sortedLoved = sortGiftRefs(lovedSource);
-          const lovedRows = sortedLoved.map(function (gRef) {
-            return buildGiftRowHtml(gRef, true);
-          }).join("");
-          lovedSection =
-            '<div class="tier-section">' +
-              '<h3 class="tier-heading">' +
-                '<span>Loved Gifts (Max Support Boost)</span>' +
-                '<span class="tier-badge-loved tabular-nums">++ (' + sortedLoved.length + (state.charTierFilter === "owned" ? " Owned" : "") + ')</span>' +
-              '</h3>' +
-              (sortedLoved.length > 0
-                ? '<div class="structured-list-wrap loved-list-wrap">' +
-                    '<div class="list-col-headers" aria-hidden="true">' +
-                      '<span>Gift Item</span>' +
-                      '<span>Category</span>' +
-                      '<span>Where to Buy &amp; Price</span>' +
-                    '</div>' +
-                    '<ul class="ledger-list">' + lovedRows + '</ul>' +
-                  '</div>'
-                : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">' +
-                    (state.charTierFilter === "owned"
-                      ? 'None of your currently owned gifts are in this recruit\'s Loved (++) list.'
-                      : 'No Loved (++) items recorded yet.') +
-                  '</p>') +
-            '</div>';
-        }
-
         let likedSection = "";
-        if (hasGiftData && state.charTierFilter !== "loved") {
-          const sortedLiked = sortGiftRefs(likedSource);
-          const likedRows = sortedLiked.map(function (gRef) {
-            return buildGiftRowHtml(gRef, false);
-          }).join("");
-          likedSection =
-            '<div class="tier-section">' +
-              '<h3 class="tier-heading">' +
-                '<span>Liked Gifts (Moderate Support &amp; Motivation)</span>' +
-                '<span class="tier-badge-liked tabular-nums">+ (' + sortedLiked.length + (state.charTierFilter === "owned" ? " Owned" : "") + ')</span>' +
-              '</h3>' +
-              (sortedLiked.length > 0
-                ? '<div class="structured-list-wrap">' +
-                    '<div class="list-col-headers" aria-hidden="true">' +
-                      '<span>Gift Item</span>' +
-                      '<span>Category</span>' +
-                      '<span>Where to Buy &amp; Price</span>' +
-                    '</div>' +
-                    '<ul class="ledger-list">' + likedRows + '</ul>' +
-                  '</div>'
-                : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">' +
-                    (state.charTierFilter === "owned"
-                      ? 'None of your currently owned gifts are in this recruit\'s Liked (+) list.'
-                      : 'No Liked (+) items recorded in current source table.') +
-                  '</p>') +
-            '</div>';
-        }
-
         let pendingSection = "";
-        if (!hasGiftData) {
-          pendingSection =
-            '<div class="shop-box">' +
-              '<strong>Unit Info &amp; Gift Strategy:</strong> ' + escapeHtml(c.note || "Give any inexpensive gift first to establish a New Bond and unlock shared Meals.") +
-            '</div>';
+        let footerSection = "";
+
+        if (isExpanded) {
+          if (hasGiftData) {
+            const sortedLoved = sortGiftRefs(lovedSource);
+            const lovedRows = sortedLoved.map(function (gRef) {
+              return buildGiftRowHtml(gRef, true);
+            }).join("");
+            lovedSection =
+              '<div class="tier-section">' +
+                '<h3 class="tier-heading">' +
+                  '<span>Loved Gifts (Max Support Boost)</span>' +
+                  '<span class="tier-badge-loved tabular-nums">++ (' + sortedLoved.length + (state.charTierFilter === "owned" ? " Owned" : "") + ')</span>' +
+                '</h3>' +
+                (sortedLoved.length > 0
+                  ? '<div class="structured-list-wrap loved-list-wrap">' +
+                      '<div class="list-col-headers" aria-hidden="true">' +
+                        '<span>Gift Item</span>' +
+                        '<span>Category</span>' +
+                        '<span>Where to Buy &amp; Price</span>' +
+                      '</div>' +
+                      '<ul class="ledger-list">' + lovedRows + '</ul>' +
+                    '</div>'
+                  : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">' +
+                      (state.charTierFilter === "owned"
+                        ? 'None of your currently owned gifts are in this recruit\'s Loved (++) list.'
+                        : 'No Loved (++) items recorded yet.') +
+                    '</p>') +
+              '</div>';
+          }
+
+          if (hasGiftData && state.charTierFilter !== "loved") {
+            const sortedLiked = sortGiftRefs(likedSource);
+            const likedRows = sortedLiked.map(function (gRef) {
+              return buildGiftRowHtml(gRef, false);
+            }).join("");
+            likedSection =
+              '<div class="tier-section">' +
+                '<h3 class="tier-heading">' +
+                  '<span>Liked Gifts (Moderate Support &amp; Motivation)</span>' +
+                  '<span class="tier-badge-liked tabular-nums">+ (' + sortedLiked.length + (state.charTierFilter === "owned" ? " Owned" : "") + ')</span>' +
+                '</h3>' +
+                (sortedLiked.length > 0
+                  ? '<div class="structured-list-wrap">' +
+                      '<div class="list-col-headers" aria-hidden="true">' +
+                        '<span>Gift Item</span>' +
+                        '<span>Category</span>' +
+                        '<span>Where to Buy &amp; Price</span>' +
+                      '</div>' +
+                      '<ul class="ledger-list">' + likedRows + '</ul>' +
+                    '</div>'
+                  : '<p style="margin:0; font-size:0.9rem; color:var(--ink-2);">' +
+                      (state.charTierFilter === "owned"
+                        ? 'None of your currently owned gifts are in this recruit\'s Liked (+) list.'
+                        : 'No Liked (+) items recorded in current source table.') +
+                    '</p>') +
+              '</div>';
+          }
+
+          if (!hasGiftData) {
+            pendingSection =
+              '<div class="shop-box">' +
+                '<strong>Unit Info &amp; Gift Strategy:</strong> ' + escapeHtml(c.note || "Give any inexpensive gift first to establish a New Bond and unlock shared Meals.") +
+              '</div>';
+          }
+
+          const verifiedCount = c.loved.filter(function (gRef) { return gRef.verified; }).length;
+          const sourceNote = hasGiftData
+            ? "Click any row in the list to inspect that gift's full recipient list and vendor details (" + verifiedCount + " multi-source verified Loved items)."
+            : "Roster interests and recruitment data verified; item-by-item reactions pending wiki completion.";
+          footerSection = '<div class="card-footer-note">' + escapeHtml(sourceNote) + '</div>';
+        } else if (hasGiftSearchMatch) {
+          if (matchedLoved.length > 0) {
+            const sortedMatchedLoved = sortGiftRefs(matchedLoved);
+            const lovedRows = sortedMatchedLoved.map(function (gRef) {
+              return buildGiftRowHtml(gRef, true);
+            }).join("");
+            lovedSection =
+              '<div class="tier-section">' +
+                '<h3 class="tier-heading">' +
+                  '<span>Loved Gifts (Max Support Boost)</span>' +
+                  '<span class="tier-badge-loved tabular-nums">++ (' + sortedMatchedLoved.length + ' Matched)</span>' +
+                '</h3>' +
+                '<div class="structured-list-wrap loved-list-wrap">' +
+                  '<div class="list-col-headers" aria-hidden="true">' +
+                    '<span>Gift Item</span>' +
+                    '<span>Category</span>' +
+                    '<span>Where to Buy &amp; Price</span>' +
+                  '</div>' +
+                  '<ul class="ledger-list">' + lovedRows + '</ul>' +
+                '</div>' +
+              '</div>';
+          }
+
+          if (matchedLiked.length > 0 && state.charTierFilter !== "loved") {
+            const sortedMatchedLiked = sortGiftRefs(matchedLiked);
+            const likedRows = sortedMatchedLiked.map(function (gRef) {
+              return buildGiftRowHtml(gRef, false);
+            }).join("");
+            likedSection =
+              '<div class="tier-section">' +
+                '<h3 class="tier-heading">' +
+                  '<span>Liked Gifts (Moderate Support &amp; Motivation)</span>' +
+                  '<span class="tier-badge-liked tabular-nums">+ (' + sortedMatchedLiked.length + ' Matched)</span>' +
+                '</h3>' +
+                '<div class="structured-list-wrap">' +
+                  '<div class="list-col-headers" aria-hidden="true">' +
+                    '<span>Gift Item</span>' +
+                    '<span>Category</span>' +
+                    '<span>Where to Buy &amp; Price</span>' +
+                  '</div>' +
+                  '<ul class="ledger-list">' + likedRows + '</ul>' +
+                '</div>' +
+              '</div>';
+          }
         }
 
-        const verifiedCount = c.loved.filter(function (gRef) { return gRef.verified; }).length;
-        const sourceNote = hasGiftData
-          ? "Click any row in the list to inspect that gift's full recipient list and vendor details (" + verifiedCount + " multi-source verified Loved items)."
-          : "Roster interests and recruitment data verified; item-by-item reactions pending wiki completion.";
+        const isFullyCollapsed = !isExpanded && !hasGiftSearchMatch;
+        const totalLovedCount = lovedSource.length;
+        const totalLikedCount = state.charTierFilter === "loved" ? 0 : likedSource.length;
+        let expandBtnLabel = "";
+        if (isExpanded) {
+          expandBtnLabel = "Hide Gifts";
+        } else if (!hasGiftData) {
+          expandBtnLabel = "Show Unit Info";
+        } else if (hasGiftSearchMatch) {
+          expandBtnLabel = "Show All Gifts (" + totalLovedCount + " ++ / " + totalLikedCount + " +)";
+        } else {
+          expandBtnLabel = "Show Gifts (" + totalLovedCount + " ++ / " + totalLikedCount + " +)";
+        }
+
+        let cardClass = "ledger-card";
+        if (isSingleFocus) cardClass += " highlighted-card";
+        if (isFullyCollapsed) cardClass += " is-collapsed";
 
         return (
-          '<article class="ledger-card' + (isSingleFocus ? " highlighted-card" : "") + '">' +
-            '<div class="card-header">' +
-              '<div>' +
-                '<h2 class="card-title">' + escapeHtml(c.name) + '</h2>' +
-                '<p class="card-subtitle tabular-nums">Recruitment: ' + escapeHtml(recSummary) + '</p>' +
-              '</div>' +
+          '<article class="' + cardClass + '">' +
+            '<div class="card-header' + (isFullyCollapsed ? " collapsed-header" : "") + '">' +
+              (isSingleFocus
+                ? '<div>' +
+                    '<h2 class="card-title">' + escapeHtml(c.name) + '</h2>' +
+                    '<p class="card-subtitle tabular-nums">Recruitment: ' + escapeHtml(recSummary) + '</p>' +
+                  '</div>'
+                : '<button type="button" class="card-title-trigger" data-toggle-expand="' + escapeHtml(c.slug) + '" aria-expanded="' + (isExpanded ? "true" : "false") + '">' +
+                    '<h2 class="card-title">' + escapeHtml(c.name) + '</h2>' +
+                    '<p class="card-subtitle tabular-nums">Recruitment: ' + escapeHtml(recSummary) + '</p>' +
+                  '</button>') +
               '<div class="tag-row">' +
                 (ownedGifts.size > 0
                   ? '<span class="ledger-tag' + (ownedSummary.total > 0 ? " priority-high" : "") + ' tabular-nums">' +
@@ -2028,12 +2140,17 @@
                 '<button type="button" class="btn" data-toggle-fav="' + escapeHtml(c.slug) + '" aria-pressed="' + (isFav ? "true" : "false") + '">' +
                   (isFav ? "Favorited Recruit" : "+ Favorite Recruit") +
                 '</button>' +
+                (!isSingleFocus
+                  ? '<button type="button" class="btn tabular-nums" data-toggle-expand="' + escapeHtml(c.slug) + '" aria-expanded="' + (isExpanded ? "true" : "false") + '">' +
+                      escapeHtml(expandBtnLabel) +
+                    '</button>'
+                  : '') +
               '</div>' +
             '</div>' +
             lovedSection +
             likedSection +
             pendingSection +
-            '<div class="card-footer-note">' + escapeHtml(sourceNote) + '</div>' +
+            footerSection +
           '</article>'
         );
       }
@@ -2203,6 +2320,7 @@
       }
 
       function resetAllFilters() {
+        expandedChars.clear();
         state.searchQuery = "";
         state.selectedSlug = "";
         state.charPriorityFilter = "all";
@@ -2235,6 +2353,7 @@
           if (state.mode !== newMode) {
             state.mode = newMode;
             state.selectedSlug = "";
+            expandedChars.clear();
             charJumpSelect.value = "";
             giftJumpSelect.value = "";
             render();
@@ -2258,6 +2377,7 @@
 
       mainSearchInput.addEventListener("input", function () {
         state.searchQuery = mainSearchInput.value;
+        expandedChars.clear();
         if (state.searchQuery.trim() !== "") {
           state.selectedSlug = "";
           charJumpSelect.value = "";
@@ -2281,6 +2401,7 @@
       charPriorityFilter.addEventListener("change", function () {
         state.charPriorityFilter = charPriorityFilter.value;
         state.selectedSlug = "";
+        expandedChars.clear();
         charJumpSelect.value = "";
         render();
       });
@@ -2297,6 +2418,7 @@
 
       charJumpSelect.addEventListener("change", function () {
         state.selectedSlug = charJumpSelect.value;
+        expandedChars.clear();
         if (state.selectedSlug) {
           state.searchQuery = "";
           mainSearchInput.value = "";
@@ -2336,6 +2458,7 @@
       filterFavoritesBtn.addEventListener("click", function () {
         state.mode = "character";
         state.selectedSlug = "";
+        expandedChars.clear();
         charJumpSelect.value = "";
         if (state.charPriorityFilter === "favorites") {
           state.charPriorityFilter = "all";
@@ -2448,6 +2571,18 @@
       resetAllBtn.addEventListener("click", resetAllFilters);
 
       cardsContainer.addEventListener("click", function (e) {
+        const expandBtn = e.target.closest("[data-toggle-expand]");
+        if (expandBtn) {
+          const slug = expandBtn.getAttribute("data-toggle-expand");
+          if (expandedChars.has(slug)) {
+            expandedChars.delete(slug);
+          } else {
+            expandedChars.add(slug);
+          }
+          render();
+          return;
+        }
+
         const favBtn = e.target.closest("[data-toggle-fav]");
         if (favBtn) {
           const slug = favBtn.getAttribute("data-toggle-fav");
