@@ -1079,13 +1079,6 @@
         <button type="button" id="theme-toggle-btn" class="btn" aria-pressed="true">
           Switch to Light Theme
         </button>
-        <label for="state-sim-select" class="field-label" style="font-size:0.85rem;">View State:</label>
-        <select id="state-sim-select" class="filter-select" style="width:auto; min-width:155px;" aria-label="Simulate UI state">
-          <option value="ready">Active Ledger (Ready)</option>
-          <option value="loading">Loading State</option>
-          <option value="empty">Empty State</option>
-          <option value="error">Error State</option>
-        </select>
       </div>
     </section>
 
@@ -1302,18 +1295,6 @@
           </div>
         </div>
 
-        <div id="state-loading" class="state-panel hidden" role="status" aria-live="polite">
-          <h2>Loading Fortune's Weave Gift Ledger...</h2>
-          <p>Preparing 60 character preference profiles and 116 gift item vendor records.</p>
-          <button type="button" id="cancel-loading-btn" class="btn btn-primary">Return to Active Ledger</button>
-        </div>
-
-        <div id="state-error" class="state-panel hidden" role="alert">
-          <h2>Unable to Display Gift Ledger Records</h2>
-          <p>The local gift dataset encountered a simulated read error. Reload the embedded dataset to restore all 60 characters and 116 gifts.</p>
-          <button type="button" id="reload-data-btn" class="btn btn-primary">Reload Gift Dataset</button>
-        </div>
-
         <div id="state-empty" class="state-panel hidden" role="status" aria-live="polite">
           <h2>No Matching Records Found</h2>
           <p id="empty-state-message">No characters or gift items matched your current search and filter combination.</p>
@@ -1457,7 +1438,6 @@
 
       const state = {
         mode: "character",
-        uiState: "ready",
         searchQuery: "",
         selectedSlug: "",
         charPriorityFilter: "all",
@@ -1472,7 +1452,6 @@
 
       const htmlEl = document.documentElement;
       const themeToggleBtn = document.getElementById("theme-toggle-btn");
-      const stateSimSelect = document.getElementById("state-sim-select");
 
       const tabCharacter = document.getElementById("tab-character");
       const tabGift = document.getElementById("tab-gift");
@@ -1519,16 +1498,12 @@
       const exportInventoryBtn = document.getElementById("export-inventory-btn");
       const clearInventoryBtn = document.getElementById("clear-inventory-btn");
 
-      const stateLoading = document.getElementById("state-loading");
-      const stateError = document.getElementById("state-error");
       const stateEmpty = document.getElementById("state-empty");
       const emptyStateMessage = document.getElementById("empty-state-message");
       const resultsWrapper = document.getElementById("results-wrapper");
       const resultsSummary = document.getElementById("results-summary");
       const cardsContainer = document.getElementById("cards-container");
 
-      const cancelLoadingBtn = document.getElementById("cancel-loading-btn");
-      const reloadDataBtn = document.getElementById("reload-data-btn");
       const resetFiltersBtn = document.getElementById("reset-filters-btn");
       const resetAllBtn = document.getElementById("reset-all-btn");
 
@@ -2180,26 +2155,8 @@
         ownedCountInline.textContent = String(ownedGifts.size);
         toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
 
-        stateLoading.classList.add("hidden");
-        stateError.classList.add("hidden");
         stateEmpty.classList.add("hidden");
         resultsWrapper.classList.add("hidden");
-
-        if (state.uiState === "loading") {
-          stateLoading.classList.remove("hidden");
-          return;
-        }
-
-        if (state.uiState === "error") {
-          stateError.classList.remove("hidden");
-          return;
-        }
-
-        if (state.uiState === "empty") {
-          emptyStateMessage.textContent = "Simulated Empty State active. Click Reset Search and Filters to view all records.";
-          stateEmpty.classList.remove("hidden");
-          return;
-        }
 
         if (state.mode === "character") {
           const filteredChars = filterCharacters();
@@ -2246,8 +2203,6 @@
       }
 
       function resetAllFilters() {
-        state.uiState = "ready";
-        stateSimSelect.value = "ready";
         state.searchQuery = "";
         state.selectedSlug = "";
         state.charPriorityFilter = "all";
@@ -2272,11 +2227,6 @@
         htmlEl.setAttribute("data-theme", next);
         themeToggleBtn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
         themeToggleBtn.textContent = next === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme";
-      });
-
-      stateSimSelect.addEventListener("change", function () {
-        state.uiState = stateSimSelect.value;
-        render();
       });
 
       allTabs.forEach(function (tab, idx) {
@@ -2312,10 +2262,6 @@
           state.selectedSlug = "";
           charJumpSelect.value = "";
           giftJumpSelect.value = "";
-        }
-        if (state.uiState !== "ready") {
-          state.uiState = "ready";
-          stateSimSelect.value = "ready";
         }
         render();
       });
@@ -2496,18 +2442,6 @@
         renderInventoryChecklist();
         render();
         showInventoryStatus("Cleared all gifts from your current inventory.");
-      });
-
-      cancelLoadingBtn.addEventListener("click", function () {
-        state.uiState = "ready";
-        stateSimSelect.value = "ready";
-        render();
-      });
-
-      reloadDataBtn.addEventListener("click", function () {
-        dataset = JSON.parse(rawJson);
-        rebuildMaps();
-        resetAllFilters();
       });
 
       resetFiltersBtn.addEventListener("click", resetAllFilters);
