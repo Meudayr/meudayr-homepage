@@ -425,12 +425,18 @@
     }
 
     .console-subbar {
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
+      background: var(--bg-panel);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 12px 18px;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      position: sticky;
+      top: 8px;
+      z-index: 30;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
     }
 
     .subbar-header {
@@ -463,9 +469,9 @@
     }
 
     .empty-favorites-hint {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--ink-2);
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     .chip-btn {
@@ -479,6 +485,9 @@
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: background-color 150ms ease, border-color 150ms ease;
     }
 
@@ -488,21 +497,98 @@
       border-color: var(--accent);
     }
 
+    .chip-btn.has-owned-match {
+      border-color: var(--owned-accent);
+    }
+
     .chip-btn[aria-pressed="true"] {
       background: var(--accent-bg);
       color: var(--accent-ink);
       border: 1.5px solid var(--accent);
     }
 
+    .quick-owned-strip {
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-owned-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--owned-ink);
+      margin-right: 4px;
+    }
+
+    .owned-tray-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--owned-bg);
+      color: var(--owned-ink);
+      border: 1px solid var(--owned-accent);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .owned-tray-name-btn {
+      min-height: 44px;
+      padding: 6px 10px;
+      background: transparent;
+      color: var(--owned-ink);
+      border: none;
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .owned-tray-name-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      text-decoration: underline;
+    }
+
+    .owned-tray-qty-btn {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 6px 10px;
+      background: rgba(0, 0, 0, 0.18);
+      color: var(--owned-ink);
+      border: none;
+      border-left: 1px solid var(--owned-accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .owned-tray-qty-btn:hover {
+      background: var(--owned-accent);
+      color: var(--pill-ink);
+    }
+
     .inventory-drawer {
-      margin-top: 12px;
+      margin-bottom: 18px;
       padding: 18px;
-      background: var(--bg-page);
-      border: 1px solid var(--border);
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-strong);
       border-radius: var(--radius-lg);
       display: flex;
       flex-direction: column;
       gap: 16px;
+    }
+
+    .owned-gifts-tray-box {
+      background: var(--bg-page);
+      border: 1px solid var(--owned-accent);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .inventory-grid {
@@ -518,7 +604,7 @@
     }
 
     .inventory-box {
-      background: var(--bg-panel);
+      background: var(--bg-page);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       padding: 16px;
@@ -567,7 +653,7 @@
       width: 100%;
       min-height: 92px;
       padding: 10px;
-      background: var(--bg-page);
+      background: var(--bg-panel);
       color: var(--ink-1);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
@@ -575,12 +661,36 @@
       resize: vertical;
     }
 
+    .inv-filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .inv-tab-btn {
+      min-height: 44px;
+      padding: 6px 12px;
+      background: var(--bg-panel);
+      color: var(--ink-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .inv-tab-btn[aria-pressed="true"] {
+      background: var(--accent-bg);
+      color: var(--accent-ink);
+      border-color: var(--accent);
+    }
+
     .inventory-checklist-wrap {
-      max-height: 250px;
+      max-height: 290px;
       overflow-y: auto;
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      background: var(--bg-page);
+      background: var(--bg-panel);
       padding: 8px;
       display: flex;
       flex-direction: column;
@@ -592,7 +702,7 @@
       min-height: 44px;
       padding: 8px 12px;
       text-align: left;
-      background: var(--bg-panel);
+      background: var(--bg-page);
       color: var(--ink-1);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
@@ -633,6 +743,13 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 16px;
+    }
+
+    .results-toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
     }
 
     .results-count {
@@ -814,6 +931,12 @@
       border-color: var(--accent);
     }
 
+    .ledger-tag.priority-owned {
+      background: var(--owned-bg);
+      color: var(--owned-ink);
+      border-color: var(--owned-accent);
+    }
+
     .tier-section {
       display: flex;
       flex-direction: column;
@@ -875,9 +998,13 @@
     @media (min-width: 680px) {
       .list-col-headers {
         display: grid;
-        grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(190px, 1.2fr);
+        grid-template-columns: minmax(200px, 1.5fr) minmax(130px, 0.9fr) minmax(170px, 1.1fr) 128px;
         gap: 12px;
         align-items: center;
+      }
+
+      .list-col-headers.char-col-headers {
+        grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(190px, 1.2fr);
       }
 
       .list-col-headers span:last-child {
@@ -897,12 +1024,23 @@
     .ledger-list-item {
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    @media (min-width: 560px) {
+      .ledger-list-item {
+        flex-direction: row;
+        align-items: stretch;
+      }
     }
 
     .crosslink-btn {
+      flex: 1 1 0%;
+      min-width: 0;
       width: 100%;
       min-height: 44px;
-      min-width: 44px;
       padding: 10px 14px;
       background: var(--bg-panel);
       color: var(--ink-1);
@@ -920,7 +1058,7 @@
 
     @media (min-width: 680px) {
       .crosslink-btn {
-        grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(190px, 1.2fr);
+        grid-template-columns: minmax(200px, 1.5fr) minmax(130px, 0.9fr) minmax(170px, 1.1fr);
         gap: 12px;
       }
     }
@@ -939,6 +1077,40 @@
       background: var(--owned-bg);
       color: var(--owned-ink);
       border: 1.5px solid var(--owned-accent);
+    }
+
+    .row-inv-btn {
+      min-height: 44px;
+      min-width: 122px;
+      padding: 8px 12px;
+      background: var(--bg-panel);
+      color: var(--ink-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .row-inv-btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--accent);
+    }
+
+    .row-inv-btn.is-owned {
+      background: var(--owned-bg);
+      color: var(--owned-ink);
+      border: 1.5px solid var(--owned-accent);
+    }
+
+    .row-inv-btn.is-owned:hover {
+      background: var(--owned-accent);
+      color: var(--pill-ink);
     }
 
     .row-col-name {
@@ -1316,84 +1488,102 @@
             </div>
           </div>
 
-          <div class="console-subbar">
-            <div class="subbar-header">
-              <span id="favorites-bar-title" class="subbar-title tabular-nums">Favorites (0 Recruits):</span>
-              <div class="subbar-actions">
-                <button type="button" id="filter-favorites-btn" class="btn" aria-pressed="false">
-                  Show All Favorites
-                </button>
-                <button type="button" id="toggle-inventory-btn" class="btn" aria-expanded="false" aria-controls="inventory-drawer">
-                  Upload / Manage Current Gifts (0 Owned)
-                </button>
-              </div>
+        </div>
+
+        <div class="console-subbar">
+          <div class="subbar-header">
+            <span id="favorites-bar-title" class="subbar-title tabular-nums">Favorites (0 Recruits):</span>
+            <div class="subbar-actions">
+              <button type="button" id="filter-favorites-btn" class="btn" aria-pressed="false">
+                Show All Favorites
+              </button>
+              <button type="button" id="toggle-inventory-btn" class="btn" aria-expanded="false" aria-controls="inventory-drawer">
+                Upload / Manage Current Gifts (0 Owned)
+              </button>
             </div>
-            <div id="favorites-chips-container" class="chip-row"></div>
+          </div>
+          <div id="favorites-chips-container" class="chip-row"></div>
+          <div id="quick-owned-strip" class="quick-owned-strip hidden" aria-label="Quick Owned Gifts Strip"></div>
+        </div>
+
+        <div id="inventory-drawer" class="inventory-drawer hidden" role="region" aria-label="Current Gifts Inventory Manager">
+          <div class="subbar-header">
+            <strong style="font-size:1rem;">My Current Gifts Inventory (Highlights Matching Gifts on All Recruits)</strong>
+            <div class="subbar-actions">
+              <button type="button" id="export-inventory-btn" class="btn">Download My Gift List (.txt)</button>
+              <button type="button" id="clear-inventory-btn" class="btn">Clear All Current Gifts</button>
+            </div>
           </div>
 
-          <div id="inventory-drawer" class="inventory-drawer hidden" role="region" aria-label="Current Gifts Inventory Manager">
+          <div id="inventory-status-banner" class="inventory-status hidden" role="status" aria-live="polite"></div>
+
+          <div class="owned-gifts-tray-box">
             <div class="subbar-header">
-              <strong style="font-size:1rem;">My Current Gifts Inventory (Highlights Matching Gifts on All Recruits)</strong>
+              <strong style="font-size:0.94rem;">Currently in My Inventory (<span id="tray-owned-count" class="tabular-nums">0</span> Unique Gifts, <span id="tray-total-copies" class="tabular-nums">0</span> Total Copies)</strong>
+              <span style="font-size:0.82rem; color:var(--ink-2);">Click a gift name to filter recruits who want it, or click -1 / +1 to adjust copies as you give gifts in-game.</span>
+            </div>
+            <div id="owned-gifts-tray" class="chip-row"></div>
+          </div>
+
+          <div class="inventory-grid">
+            <div class="inventory-box">
+              <h3>1. Upload or Paste Your Current Gifts</h3>
+              <p>Upload a <code>.txt</code>, <code>.csv</code>, or <code>.json</code> file of gift names, or paste gift names below (one per line or comma-separated; optional quantities like <code>Kitten Figurine x2</code> are supported).</p>
               <div class="subbar-actions">
-                <button type="button" id="export-inventory-btn" class="btn">Download My Gift List (.txt)</button>
-                <button type="button" id="clear-inventory-btn" class="btn">Clear All Current Gifts</button>
+                <input type="file" id="gift-file-input" accept=".txt,.csv,.json" class="hidden">
+                <button type="button" id="trigger-upload-btn" class="btn btn-primary">
+                  Upload Gift File (.txt, .csv, .json)
+                </button>
+                <button type="button" id="toggle-ai-prompt-btn" class="btn" aria-expanded="false" aria-controls="ai-prompt-window">
+                  AI Prompt for Screenshots / Video
+                </button>
+              </div>
+
+              <div id="ai-prompt-window" class="ai-prompt-window hidden" role="region" aria-label="AI Prompt Generator for In-Game Screenshots or Video">
+                <div class="subbar-header">
+                  <strong style="font-size:0.9rem;">Extract Gift Names from Screenshots, Photos, or Video</strong>
+                  <button type="button" id="copy-ai-prompt-btn" class="btn btn-primary">
+                    Copy AI Prompt
+                  </button>
+                </div>
+                <p>Copy this prompt and send it with screenshots, phone photos, or a video of your in-game gift list to any AI assistant. It includes all 116 exact Fortune's Weave gift names so the AI outputs a clean list ready to paste below.</p>
+                <label for="ai-prompt-textarea" class="field-label" style="font-size:0.82rem;">Ready-to-Copy AI Prompt:</label>
+                <textarea id="ai-prompt-textarea" class="ai-prompt-textarea" readonly></textarea>
+              </div>
+
+              <label for="paste-gifts-textarea" class="field-label" style="font-size:0.85rem;">Or Paste Gift Names:</label>
+              <textarea
+                id="paste-gifts-textarea"
+                class="inventory-textarea"
+                placeholder="Example:&#10;Kitten Figurine&#10;Strategy Manuscript x2&#10;Volcano Ghosh"
+              ></textarea>
+              <div class="subbar-actions">
+                <button type="button" id="apply-paste-btn" class="btn btn-primary">
+                  Add Pasted Gifts to Inventory
+                </button>
+                <button type="button" id="replace-paste-btn" class="btn">
+                  Replace Inventory with Pasted List
+                </button>
               </div>
             </div>
 
-            <div id="inventory-status-banner" class="inventory-status hidden" role="status" aria-live="polite"></div>
-
-            <div class="inventory-grid">
-              <div class="inventory-box">
-                <h3>1. Upload or Paste Your Current Gifts</h3>
-                <p>Upload a <code>.txt</code>, <code>.csv</code>, or <code>.json</code> file of gift names, or paste gift names below (one per line or comma-separated).</p>
-                <div class="subbar-actions">
-                  <input type="file" id="gift-file-input" accept=".txt,.csv,.json" class="hidden">
-                  <button type="button" id="trigger-upload-btn" class="btn btn-primary">
-                    Upload Gift File (.txt, .csv, .json)
-                  </button>
-                  <button type="button" id="toggle-ai-prompt-btn" class="btn" aria-expanded="false" aria-controls="ai-prompt-window">
-                    AI Prompt for Screenshots / Video
-                  </button>
-                </div>
-
-                <div id="ai-prompt-window" class="ai-prompt-window hidden" role="region" aria-label="AI Prompt Generator for In-Game Screenshots or Video">
-                  <div class="subbar-header">
-                    <strong style="font-size:0.9rem;">Extract Gift Names from Screenshots, Photos, or Video</strong>
-                    <button type="button" id="copy-ai-prompt-btn" class="btn btn-primary">
-                      Copy AI Prompt
-                    </button>
-                  </div>
-                  <p>Copy this prompt and send it with screenshots, phone photos, or a video of your in-game gift list to any AI assistant. It includes all 116 exact Fortune's Weave gift names so the AI outputs a clean list ready to paste below.</p>
-                  <label for="ai-prompt-textarea" class="field-label" style="font-size:0.82rem;">Ready-to-Copy AI Prompt:</label>
-                  <textarea id="ai-prompt-textarea" class="ai-prompt-textarea" readonly></textarea>
-                </div>
-
-                <label for="paste-gifts-textarea" class="field-label" style="font-size:0.85rem;">Or Paste Gift Names:</label>
-                <textarea
-                  id="paste-gifts-textarea"
-                  class="inventory-textarea"
-                  placeholder="Example:&#10;Kitten Figurine&#10;Strategy Manuscript&#10;Volcano Ghosh"
-                ></textarea>
-                <div class="subbar-actions">
-                  <button type="button" id="apply-paste-btn" class="btn btn-primary">
-                    Add Pasted Gifts to Inventory
-                  </button>
-                </div>
+            <div class="inventory-box">
+              <h3>2. Toggle Gifts Directly (<span id="owned-count-inline" class="tabular-nums">0</span> / 116 Owned)</h3>
+              <p>Filter and click any gift below to mark or unmark it as currently in your inventory.</p>
+              <div class="inv-filter-tabs" role="group" aria-label="Checklist filter mode">
+                <button type="button" class="inv-tab-btn" data-inv-tab="all" aria-pressed="true">All Gifts (116)</button>
+                <button type="button" class="inv-tab-btn" data-inv-tab="owned" aria-pressed="false">Owned Only</button>
+                <button type="button" class="inv-tab-btn" data-inv-tab="unowned" aria-pressed="false">Unowned Only</button>
               </div>
-
-              <div class="inventory-box">
-                <h3>2. Toggle Gifts Directly (<span id="owned-count-inline" class="tabular-nums">0</span> / 116 Owned)</h3>
-                <p>Filter and click any gift below to mark or unmark it as currently in your inventory.</p>
-                <label for="inventory-filter-input" class="field-label" style="font-size:0.85rem;">Filter Gift Checklist:</label>
-                <input
-                  type="search"
-                  id="inventory-filter-input"
-                  class="filter-select"
-                  placeholder="Filter 116 gifts by name or category..."
-                  autocomplete="off"
-                >
-                <div id="inventory-checklist" class="inventory-checklist-wrap" role="group" aria-label="Gift inventory checklist"></div>
-              </div>
+              <label for="inventory-filter-input" class="field-label" style="font-size:0.85rem;">Filter Gift Checklist:</label>
+              <input
+                type="search"
+                id="inventory-filter-input"
+                class="filter-select"
+                placeholder="Filter 116 gifts by name or category..."
+                autocomplete="off"
+              >
+              <div id="inventory-checklist" class="inventory-checklist-wrap" role="group" aria-label="Gift inventory checklist"></div>
             </div>
           </div>
         </div>
@@ -1409,9 +1599,17 @@
             <div id="results-summary" class="results-count tabular-nums" aria-live="polite">
               Showing 60 of 60 playable characters
             </div>
-            <button type="button" id="reset-all-btn" class="btn">
-              Show All Records
-            </button>
+            <div class="results-toolbar-actions">
+              <button type="button" id="back-nav-btn" class="btn hidden">
+                Back to Previous View
+              </button>
+              <button type="button" id="toggle-expand-all-btn" class="btn">
+                Expand All Shown
+              </button>
+              <button type="button" id="reset-all-btn" class="btn">
+                Show All Records
+              </button>
+            </div>
           </div>
 
           <div id="cards-container" class="cards-stack"></div>
@@ -1515,6 +1713,7 @@
 
       const STORAGE_FAV_KEY = "fefw_favorite_recruits_v1";
       const STORAGE_INV_KEY = "fefw_owned_gifts_v1";
+      const STORAGE_INV_COUNTS_KEY = "fefw_owned_gift_counts_v1";
 
       function loadStoredSet(key, fallbackArray) {
         try {
@@ -1538,7 +1737,55 @@
 
       const favoriteChars = loadStoredSet(STORAGE_FAV_KEY, []);
       const ownedGifts = loadStoredSet(STORAGE_INV_KEY, []);
+      const ownedGiftCounts = new Map();
+      try {
+        const rawCounts = window.localStorage.getItem(STORAGE_INV_COUNTS_KEY);
+        if (rawCounts) {
+          const parsedCounts = JSON.parse(rawCounts);
+          if (parsedCounts && typeof parsedCounts === "object") {
+            Object.keys(parsedCounts).forEach(function (slug) {
+              const q = parseInt(parsedCounts[slug], 10);
+              if (q > 0) {
+                ownedGiftCounts.set(slug, q);
+                ownedGifts.add(slug);
+              }
+            });
+          }
+        }
+      } catch (err) {}
+
+      ownedGifts.forEach(function (slug) {
+        if (!ownedGiftCounts.has(slug)) {
+          ownedGiftCounts.set(slug, 1);
+        }
+      });
+
+      function saveInventoryState() {
+        saveStoredSet(STORAGE_INV_KEY, ownedGifts);
+        try {
+          const obj = {};
+          ownedGifts.forEach(function (slug) {
+            obj[slug] = ownedGiftCounts.get(slug) || 1;
+          });
+          window.localStorage.setItem(STORAGE_INV_COUNTS_KEY, JSON.stringify(obj));
+        } catch (err) {}
+      }
+
+      function addGiftCopy(slug, delta) {
+        const current = ownedGifts.has(slug) ? (ownedGiftCounts.get(slug) || 1) : 0;
+        const next = current + delta;
+        if (next <= 0) {
+          ownedGifts.delete(slug);
+          ownedGiftCounts.delete(slug);
+        } else {
+          ownedGifts.add(slug);
+          ownedGiftCounts.set(slug, next);
+        }
+        saveInventoryState();
+      }
+
       const expandedChars = new Set();
+      const navHistory = [];
 
       const state = {
         mode: "character",
@@ -1551,7 +1798,8 @@
         giftShopFilter: "all",
         inventoryDrawerOpen: false,
         aiPromptOpen: false,
-        inventoryFilterQuery: ""
+        inventoryFilterQuery: "",
+        inventoryTab: "all"
       };
 
       const htmlEl = document.documentElement;
@@ -1585,9 +1833,13 @@
       const favoritesChipsContainer = document.getElementById("favorites-chips-container");
       const filterFavoritesBtn = document.getElementById("filter-favorites-btn");
       const toggleInventoryBtn = document.getElementById("toggle-inventory-btn");
+      const quickOwnedStrip = document.getElementById("quick-owned-strip");
 
       const inventoryDrawer = document.getElementById("inventory-drawer");
       const inventoryStatusBanner = document.getElementById("inventory-status-banner");
+      const ownedGiftsTray = document.getElementById("owned-gifts-tray");
+      const trayOwnedCount = document.getElementById("tray-owned-count");
+      const trayTotalCopies = document.getElementById("tray-total-copies");
       const giftFileInput = document.getElementById("gift-file-input");
       const triggerUploadBtn = document.getElementById("trigger-upload-btn");
       const toggleAiPromptBtn = document.getElementById("toggle-ai-prompt-btn");
@@ -1596,11 +1848,13 @@
       const copyAiPromptBtn = document.getElementById("copy-ai-prompt-btn");
       const pasteGiftsTextarea = document.getElementById("paste-gifts-textarea");
       const applyPasteBtn = document.getElementById("apply-paste-btn");
+      const replacePasteBtn = document.getElementById("replace-paste-btn");
       const inventoryFilterInput = document.getElementById("inventory-filter-input");
       const inventoryChecklist = document.getElementById("inventory-checklist");
       const ownedCountInline = document.getElementById("owned-count-inline");
       const exportInventoryBtn = document.getElementById("export-inventory-btn");
       const clearInventoryBtn = document.getElementById("clear-inventory-btn");
+      const invTabBtns = Array.from(document.querySelectorAll("[data-inv-tab]"));
 
       const stateEmpty = document.getElementById("state-empty");
       const emptyStateMessage = document.getElementById("empty-state-message");
@@ -1608,6 +1862,8 @@
       const resultsSummary = document.getElementById("results-summary");
       const cardsContainer = document.getElementById("cards-container");
 
+      const backNavBtn = document.getElementById("back-nav-btn");
+      const toggleExpandAllBtn = document.getElementById("toggle-expand-all-btn");
       const resetFiltersBtn = document.getElementById("reset-filters-btn");
       const resetAllBtn = document.getElementById("reset-all-btn");
 
@@ -1629,6 +1885,22 @@
       }
 
       rebuildMaps();
+
+      function pushNavHistory(label) {
+        navHistory.push({
+          mode: state.mode,
+          searchQuery: state.searchQuery,
+          selectedSlug: state.selectedSlug,
+          charPriorityFilter: state.charPriorityFilter,
+          charTierFilter: state.charTierFilter,
+          expandedSlugs: Array.from(expandedChars),
+          scrollY: window.scrollY || 0,
+          label: label || "Previous View"
+        });
+        if (navHistory.length > 10) {
+          navHistory.shift();
+        }
+      }
 
       function buildAiPromptText() {
         const allGiftNames = dataset.gifts.map(function (g) { return g.name; }).join(", ");
@@ -1658,10 +1930,14 @@
         inventoryStatusBanner.classList.remove("hidden");
       }
 
-      function parseAndAddGiftTokens(rawText, sourceLabel) {
+      function parseAndAddGiftTokens(rawText, sourceLabel, replaceExisting) {
         if (!rawText || !rawText.trim()) {
           showInventoryStatus("No gift names found to import.");
           return 0;
+        }
+        if (replaceExisting) {
+          ownedGifts.clear();
+          ownedGiftCounts.clear();
         }
         let tokens = [];
         const trimmed = rawText.trim();
@@ -1687,10 +1963,20 @@
         let addedCount = 0;
         const unmatched = [];
         tokens.forEach(function (rawToken) {
-          let clean = String(rawToken || "")
+          let tokenStr = String(rawToken || "").trim();
+          if (!tokenStr) return;
+          let qty = 1;
+          const leadQtyMatch = tokenStr.match(/^(\d+)\s*[xX]\s+(.+)$/);
+          const trailQtyMatch = tokenStr.match(/^(.+?)\s+[xX](\d+)$/);
+          if (leadQtyMatch) {
+            qty = Math.max(1, parseInt(leadQtyMatch[1], 10));
+            tokenStr = leadQtyMatch[2];
+          } else if (trailQtyMatch) {
+            tokenStr = trailQtyMatch[1];
+            qty = Math.max(1, parseInt(trailQtyMatch[2], 10));
+          }
+          let clean = tokenStr
             .replace(/^[-*•\d.)\s]+/, "")
-            .replace(/^\d+\s*[xX]\s+/, "")
-            .replace(/\s+[xX]?\d+$/, "")
             .replace(/^["']+|["']+$/g, "")
             .trim();
           if (!clean) return;
@@ -1704,18 +1990,20 @@
             });
           }
           if (matchedGift) {
+            const prev = ownedGifts.has(matchedGift.slug) ? (ownedGiftCounts.get(matchedGift.slug) || 0) : 0;
             ownedGifts.add(matchedGift.slug);
+            ownedGiftCounts.set(matchedGift.slug, prev > 0 ? prev + qty : qty);
             addedCount += 1;
           } else {
             unmatched.push(clean);
           }
         });
 
-        saveStoredSet(STORAGE_INV_KEY, ownedGifts);
+        saveInventoryState();
         renderInventoryChecklist();
         render();
 
-        let statusMsg = "Matched and highlighted " + addedCount + " gift(s) from " + sourceLabel + " (" + ownedGifts.size + " total in inventory).";
+        let statusMsg = (replaceExisting ? "Replaced inventory with " : "Matched and highlighted ") + addedCount + " gift(s) from " + sourceLabel + " (" + ownedGifts.size + " unique in inventory).";
         if (unmatched.length > 0) {
           statusMsg += " Unrecognized entries skipped: " + unmatched.slice(0, 4).join(", ") + (unmatched.length > 4 ? "..." : ".");
         }
@@ -1723,21 +2011,99 @@
         return addedCount;
       }
 
+      function renderOwnedGiftsTray() {
+        const slugs = Array.from(ownedGifts).filter(function (s) { return giftBySlug.has(s); });
+        slugs.sort(function (a, b) {
+          return giftBySlug.get(a).name.localeCompare(giftBySlug.get(b).name);
+        });
+
+        let totalCopies = 0;
+        slugs.forEach(function (s) {
+          totalCopies += (ownedGiftCounts.get(s) || 1);
+        });
+
+        trayOwnedCount.textContent = String(slugs.length);
+        trayTotalCopies.textContent = String(totalCopies);
+
+        if (slugs.length === 0) {
+          ownedGiftsTray.innerHTML = '<span class="empty-favorites-hint">Your inventory is currently empty. Paste gift names below, upload a file, or click "+ Have Gift" on any recruit\'s gift row.</span>';
+          quickOwnedStrip.classList.add("hidden");
+          quickOwnedStrip.innerHTML = "";
+          return;
+        }
+
+        const pillsHtml = slugs.map(function (slug) {
+          const g = giftBySlug.get(slug);
+          const qty = ownedGiftCounts.get(slug) || 1;
+          return (
+            '<div class="owned-tray-pill">' +
+              '<button type="button" class="owned-tray-name-btn tabular-nums" data-filter-owned-gift="' + escapeHtml(g.name) + '" title="Filter recruits who Love (++) or Like (+) ' + escapeHtml(g.name) + '">' +
+                escapeHtml(g.name) + ' (x' + qty + ')' +
+              '</button>' +
+              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-dec-gift="' + escapeHtml(slug) + '" title="Use / remove 1 copy of ' + escapeHtml(g.name) + '">' +
+                'Use (-1)' +
+              '</button>' +
+              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-inc-gift="' + escapeHtml(slug) + '" title="Add 1 copy of ' + escapeHtml(g.name) + '">' +
+                '+1' +
+              '</button>' +
+            '</div>'
+          );
+        }).join("");
+
+        ownedGiftsTray.innerHTML = pillsHtml;
+
+        const quickPillsHtml = slugs.map(function (slug) {
+          const g = giftBySlug.get(slug);
+          const qty = ownedGiftCounts.get(slug) || 1;
+          return (
+            '<div class="owned-tray-pill">' +
+              '<button type="button" class="owned-tray-name-btn tabular-nums" data-filter-owned-gift="' + escapeHtml(g.name) + '" title="Click to filter recruits who want ' + escapeHtml(g.name) + '">' +
+                escapeHtml(g.name) + (qty > 1 ? ' (x' + qty + ')' : '') +
+              '</button>' +
+              '<button type="button" class="owned-tray-qty-btn tabular-nums" data-dec-gift="' + escapeHtml(slug) + '" title="Give / use 1 copy of ' + escapeHtml(g.name) + '">' +
+                'Use (-1)' +
+              '</button>' +
+            '</div>'
+          );
+        }).join("");
+
+        quickOwnedStrip.innerHTML = '<span class="quick-owned-label tabular-nums">My Gifts (' + slugs.length + '):</span>' + quickPillsHtml;
+        quickOwnedStrip.classList.remove("hidden");
+      }
+
       function renderInventoryChecklist() {
         ownedCountInline.textContent = String(ownedGifts.size);
         toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
+        renderOwnedGiftsTray();
+
+        invTabBtns.forEach(function (b) {
+          const t = b.getAttribute("data-inv-tab");
+          b.setAttribute("aria-pressed", t === state.inventoryTab ? "true" : "false");
+          if (t === "owned") b.textContent = "Owned Only (" + ownedGifts.size + ")";
+          else if (t === "unowned") b.textContent = "Unowned Only (" + (dataset.gifts.length - ownedGifts.size) + ")";
+        });
+
         const q = state.inventoryFilterQuery.trim().toLowerCase();
         const filtered = dataset.gifts.filter(function (g) {
+          const isOwned = ownedGifts.has(g.slug);
+          if (state.inventoryTab === "owned" && !isOwned) return false;
+          if (state.inventoryTab === "unowned" && isOwned) return false;
           if (!q) return true;
           return g.name.toLowerCase().indexOf(q) !== -1 || g.category.toLowerCase().indexOf(q) !== -1;
         });
 
+        if (filtered.length === 0) {
+          inventoryChecklist.innerHTML = '<p style="margin:8px; font-size:0.86rem; color:var(--ink-2);">No gifts match this checklist filter.</p>';
+          return;
+        }
+
         inventoryChecklist.innerHTML = filtered.map(function (g) {
           const isOwned = ownedGifts.has(g.slug);
+          const qty = ownedGiftCounts.get(g.slug) || 1;
           return (
             '<button type="button" class="inv-check-btn" data-toggle-owned="' + escapeHtml(g.slug) + '" aria-pressed="' + (isOwned ? "true" : "false") + '">' +
               '<span>' + escapeHtml(g.name) + ' <span style="font-weight:400; color:var(--ink-2);">(' + escapeHtml(g.category) + ')</span></span>' +
-              '<span class="tabular-nums">' + (isOwned ? "[In Inventory]" : "+ Add") + '</span>' +
+              '<span class="tabular-nums">' + (isOwned ? "[In Inventory" + (qty > 1 ? " x" + qty : "") + "]" : "+ Add") + '</span>' +
             '</button>'
           );
         }).join("");
@@ -1844,6 +2210,18 @@
         }).join(" | ");
       }
 
+      function countOwnedMatchesForChar(c) {
+        let lovedOwned = 0;
+        let likedOwned = 0;
+        c.loved.forEach(function (gRef) {
+          if (ownedGifts.has(gRef.slug)) lovedOwned += 1;
+        });
+        c.liked.forEach(function (gRef) {
+          if (ownedGifts.has(gRef.slug)) likedOwned += 1;
+        });
+        return { lovedOwned: lovedOwned, likedOwned: likedOwned, total: lovedOwned + likedOwned };
+      }
+
       function renderFavoritesBar() {
         favoritesChipsContainer.innerHTML = "";
         const favSlugs = Array.from(favoriteChars).filter(function (slug) {
@@ -1869,18 +2247,24 @@
         favSlugs.forEach(function (slug) {
           const c = charBySlug.get(slug);
           if (!c) return;
+          const ownedMatch = countOwnedMatchesForChar(c);
           const btn = document.createElement("button");
           btn.type = "button";
-          btn.className = "chip-btn";
+          btn.className = "chip-btn tabular-nums" + (ownedGifts.size > 0 && ownedMatch.total > 0 ? " has-owned-match" : "");
           const isSelected = state.mode === "character" && state.selectedSlug === c.slug;
           btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
-          btn.textContent = c.name;
+          if (ownedGifts.size > 0 && ownedMatch.total > 0) {
+            btn.textContent = c.name + " (" + ownedMatch.lovedOwned + " ++ / " + ownedMatch.likedOwned + " +)";
+          } else {
+            btn.textContent = c.name;
+          }
           btn.addEventListener("click", function () {
             state.mode = "character";
             if (state.selectedSlug === c.slug) {
               state.selectedSlug = "";
               charJumpSelect.value = "";
             } else {
+              pushNavHistory(state.selectedSlug && charBySlug.has(state.selectedSlug) ? charBySlug.get(state.selectedSlug).name : "Recruit List");
               state.selectedSlug = c.slug;
               charJumpSelect.value = c.slug;
               mainSearchInput.value = "";
@@ -1890,18 +2274,6 @@
           });
           favoritesChipsContainer.appendChild(btn);
         });
-      }
-
-      function countOwnedMatchesForChar(c) {
-        let lovedOwned = 0;
-        let likedOwned = 0;
-        c.loved.forEach(function (gRef) {
-          if (ownedGifts.has(gRef.slug)) lovedOwned += 1;
-        });
-        c.liked.forEach(function (gRef) {
-          if (ownedGifts.has(gRef.slug)) likedOwned += 1;
-        });
-        return { lovedOwned: lovedOwned, likedOwned: likedOwned, total: lovedOwned + likedOwned };
       }
 
       function filterCharacters() {
@@ -1974,6 +2346,7 @@
         const gObj = giftBySlug.get(gRef.slug);
         const cat = gObj ? gObj.category : "Gift";
         const isOwned = ownedGifts.has(gRef.slug);
+        const qty = ownedGiftCounts.get(gRef.slug) || 1;
         const hasShop = gObj && gObj.shops && gObj.shops.length > 0;
         const shopText = !hasShop
           ? "Crate / Quest / Exploration"
@@ -1983,16 +2356,22 @@
         let rowClass = isLoved ? "crosslink-btn loved-item" : "crosslink-btn";
         if (isOwned) rowClass += " owned-gift-row";
         const shopClass = hasShop ? "row-col-shop tabular-nums" : "row-col-shop shop-unlisted";
+        const invBtnLabel = isOwned
+          ? (qty > 1 ? "Use 1 (x" + qty + ")" : "Use / Give (-1)")
+          : "+ Have Gift";
         return (
           '<li class="ledger-list-item">' +
             '<button type="button" class="' + rowClass + '" data-jump-gift="' + escapeHtml(gRef.slug) + '" data-jump-gift-name="' + escapeHtml(gRef.name) + '">' +
               '<span class="row-col-name">' +
                 '<span class="row-tier-mark tabular-nums">' + (isLoved ? "++" : "+") + '</span>' +
                 '<span>' + escapeHtml(gRef.name) + '</span>' +
-                (isOwned ? '<span class="owned-pill">IN INVENTORY</span>' : '') +
+                (isOwned ? '<span class="owned-pill tabular-nums">IN INVENTORY' + (qty > 1 ? ' x' + qty : '') + '</span>' : '') +
               '</span>' +
               '<span class="row-col-category">' + escapeHtml(cat) + '</span>' +
               '<span class="' + shopClass + '">' + escapeHtml(shopText) + '</span>' +
+            '</button>' +
+            '<button type="button" class="row-inv-btn' + (isOwned ? ' is-owned' : '') + ' tabular-nums" data-quick-inv="' + escapeHtml(gRef.slug) + '" title="' + (isOwned ? 'Mark 1 copy as given/used in-game' : 'Add this gift to your current inventory') + '">' +
+              escapeHtml(invBtnLabel) +
             '</button>' +
           '</li>'
         );
@@ -2073,6 +2452,7 @@
                         '<span>Gift Item</span>' +
                         '<span>Category</span>' +
                         '<span>Where to Buy &amp; Price</span>' +
+                        '<span>Inventory</span>' +
                       '</div>' +
                       '<ul class="ledger-list">' + lovedRows + '</ul>' +
                     '</div>'
@@ -2101,6 +2481,7 @@
                         '<span>Gift Item</span>' +
                         '<span>Category</span>' +
                         '<span>Where to Buy &amp; Price</span>' +
+                        '<span>Inventory</span>' +
                       '</div>' +
                       '<ul class="ledger-list">' + likedRows + '</ul>' +
                     '</div>'
@@ -2121,7 +2502,7 @@
 
           const verifiedCount = c.loved.filter(function (gRef) { return gRef.verified; }).length;
           const sourceNote = hasGiftData
-            ? "Click any row in the list to inspect that gift's full recipient list and vendor details (" + verifiedCount + " multi-source verified Loved items)."
+            ? "Click any gift name to inspect all recipients, or use the right-hand button to add/use gifts from your inventory (" + verifiedCount + " multi-source verified Loved items)."
             : "Roster interests and recruitment data verified; item-by-item reactions pending wiki completion.";
           footerSection = '<div class="card-footer-note">' + escapeHtml(sourceNote) + '</div>';
         } else if (hasGiftSearchMatch) {
@@ -2141,6 +2522,7 @@
                     '<span>Gift Item</span>' +
                     '<span>Category</span>' +
                     '<span>Where to Buy &amp; Price</span>' +
+                    '<span>Inventory</span>' +
                   '</div>' +
                   '<ul class="ledger-list">' + lovedRows + '</ul>' +
                 '</div>' +
@@ -2163,6 +2545,7 @@
                     '<span>Gift Item</span>' +
                     '<span>Category</span>' +
                     '<span>Where to Buy &amp; Price</span>' +
+                    '<span>Inventory</span>' +
                   '</div>' +
                   '<ul class="ledger-list">' + likedRows + '</ul>' +
                 '</div>' +
@@ -2202,7 +2585,7 @@
                   '</button>') +
               '<div class="tag-row">' +
                 (ownedGifts.size > 0
-                  ? '<span class="ledger-tag' + (ownedSummary.total > 0 ? " priority-high" : "") + ' tabular-nums">' +
+                  ? '<span class="ledger-tag' + (ownedSummary.total > 0 ? " priority-owned" : "") + ' tabular-nums">' +
                       (isFullyCollapsed
                         ? 'Owned: ' + ownedSummary.lovedOwned + ' ++ / ' + ownedSummary.likedOwned + ' +'
                         : 'In Inventory: ' + ownedSummary.lovedOwned + ' Loved (++), ' + ownedSummary.likedOwned + ' Liked (+)') +
@@ -2233,6 +2616,7 @@
 
       function renderGiftCard(g, isSingleFocus) {
         const isOwned = ownedGifts.has(g.slug);
+        const qty = ownedGiftCounts.get(g.slug) || 1;
         const lovedRows = g.lovedBy.map(function (cRef) {
           return buildCharRowHtml(cRef, true);
         }).join("");
@@ -2250,7 +2634,7 @@
               '</h3>' +
               (g.likedBy.length > 0
                 ? '<div class="structured-list-wrap">' +
-                    '<div class="list-col-headers" aria-hidden="true">' +
+                    '<div class="list-col-headers char-col-headers" aria-hidden="true">' +
                       '<span>Character Name</span>' +
                       '<span>Route Recruitment</span>' +
                       '<span>Support Priority</span>' +
@@ -2288,9 +2672,14 @@
               '<div class="tag-row">' +
                 '<span class="ledger-tag">' + escapeHtml(g.category) + '</span>' +
                 (g.isFood ? '<span class="ledger-tag priority-high">Food / Drink</span>' : '') +
-                '<button type="button" class="btn" data-toggle-owned="' + escapeHtml(g.slug) + '" aria-pressed="' + (isOwned ? "true" : "false") + '">' +
-                  (isOwned ? "In My Inventory" : "+ Have This Gift") +
+                '<button type="button" class="btn tabular-nums" data-toggle-owned="' + escapeHtml(g.slug) + '" aria-pressed="' + (isOwned ? "true" : "false") + '">' +
+                  (isOwned ? "In My Inventory" + (qty > 1 ? " (x" + qty + ")" : "") : "+ Have This Gift") +
                 '</button>' +
+                (isOwned
+                  ? '<button type="button" class="btn tabular-nums" data-quick-inv="' + escapeHtml(g.slug) + '">' +
+                      'Use / Give (-1)' +
+                    '</button>'
+                  : '') +
               '</div>' +
             '</div>' +
             shopHtml +
@@ -2301,7 +2690,7 @@
               '</h3>' +
               (g.lovedBy.length > 0
                 ? '<div class="structured-list-wrap loved-list-wrap">' +
-                    '<div class="list-col-headers" aria-hidden="true">' +
+                    '<div class="list-col-headers char-col-headers" aria-hidden="true">' +
                       '<span>Character Name</span>' +
                       '<span>Route Recruitment</span>' +
                       '<span>Support Priority</span>' +
@@ -2345,8 +2734,17 @@
         }
 
         renderFavoritesBar();
+        renderOwnedGiftsTray();
         ownedCountInline.textContent = String(ownedGifts.size);
         toggleInventoryBtn.textContent = "Upload / Manage Current Gifts (" + ownedGifts.size + " Owned)";
+
+        if (navHistory.length > 0) {
+          const lastItem = navHistory[navHistory.length - 1];
+          backNavBtn.textContent = "Back to " + lastItem.label;
+          backNavBtn.classList.remove("hidden");
+        } else {
+          backNavBtn.classList.add("hidden");
+        }
 
         stateEmpty.classList.add("hidden");
         resultsWrapper.classList.add("hidden");
@@ -2372,10 +2770,19 @@
             (ownedGifts.size > 0 ? " | Highlighting " + ownedGifts.size + " owned gift(s)" : "");
 
           const isSingle = filteredChars.length === 1;
+          if (isSingle) {
+            toggleExpandAllBtn.classList.add("hidden");
+          } else {
+            toggleExpandAllBtn.classList.remove("hidden");
+            const allExpanded = filteredChars.every(function (c) { return expandedChars.has(c.slug); });
+            toggleExpandAllBtn.textContent = allExpanded ? "Collapse All" : "Expand All Shown (" + filteredChars.length + ")";
+          }
+
           cardsContainer.innerHTML = filteredChars.map(function (c) {
             return renderCharacterCard(c, isSingle);
           }).join("");
         } else {
+          toggleExpandAllBtn.classList.add("hidden");
           const filteredGifts = filterGifts();
           if (filteredGifts.length === 0) {
             emptyStateMessage.textContent = 'No gift items matched "' + (state.searchQuery || "your current filters") + '". Try clearing the search or selecting All Gift Categories.';
@@ -2397,6 +2804,7 @@
 
       function resetAllFilters() {
         expandedChars.clear();
+        navHistory.length = 0;
         state.searchQuery = "";
         state.selectedSlug = "";
         state.charPriorityFilter = "all";
@@ -2478,6 +2886,9 @@
         state.charPriorityFilter = charPriorityFilter.value;
         state.selectedSlug = "";
         expandedChars.clear();
+        if (state.charPriorityFilter === "favorites") {
+          favoriteChars.forEach(function (s) { expandedChars.add(s); });
+        }
         charJumpSelect.value = "";
         render();
       });
@@ -2542,6 +2953,7 @@
         } else {
           state.charPriorityFilter = "favorites";
           charPriorityFilter.value = "favorites";
+          favoriteChars.forEach(function (s) { expandedChars.add(s); });
         }
         render();
       });
@@ -2584,15 +2996,27 @@
         const reader = new FileReader();
         reader.onload = function (ev) {
           const content = String(ev.target.result || "");
-          parseAndAddGiftTokens(content, "uploaded file (" + file.name + ")");
+          parseAndAddGiftTokens(content, "uploaded file (" + file.name + ")", false);
           giftFileInput.value = "";
         };
         reader.readAsText(file);
       });
 
       applyPasteBtn.addEventListener("click", function () {
-        parseAndAddGiftTokens(pasteGiftsTextarea.value, "pasted list");
+        parseAndAddGiftTokens(pasteGiftsTextarea.value, "pasted list", false);
         pasteGiftsTextarea.value = "";
+      });
+
+      replacePasteBtn.addEventListener("click", function () {
+        parseAndAddGiftTokens(pasteGiftsTextarea.value, "pasted list", true);
+        pasteGiftsTextarea.value = "";
+      });
+
+      invTabBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          state.inventoryTab = btn.getAttribute("data-inv-tab") || "all";
+          renderInventoryChecklist();
+        });
       });
 
       inventoryFilterInput.addEventListener("input", function () {
@@ -2600,30 +3024,68 @@
         renderInventoryChecklist();
       });
 
+      function handleTrayDelegation(e) {
+        const filterBtn = e.target.closest("[data-filter-owned-gift]");
+        if (filterBtn) {
+          const gName = filterBtn.getAttribute("data-filter-owned-gift");
+          state.mode = "character";
+          state.selectedSlug = "";
+          charJumpSelect.value = "";
+          state.searchQuery = gName;
+          mainSearchInput.value = gName;
+          expandedChars.clear();
+          render();
+          return;
+        }
+        const decBtn = e.target.closest("[data-dec-gift]");
+        if (decBtn) {
+          const slug = decBtn.getAttribute("data-dec-gift");
+          addGiftCopy(slug, -1);
+          renderInventoryChecklist();
+          render();
+          return;
+        }
+        const incBtn = e.target.closest("[data-inc-gift]");
+        if (incBtn) {
+          const slug = incBtn.getAttribute("data-inc-gift");
+          addGiftCopy(slug, 1);
+          renderInventoryChecklist();
+          render();
+          return;
+        }
+      }
+
+      ownedGiftsTray.addEventListener("click", handleTrayDelegation);
+      quickOwnedStrip.addEventListener("click", handleTrayDelegation);
+
       inventoryChecklist.addEventListener("click", function (e) {
         const btn = e.target.closest("[data-toggle-owned]");
         if (!btn) return;
         const slug = btn.getAttribute("data-toggle-owned");
         if (ownedGifts.has(slug)) {
           ownedGifts.delete(slug);
+          ownedGiftCounts.delete(slug);
         } else {
           ownedGifts.add(slug);
+          ownedGiftCounts.set(slug, 1);
         }
-        saveStoredSet(STORAGE_INV_KEY, ownedGifts);
+        saveInventoryState();
         renderInventoryChecklist();
         render();
       });
 
       exportInventoryBtn.addEventListener("click", function () {
-        const names = Array.from(ownedGifts).map(function (slug) {
+        const lines = Array.from(ownedGifts).map(function (slug) {
           const g = giftBySlug.get(slug);
-          return g ? g.name : slug;
+          const qty = ownedGiftCounts.get(slug) || 1;
+          const name = g ? g.name : slug;
+          return qty > 1 ? name + " x" + qty : name;
         }).sort();
-        if (names.length === 0) {
+        if (lines.length === 0) {
           showInventoryStatus("Your inventory is currently empty. Add or toggle gifts first before downloading.");
           return;
         }
-        const blob = new Blob([names.join("\n") + "\n"], { type: "text/plain;charset=utf-8" });
+        const blob = new Blob([lines.join("\n") + "\n"], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -2632,21 +3094,67 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showInventoryStatus("Downloaded " + names.length + " gift(s) to fortunes_weave_my_gifts.txt.");
+        showInventoryStatus("Downloaded " + lines.length + " gift(s) to fortunes_weave_my_gifts.txt.");
       });
 
       clearInventoryBtn.addEventListener("click", function () {
         ownedGifts.clear();
-        saveStoredSet(STORAGE_INV_KEY, ownedGifts);
+        ownedGiftCounts.clear();
+        saveInventoryState();
         renderInventoryChecklist();
         render();
         showInventoryStatus("Cleared all gifts from your current inventory.");
+      });
+
+      backNavBtn.addEventListener("click", function () {
+        if (navHistory.length === 0) return;
+        const prev = navHistory.pop();
+        state.mode = prev.mode;
+        state.searchQuery = prev.searchQuery;
+        state.selectedSlug = prev.selectedSlug;
+        state.charPriorityFilter = prev.charPriorityFilter;
+        state.charTierFilter = prev.charTierFilter;
+        mainSearchInput.value = prev.searchQuery;
+        charPriorityFilter.value = prev.charPriorityFilter;
+        charTierFilter.value = prev.charTierFilter;
+        charJumpSelect.value = prev.mode === "character" ? prev.selectedSlug : "";
+        giftJumpSelect.value = prev.mode === "gift" ? prev.selectedSlug : "";
+        expandedChars.clear();
+        if (Array.isArray(prev.expandedSlugs)) {
+          prev.expandedSlugs.forEach(function (s) { expandedChars.add(s); });
+        }
+        render();
+        window.scrollTo({ top: prev.scrollY || 0, behavior: "auto" });
+      });
+
+      toggleExpandAllBtn.addEventListener("click", function () {
+        const filteredChars = filterCharacters();
+        const allExpanded = filteredChars.every(function (c) { return expandedChars.has(c.slug); });
+        if (allExpanded) {
+          filteredChars.forEach(function (c) { expandedChars.delete(c.slug); });
+        } else {
+          filteredChars.forEach(function (c) { expandedChars.add(c.slug); });
+        }
+        render();
       });
 
       resetFiltersBtn.addEventListener("click", resetAllFilters);
       resetAllBtn.addEventListener("click", resetAllFilters);
 
       cardsContainer.addEventListener("click", function (e) {
+        const quickInvBtn = e.target.closest("[data-quick-inv]");
+        if (quickInvBtn) {
+          const slug = quickInvBtn.getAttribute("data-quick-inv");
+          if (ownedGifts.has(slug)) {
+            addGiftCopy(slug, -1);
+          } else {
+            addGiftCopy(slug, 1);
+          }
+          renderInventoryChecklist();
+          render();
+          return;
+        }
+
         const expandBtn = e.target.closest("[data-toggle-expand]");
         if (expandBtn) {
           const slug = expandBtn.getAttribute("data-toggle-expand");
@@ -2677,10 +3185,12 @@
           const slug = ownedBtn.getAttribute("data-toggle-owned");
           if (ownedGifts.has(slug)) {
             ownedGifts.delete(slug);
+            ownedGiftCounts.delete(slug);
           } else {
             ownedGifts.add(slug);
+            ownedGiftCounts.set(slug, 1);
           }
-          saveStoredSet(STORAGE_INV_KEY, ownedGifts);
+          saveInventoryState();
           renderInventoryChecklist();
           render();
           return;
@@ -2689,6 +3199,10 @@
         const giftBtn = e.target.closest("[data-jump-gift]");
         if (giftBtn) {
           const slug = giftBtn.getAttribute("data-jump-gift");
+          const prevLabel = state.selectedSlug && charBySlug.has(state.selectedSlug)
+            ? charBySlug.get(state.selectedSlug).name
+            : (state.charPriorityFilter === "favorites" ? "Favorites" : "Recruit List");
+          pushNavHistory(prevLabel);
           state.mode = "gift";
           state.selectedSlug = slug;
           state.searchQuery = "";
@@ -2706,6 +3220,10 @@
         const charBtn = e.target.closest("[data-jump-char]");
         if (charBtn) {
           const slug = charBtn.getAttribute("data-jump-char");
+          const prevGift = state.selectedSlug && giftBySlug.has(state.selectedSlug)
+            ? giftBySlug.get(state.selectedSlug).name
+            : "Gift List";
+          pushNavHistory(prevGift);
           state.mode = "character";
           state.selectedSlug = slug;
           state.searchQuery = "";
