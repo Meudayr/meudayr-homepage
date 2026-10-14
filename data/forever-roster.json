@@ -124,29 +124,30 @@
     "id": "tbs-1791239997854-0hvg",
     "playerName": "Mooseyfate",
     "faction": "Horde",
-    "race": "Undead",
+    "race": "Orc",
     "gender": "male",
-    "className": "Rogue",
-    "spec": "Assassination",
-    "role": "Melee DPS",
+    "className": "Warrior",
+    "spec": "Protection",
+    "role": "Tank",
     "roles": [
-      "Melee DPS"
+      "Tank"
     ],
-    "offspec": "",
-    "offspecRole": "",
+    "offspec": "Fury",
+    "offspecRole": "Melee DPS",
     "playstyle": "Leveling & Dungeons",
     "playstyles": [
       "Leveling & Dungeons"
     ],
     "professions": [
-      "Engineering"
+      "Mining",
+      "Blacksmithing"
     ],
-    "profession1": "Engineering",
-    "profession2": "",
-    "notes": "",
+    "profession1": "Mining",
+    "profession2": "Blacksmithing",
+    "notes": "Interested in leveling a tank, or maybe rogue.",
     "pin": "",
     "createdAt": "2026-10-05T22:39:57.854Z",
-    "updatedAt": "2026-10-05T22:39:57.854Z"
+    "updatedAt": "2026-10-13T22:40:58.097Z"
   },
   {
     "id": "tbs-1790519617726-4chp",
@@ -680,30 +681,29 @@
     "faction": "Horde",
     "race": "Orc",
     "gender": "male",
-    "className": "Mage",
-    "spec": "Arcane",
-    "role": "Ranged DPS",
+    "className": "Shaman",
+    "spec": "Restoration",
+    "role": "Healer",
     "roles": [
-      "Ranged DPS"
+      "Healer"
     ],
-    "offspec": "Frost",
-    "offspecRole": "Ranged DPS",
+    "offspec": "Enhancement",
+    "offspecRole": "Melee DPS",
     "playstyle": "Leveling & Dungeons",
     "playstyles": [
       "Leveling & Dungeons",
-      "PvP",
       "Raiding"
     ],
     "professions": [
-      "Enchanting",
-      "Tailoring"
+      "Alchemy",
+      "Leatherworking"
     ],
-    "profession1": "Enchanting",
-    "profession2": "Tailoring",
-    "notes": "Probably leveling a druid with Ren, and a mage or shaman solo. I usually like to heal at 60. Also I'm an alt-aholic.",
+    "profession1": "Alchemy",
+    "profession2": "Leatherworking",
+    "notes": "Probably leveling a shaman with Ren, and a hunter or druid solo. Or a mage. Also I'm an alt-aholic.",
     "pin": "",
     "createdAt": "2026-09-15T21:18:48.783Z",
-    "updatedAt": "2026-10-07T03:43:13.503Z"
+    "updatedAt": "2026-10-13T23:06:40.116Z"
   },
   {
     "id": "tbs-1789501514308-nxdk",
