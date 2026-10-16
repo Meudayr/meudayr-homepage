@@ -798,14 +798,14 @@
     "id": "tbs-1789481604006-8hv6",
     "playerName": "Papascott",
     "faction": "Horde",
-    "race": "Troll",
-    "className": "Mage",
-    "spec": "Fire",
-    "role": "Ranged DPS",
+    "race": "Undead",
+    "className": "Priest",
+    "spec": "Discipline",
+    "role": "Healer",
     "roles": [
-      "Ranged DPS"
+      "Healer"
     ],
-    "offspec": "Arcane",
+    "offspec": "Shadow",
     "offspecRole": "Ranged DPS",
     "playstyle": "Raiding",
     "playstyles": [
@@ -814,15 +814,16 @@
       "Leveling & Dungeons"
     ],
     "professions": [
-      "Mining",
-      "Engineering"
+      "Tailoring",
+      "Enchanting"
     ],
-    "profession1": "Mining",
-    "profession2": "Engineering",
-    "notes": "Mage Main // Warrior alt I think!",
+    "profession1": "Tailoring",
+    "profession2": "Enchanting",
+    "notes": "Trying something new! Priest main disc/shadow. Warrior alt. Mage 2nd alt sometime",
     "pin": "8853",
     "createdAt": "2026-09-15T14:13:24.006Z",
-    "updatedAt": "2026-09-15T14:13:24.006Z"
+    "updatedAt": "2026-10-15T17:23:29.262Z",
+    "gender": "male"
   },
   {
     "id": "tbs-1789439303771-k31g",
