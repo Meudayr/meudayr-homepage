@@ -359,14 +359,14 @@
     "faction": "Horde",
     "race": "Orc",
     "gender": "male",
-    "className": "Warrior",
-    "spec": "Fury",
-    "role": "Melee DPS",
+    "className": "Warlock",
+    "spec": "Affliction",
+    "role": "Ranged DPS",
     "roles": [
-      "Melee DPS"
+      "Ranged DPS"
     ],
-    "offspec": "Arms",
-    "offspecRole": "Melee DPS",
+    "offspec": "Destruction",
+    "offspecRole": "Ranged DPS",
     "playstyle": "Raiding",
     "playstyles": [
       "Raiding",
@@ -381,19 +381,19 @@
     "notes": "ZUG ZUG",
     "pin": "",
     "createdAt": "2026-09-22T22:30:18.669Z",
-    "updatedAt": "2026-09-22T22:32:55.887Z"
+    "updatedAt": "2026-10-19T00:43:55.023Z"
   },
   {
     "id": "tbs-1790115448887-diq3",
     "playerName": "Varfus",
     "faction": "Horde",
-    "race": "Undead",
+    "race": "Skyborne",
     "gender": "female",
-    "className": "Mage",
-    "spec": "Arcane",
-    "role": "Ranged DPS",
+    "className": "Warrior",
+    "spec": "Arms",
+    "role": "Melee DPS",
     "roles": [
-      "Ranged DPS"
+      "Melee DPS"
     ],
     "offspec": "",
     "offspecRole": "",
@@ -403,15 +403,15 @@
       "Leveling & Dungeons"
     ],
     "professions": [
-      "Enchanting",
-      "Tailoring"
+      "Blacksmithing",
+      "Mining"
     ],
-    "profession1": "Enchanting",
-    "profession2": "Tailoring",
+    "profession1": "Blacksmithing",
+    "profession2": "Mining",
     "notes": "",
     "pin": "",
     "createdAt": "2026-09-22T22:17:28.887Z",
-    "updatedAt": "2026-09-23T00:27:18.400Z"
+    "updatedAt": "2026-10-19T01:10:11.544Z"
   },
   {
     "id": "tbs-1790046942062-msi8",
