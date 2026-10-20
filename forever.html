@@ -2934,14 +2934,14 @@
                   <svg style="width: 18px; height: 18px; color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   Raid &amp; Group Buff Analyzer
                 </div>
-                <div class="analytics-card-sub">Classic WoW raid buffs, group totem &amp; aura coverage, and missing gaps</div>
+                <div class="analytics-card-sub">World of Warcraft: Forever raid buffs, raid-wide auras &amp; totems, debuffs, and coverage gaps</div>
               </div>
 
               <!-- Filter Tabs -->
               <div class="buff-filter-tabs" id="buff-filter-tabs">
                 <button type="button" class="buff-filter-btn active" data-buff-filter="all" onclick="setBuffFilter('all', this)">All</button>
                 <button type="button" class="buff-filter-btn" data-buff-filter="raid" onclick="setBuffFilter('raid', this)">Raid Buffs</button>
-                <button type="button" class="buff-filter-btn" data-buff-filter="group" onclick="setBuffFilter('group', this)">Group Auras</button>
+                <button type="button" class="buff-filter-btn" data-buff-filter="group" onclick="setBuffFilter('group', this)">Auras &amp; Totems</button>
                 <button type="button" class="buff-filter-btn" data-buff-filter="debuff" onclick="setBuffFilter('debuff', this)">Debuffs &amp; Utility</button>
                 <button type="button" class="buff-filter-btn btn-filter-missing" data-buff-filter="missing" onclick="setBuffFilter('missing', this)">✕ Missing Only</button>
               </div>
@@ -3326,7 +3326,7 @@
         category: 'Raid Buff',
         type: 'raid',
         icon: 'spell_holy_wordfortitude',
-        description: '+Stamina to raid members (+54 Stamina at max rank)',
+        description: '+Stamina to raid members (+54 Stamina, 1-hour duration)',
         classes: ['Priest'],
         specs: null
       },
@@ -3336,7 +3336,7 @@
         category: 'Raid Buff',
         type: 'raid',
         icon: 'spell_holy_magicalsentry',
-        description: '+Intellect to raid members (+31 Intellect at max rank)',
+        description: '+Intellect to raid members (+31 Intellect, 1-hour duration)',
         classes: ['Mage'],
         specs: null
       },
@@ -3366,7 +3366,7 @@
         category: 'Raid Buff',
         type: 'raid',
         icon: 'spell_holy_greaterblessingofkings',
-        description: 'Kings (+10% Stats), Might (+AP), Wisdom (MP5), Salvation (-Threat)',
+        description: 'Kings (+10% Stats, baseline lvl 20), Might (+AP), Wisdom (MP5), Mass Salvation (independent -threat, 1-hr duration)',
         classes: ['Paladin'],
         specs: null
       },
@@ -3375,54 +3375,58 @@
       {
         id: 'shaman_totems',
         name: 'Shaman Totems',
-        category: 'Group Totem',
+        category: 'Raid Totems',
         type: 'group',
         icon: 'spell_nature_windfury',
-        description: 'Windfury (Extra attacks), Grace of Air (+Agility), Strength of Earth (+Strength), Mana Spring (MP5)',
+        description: 'Windfury, Grace of Air (+Agility), Strength of Earth (+Strength), Flametongue, Mana Spring (raid-wide in Forever)',
         classes: ['Shaman'],
         specs: null,
-        isPartyOnly: true
+        isRaidWide: true,
+        isPartyOnly: false
       },
       {
         id: 'battle_shout',
         name: 'Battle Shout',
-        category: 'Group Buff',
+        category: 'Raid Shout',
         type: 'group',
         icon: 'ability_warrior_battleshout',
-        description: '+Melee Attack Power (+185 to +232 AP) for party members',
+        description: '+Melee Attack Power (+185 to +232 AP) for all 40 raid members (raid-wide in Forever)',
         classes: ['Warrior'],
         specs: null,
-        isPartyOnly: true
+        isRaidWide: true,
+        isPartyOnly: false
       },
       {
         id: 'druid_crit_aura',
         name: 'Leader of the Pack / Moonkin Aura',
-        category: 'Group Aura',
+        category: 'Raid Aura',
         type: 'group',
         icon: 'spell_nature_unyeildingstamina',
-        description: '+3% Critical Strike chance aura for party (from Feral Combat or Balance Druid)',
+        description: '+3% Critical Strike chance for entire raid (Feral: Melee/Ranged; Balance: Spell; raid-wide in Forever)',
         classes: ['Druid'],
         specs: ['Feral Combat', 'Balance'],
-        isPartyOnly: true
+        isRaidWide: true,
+        isPartyOnly: false
       },
       {
         id: 'trueshot',
         name: 'Trueshot Aura',
-        category: 'Group Aura',
+        category: 'Raid Aura',
         type: 'group',
         icon: 'ability_trueshot',
-        description: '+Ranged Attack Power aura for party (+50-100 RAP)',
+        description: '+Ranged Attack Power aura for entire raid (+50-100 RAP; raid-wide in Forever)',
         classes: ['Hunter'],
         specs: ['Marksmanship'],
-        isPartyOnly: true
+        isRaidWide: true,
+        isPartyOnly: false
       },
       {
         id: 'paladin_auras',
         name: 'Paladin Auras',
-        category: 'Group Aura',
+        category: 'Auras & Resistances',
         type: 'group',
         icon: 'spell_holy_devotionaura',
-        description: 'Devotion (+Armor), Concentration (-Interrupt), Resistance (Fire/Frost/Shadow), Retribution',
+        description: 'Devotion (+Armor), Concentration (-Interrupt), Resistance Auras (Fire/Frost/Shadow are 30yd raid-wide)',
         classes: ['Paladin'],
         specs: null,
         isPartyOnly: true
@@ -3435,7 +3439,7 @@
         category: 'Raid Debuff',
         type: 'debuff',
         icon: 'ability_warrior_sunder',
-        description: 'Reduces boss armor by up to 2250 (5 stacks), boosts physical DPS',
+        description: 'Reduces boss armor by up to 2250 (5 stacks); shared cap with Rogue Expose Armor',
         classes: ['Warrior'],
         specs: null
       },
@@ -3445,7 +3449,7 @@
         category: 'Raid Debuff',
         type: 'debuff',
         icon: 'spell_nature_faeriefire',
-        description: 'Reduces boss armor by 505 and prevents stealth',
+        description: 'Reduces boss armor by 505 and prevents stealth (stacks with Sunder Armor)',
         classes: ['Druid'],
         specs: null
       },
@@ -3455,7 +3459,7 @@
         category: 'Raid Debuff',
         type: 'debuff',
         icon: 'spell_shadow_curseofachimonde',
-        description: 'Elements (+10% Fire/Frost dmg), Recklessness (-Armor), Shadows (+Shadow/Arcane dmg), Tongues',
+        description: 'Elements (+10% to all magic dmg), Recklessness (-Armor), Shadows (+Shadow/Arcane dmg), Tongues',
         classes: ['Warlock'],
         specs: null
       },
@@ -3465,7 +3469,7 @@
         category: 'Raid Utility',
         type: 'debuff',
         icon: 'spell_holy_excorcism',
-        description: 'Wards friendly target against fear effects (every Priest has Fear Ward in Forever)',
+        description: 'Wards friendly target against fear effects (baseline for all Priests in Forever)',
         classes: ['Priest'],
         specs: null
       },
@@ -4933,7 +4937,8 @@
           offspecProviders,
           status,
           reqText,
-          groupsCovered: buff.isPartyOnly ? primaryProviders.length : null
+          groupsCovered: buff.isPartyOnly ? primaryProviders.length : null,
+          isRaidWide: Boolean(buff.isRaidWide)
         };
       });
 
@@ -5002,9 +5007,15 @@
           statusBadgeHtml = `<span class="buff-status-badge status-flex">Flex (${b.offspecProviders.length})</span>`;
         }
 
-        // Party coverage badge for totems/auras
+        // Coverage badge for totems/auras (Party or Raid-Wide in Forever)
         let partyBadge = '';
-        if (b.isPartyOnly) {
+        if (b.isRaidWide) {
+          if (b.status === 'covered') {
+            partyBadge = `<span class="buff-party-coverage-badge buff-raidwide-badge" style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.35);" title="Updated for WoW Forever: this buff/aura blankets all 40 raid members!">Raid-Wide</span>`;
+          } else if (b.status === 'flex') {
+            partyBadge = `<span class="buff-party-coverage-badge buff-raidwide-badge" style="background: rgba(245, 158, 11, 0.15); color: #fde047; border-color: rgba(245, 158, 11, 0.35);" title="Available raid-wide via offspec">Flex Raid-Wide</span>`;
+          }
+        } else if (b.isPartyOnly) {
           if (b.groupsCovered > 0) {
             partyBadge = `<span class="buff-party-coverage-badge" title="Each caster can provide this buff to 1 party of 5 players">Covers ${b.groupsCovered} Group${b.groupsCovered === 1 ? '' : 's'}</span>`;
           } else {
