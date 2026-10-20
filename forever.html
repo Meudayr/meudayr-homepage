@@ -3397,14 +3397,26 @@
         isPartyOnly: false
       },
       {
-        id: 'druid_crit_aura',
-        name: 'Leader of the Pack / Moonkin Aura',
+        id: 'lotp',
+        name: 'Leader of the Pack',
         category: 'Raid Aura',
         type: 'group',
         icon: 'spell_nature_unyeildingstamina',
-        description: '+3% Critical Strike chance for entire raid (Feral: Melee/Ranged; Balance: Spell; raid-wide in Forever)',
+        description: '+3% Melee & Ranged Critical Strike chance for entire raid (Feral Combat Druid, raid-wide in Forever)',
         classes: ['Druid'],
-        specs: ['Feral Combat', 'Balance'],
+        specs: ['Feral Combat'],
+        isRaidWide: true,
+        isPartyOnly: false
+      },
+      {
+        id: 'moonkin_aura',
+        name: 'Moonkin Aura',
+        category: 'Raid Aura',
+        type: 'group',
+        icon: 'spell_nature_moonglow',
+        description: '+3% Spell Critical Strike chance for entire raid (Balance Druid, raid-wide in Forever)',
+        classes: ['Druid'],
+        specs: ['Balance'],
         isRaidWide: true,
         isPartyOnly: false
       },
