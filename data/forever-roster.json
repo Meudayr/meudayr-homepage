@@ -1,5 +1,36 @@
 [
   {
+    "id": "tbs-1792458368512-nvq9",
+    "playerName": "Sikkwidit",
+    "faction": "Horde",
+    "race": "Orc",
+    "gender": "male",
+    "className": "Rogue",
+    "spec": "Assassination",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "Subtlety",
+    "offspecRole": "Melee DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "PvP",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Engineering",
+      "Mining"
+    ],
+    "profession1": "Engineering",
+    "profession2": "Mining",
+    "notes": "Sat-Tue",
+    "pin": "",
+    "createdAt": "2026-10-20T01:06:08.512Z",
+    "updatedAt": "2026-10-20T01:06:08.512Z"
+  },
+  {
     "id": "tbs-1791649258553-rq7t",
     "playerName": "Tropal",
     "faction": "Horde",
