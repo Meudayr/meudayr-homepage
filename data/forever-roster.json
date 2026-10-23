@@ -1,5 +1,35 @@
 [
   {
+    "id": "tbs-1792702498380-yxv4",
+    "playerName": "Wubs",
+    "faction": "Horde",
+    "race": "Troll",
+    "gender": "male",
+    "className": "Warlock",
+    "spec": "Affliction",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "Demonology",
+    "offspecRole": "Ranged DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Alchemy",
+      "Engineering"
+    ],
+    "profession1": "Alchemy",
+    "profession2": "Engineering",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-10-22T20:54:58.380Z",
+    "updatedAt": "2026-10-22T20:54:58.380Z"
+  },
+  {
     "id": "tbs-1792458368512-nvq9",
     "playerName": "Sikkwidit",
     "faction": "Horde",
