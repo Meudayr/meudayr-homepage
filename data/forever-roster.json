@@ -1,5 +1,34 @@
 [
   {
+    "id": "tbs-1792779776790-skuu",
+    "playerName": "Ciferhex",
+    "faction": "Horde",
+    "race": "Troll",
+    "gender": "male",
+    "className": "Rogue",
+    "spec": "Combat",
+    "role": "Melee DPS",
+    "roles": [
+      "Melee DPS"
+    ],
+    "offspec": "",
+    "offspecRole": "",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Leatherworking"
+    ],
+    "profession1": "Leatherworking",
+    "profession2": "",
+    "notes": "Work on call, no set schedule/flexible. Will have an alt army.  Refered by Wubs",
+    "pin": "",
+    "createdAt": "2026-10-23T18:22:56.790Z",
+    "updatedAt": "2026-10-23T18:48:10.161Z"
+  },
+  {
     "id": "tbs-1792702498380-yxv4",
     "playerName": "Wubs",
     "faction": "Horde",
