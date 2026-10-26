@@ -1,5 +1,34 @@
 [
   {
+    "id": "tbs-1793023228178-5qhv",
+    "playerName": "Shettrah",
+    "faction": "Horde",
+    "race": "Tauren",
+    "gender": "male",
+    "className": "Druid",
+    "spec": "Balance",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "Feral Combat",
+    "offspecRole": "Melee DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding"
+    ],
+    "professions": [
+      "Alchemy",
+      "Herbalism"
+    ],
+    "profession1": "Alchemy",
+    "profession2": "Herbalism",
+    "notes": "",
+    "pin": "",
+    "createdAt": "2026-10-26T14:00:28.178Z",
+    "updatedAt": "2026-10-26T14:01:51.158Z"
+  },
+  {
     "id": "tbs-1792898885498-5wig",
     "playerName": "Rehab",
     "faction": "Horde",
