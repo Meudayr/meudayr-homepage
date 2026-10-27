@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meudayr | 3MF Profile Converter (Elegoo Centauri Carbon 2)</title>
+    <meta name="description" content="Inspect and convert MakerWorld (Bambu Studio) and Printables (PrusaSlicer) .3mf project files to Elegoo Slicer for the Elegoo Centauri Carbon 2 (0.4mm nozzle, 4-spool system).">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --cc2-bg: #111317;
+            --cc2-surface: #181a1f;
+            --cc2-surface-alt: #1c1e24;
+            --cc2-surface-elevated: #22262e;
+            --cc2-text: #f8fafc;
+            --cc2-text-muted: #94a3b8;
+            --cc2-border-subtle: #2e3440;
+            --cc2-border-control: #64748b;
+            --cc2-green: #2e7d32;
+            --cc2-green-hover: #388e3c;
+            --cc2-green-text: #81c784;
+            --cc2-gold-text: #e2ba66;
+            --cc2-warn-text: #fbbf24;
+            --cc2-warn-bg: rgba(245, 158, 11, 0.12);
+            --cc2-warn-border: #d97706;
+            --cc2-danger-text: #fca5a5;
+            --cc2-danger-bg: rgba(239, 68, 68, 0.14);
+            --cc2-danger-border: #ef4444;
+            --cc2-info-bg: rgba(129, 199, 132, 0.1);
+            --cc2-info-border: #4caf50;
+            --cc2-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        body {
+            background-color: var(--cc2-bg);
+            color: var(--cc2-text);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        [role="button"]:focus-visible,
+        [role="tab"]:focus-visible {
+            outline: 2px solid var(--cc2-green-text);
+            outline-offset: 2px;
+        }
+
+        .converter-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .page-intro {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--cc2-border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .page-intro-copy {
+            max-width: 68ch;
+        }
+
+        .page-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--cc2-green-text);
+            margin-bottom: 0.4rem;
+        }
+
+        .page-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.65rem, 3vw, 2.25rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--cc2-text);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--cc2-text-muted);
+            font-size: 0.96rem;
+            line-height: 1.55;
+        }
+
+        .target-rig-summary {
+            background: var(--cc2-surface);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 10px;
+            padding: 0.9rem 1.15rem;
+            min-width: 270px;
+        }
+
+        .target-rig-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--cc2-gold-text);
+            margin-bottom: 0.45rem;
+        }
+
+        .target-rig-specs {
+            list-style: none;
+            font-size: 0.85rem;
+            color: var(--cc2-text);
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .target-rig-specs span {
+            color: var(--cc2-text-muted);
+        }
+
+        .upload-bar {
+            background: var(--cc2-surface);
+            border: 2px dashed var(--cc2-border-control);
+            border-radius: 12px;
+            padding: 1.35rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+        }
+
+        .upload-bar:hover,
+        .upload-bar.drag-over {
+            border-color: var(--cc2-green-text);
+            background: var(--cc2-surface-alt);
+        }
+
+        .upload-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+        }
+
+        .upload-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(46, 125, 50, 0.2);
+            border: 1px solid var(--cc2-info-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--cc2-green-text);
+        }
+
+        .upload-copy h2 {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--cc2-text);
+            margin-bottom: 0.2rem;
+        }
+
+        .upload-copy p {
+            font-size: 0.86rem;
+            color: var(--cc2-text-muted);
+        }
+
+        .upload-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 44px;
+            padding: 0.6rem 1.15rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary-cc2 {
+            background-color: var(--cc2-green);
+            color: #ffffff;
+            border: 1px solid #4caf50;
+        }
+
+        .btn-primary-cc2:hover:not(:disabled) {
+            background-color: var(--cc2-green-hover);
+        }
+
+        .btn-secondary-cc2 {
+            background-color: var(--cc2-surface-elevated);
+            color: var(--cc2-text);
+            border: 1px solid var(--cc2-border-control);
+        }
+
+        .btn-secondary-cc2:hover:not(:disabled) {
+            background-color: #2c313c;
+            border-color: var(--cc2-text);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .state-banner {
+            background: var(--cc2-surface);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .state-banner.error-banner {
+            background: var(--cc2-danger-bg);
+            border-color: var(--cc2-danger-border);
+        }
+
+        .state-banner-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .state-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            color: var(--cc2-text);
+        }
+
+        .state-banner p {
+            color: var(--cc2-text-muted);
+            font-size: 0.92rem;
+            max-width: 68ch;
+            margin-bottom: 1rem;
+        }
+
+        .error-banner p {
+            color: var(--cc2-danger-text);
+        }
+
+        .empty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .empty-step-card {
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .empty-step-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--cc2-gold-text);
+            margin-bottom: 0.35rem;
+        }
+
+        .empty-step-card h3 {
+            font-family: var(--font-heading);
+            font-size: 0.98rem;
+            color: var(--cc2-text);
+            margin-bottom: 0.35rem;
+        }
+
+        .empty-step-card p {
+            font-size: 0.85rem;
+            color: var(--cc2-text-muted);
+            margin-bottom: 0;
+        }
+
+        .queue-strip {
+            background: var(--cc2-surface);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .queue-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .queue-file-btn {
+            min-height: 44px;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-control);
+            color: var(--cc2-text-muted);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .queue-file-btn.active {
+            background: rgba(46, 125, 50, 0.22);
+            border-color: var(--cc2-green-text);
+            color: var(--cc2-text);
+        }
+
+        .inspector-workspace {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .inspector-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .panel-card {
+            background: var(--cc2-surface);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 12px;
+            padding: 1.35rem;
+            min-width: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--cc2-border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .panel-title {
+            font-family: var(--font-heading);
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--cc2-text);
+        }
+
+        .panel-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background: var(--cc2-surface-elevated);
+            border: 1px solid var(--cc2-border-control);
+            color: var(--cc2-text);
+        }
+
+        .model-summary-top {
+            display: grid;
+            grid-template-columns: 128px 1fr;
+            gap: 1.15rem;
+            align-items: start;
+            margin-bottom: 1.15rem;
+        }
+
+        .thumb-frame {
+            width: 128px;
+            height: 128px;
+            border-radius: 10px;
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--cc2-text-muted);
+            font-size: 0.78rem;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .thumb-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .model-meta-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--cc2-text);
+            margin-bottom: 0.25rem;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .model-meta-sub {
+            font-size: 0.85rem;
+            color: var(--cc2-text-muted);
+            margin-bottom: 0.75rem;
+            overflow-wrap: break-word;
+        }
+
+        .meta-kv-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.55rem;
+        }
+
+        .meta-kv-item {
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 8px;
+            padding: 0.5rem 0.7rem;
+            min-width: 0;
+        }
+
+        .meta-kv-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cc2-text-muted);
+            display: block;
+            margin-bottom: 0.1rem;
+        }
+
+        .meta-kv-val {
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--cc2-text);
+            display: block;
+            overflow-wrap: break-word;
+        }
+
+        .convert-cta-box {
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .convert-cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .convert-status-text {
+            font-size: 0.85rem;
+            color: var(--cc2-green-text);
+            font-weight: 600;
+        }
+
+        .outlier-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .outlier-item {
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--cc2-border-subtle);
+            background: var(--cc2-surface-alt);
+        }
+
+        .outlier-item.severity-high {
+            background: var(--cc2-danger-bg);
+            border-color: var(--cc2-danger-border);
+        }
+
+        .outlier-item.severity-warn {
+            background: var(--cc2-warn-bg);
+            border-color: var(--cc2-warn-border);
+        }
+
+        .outlier-item.severity-info {
+            background: var(--cc2-info-bg);
+            border-color: var(--cc2-info-border);
+        }
+
+        .outlier-top {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .outlier-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            background: var(--cc2-surface);
+            color: var(--cc2-text);
+            border: 1px solid var(--cc2-border-control);
+        }
+
+        .severity-high .outlier-tag {
+            color: var(--cc2-danger-text);
+            border-color: var(--cc2-danger-border);
+        }
+
+        .severity-warn .outlier-tag {
+            color: var(--cc2-warn-text);
+            border-color: var(--cc2-warn-border);
+        }
+
+        .severity-info .outlier-tag {
+            color: var(--cc2-green-text);
+            border-color: var(--cc2-info-border);
+        }
+
+        .outlier-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--cc2-text);
+        }
+
+        .outlier-detail {
+            font-size: 0.85rem;
+            color: var(--cc2-text-muted);
+            line-height: 1.5;
+        }
+
+        .severity-high .outlier-detail,
+        .severity-warn .outlier-detail {
+            color: var(--cc2-text);
+        }
+
+        .spool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.85rem;
+        }
+
+        .spool-card {
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 10px;
+            padding: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            min-width: 0;
+        }
+
+        .spool-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .spool-num {
+            font-family: var(--font-heading);
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--cc2-text);
+        }
+
+        .spool-source-badge {
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            background: var(--cc2-surface-elevated);
+            color: var(--cc2-text-muted);
+            border: 1px solid var(--cc2-border-subtle);
+        }
+
+        .spool-source-badge.active-slot {
+            color: var(--cc2-green-text);
+            border-color: var(--cc2-info-border);
+        }
+
+        .spool-source-meta {
+            font-size: 0.8rem;
+            color: var(--cc2-text-muted);
+            line-height: 1.4;
+            overflow-wrap: break-word;
+        }
+
+        .spool-controls {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .spool-color-input {
+            width: 44px;
+            height: 44px;
+            padding: 2px;
+            border-radius: 8px;
+            background: var(--cc2-surface);
+            border: 1px solid var(--cc2-border-control);
+            cursor: pointer;
+        }
+
+        .form-control-select,
+        .form-control-input {
+            width: 100%;
+            min-height: 44px;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            background-color: var(--cc2-surface);
+            color: var(--cc2-text);
+            border: 1px solid var(--cc2-border-control);
+            font-family: var(--font-body);
+            font-size: 0.86rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .option-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .option-field.full-span {
+            grid-column: 1 / -1;
+        }
+
+        .option-label {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--cc2-text);
+        }
+
+        .option-hint {
+            font-size: 0.78rem;
+            color: var(--cc2-text-muted);
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--cc2-green);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .checkbox-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--cc2-text);
+        }
+
+        .checkbox-desc {
+            font-size: 0.8rem;
+            color: var(--cc2-text-muted);
+        }
+
+        .inspector-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab-btn {
+            min-height: 44px;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            background: var(--cc2-surface-alt);
+            border: 1px solid var(--cc2-border-control);
+            color: var(--cc2-text-muted);
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-tab-btn[aria-selected="true"] {
+            background: rgba(46, 125, 50, 0.22);
+            border-color: var(--cc2-green-text);
+            color: var(--cc2-text);
+        }
+
+        .search-filter-wrap {
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+        }
+
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--cc2-border-subtle);
+            border-radius: 8px;
+            background: var(--cc2-surface-alt);
+        }
+
+        .diff-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.84rem;
+        }
+
+        .diff-table th {
+            background: var(--cc2-surface-elevated);
+            color: var(--cc2-text);
+            font-weight: 700;
+            padding: 0.75rem 0.85rem;
+            border-bottom: 1px solid var(--cc2-border-subtle);
+            white-space: nowrap;
+        }
+
+        .diff-table td {
+            padding: 0.65rem 0.85rem;
+            border-bottom: 1px solid var(--cc2-border-subtle);
+            vertical-align: top;
+            color: var(--cc2-text);
+        }
+
+        .diff-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .diff-key {
+            font-family: var(--cc2-mono);
+            font-size: 0.8rem;
+            color: var(--cc2-gold-text);
+            word-break: break-word;
+        }
+
+        .diff-val-mono {
+            font-family: var(--cc2-mono);
+            font-size: 0.8rem;
+            word-break: break-word;
+        }
+
+        .diff-val-muted {
+            color: var(--cc2-text-muted);
+            font-family: var(--cc2-mono);
+            font-size: 0.8rem;
+        }
+
+        .rule-pill {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            margin-right: 0.35rem;
+            margin-bottom: 0.25rem;
+            border: 1px solid var(--cc2-border-control);
+            background: var(--cc2-surface);
+            color: var(--cc2-text);
+        }
+
+        .rule-pill.pill-explicit {
+            color: var(--cc2-green-text);
+            border-color: var(--cc2-info-border);
+        }
+
+        .rule-pill.pill-clamped {
+            color: var(--cc2-warn-text);
+            border-color: var(--cc2-warn-border);
+        }
+
+        .rule-pill.pill-enum {
+            color: var(--cc2-gold-text);
+            border-color: var(--cc2-gold-text);
+        }
+
+        .rule-desc {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--cc2-text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 960px) {
+            .inspector-workspace {
+                grid-template-columns: 1fr;
+            }
+            .empty-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .converter-container {
+                padding: 1rem;
+            }
+            .upload-bar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1.1rem;
+            }
+            .upload-actions {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .upload-actions .btn-action {
+                width: 100%;
+            }
+            .model-summary-top {
+                grid-template-columns: 1fr;
+            }
+            .thumb-frame {
+                width: 100%;
+                height: 160px;
+            }
+            .meta-kv-grid,
+            .spool-grid,
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-filter-wrap {
+                max-width: 100%;
+                width: 100%;
+            }
+            .convert-cta-row .btn-action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="brand" id="nav-brand-link">
+                <img src="assets/logo.png" alt="Meudayr Logo" id="nav-brand-logo">
+                <span>Meudayr</span>
+            </a>
+            <div class="nav-group">
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+                    <a href="forever.html" class="nav-link" id="nav-forever-link">Forever Roster</a>
+                    <a href="deals.html" class="nav-link" id="nav-deals-link">Deal Finder</a>
+                    <a href="dr.html" class="nav-link" id="nav-dr-link">DR Calculator</a>
+                    <a href="logs.html" class="nav-link" id="nav-logs-link">Logs</a>
+                    <a href="3mf.html" class="nav-link active" id="nav-3mf-link">3MF Converter</a>
+                </nav>
+                <div class="social-links">
+                    <a href="https://plex.meudayr.com" class="plex-nav-pill checking" target="_blank" rel="noopener noreferrer" id="nav-plex-link" title="Open Plex Media Server">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="plex-nav-svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                        <span class="plex-nav-text">Plex: <span id="plex-status-label">Checking...</span></span>
+                        <span class="plex-nav-dot" id="plex-nav-dot"></span>
+                    </a>
+                    <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="nav-github-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="converter-container">
+        <section class="page-intro" aria-labelledby="converter-heading">
+            <div class="page-intro-copy">
+                <p class="page-eyebrow">Elegoo Slicer 1.5.3.5 / OrcaSlicer 2.4.2 Utility</p>
+                <h1 class="page-title" id="converter-heading">3MF Slicer Profile Inspector &amp; CC2 Converter</h1>
+                <p class="page-subtitle">
+                    Upload MakerWorld (Bambu Studio) or Printables (PrusaSlicer) <code>.3mf</code> projects to inspect author print settings, flag filament or hardware outliers, and export a ready-to-slice <code>.3mf</code> tailored to your Elegoo Centauri Carbon 2.
+                </p>
+            </div>
+            <aside class="target-rig-summary" aria-label="Target hardware configuration">
+                <div class="target-rig-title">Target Hardware Profile</div>
+                <ul class="target-rig-specs">
+                    <li><span>Printer:</span> Elegoo Centauri Carbon 2</li>
+                    <li><span>Nozzle &amp; Bed:</span> 0.4mm Hardened / 256x256mm</li>
+                    <li><span>Filament System:</span> 4-Spool Switching Unit</li>
+                    <li><span>Default Filament:</span> Elegoo PLA @ECC2 - Calibrated</li>
+                </ul>
+            </aside>
+        </section>
+
+        <div class="upload-bar" id="dropzone" tabindex="0" role="button" aria-label="Upload .3mf files by clicking or dragging and dropping">
+            <div class="upload-bar-left">
+                <div class="upload-icon-box" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <div class="upload-copy">
+                    <h2>Drop MakerWorld or Printables .3mf files here</h2>
+                    <p>100% client-side conversion in your browser. Supports single or multi-plate .3mf archives.</p>
+                </div>
+            </div>
+            <div class="upload-actions">
+                <input type="file" id="file-input" accept=".3mf" multiple class="hidden" aria-label="Select .3mf files from device">
+                <button type="button" class="btn-action btn-primary-cc2" id="browse-files-btn">Select .3mf Files</button>
+                <button type="button" class="btn-action btn-secondary-cc2" id="load-sample-btn">Load Highland Cow Sample</button>
+            </div>
+        </div>
+
+        <section class="state-banner error-banner hidden" id="error-state-panel" role="alert" aria-live="assertive">
+            <div class="state-banner-header">
+                <h2 id="error-state-title">Could not read .3mf file</h2>
+                <button type="button" class="btn-action btn-secondary-cc2" id="dismiss-error-btn">Dismiss Error</button>
+            </div>
+            <p id="error-state-message">Verify that the selected file is a valid .3mf ZIP package exported by Bambu Studio, PrusaSlicer, or OrcaSlicer.</p>
+        </section>
+
+        <section class="state-banner hidden" id="loading-state-panel" aria-live="polite">
+            <div class="state-banner-header">
+                <h2 id="loading-state-title">Inspecting .3mf archive...</h2>
+            </div>
+            <p id="loading-state-message">Reading project metadata, filament slots, per-object modifiers, and build plate coordinates.</p>
+        </section>
+
+        <section class="state-banner" id="empty-state-panel" aria-labelledby="empty-state-heading">
+            <div class="state-banner-header">
+                <h2 id="empty-state-heading">No .3mf file loaded yet</h2>
+            </div>
+            <p>
+                Select a <code>.3mf</code> file above or load the Highland Cow MakerWorld sample to preview how author settings, speeds, tree supports, and 4-spool colors translate to your Elegoo Centauri Carbon 2 profile before downloading.
+            </p>
+            <div class="empty-grid">
+                <div class="empty-step-card">
+                    <div class="empty-step-label">1. Author Settings Preserved</div>
+                    <h3>Walls, Infill, Supports &amp; Modifiers</h3>
+                    <p>Unwraps Bambu Studio 2.x JSON arrays, maps tree support styles (such as <code>tree_organic</code> to <code>organic</code>), and carries over variable layer heights and per-object modifiers.</p>
+                </div>
+                <div class="empty-step-card">
+                    <div class="empty-step-label">2. Speeds Clamped to CC2</div>
+                    <h3>Safe Kinematics &amp; Pause Translation</h3>
+                    <p>Keeps intentional author slowdowns for overhangs or silk filaments while capping travel and wall speeds to your Centauri Carbon 2 limits. Converts Bambu <code>M400 U1</code> pauses to <code>M600</code>.</p>
+                </div>
+                <div class="empty-step-card">
+                    <div class="empty-step-label">3. Calibrated Filament Kept</div>
+                    <h3>4-Spool Color &amp; Flush Mapping</h3>
+                    <p>Retains your calibrated <code>Elegoo PLA @ECC2 - Calibrated</code> temperatures and flow ratios while copying the author's 4-spool paint colors and AMS purge matrix.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="queue-strip hidden" id="queue-strip" aria-label="Uploaded .3mf file queue">
+            <div class="queue-tabs" id="queue-tabs" role="tablist" aria-label="Queued files"></div>
+            <div>
+                <button type="button" class="btn-action btn-secondary-cc2 hidden" id="convert-all-btn">Convert &amp; Download All Queued Files</button>
+            </div>
+        </div>
+
+        <div class="inspector-workspace hidden" id="inspector-workspace">
+            <div class="inspector-col">
+                <section class="panel-card" aria-labelledby="summary-panel-title">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="summary-panel-title">Project Summary &amp; Export</h2>
+                        <span class="panel-badge" id="source-format-badge">MakerWorld / Bambu Studio</span>
+                    </div>
+
+                    <div class="model-summary-top">
+                        <div class="thumb-frame" id="model-thumb-box">
+                            <span>No plate preview image</span>
+                        </div>
+                        <div>
+                            <h3 class="model-meta-title" id="model-title-text">Model Title</h3>
+                            <p class="model-meta-sub" id="model-designer-text">Designer information</p>
+                            <div class="meta-kv-grid">
+                                <div class="meta-kv-item">
+                                    <span class="meta-kv-label">Source Printer</span>
+                                    <span class="meta-kv-val" id="meta-source-printer">Bambu Lab A1</span>
+                                </div>
+                                <div class="meta-kv-item">
+                                    <span class="meta-kv-label">Source Bed Size</span>
+                                    <span class="meta-kv-val" id="meta-source-bed">256 x 256 mm</span>
+                                </div>
+                                <div class="meta-kv-item">
+                                    <span class="meta-kv-label">Plates &amp; Objects</span>
+                                    <span class="meta-kv-val" id="meta-plates-objects">1 plate / 1 object</span>
+                                </div>
+                                <div class="meta-kv-item">
+                                    <span class="meta-kv-label">Layer / Walls / Infill</span>
+                                    <span class="meta-kv-val" id="meta-layer-walls">0.20mm / 2 walls / 15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="convert-cta-box">
+                        <div class="convert-cta-row">
+                            <button type="button" class="btn-action btn-primary-cc2" id="convert-download-btn">
+                                Convert &amp; Download for Elegoo Slicer
+                            </button>
+                            <span class="convert-status-text" id="convert-status-text" aria-live="polite">Ready to convert</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel-card" aria-labelledby="outliers-panel-title">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="outliers-panel-title">Outliers &amp; Author Alerts</h2>
+                        <span class="panel-badge" id="outlier-count-badge">0 Alerts</span>
+                    </div>
+                    <div class="outlier-list" id="outlier-list"></div>
+                </section>
+
+                <section class="panel-card" aria-labelledby="spools-panel-title">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="spools-panel-title">4-Spool Switching System Mapping</h2>
+                        <span class="panel-badge" id="spool-count-badge">4 Spool Slots</span>
+                    </div>
+                    <div class="spool-grid" id="spool-grid"></div>
+                </section>
+            </div>
+
+            <div class="inspector-col">
+                <section class="panel-card" aria-labelledby="options-panel-title">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="options-panel-title">CC2 Conversion Options</h2>
+                        <button type="button" class="btn-action btn-secondary-cc2" id="reset-options-btn">Reset Defaults</button>
+                    </div>
+
+                    <div class="options-grid">
+                        <div class="option-field full-span">
+                            <label class="option-label" for="opt-base-preset">Target Elegoo CC2 Base Process Preset</label>
+                            <select class="form-control-select" id="opt-base-preset">
+                                <option value="0.20mm Standard @Elegoo CC2 0.4 nozzle - DL profile">0.20mm Standard @Elegoo CC2 0.4 nozzle - DL profile (Recommended)</option>
+                                <option value="0.20mm Standard @Elegoo CC2 0.4 nozzle">0.20mm Standard @Elegoo CC2 0.4 nozzle (System Default)</option>
+                                <option value="0.28mm Extra Draft @Elegoo CC2 0.4 nozzle - skadis">0.28mm Extra Draft @Elegoo CC2 0.4 nozzle - skadis</option>
+                            </select>
+                            <span class="option-hint">Author process settings are layered onto this CC2 profile and speeds are clamped to CC2 limits.</span>
+                        </div>
+
+                        <div class="option-field">
+                            <label class="option-label" for="opt-infill-override">Sparse Infill Pattern</label>
+                            <select class="form-control-select" id="opt-infill-override">
+                                <option value="keep">Keep Author Pattern (Translated)</option>
+                                <option value="gyroid">Force Gyroid</option>
+                                <option value="crosshatch">Force Crosshatch</option>
+                                <option value="adaptivecubic">Force Adaptive Cubic</option>
+                                <option value="grid">Force Grid</option>
+                                <option value="rectilinear">Force Rectilinear</option>
+                            </select>
+                        </div>
+
+                        <div class="option-field">
+                            <label class="option-label" for="opt-brim-override">Brim Type Override</label>
+                            <select class="form-control-select" id="opt-brim-override">
+                                <option value="keep">Keep Author Brim Setting</option>
+                                <option value="auto_brim">Auto Brim</option>
+                                <option value="outer_only">Outer Brim Only</option>
+                                <option value="no_brim">No Brim</option>
+                            </select>
+                        </div>
+
+                        <div class="option-field full-span">
+                            <label class="checkbox-row" for="opt-fix-critical-support">
+                                <input type="checkbox" id="opt-fix-critical-support" checked>
+                                <span class="checkbox-copy">
+                                    <span class="checkbox-title">Uncheck "Support critical regions only" when supports are enabled</span>
+                                    <span class="checkbox-desc">Prevents ElegooSlicer from pruning tree support branches on ear/horn overhangs (the Highland Cow ear issue).</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="option-field full-span">
+                            <label class="checkbox-row" for="opt-center-bed">
+                                <input type="checkbox" id="opt-center-bed">
+                                <span class="checkbox-copy">
+                                    <span class="checkbox-title">Center objects on 256x256mm Centauri Carbon 2 bed</span>
+                                    <span class="checkbox-desc">Automatically enabled when source bed dimensions differ from 256x256mm (such as 180x180mm Bambu A1 mini or 250x210mm Prusa beds).</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel-card" aria-labelledby="diff-panel-title">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="diff-panel-title">Translated Settings Inspector</h2>
+                        <span class="panel-badge" id="diff-count-badge">0 Settings</span>
+                    </div>
+
+                    <div class="inspector-toolbar">
+                        <div class="filter-tabs" role="tablist" aria-label="Filter translated settings">
+                            <button type="button" class="filter-tab-btn" role="tab" aria-selected="true" data-filter="all" id="tab-all">All Translated</button>
+                            <button type="button" class="filter-tab-btn" role="tab" aria-selected="false" data-filter="explicit" id="tab-explicit">Author Overrides</button>
+                            <button type="button" class="filter-tab-btn" role="tab" aria-selected="false" data-filter="clamped" id="tab-clamped">Clamped Speeds</button>
+                            <button type="button" class="filter-tab-btn" role="tab" aria-selected="false" data-filter="objects" id="tab-objects">Object &amp; Part Modifiers</button>
+                        </div>
+                        <div class="search-filter-wrap">
+                            <input type="search" class="form-control-input" id="diff-search-input" placeholder="Filter by key or value..." aria-label="Filter settings table by key or value">
+                        </div>
+                    </div>
+
+                    <div class="table-scroll-container" id="diff-table-container">
+                        <table class="diff-table" aria-label="Translated slicer settings comparison">
+                            <thead id="diff-table-head">
+                                <tr>
+                                    <th scope="col">Setting Key</th>
+                                    <th scope="col">Source Value</th>
+                                    <th scope="col">CC2 Default</th>
+                                    <th scope="col">Converted CC2 Value</th>
+                                    <th scope="col">Translation Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody id="diff-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="social-links" id="footer-social-links">
+                <a href="https://github.com/Meudayr" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" id="footer-github-link">
+                    <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                </a>
+            </div>
+            <p class="copyright" id="footer-copyright">&copy; 2026 meudayr.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/cc2-baseline.js"></script>
+    <script src="assets/cc2-converter.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            const state = {
+                queue: [],
+                activeIndex: -1,
+                activeFilter: 'all',
+                searchQuery: '',
+                thumbUrl: null
+            };
+
+            const els = {
+                dropzone: document.getElementById('dropzone'),
+                fileInput: document.getElementById('file-input'),
+                browseBtn: document.getElementById('browse-files-btn'),
+                sampleBtn: document.getElementById('load-sample-btn'),
+                errorPanel: document.getElementById('error-state-panel'),
+                errorTitle: document.getElementById('error-state-title'),
+                errorMsg: document.getElementById('error-state-message'),
+                dismissErrorBtn: document.getElementById('dismiss-error-btn'),
+                loadingPanel: document.getElementById('loading-state-panel'),
+                loadingTitle: document.getElementById('loading-state-title'),
+                loadingMsg: document.getElementById('loading-state-message'),
+                emptyPanel: document.getElementById('empty-state-panel'),
+                queueStrip: document.getElementById('queue-strip'),
+                queueTabs: document.getElementById('queue-tabs'),
+                convertAllBtn: document.getElementById('convert-all-btn'),
+                workspace: document.getElementById('inspector-workspace'),
+                sourceFormatBadge: document.getElementById('source-format-badge'),
+                thumbBox: document.getElementById('model-thumb-box'),
+                modelTitle: document.getElementById('model-title-text'),
+                modelDesigner: document.getElementById('model-designer-text'),
+                metaPrinter: document.getElementById('meta-source-printer'),
+                metaBed: document.getElementById('meta-source-bed'),
+                metaPlates: document.getElementById('meta-plates-objects'),
+                metaLayerWalls: document.getElementById('meta-layer-walls'),
+                convertBtn: document.getElementById('convert-download-btn'),
+                convertStatus: document.getElementById('convert-status-text'),
+                outlierCountBadge: document.getElementById('outlier-count-badge'),
+                outlierList: document.getElementById('outlier-list'),
+                spoolCountBadge: document.getElementById('spool-count-badge'),
+                spoolGrid: document.getElementById('spool-grid'),
+                resetOptionsBtn: document.getElementById('reset-options-btn'),
+                optBasePreset: document.getElementById('opt-base-preset'),
+                optInfill: document.getElementById('opt-infill-override'),
+                optBrim: document.getElementById('opt-brim-override'),
+                optFixSupport: document.getElementById('opt-fix-critical-support'),
+                optCenterBed: document.getElementById('opt-center-bed'),
+                diffCountBadge: document.getElementById('diff-count-badge'),
+                diffSearch: document.getElementById('diff-search-input'),
+                diffTableHead: document.getElementById('diff-table-head'),
+                diffTableBody: document.getElementById('diff-table-body'),
+                filterBtns: Array.from(document.querySelectorAll('.filter-tab-btn'))
+            };
+
+            function escapeHtml(str) {
+                return String(str === null || str === undefined ? '' : str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            function showError(title, message) {
+                els.loadingPanel.classList.add('hidden');
+                els.errorTitle.textContent = title;
+                els.errorMsg.textContent = message;
+                els.errorPanel.classList.remove('hidden');
+            }
+
+            function hideError() {
+                els.errorPanel.classList.add('hidden');
+            }
+
+            function setLoading(isLoading, title, message) {
+                if (isLoading) {
+                    hideError();
+                    els.loadingTitle.textContent = title || 'Inspecting .3mf archive...';
+                    els.loadingMsg.textContent = message || 'Reading project metadata and build plates.';
+                    els.loadingPanel.classList.remove('hidden');
+                } else {
+                    els.loadingPanel.classList.add('hidden');
+                }
+            }
+
+            function createDefaultItemOptions(inspected) {
+                const differentBed = inspected.bedSize.width !== 256 || inspected.bedSize.depth !== 256;
+                return {
+                    baseProcessPreset: '0.20mm Standard @Elegoo CC2 0.4 nozzle - DL profile',
+                    infillPatternOverride: 'keep',
+                    brimOverride: 'keep',
+                    fixCriticalSupportRegions: true,
+                    centerOnBed: differentBed,
+                    spoolPresets: inspected.spools.map(function (s) { return s.targetPreset; }),
+                    spoolColors: inspected.spools.map(function (s) { return s.color; })
+                };
+            }
+
+            async function handleFiles(fileList) {
+                const files = Array.from(fileList || []);
+                if (files.length === 0) return;
+
+                setLoading(true, 'Inspecting ' + files.length + ' .3mf file' + (files.length > 1 ? 's' : '') + '...', 'Decompressing project settings and checking for filament or hardware outliers.');
+
+                let lastAddedIndex = state.activeIndex;
+                for (const file of files) {
+                    try {
+                        const ab = await file.arrayBuffer();
+                        const inspected = await window.CC2Converter.inspect3mf(ab, file.name);
+                        const itemOptions = createDefaultItemOptions(inspected);
+                        state.queue.push({
+                            inspected: inspected,
+                            options: itemOptions
+                        });
+                        lastAddedIndex = state.queue.length - 1;
+                    } catch (err) {
+                        setLoading(false);
+                        showError('Unable to parse "' + file.name + '"', err && err.message ? err.message : 'The selected file is not a valid .3mf archive.');
+                        return;
+                    }
+                }
+
+                setLoading(false);
+                selectQueueItem(lastAddedIndex);
+            }
+
+            async function loadSampleArchive() {
+                try {
+                    setLoading(true, 'Building Highland Cow MakerWorld Sample...', 'Loading Bambu Lab A1 multi-color project settings and organic tree support configuration.');
+                    const sample = await window.CC2Converter.buildSampleMakerWorld3mf();
+                    const ab = sample.bytes.buffer.slice(sample.bytes.byteOffset, sample.bytes.byteOffset + sample.bytes.byteLength);
+                    const inspected = await window.CC2Converter.inspect3mf(ab, sample.filename);
+                    const itemOptions = createDefaultItemOptions(inspected);
+                    state.queue.push({
+                        inspected: inspected,
+                        options: itemOptions
+                    });
+                    setLoading(false);
+                    selectQueueItem(state.queue.length - 1);
+                } catch (err) {
+                    setLoading(false);
+                    showError('Could not load sample .3mf', err && err.message ? err.message : 'Sample archive error.');
+                }
+            }
+
+            function selectQueueItem(index) {
+                if (index < 0 || index >= state.queue.length) return;
+                state.activeIndex = index;
+                els.emptyPanel.classList.add('hidden');
+                els.workspace.classList.remove('hidden');
+
+                renderQueueStrip();
+                syncControlsFromActiveItem();
+                renderActiveInspector();
+            }
+
+            function renderQueueStrip() {
+                if (state.queue.length <= 1) {
+                    els.queueStrip.classList.add('hidden');
+                    els.convertAllBtn.classList.add('hidden');
+                    return;
+                }
+                els.queueStrip.classList.remove('hidden');
+                els.convertAllBtn.classList.remove('hidden');
+                els.convertAllBtn.textContent = 'Convert & Download All (' + state.queue.length + ' Files)';
+
+                els.queueTabs.innerHTML = state.queue.map(function (item, idx) {
+                    const isActive = idx === state.activeIndex;
+                    return '<button type="button" role="tab" aria-selected="' + (isActive ? 'true' : 'false') + '" class="queue-file-btn' + (isActive ? ' active' : '') + '" data-queue-idx="' + idx + '">' +
+                        escapeHtml(item.inspected.filename) +
+                        '</button>';
+                }).join('');
+            }
+
+            function syncControlsFromActiveItem() {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+                const opts = active.options;
+                els.optBasePreset.value = opts.baseProcessPreset;
+                els.optInfill.value = opts.infillPatternOverride;
+                els.optBrim.value = opts.brimOverride;
+                els.optFixSupport.checked = Boolean(opts.fixCriticalSupportRegions);
+                els.optCenterBed.checked = Boolean(opts.centerOnBed);
+            }
+
+            function renderActiveInspector() {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+
+                const ins = active.inspected;
+                const opts = active.options;
+                const src = ins.sourceProj || {};
+
+                if (ins.sourceFormat === 'bambu') {
+                    const app = ins.modelMeta.Application || 'Bambu Studio';
+                    els.sourceFormatBadge.textContent = 'MakerWorld / ' + app;
+                } else if (ins.sourceFormat === 'prusaslicer') {
+                    els.sourceFormatBadge.textContent = 'Printables / PrusaSlicer';
+                } else {
+                    els.sourceFormatBadge.textContent = 'Generic 3MF Archive';
+                }
+
+                if (state.thumbUrl) {
+                    URL.revokeObjectURL(state.thumbUrl);
+                    state.thumbUrl = null;
+                }
+                if (ins.thumbnailBytes) {
+                    const blob = new Blob([ins.thumbnailBytes], { type: 'image/png' });
+                    state.thumbUrl = URL.createObjectURL(blob);
+                    els.thumbBox.innerHTML = '<img src="' + state.thumbUrl + '" alt="Plate 1 preview for ' + escapeHtml(ins.filename) + '">';
+                } else {
+                    els.thumbBox.innerHTML = '<span>No embedded plate preview PNG</span>';
+                }
+
+                const title = ins.modelMeta.Title || ins.filename.replace(/\.3mf$/i, '');
+                const designer = ins.modelMeta.Designer || 'Author metadata not specified';
+                const profileTitle = ins.modelMeta.ProfileTitle ? (' | Profile: ' + ins.modelMeta.ProfileTitle) : '';
+                els.modelTitle.textContent = title;
+                els.modelDesigner.textContent = 'Designer: ' + designer + profileTitle;
+
+                const printerName = window.CC2Converter.unwrapScalar(src.printer_model) || window.CC2Converter.unwrapScalar(src.printer_settings_id) || 'Unknown Printer';
+                els.metaPrinter.textContent = printerName;
+                els.metaBed.textContent = ins.bedSize.width + ' x ' + ins.bedSize.depth + ' mm';
+
+                const plateCount = Math.max(1, ins.parsedModelSettings.plates.length);
+                const objCount = Math.max(1, ins.parsedModelSettings.objects.length || ins.buildItems.length);
+                els.metaPlates.textContent = plateCount + (plateCount === 1 ? ' plate / ' : ' plates / ') + objCount + (objCount === 1 ? ' object' : ' objects');
+
+                const lh = window.CC2Converter.unwrapScalar(src.layer_height) || '0.20';
+                const walls = window.CC2Converter.unwrapScalar(src.wall_loops) || '2';
+                const infill = window.CC2Converter.unwrapScalar(src.sparse_infill_density) || '15%';
+                els.metaLayerWalls.textContent = lh + 'mm / ' + walls + ' walls / ' + infill;
+
+                const outName = ins.filename.replace(/\.3mf$/i, '') + '_CC2.3mf';
+                els.convertStatus.textContent = 'Output: ' + outName;
+
+                renderOutliers(ins);
+                renderSpools(ins, opts);
+                renderDiffTable(ins, opts);
+            }
+
+            function renderOutliers(ins) {
+                const list = ins.outliers || [];
+                els.outlierCountBadge.textContent = list.length + (list.length === 1 ? ' Alert' : ' Alerts');
+
+                if (list.length === 0) {
+                    els.outlierList.innerHTML =
+                        '<div class="outlier-item severity-info">' +
+                            '<div class="outlier-top">' +
+                                '<span class="outlier-tag">[OK]</span>' +
+                                '<span class="outlier-title">No hardware or filament outliers detected</span>' +
+                            '</div>' +
+                            '<p class="outlier-detail">Source file uses a 0.4mm nozzle, 256x256mm bed, and standard PLA parameters within your Elegoo Centauri Carbon 2 limits.</p>' +
+                        '</div>';
+                    return;
+                }
+
+                const badgeTextMap = {
+                    high: '[HIGH]',
+                    warn: '[REVIEW]',
+                    info: '[NOTE]'
+                };
+
+                els.outlierList.innerHTML = list.map(function (o) {
+                    const sev = o.severity || 'info';
+                    const tagLabel = badgeTextMap[sev] || '[NOTE]';
+                    return '<div class="outlier-item severity-' + escapeHtml(sev) + '">' +
+                        '<div class="outlier-top">' +
+                            '<span class="outlier-tag">' + escapeHtml(tagLabel + ' ' + o.category) + '</span>' +
+                            '<span class="outlier-title">' + escapeHtml(o.title) + '</span>' +
+                        '</div>' +
+                        '<p class="outlier-detail">' + escapeHtml(o.detail) + '</p>' +
+                    '</div>';
+                }).join('');
+            }
+
+            function renderSpools(ins, opts) {
+                const presetNames = Object.keys(window.CC2_FILAMENT_PRESETS || { 'Elegoo PLA @ECC2 - Calibrated': {} });
+                els.spoolCountBadge.textContent = ins.sourceSlotCount + ' Source -> 4 CC2 Spools';
+
+                els.spoolGrid.innerHTML = ins.spools.map(function (sp, idx) {
+                    const chosenPreset = opts.spoolPresets[idx] || sp.targetPreset;
+                    const chosenColor = opts.spoolColors[idx] || sp.color;
+                    const optionsHtml = presetNames.map(function (pName) {
+                        const sel = pName === chosenPreset ? ' selected' : '';
+                        return '<option value="' + escapeHtml(pName) + '"' + sel + '>' + escapeHtml(pName) + '</option>';
+                    }).join('');
+
+                    return '<div class="spool-card">' +
+                        '<div class="spool-header">' +
+                            '<span class="spool-num">Spool #' + sp.slot + '</span>' +
+                            '<span class="spool-source-badge' + (sp.activeInSource ? ' active-slot' : '') + '">' +
+                                escapeHtml(sp.activeInSource ? ('Source: ' + sp.sourceType) : 'Standby Slot') +
+                            '</span>' +
+                        '</div>' +
+                        '<div class="spool-source-meta">' +
+                            escapeHtml(sp.sourceName) + '<br>' +
+                            'Author: ' + escapeHtml(sp.sourceNozzleTemp) + ' nozzle / ' + escapeHtml(sp.sourceBedTemp) + ' bed / ' + escapeHtml(sp.sourceMaxVol) +
+                        '</div>' +
+                        '<div class="spool-controls">' +
+                            '<input type="color" class="spool-color-input" data-spool-color-idx="' + idx + '" value="' + escapeHtml(chosenColor) + '" aria-label="Spool ' + sp.slot + ' filament color">' +
+                            '<select class="form-control-select" data-spool-preset-idx="' + idx + '" aria-label="Spool ' + sp.slot + ' target CC2 filament preset">' +
+                                optionsHtml +
+                            '</select>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+            }
+
+            function renderDiffTable(ins, opts) {
+                const translation = window.CC2Converter.buildTranslatedProjectSettings(ins, opts);
+                const allDiffs = translation.diffs || [];
+                const explicitCount = allDiffs.filter(function (d) { return d.isAuthorExplicit; }).length;
+                const clampedCount = allDiffs.filter(function (d) { return d.isClamped; }).length;
+                const objCount = (ins.objectOverrides || []).length;
+
+                document.getElementById('tab-all').textContent = 'All Translated (' + allDiffs.length + ')';
+                document.getElementById('tab-explicit').textContent = 'Author Overrides (' + explicitCount + ')';
+                document.getElementById('tab-clamped').textContent = 'Clamped Speeds (' + clampedCount + ')';
+                document.getElementById('tab-objects').textContent = 'Object & Part Modifiers (' + objCount + ')';
+
+                const q = state.searchQuery.trim().toLowerCase();
+
+                if (state.activeFilter === 'objects') {
+                    els.diffTableHead.innerHTML =
+                        '<tr>' +
+                            '<th scope="col">Object / Modifier Scope</th>' +
+                            '<th scope="col">Overridden Keys &amp; Translated Values</th>' +
+                        '</tr>';
+
+                    const filteredObjs = (ins.objectOverrides || []).filter(function (item) {
+                        if (!q) return true;
+                        if (item.scope.toLowerCase().includes(q)) return true;
+                        return item.settings.some(function (s) {
+                            return s.key.toLowerCase().includes(q) || String(s.value).toLowerCase().includes(q);
+                        });
+                    });
+
+                    els.diffCountBadge.textContent = filteredObjs.length + (filteredObjs.length === 1 ? ' Scope' : ' Scopes');
+
+                    if (filteredObjs.length === 0) {
+                        els.diffTableBody.innerHTML =
+                            '<tr><td colspan="2">No per-object or modifier part overrides found matching this filter.</td></tr>';
+                        return;
+                    }
+
+                    els.diffTableBody.innerHTML = filteredObjs.map(function (item) {
+                        const pairs = item.settings.map(function (s) {
+                            const enumRes = window.CC2Converter.translateEnumValue(s.key, s.value);
+                            const speedRes = window.CC2Converter.clampSpeedOrAccel(s.key, enumRes.value);
+                            const changed = speedRes.value !== String(s.value);
+                            return '<span class="rule-pill' + (changed ? ' pill-clamped' : ' pill-explicit') + '">' +
+                                escapeHtml(s.key + ': ' + (changed ? (s.value + ' -> ' + speedRes.value) : s.value)) +
+                            '</span>';
+                        }).join(' ');
+                        return '<tr>' +
+                            '<td class="diff-key">' + escapeHtml(item.scope) + '</td>' +
+                            '<td>' + (pairs || '<span class="diff-val-muted">Geometry modifier part (no process key overrides)</span>') + '</td>' +
+                        '</tr>';
+                    }).join('');
+                    return;
+                }
+
+                els.diffTableHead.innerHTML =
+                    '<tr>' +
+                        '<th scope="col">Setting Key</th>' +
+                        '<th scope="col">Source Value</th>' +
+                        '<th scope="col">CC2 Default</th>' +
+                        '<th scope="col">Converted CC2 Value</th>' +
+                        '<th scope="col">Translation Rule</th>' +
+                    '</tr>';
+
+                const filtered = allDiffs.filter(function (d) {
+                    if (state.activeFilter === 'explicit' && !d.isAuthorExplicit) return false;
+                    if (state.activeFilter === 'clamped' && !d.isClamped) return false;
+                    if (q) {
+                        const hay = (d.key + ' ' + d.sourceVal + ' ' + d.convertedVal + ' ' + d.rule).toLowerCase();
+                        if (!hay.includes(q)) return false;
+                    }
+                    return true;
+                });
+
+                els.diffCountBadge.textContent = filtered.length + (filtered.length === 1 ? ' Setting' : ' Settings');
+
+                if (filtered.length === 0) {
+                    els.diffTableBody.innerHTML =
+                        '<tr><td colspan="5">No translated settings match the active filter.</td></tr>';
+                    return;
+                }
+
+                els.diffTableBody.innerHTML = filtered.map(function (d) {
+                    const pills = [];
+                    if (d.isAuthorExplicit) {
+                        pills.push('<span class="rule-pill pill-explicit">AUTHOR OVERRIDE</span>');
+                    }
+                    if (d.isClamped) {
+                        pills.push('<span class="rule-pill pill-clamped">CLAMPED TO CC2</span>');
+                    }
+                    if (d.isEnumTranslated) {
+                        pills.push('<span class="rule-pill pill-enum">TRANSLATED ENUM</span>');
+                    }
+                    if (pills.length === 0) {
+                        pills.push('<span class="rule-pill">KEPT</span>');
+                    }
+
+                    return '<tr>' +
+                        '<td class="diff-key">' + escapeHtml(d.key) + '</td>' +
+                        '<td class="diff-val-mono">' + escapeHtml(d.sourceVal) + '</td>' +
+                        '<td class="diff-val-muted">' + escapeHtml(d.cc2DefaultVal) + '</td>' +
+                        '<td class="diff-val-mono"><strong>' + escapeHtml(d.convertedVal) + '</strong></td>' +
+                        '<td>' + pills.join('') + '<span class="rule-desc">' + escapeHtml(d.rule) + '</span></td>' +
+                    '</tr>';
+                }).join('');
+            }
+
+            function triggerBrowserDownload(bytes, filename) {
+                const blob = new Blob([bytes], { type: 'application/vnd.ms-package.3dmanufacturing-3dmodel+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(function () {
+                    URL.revokeObjectURL(url);
+                }, 5000);
+            }
+
+            async function convertActiveItem() {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+
+                try {
+                    els.convertBtn.disabled = true;
+                    els.convertStatus.textContent = 'Building .3mf archive...';
+                    const result = await window.CC2Converter.convert3mf(active.inspected, active.options);
+                    triggerBrowserDownload(result.bytes, result.filename);
+                    els.convertStatus.textContent = 'Downloaded ' + result.filename + ' (' + (result.bytes.byteLength / (1024 * 1024)).toFixed(2) + ' MB)';
+                } catch (err) {
+                    showError('Conversion failed', err && err.message ? err.message : 'Could not repackage .3mf archive.');
+                } finally {
+                    els.convertBtn.disabled = false;
+                }
+            }
+
+            async function convertAllQueuedItems() {
+                if (state.queue.length === 0) return;
+                els.convertAllBtn.disabled = true;
+                try {
+                    for (let i = 0; i < state.queue.length; i++) {
+                        const item = state.queue[i];
+                        els.convertStatus.textContent = 'Converting (' + (i + 1) + '/' + state.queue.length + ') ' + item.inspected.filename + '...';
+                        const result = await window.CC2Converter.convert3mf(item.inspected, item.options);
+                        triggerBrowserDownload(result.bytes, result.filename);
+                    }
+                    els.convertStatus.textContent = 'Downloaded all ' + state.queue.length + ' converted .3mf files.';
+                } catch (err) {
+                    showError('Batch conversion failed', err && err.message ? err.message : 'Error during batch .3mf conversion.');
+                } finally {
+                    els.convertAllBtn.disabled = false;
+                }
+            }
+
+            els.browseBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                els.fileInput.click();
+            });
+
+            els.sampleBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                loadSampleArchive();
+            });
+
+            els.dropzone.addEventListener('click', function (e) {
+                if (e.target.closest('button') || e.target.closest('input')) return;
+                els.fileInput.click();
+            });
+
+            els.dropzone.addEventListener('keydown', function (e) {
+                if (e.target !== els.dropzone) return;
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    els.fileInput.click();
+                }
+            });
+
+            els.fileInput.addEventListener('change', function () {
+                if (els.fileInput.files && els.fileInput.files.length > 0) {
+                    handleFiles(els.fileInput.files);
+                    els.fileInput.value = '';
+                }
+            });
+
+            els.dropzone.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                els.dropzone.classList.add('drag-over');
+            });
+
+            els.dropzone.addEventListener('dragleave', function () {
+                els.dropzone.classList.remove('drag-over');
+            });
+
+            els.dropzone.addEventListener('drop', function (e) {
+                e.preventDefault();
+                els.dropzone.classList.remove('drag-over');
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            els.dismissErrorBtn.addEventListener('click', hideError);
+
+            els.queueTabs.addEventListener('click', function (e) {
+                const btn = e.target.closest('[data-queue-idx]');
+                if (!btn) return;
+                const idx = parseInt(btn.getAttribute('data-queue-idx'), 10);
+                if (!Number.isNaN(idx)) {
+                    selectQueueItem(idx);
+                }
+            });
+
+            els.spoolGrid.addEventListener('change', function (e) {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+
+                const colorInput = e.target.closest('[data-spool-color-idx]');
+                if (colorInput) {
+                    const idx = parseInt(colorInput.getAttribute('data-spool-color-idx'), 10);
+                    active.options.spoolColors[idx] = colorInput.value.toUpperCase();
+                    return;
+                }
+
+                const presetSelect = e.target.closest('[data-spool-preset-idx]');
+                if (presetSelect) {
+                    const idx = parseInt(presetSelect.getAttribute('data-spool-preset-idx'), 10);
+                    active.options.spoolPresets[idx] = presetSelect.value;
+                    renderDiffTable(active.inspected, active.options);
+                }
+            });
+
+            function onOptionChanged() {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+                active.options.baseProcessPreset = els.optBasePreset.value;
+                active.options.infillPatternOverride = els.optInfill.value;
+                active.options.brimOverride = els.optBrim.value;
+                active.options.fixCriticalSupportRegions = els.optFixSupport.checked;
+                active.options.centerOnBed = els.optCenterBed.checked;
+                renderDiffTable(active.inspected, active.options);
+            }
+
+            els.optBasePreset.addEventListener('change', onOptionChanged);
+            els.optInfill.addEventListener('change', onOptionChanged);
+            els.optBrim.addEventListener('change', onOptionChanged);
+            els.optFixSupport.addEventListener('change', onOptionChanged);
+            els.optCenterBed.addEventListener('change', onOptionChanged);
+
+            els.resetOptionsBtn.addEventListener('click', function () {
+                const active = state.queue[state.activeIndex];
+                if (!active) return;
+                active.options = createDefaultItemOptions(active.inspected);
+                syncControlsFromActiveItem();
+                renderSpools(active.inspected, active.options);
+                renderDiffTable(active.inspected, active.options);
+            });
+
+            els.filterBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    state.activeFilter = btn.getAttribute('data-filter') || 'all';
+                    els.filterBtns.forEach(function (b) {
+                        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+                    });
+                    const active = state.queue[state.activeIndex];
+                    if (active) {
+                        renderDiffTable(active.inspected, active.options);
+                    }
+                });
+            });
+
+            els.diffSearch.addEventListener('input', function () {
+                state.searchQuery = els.diffSearch.value || '';
+                const active = state.queue[state.activeIndex];
+                if (active) {
+                    renderDiffTable(active.inspected, active.options);
+                }
+            });
+
+            els.convertBtn.addEventListener('click', convertActiveItem);
+            els.convertAllBtn.addEventListener('click', convertAllQueuedItems);
+
+            const PLEX_TOKEN = 'ypFBiUJSYfzyDDivAGhu';
+
+            async function checkPlexStatus() {
+                const pill = document.getElementById('nav-plex-link');
+                const label = document.getElementById('plex-status-label');
+                if (!pill || !label) return;
+
+                try {
+                    const res = await fetch('https://plex.tv/api/v2/resources?X-Plex-Token=' + encodeURIComponent(PLEX_TOKEN) + '&includeHttps=1', {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Plex-Client-Identifier': 'meudayr-homepage'
+                        }
+                    });
+
+                    if (res.ok) {
+                        const resources = await res.json();
+                        const server = resources.find(function (r) { return r.provides && r.provides.includes('server'); });
+
+                        if (server && server.presence) {
+                            pill.className = 'plex-nav-pill online';
+                            label.textContent = 'Online';
+                            pill.setAttribute('title', 'Plex Server: ' + (server.name || 'Online'));
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Plex.tv API status check failed:', err);
+                }
+
+                pill.className = 'plex-nav-pill offline';
+                label.textContent = 'Offline';
+                pill.setAttribute('title', 'Plex Server: Offline');
+            }
+            checkPlexStatus();
+        })();
+    </script>
+</body>
+</html>

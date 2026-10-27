@@ -155,6 +155,8 @@ checkPlexStatus();
    - Password-protected Admin Mode (`dontgivemeadpi` or `ADMIN_KEY` env var) allowing trusted users to bypass PINs.
    - Edge persistence via `/api/roster` (Cloudflare KV `forever_roster` + fallback to `data/forever-roster.json`).
    - One-click formatted Discord roster summary export.
+6. **`3mf.html` (3MF Slicer Profile Inspector & CC2 Converter):**
+   - Client-side `.3mf` profile inspector and converter (`assets/cc2-baseline.js` + `assets/cc2-converter.js`) that translates MakerWorld (Bambu Studio) and Printables (PrusaSlicer) `.3mf` projects into ready-to-slice Elegoo Slicer (`1.5.3.5` / `OrcaSlicer 2.4.2`) projects for the Elegoo Centauri Carbon 2 (0.4mm nozzle, 256x256mm bed, 4-spool filament switching system).
 
 ---
 
@@ -228,6 +230,7 @@ When asked to create a new page (e.g. `mypage.html`):
       - `dr.html`
       - `logs.html`
       - `champions.html`
+      - `3mf.html`
 3. **Optionally Add Hero Card to `index.html`:**
    - If the new page is a major utility or portfolio section, add a `.hero-tool-card` inside `<div class="hero-tools" id="hero-tools">` in `index.html`.
 4. **Deploy & Verify:**
