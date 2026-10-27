@@ -975,7 +975,6 @@
             <div class="upload-actions">
                 <input type="file" id="file-input" accept=".3mf" multiple class="hidden" aria-label="Select .3mf files from device">
                 <button type="button" class="btn-action btn-primary-cc2" id="browse-files-btn">Select .3mf Files</button>
-                <button type="button" class="btn-action btn-secondary-cc2" id="load-sample-btn">Load Highland Cow Sample</button>
             </div>
         </div>
 
@@ -999,7 +998,7 @@
                 <h2 id="empty-state-heading">No .3mf file loaded yet</h2>
             </div>
             <p>
-                Select a <code>.3mf</code> file above or load the Highland Cow MakerWorld sample to preview how author settings, speeds, tree supports, and 4-spool colors translate to your Elegoo Centauri Carbon 2 profile before downloading.
+                Select or drop a <code>.3mf</code> file above to inspect author settings, speeds, tree supports, and 4-spool colors translated to your Elegoo Centauri Carbon 2 profile before downloading.
             </p>
             <div class="empty-grid">
                 <div class="empty-step-card">
@@ -1131,16 +1130,6 @@
                         </div>
 
                         <div class="option-field full-span">
-                            <label class="checkbox-row" for="opt-fix-critical-support">
-                                <input type="checkbox" id="opt-fix-critical-support" checked>
-                                <span class="checkbox-copy">
-                                    <span class="checkbox-title">Uncheck "Support critical regions only" when supports are enabled</span>
-                                    <span class="checkbox-desc">Prevents ElegooSlicer from pruning tree support branches on ear/horn overhangs (the Highland Cow ear issue).</span>
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class="option-field full-span">
                             <label class="checkbox-row" for="opt-center-bed">
                                 <input type="checkbox" id="opt-center-bed">
                                 <span class="checkbox-copy">
@@ -1218,7 +1207,6 @@
                 dropzone: document.getElementById('dropzone'),
                 fileInput: document.getElementById('file-input'),
                 browseBtn: document.getElementById('browse-files-btn'),
-                sampleBtn: document.getElementById('load-sample-btn'),
                 errorPanel: document.getElementById('error-state-panel'),
                 errorTitle: document.getElementById('error-state-title'),
                 errorMsg: document.getElementById('error-state-message'),
@@ -1249,7 +1237,6 @@
                 optBasePreset: document.getElementById('opt-base-preset'),
                 optInfill: document.getElementById('opt-infill-override'),
                 optBrim: document.getElementById('opt-brim-override'),
-                optFixSupport: document.getElementById('opt-fix-critical-support'),
                 optCenterBed: document.getElementById('opt-center-bed'),
                 diffCountBadge: document.getElementById('diff-count-badge'),
                 diffSearch: document.getElementById('diff-search-input'),
@@ -1294,7 +1281,6 @@
                     baseProcessPreset: '0.20mm Standard @Elegoo CC2 0.4 nozzle - DL profile',
                     infillPatternOverride: 'keep',
                     brimOverride: 'keep',
-                    fixCriticalSupportRegions: true,
                     centerOnBed: differentBed,
                     spoolPresets: inspected.spools.map(function (s) { return s.targetPreset; }),
                     spoolColors: inspected.spools.map(function (s) { return s.color; })
@@ -1327,25 +1313,6 @@
 
                 setLoading(false);
                 selectQueueItem(lastAddedIndex);
-            }
-
-            async function loadSampleArchive() {
-                try {
-                    setLoading(true, 'Building Highland Cow MakerWorld Sample...', 'Loading Bambu Lab A1 multi-color project settings and organic tree support configuration.');
-                    const sample = await window.CC2Converter.buildSampleMakerWorld3mf();
-                    const ab = sample.bytes.buffer.slice(sample.bytes.byteOffset, sample.bytes.byteOffset + sample.bytes.byteLength);
-                    const inspected = await window.CC2Converter.inspect3mf(ab, sample.filename);
-                    const itemOptions = createDefaultItemOptions(inspected);
-                    state.queue.push({
-                        inspected: inspected,
-                        options: itemOptions
-                    });
-                    setLoading(false);
-                    selectQueueItem(state.queue.length - 1);
-                } catch (err) {
-                    setLoading(false);
-                    showError('Could not load sample .3mf', err && err.message ? err.message : 'Sample archive error.');
-                }
             }
 
             function selectQueueItem(index) {
@@ -1384,7 +1351,6 @@
                 els.optBasePreset.value = opts.baseProcessPreset;
                 els.optInfill.value = opts.infillPatternOverride;
                 els.optBrim.value = opts.brimOverride;
-                els.optFixSupport.checked = Boolean(opts.fixCriticalSupportRegions);
                 els.optCenterBed.checked = Boolean(opts.centerOnBed);
             }
 
@@ -1672,11 +1638,6 @@
                 els.fileInput.click();
             });
 
-            els.sampleBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                loadSampleArchive();
-            });
-
             els.dropzone.addEventListener('click', function (e) {
                 if (e.target.closest('button') || e.target.closest('input')) return;
                 els.fileInput.click();
@@ -1750,7 +1711,6 @@
                 active.options.baseProcessPreset = els.optBasePreset.value;
                 active.options.infillPatternOverride = els.optInfill.value;
                 active.options.brimOverride = els.optBrim.value;
-                active.options.fixCriticalSupportRegions = els.optFixSupport.checked;
                 active.options.centerOnBed = els.optCenterBed.checked;
                 renderDiffTable(active.inspected, active.options);
             }
@@ -1758,7 +1718,6 @@
             els.optBasePreset.addEventListener('change', onOptionChanged);
             els.optInfill.addEventListener('change', onOptionChanged);
             els.optBrim.addEventListener('change', onOptionChanged);
-            els.optFixSupport.addEventListener('change', onOptionChanged);
             els.optCenterBed.addEventListener('change', onOptionChanged);
 
             els.resetOptionsBtn.addEventListener('click', function () {

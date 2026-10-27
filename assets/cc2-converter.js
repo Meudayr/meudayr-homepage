@@ -865,12 +865,17 @@
       }
     }
 
-    if (unwrapScalar(sourceProj.enable_support) === '1' && unwrapScalar(sourceProj.support_critical_regions_only) === '1') {
+    const isSupportEnabled = unwrapScalar(sourceProj.enable_support) === '1';
+    const supType = unwrapScalar(sourceProj.support_type);
+    const supStyle = unwrapScalar(sourceProj.support_style);
+    const isTree = isSupportEnabled && (supType.includes('tree') || supStyle.includes('tree') || supStyle === 'organic' || supStyle === 'tree_organic');
+
+    if (isTree && unwrapScalar(sourceProj.support_critical_regions_only) === '1') {
       outliers.push({
         severity: 'warn',
         category: 'Support Generation',
-        title: 'Bambu "Support critical regions only" is enabled with supports',
-        detail: 'In ElegooSlicer/OrcaSlicer, combining tree supports with "critical regions only" often prunes branches needed for textured overhangs (such as ears or horns). The converter unchecks this by default so all overhangs receive supports.'
+        title: 'Bambu "Support critical regions only" was enabled with tree supports',
+        detail: 'In ElegooSlicer/OrcaSlicer, combining tree supports with "critical regions only" prunes branches needed for textured overhangs. The converter automatically unchecks this setting so all overhangs receive supports.'
       });
     }
 
@@ -1060,8 +1065,7 @@
   function buildTranslatedProjectSettings(inspected, options) {
     const opts = Object.assign({
       baseProcessPreset: '0.20mm Standard @Elegoo CC2 0.4 nozzle - DL profile',
-      fixCriticalSupportRegions: true,
-      infillPatternOverride: 'keep',
+            infillPatternOverride: 'keep',
       brimOverride: 'keep',
       centerOnBed: inspected.bedSize.width !== 256 || inspected.bedSize.depth !== 256,
       spoolPresets: inspected.spools.map(s => s.targetPreset),
@@ -1132,9 +1136,20 @@
         rules.push('Clamped to CC2 limit (' + speedRes.original + ' -> ' + speedRes.max + ' ' + speedRes.unit + ')');
       }
 
-      if (key === 'support_critical_regions_only' && opts.fixCriticalSupportRegions && unwrapScalar(normalizedSrc.enable_support) === '1' && finalVal === '1') {
-        finalVal = '0';
-        rules.push('Unchecked so overhangs (ears/horns) receive tree branches in ElegooSlicer');
+      if (key === 'support_critical_regions_only' && finalVal === '1') {
+        const isSupportEnabled = unwrapScalar(normalizedSrc.enable_support) === '1' || unwrapScalar(base.enable_support) === '1';
+        const supType = unwrapScalar(normalizedSrc.support_type || base.support_type);
+        const supStyle = unwrapScalar(normalizedSrc.support_style || base.support_style);
+        const isTreeSupport = isSupportEnabled && (
+          supType.includes('tree') ||
+          supStyle.includes('tree') ||
+          supStyle === 'organic' ||
+          supStyle === 'tree_organic'
+        );
+        if (isTreeSupport) {
+          finalVal = '0';
+          rules.push('Unchecked by default for tree supports so overhangs receive branches');
+        }
       }
 
       if (key === 'sparse_infill_pattern' && opts.infillPatternOverride !== 'keep') {
@@ -1522,79 +1537,13 @@
     };
   }
 
-  async function buildSampleMakerWorld3mf() {
-    const sample = root.CC2_SAMPLE_ARCHIVE;
-    if (!sample) throw new Error('Sample archive metadata is not loaded.');
-
-    const modelXml = [
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      '<model xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" unit="millimeter" xml:lang="en-US" xmlns:BambuStudio="http://schemas.bambulab.com/package/2021">',
-      ' <metadata name="Application">BambuStudio-02.06.00.51</metadata>',
-      ' <metadata name="BambuStudio:3mfVersion">1</metadata>',
-      ' <metadata name="CreationDate">2026-04-27</metadata>',
-      ' <metadata name="Designer">The Makers Edit</metadata>',
-      ' <metadata name="ProfileTitle">0.2mm layer, 2 walls, 15% infill</metadata>',
-      ' <metadata name="Title">Highland Cow Soap Holder BBW</metadata>',
-      ' <resources>',
-      '  <object id="1" type="model">',
-      '   <mesh>',
-      '    <vertices>',
-      '     <vertex x="-45" y="-45" z="0" />',
-      '     <vertex x="45" y="-45" z="0" />',
-      '     <vertex x="45" y="45" z="0" />',
-      '     <vertex x="-45" y="45" z="0" />',
-      '     <vertex x="0" y="0" z="90" />',
-      '    </vertices>',
-      '    <triangles>',
-      '     <triangle v1="0" v2="2" v3="1" paint_color="4" />',
-      '     <triangle v1="0" v2="3" v3="2" paint_color="4" />',
-      '     <triangle v1="0" v2="1" v3="4" paint_color="8" />',
-      '     <triangle v1="1" v2="2" v3="4" paint_color="0C" />',
-      '     <triangle v1="2" v2="3" v3="4" paint_color="8" />',
-      '     <triangle v1="3" v2="0" v3="4" paint_color="4" />',
-      '    </triangles>',
-      '   </mesh>',
-      '  </object>',
-      '  <object id="2" type="model">',
-      '   <components>',
-      '    <component objectid="1" transform="1 0 0 0 1 0 0 0 1 0 0 0" />',
-      '   </components>',
-      '  </object>',
-      ' </resources>',
-      ' <build>',
-      '  <item objectid="2" transform="1 0 0 0 1 0 0 0 1 128.567445 102.615361 90.0655136" printable="1" />',
-      ' </build>',
-      '</model>'
-    ].join('\n');
-
-    const contentTypesXml = '<?xml version="1.0" encoding="UTF-8"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/><Default Extension="png" ContentType="image/png"/></Types>';
-    const relsXml = '<?xml version="1.0" encoding="UTF-8"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Target="/3D/3dmodel.model" Id="rel-1" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/></Relationships>';
-
-    const zipBytes = await buildZip([
-      { name: '[Content_Types].xml', newBytes: contentTypesXml },
-      { name: '_rels/.rels', newBytes: relsXml },
-      { name: '3D/3dmodel.model', newBytes: modelXml },
-      { name: 'Metadata/project_settings.config', newBytes: JSON.stringify(sample.project_settings, null, 4) },
-      { name: 'Metadata/model_settings.config', newBytes: sample.model_settings },
-      { name: 'Metadata/slice_info.config', newBytes: sample.slice_info },
-      { name: 'Metadata/plate_1.json', newBytes: sample.plate_1 },
-      { name: 'Metadata/filament_sequence.json', newBytes: sample.filament_sequence }
-    ]);
-
-    return {
-      bytes: zipBytes,
-      filename: sample.filename
-    };
-  }
-
   root.CC2Converter = {
     parseZip,
     buildZip,
     inspect3mf,
     buildTranslatedProjectSettings,
     convert3mf,
-    buildSampleMakerWorld3mf,
-    unwrapScalar,
+        unwrapScalar,
     translateEnumValue,
     clampSpeedOrAccel,
     CC2_SPEED_LIMITS
