@@ -179,96 +179,6 @@
     "updatedAt": "2026-10-10T16:20:58.553Z"
   },
   {
-    "id": "tbs-1791392863499-33pa",
-    "playerName": "Father jabron/Jabroni",
-    "faction": "Horde",
-    "race": "Undead",
-    "gender": "male",
-    "className": "Priest",
-    "spec": "Discipline",
-    "role": "Healer",
-    "roles": [
-      "Healer"
-    ],
-    "offspec": "Holy",
-    "offspecRole": "Healer",
-    "playstyle": "Raiding",
-    "playstyles": [
-      "Raiding"
-    ],
-    "professions": [
-      "Alchemy",
-      "Herbalism"
-    ],
-    "profession1": "Alchemy",
-    "profession2": "Herbalism",
-    "notes": "Available pretty much every night except Saturdays.",
-    "pin": "",
-    "createdAt": "2026-10-07T17:07:43.499Z",
-    "updatedAt": "2026-10-07T17:07:43.499Z"
-  },
-  {
-    "id": "tbs-1791390925491-trgg",
-    "playerName": "sttacked",
-    "faction": "Horde",
-    "race": "Undead",
-    "gender": "male",
-    "className": "Paladin",
-    "spec": "Retribution",
-    "role": "Melee DPS",
-    "roles": [
-      "Melee DPS"
-    ],
-    "offspec": "Holy",
-    "offspecRole": "Healer",
-    "playstyle": "Raiding",
-    "playstyles": [
-      "Raiding",
-      "Leveling & Dungeons",
-      "PvP"
-    ],
-    "professions": [
-      "Mining",
-      "Engineering"
-    ],
-    "profession1": "Mining",
-    "profession2": "Engineering",
-    "notes": "only played classic hardcore",
-    "pin": "42069",
-    "createdAt": "2026-10-07T16:35:25.491Z",
-    "updatedAt": "2026-10-07T16:35:25.491Z"
-  },
-  {
-    "id": "tbs-1791390643774-7ndc",
-    "playerName": "Magic Balls",
-    "faction": "Horde",
-    "race": "Undead",
-    "gender": "male",
-    "className": "Mage",
-    "spec": "Frost",
-    "role": "Ranged DPS",
-    "roles": [
-      "Ranged DPS"
-    ],
-    "offspec": "Fire",
-    "offspecRole": "Ranged DPS",
-    "playstyle": "Raiding",
-    "playstyles": [
-      "Raiding",
-      "Leveling & Dungeons"
-    ],
-    "professions": [
-      "Tailoring",
-      "Skinning"
-    ],
-    "profession1": "Tailoring",
-    "profession2": "Skinning",
-    "notes": "",
-    "pin": "2311",
-    "createdAt": "2026-10-07T16:30:43.774Z",
-    "updatedAt": "2026-10-07T16:30:43.774Z"
-  },
-  {
     "id": "tbs-1791239997854-0hvg",
     "playerName": "Mooseyfate",
     "faction": "Horde",
@@ -885,15 +795,15 @@
     "id": "tbs-1789488705670-1v7v",
     "playerName": "Empress Jaynie",
     "faction": "Horde",
-    "race": "Tauren",
+    "race": "Skyborne",
     "className": "Druid",
     "spec": "Balance",
     "role": "Ranged DPS",
     "roles": [
       "Ranged DPS"
     ],
-    "offspec": "Restoration",
-    "offspecRole": "Healer",
+    "offspec": "",
+    "offspecRole": "",
     "playstyle": "Raiding",
     "playstyles": [
       "Raiding",
@@ -908,7 +818,7 @@
     "notes": "If I die does my mother get a refund",
     "pin": "",
     "createdAt": "2026-09-15T16:11:45.670Z",
-    "updatedAt": "2026-09-23T00:16:57.346Z",
+    "updatedAt": "2026-10-27T16:54:14.575Z",
     "gender": "female"
   },
   {
