@@ -1468,8 +1468,9 @@
 
     .class-dist-track {
       flex: 1;
-      height: 14px;
-      background: #171a22;
+      height: 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 4px;
       overflow: hidden;
       position: relative;
@@ -1477,18 +1478,19 @@
 
     .class-dist-fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: 3px;
       transition: width 0.4s ease;
-      min-width: 4px;
+      min-width: 0;
     }
 
     .class-dist-count {
-      width: 50px;
+      width: 62px;
       text-align: right;
       font-size: 0.78rem;
       font-weight: 700;
       color: var(--text-muted);
       flex-shrink: 0;
+      white-space: nowrap;
     }
 
     /* Armor Loot Groups */
@@ -5329,11 +5331,13 @@
         }
       });
 
+      const maxCount = Math.max(...Object.values(classCounts), 1);
       const sortedClasses = [...allClasses].sort((a, b) => classCounts[b] - classCounts[a] || a.localeCompare(b));
 
       container.innerHTML = sortedClasses.map(className => {
         const count = classCounts[className];
         const pct = dataset.length > 0 ? Math.round((count / dataset.length) * 100) : 0;
+        const barWidth = count > 0 ? Math.round((count / maxCount) * 100) : 0;
         const color = CLASS_COLORS[className] || '#dc2626';
         const icon = CLASS_ICONS[className] || 'inv_misc_questionmark';
         const playerTooltip = classPlayers[className].length > 0 ? classPlayers[className].join(', ') : 'No players registered';
@@ -5344,8 +5348,8 @@
               <img src="${getIconUrl(icon)}" alt="${className}">
               <span style="color: ${color};">${className}</span>
             </div>
-            <div class="class-dist-track" title="${className}: ${escapeHtml(playerTooltip)}">
-              <div class="class-dist-fill" style="width: ${pct}%; background: ${color};"></div>
+            <div class="class-dist-track" title="${className}: ${escapeHtml(playerTooltip)} (${count} player${count === 1 ? '' : 's'}, ${pct}%)">
+              <div class="class-dist-fill" style="width: ${barWidth}%; background: ${color};"></div>
             </div>
             <div class="class-dist-count">
               ${count} <span style="font-size: 0.7rem; color: var(--text-dark);">(${pct}%)</span>
