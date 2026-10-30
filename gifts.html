@@ -1249,12 +1249,32 @@
         <span>Meudayr</span>
       </a>
       <div class="nav-group">
-        <nav class="nav-menu" aria-label="Site navigation">
+                <nav class="nav-menu">
           <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
           <a href="forever.html" class="nav-link" id="nav-forever-link">Forever Roster</a>
           <a href="deals.html" class="nav-link" id="nav-deals-link">Deal Finder</a>
-          <a href="dr.html" class="nav-link" id="nav-dr-link">DR Calculator</a>
           <a href="logs.html" class="nav-link" id="nav-logs-link">Logs</a>
+          <a href="3mf.html" class="nav-link" id="nav-3mf-link">3MF Converter</a>
+          <div class="nav-dropdown" id="nav-more-dropdown">
+            <button type="button" class="nav-dropdown-trigger nav-link active" aria-expanded="false" aria-haspopup="true" id="nav-more-btn">
+              <span>More</span>
+              <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="More tools">
+              <a href="dr.html" class="nav-dropdown-item" role="menuitem" id="nav-dr-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>DR Calculator</span>
+              </a>
+              <a href="gifts.html" class="nav-dropdown-item active" role="menuitem" id="nav-gifts-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12v10H4V12M2 7h20v5H2V7zm10-5c-1.5 0-3 1.5-3 3 0 .7.3 1.3.8 1.8L12 7l2.2-.2c.5-.5.8-1.1.8-1.8 0-1.5-1.5-3-3-3zM12 7v15"/></svg>
+                <span>Fire Emblem Gift Tool</span>
+              </a>
+              <a href="champions.html" class="nav-dropdown-item" role="menuitem" id="nav-champions-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="11" r="2"/><circle cx="16" cy="11" r="2"/><path d="M6 17h12M9 11h6"/></svg>
+                <span>Marvel Champions Cassette Tool</span>
+              </a>
+            </div>
+          </div>
         </nav>
         <div class="social-links">
           <a href="https://plex.meudayr.com" class="plex-nav-pill checking" target="_blank" rel="noopener noreferrer" id="nav-plex-link" title="Open Plex Media Server">
@@ -2748,5 +2768,6 @@
       checkPlexStatus();
     })();
   </script>
+  <script src="nav.js" defer></script>
 </body>
 </html>
