@@ -1,5 +1,35 @@
 [
   {
+    "id": "tbs-1793456414092-gdmi",
+    "playerName": "Mojo",
+    "faction": "Horde",
+    "race": "Orc",
+    "gender": "male",
+    "className": "Mage",
+    "spec": "Frost",
+    "role": "Ranged DPS",
+    "roles": [
+      "Ranged DPS"
+    ],
+    "offspec": "Fire",
+    "offspecRole": "Ranged DPS",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [
+      "Enchanting",
+      "Tailoring"
+    ],
+    "profession1": "Enchanting",
+    "profession2": "Tailoring",
+    "notes": "oggwarts class of '26",
+    "pin": "",
+    "createdAt": "2026-10-31T14:20:14.092Z",
+    "updatedAt": "2026-10-31T14:20:14.092Z"
+  },
+  {
     "id": "tbs-1793023228178-5qhv",
     "playerName": "Shettrah",
     "faction": "Horde",
