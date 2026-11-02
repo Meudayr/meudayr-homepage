@@ -1937,17 +1937,197 @@
     .filter-chips-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
+    .filter-dropdowns-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-select-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .filter-group-label {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
       color: var(--text-dark);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-right: 4px;
+      white-space: nowrap;
+    }
+
+    .filter-select-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .filter-select-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 32px;
+      padding: 0 10px;
+      background: linear-gradient(180deg, #181b22 0%, #101216 100%);
+      border: 1px solid #3d311d;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    .filter-select-trigger:hover {
+      border-color: #c69b3a;
+      color: var(--text-main);
+      background: linear-gradient(180deg, #1f232c 0%, #13161c 100%);
+      box-shadow: 0 0 8px rgba(198, 155, 109, 0.25);
+    }
+
+    .filter-select-trigger.active {
+      border-color: #facc15;
+      background: linear-gradient(180deg, #20242e 0%, #14171d 100%);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.28);
+    }
+
+    .filter-select-trigger.is-filtered {
+      border-color: var(--accent);
+      color: #fef08a;
+      background: linear-gradient(180deg, #20242e 0%, #14171d 100%);
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.2);
+    }
+
+    .filter-select-current-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .filter-select-current-text {
+      white-space: nowrap;
+    }
+
+    .filter-select-arrow {
+      width: 12px;
+      height: 12px;
+      color: #c69b3a;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .filter-select-trigger.active .filter-select-arrow {
+      transform: rotate(180deg);
+      color: #facc15;
+    }
+
+    .filter-select-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 160px;
+      z-index: 150;
+      background: rgba(13, 15, 20, 0.98);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(198, 155, 109, 0.45);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.9), 0 0 1px rgba(250, 204, 21, 0.3);
+      max-height: 320px;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      padding: 4px;
+      gap: 2px;
+      box-sizing: border-box;
+      animation: wowDropdownEntrance 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .filter-select-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .filter-select-option:hover {
+      background: rgba(198, 155, 109, 0.15);
+      color: #fff;
+    }
+
+    .filter-select-option.selected {
+      background: rgba(250, 204, 21, 0.18);
+      color: #fef08a;
+      border-left: 2px solid var(--accent);
+    }
+
+    .filter-select-opt-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .filter-select-opt-label {
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    .filter-select-check {
+      font-size: 0.75rem;
+      color: #facc15;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .filter-select-option.selected .filter-select-check {
+      opacity: 1;
+    }
+
+    .filter-clear-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 10px;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: var(--radius-sm);
+      color: #fca5a5;
+      font-size: 0.76rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-clear-btn:hover {
+      background: rgba(220, 38, 38, 0.28);
+      border-color: #ef4444;
+      color: #fff;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
     }
 
     .filter-pill {
@@ -2863,26 +3043,67 @@
               </button>
             </div>
 
-            <!-- Filter Pills (Role & Class) + Right Utility Actions -->
+            <!-- Filter Dropdowns Toolbar (Role, Class, Race, Playstyle) + Right Utility Actions -->
             <div class="filter-chips-row" id="filter-chips-row">
-              <span class="filter-group-label">Role:</span>
-              <button class="filter-pill active" data-role="all" onclick="setRoleFilter('all', this)">All</button>
-              <button class="filter-pill" data-role="Tank" onclick="setRoleFilter('Tank', this)">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
-                Tanks
-              </button>
-              <button class="filter-pill" data-role="Healer" onclick="setRoleFilter('Healer', this)">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
-                Healers
-              </button>
-              <button class="filter-pill" data-role="Melee DPS" onclick="setRoleFilter('Melee DPS', this)">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
-                Melee
-              </button>
-              <button class="filter-pill" data-role="Ranged DPS" onclick="setRoleFilter('Ranged DPS', this)">
-                <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_fire_fireball02.jpg" style="width:14px;height:14px;border-radius:3px;" alt="">
-                Ranged
-              </button>
+              <div class="filter-dropdowns-group">
+                <!-- Role Filter Dropdown -->
+                <div class="filter-select-wrapper">
+                  <span class="filter-group-label">Role:</span>
+                  <div class="filter-select-container" id="filter-role-container">
+                    <button type="button" class="filter-select-trigger" id="filter-role-trigger" onclick="toggleFilterDropdown('filter-role-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                      <img id="filter-role-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
+                      <span id="filter-role-current-text" class="filter-select-current-text">All Roles</span>
+                      <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="filter-select-menu" id="filter-role-menu" role="listbox"></div>
+                  </div>
+                </div>
+
+                <!-- Class Filter Dropdown -->
+                <div class="filter-select-wrapper">
+                  <span class="filter-group-label">Class:</span>
+                  <div class="filter-select-container" id="filter-class-container">
+                    <button type="button" class="filter-select-trigger" id="filter-class-trigger" onclick="toggleFilterDropdown('filter-class-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                      <img id="filter-class-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
+                      <span id="filter-class-current-text" class="filter-select-current-text">All Classes</span>
+                      <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="filter-select-menu" id="filter-class-menu" role="listbox"></div>
+                  </div>
+                </div>
+
+                <!-- Race Filter Dropdown -->
+                <div class="filter-select-wrapper">
+                  <span class="filter-group-label">Race:</span>
+                  <div class="filter-select-container" id="filter-race-container">
+                    <button type="button" class="filter-select-trigger" id="filter-race-trigger" onclick="toggleFilterDropdown('filter-race-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                      <img id="filter-race-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
+                      <span id="filter-race-current-text" class="filter-select-current-text">All Races</span>
+                      <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="filter-select-menu" id="filter-race-menu" role="listbox"></div>
+                  </div>
+                </div>
+
+                <!-- Playstyle Filter Dropdown -->
+                <div class="filter-select-wrapper">
+                  <span class="filter-group-label">Playstyle:</span>
+                  <div class="filter-select-container" id="filter-playstyle-container">
+                    <button type="button" class="filter-select-trigger" id="filter-playstyle-trigger" onclick="toggleFilterDropdown('filter-playstyle-menu', this)" aria-haspopup="listbox" aria-expanded="false">
+                      <img id="filter-playstyle-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
+                      <span id="filter-playstyle-current-text" class="filter-select-current-text">All Playstyles</span>
+                      <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="filter-select-menu" id="filter-playstyle-menu" role="listbox"></div>
+                  </div>
+                </div>
+
+                <!-- Reset Filters Button -->
+                <button type="button" id="btn-clear-filters" class="filter-clear-btn" onclick="clearAllRosterFilters()" title="Reset all dropdown filters to All" style="display: none;">
+                  <svg style="width: 12px; height: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  Reset
+                </button>
+              </div>
 
               <div class="filter-row-actions" style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px;">
                 <button class="toolbar-action-btn btn-export-csv" id="btn-toolbar-export-csv" onclick="exportTableToCSV()" title="Export currently filtered roster to CSV" style="display: none;">
@@ -3275,6 +3496,9 @@
     // State Variables
     let rosterList = [];
     let activeRoleFilter = "all";
+    let activeClassFilter = "all";
+    let activeRaceFilter = "all";
+    let activePlaystyleFilter = "all";
     let selectedRole = "Melee DPS";
     let selectedRoles = ["Melee DPS"];
     let selectedPlaystyles = ["Raiding"];
@@ -3783,9 +4007,265 @@
       }
     }
 
+    const PLAYSTYLE_OPTIONS = [
+      { name: "Raiding", icon: "inv_helmet_06" },
+      { name: "PvP", icon: "ability_dualwield" },
+      { name: "Leveling & Dungeons", icon: "inv_misc_map02" }
+    ];
+
+    function toggleFilterDropdown(menuId, triggerEl) {
+      const menu = document.getElementById(menuId);
+      if (!menu) return;
+      const isOpen = menu.style.display === 'flex';
+      closeAllWowDropdowns();
+      if (!isOpen) {
+        menu.style.display = 'flex';
+        if (triggerEl) {
+          triggerEl.classList.add('active');
+          triggerEl.setAttribute('aria-expanded', 'true');
+          const rect = menu.getBoundingClientRect();
+          const winWidth = typeof window !== 'undefined' && window.innerWidth ? window.innerWidth : 1200;
+          if (rect.right > winWidth - 12) {
+            menu.style.left = 'auto';
+            menu.style.right = '0';
+          } else {
+            menu.style.left = '0';
+            menu.style.right = 'auto';
+          }
+        }
+      }
+    }
+
+    function initFilterDropdowns() {
+      // Role options
+      const roleMenu = document.getElementById('filter-role-menu');
+      if (roleMenu) {
+        const roles = [
+          { value: 'all', label: 'All Roles', icon: 'inv_misc_groupneedmore' },
+          { value: 'Tank', label: 'Tanks', icon: 'inv_shield_06' },
+          { value: 'Healer', label: 'Healers', icon: 'spell_holy_flashheal' },
+          { value: 'Melee DPS', label: 'Melee DPS', icon: 'ability_dualwield' },
+          { value: 'Ranged DPS', label: 'Ranged DPS', icon: 'spell_fire_fireball02' }
+        ];
+        roleMenu.innerHTML = roles.map(r => `
+          <div class="filter-select-option ${r.value === activeRoleFilter ? 'selected' : ''}" data-value="${r.value}" onclick="selectFilterRole('${r.value}')" role="option" aria-selected="${r.value === activeRoleFilter}">
+            <img class="filter-select-opt-icon" src="${getIconUrl(r.icon)}" alt="${escapeHtml(r.label)}">
+            <span class="filter-select-opt-label">${escapeHtml(r.label)}</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `).join('');
+      }
+
+      // Class options
+      const classMenu = document.getElementById('filter-class-menu');
+      if (classMenu) {
+        const classes = Object.keys(CLASS_COLORS).sort();
+        let classHtml = `
+          <div class="filter-select-option ${activeClassFilter === 'all' ? 'selected' : ''}" data-value="all" onclick="selectFilterClass('all')" role="option" aria-selected="${activeClassFilter === 'all'}">
+            <img class="filter-select-opt-icon" src="${getIconUrl('inv_misc_groupneedmore')}" alt="All Classes">
+            <span class="filter-select-opt-label">All Classes</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `;
+        classHtml += classes.map(c => `
+          <div class="filter-select-option ${c === activeClassFilter ? 'selected' : ''}" data-value="${c}" onclick="selectFilterClass('${c}')" role="option" aria-selected="${c === activeClassFilter}">
+            <img class="filter-select-opt-icon" src="${getIconUrl(CLASS_ICONS[c] || 'inv_misc_questionmark')}" alt="${c}">
+            <span class="filter-select-opt-label" style="color: ${CLASS_COLORS[c]}; font-weight: 700;">${c}</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `).join('');
+        classMenu.innerHTML = classHtml;
+      }
+
+      // Race options
+      const raceMenu = document.getElementById('filter-race-menu');
+      if (raceMenu) {
+        const races = Object.keys(HORDE_RACE_CLASSES);
+        let raceHtml = `
+          <div class="filter-select-option ${activeRaceFilter === 'all' ? 'selected' : ''}" data-value="all" onclick="selectFilterRace('all')" role="option" aria-selected="${activeRaceFilter === 'all'}">
+            <img class="filter-select-opt-icon" src="${getIconUrl('inv_misc_groupneedmore')}" alt="All Races">
+            <span class="filter-select-opt-label">All Races</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `;
+        raceHtml += races.map(r => `
+          <div class="filter-select-option ${r === activeRaceFilter ? 'selected' : ''}" data-value="${r}" onclick="selectFilterRace('${r}')" role="option" aria-selected="${r === activeRaceFilter}">
+            <img class="filter-select-opt-icon" src="${getIconUrl(RACE_ICONS[r] || 'inv_misc_questionmark')}" alt="${r}">
+            <span class="filter-select-opt-label">${r}${r === 'Skyborne' ? ' <span class="wow-new-pill">New</span>' : ''}</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `).join('');
+        raceMenu.innerHTML = raceHtml;
+      }
+
+      // Playstyle options
+      const playstyleMenu = document.getElementById('filter-playstyle-menu');
+      if (playstyleMenu) {
+        let playstyleHtml = `
+          <div class="filter-select-option ${activePlaystyleFilter === 'all' ? 'selected' : ''}" data-value="all" onclick="selectFilterPlaystyle('all')" role="option" aria-selected="${activePlaystyleFilter === 'all'}">
+            <img class="filter-select-opt-icon" src="${getIconUrl('inv_misc_groupneedmore')}" alt="All Playstyles">
+            <span class="filter-select-opt-label">All Playstyles</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `;
+        playstyleHtml += PLAYSTYLE_OPTIONS.map(p => `
+          <div class="filter-select-option ${p.name === activePlaystyleFilter ? 'selected' : ''}" data-value="${p.name}" onclick="selectFilterPlaystyle('${p.name}')" role="option" aria-selected="${p.name === activePlaystyleFilter}">
+            <img class="filter-select-opt-icon" src="${getIconUrl(p.icon)}" alt="${p.name}">
+            <span class="filter-select-opt-label">${p.name}</span>
+            <span class="filter-select-check">✓</span>
+          </div>
+        `).join('');
+        playstyleMenu.innerHTML = playstyleHtml;
+      }
+
+      updateRoleFilterDropdownUI();
+      updateClassFilterDropdownUI();
+      updateRaceFilterDropdownUI();
+      updatePlaystyleFilterDropdownUI();
+      updateClearFiltersButton();
+    }
+
+    function selectFilterRole(role) {
+      closeAllWowDropdowns();
+      setRoleFilter(role);
+    }
+
+    function selectFilterClass(className) {
+      closeAllWowDropdowns();
+      setClassFilter(className);
+    }
+
+    function selectFilterRace(race) {
+      closeAllWowDropdowns();
+      setRaceFilter(race);
+    }
+
+    function selectFilterPlaystyle(playstyle) {
+      closeAllWowDropdowns();
+      setPlaystyleFilter(playstyle);
+    }
+
+    function updateRoleFilterDropdownUI() {
+      const iconEl = document.getElementById('filter-role-current-icon');
+      const textEl = document.getElementById('filter-role-current-text');
+      const trigger = document.getElementById('filter-role-trigger');
+      if (!trigger) return;
+
+      const roleLabels = {
+        'all': 'All Roles',
+        'Tank': 'Tanks',
+        'Healer': 'Healers',
+        'Melee DPS': 'Melee DPS',
+        'Ranged DPS': 'Ranged DPS'
+      };
+      const roleIcons = {
+        'all': 'inv_misc_groupneedmore',
+        'Tank': 'inv_shield_06',
+        'Healer': 'spell_holy_flashheal',
+        'Melee DPS': 'ability_dualwield',
+        'Ranged DPS': 'spell_fire_fireball02'
+      };
+
+      if (iconEl) iconEl.src = getIconUrl(roleIcons[activeRoleFilter] || 'inv_misc_groupneedmore');
+      if (textEl) textEl.textContent = roleLabels[activeRoleFilter] || 'All Roles';
+      trigger.classList.toggle('is-filtered', activeRoleFilter !== 'all');
+
+      document.querySelectorAll('#filter-role-menu .filter-select-option').forEach(opt => {
+        const isSel = opt.getAttribute('data-value') === activeRoleFilter;
+        opt.classList.toggle('selected', isSel);
+        opt.setAttribute('aria-selected', isSel ? 'true' : 'false');
+      });
+    }
+
+    function updateClassFilterDropdownUI() {
+      const iconEl = document.getElementById('filter-class-current-icon');
+      const textEl = document.getElementById('filter-class-current-text');
+      const trigger = document.getElementById('filter-class-trigger');
+      if (!trigger) return;
+
+      if (activeClassFilter === 'all') {
+        if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
+        if (textEl) textEl.innerHTML = 'All Classes';
+        trigger.classList.remove('is-filtered');
+      } else {
+        const icon = CLASS_ICONS[activeClassFilter] || 'inv_misc_questionmark';
+        const color = CLASS_COLORS[activeClassFilter] || 'var(--text-main)';
+        if (iconEl) iconEl.src = getIconUrl(icon);
+        if (textEl) textEl.innerHTML = `<span style="color: ${color}; font-weight: 700;">${activeClassFilter}</span>`;
+        trigger.classList.add('is-filtered');
+      }
+
+      document.querySelectorAll('#filter-class-menu .filter-select-option').forEach(opt => {
+        const isSel = opt.getAttribute('data-value') === activeClassFilter;
+        opt.classList.toggle('selected', isSel);
+        opt.setAttribute('aria-selected', isSel ? 'true' : 'false');
+      });
+    }
+
+    function updateRaceFilterDropdownUI() {
+      const iconEl = document.getElementById('filter-race-current-icon');
+      const textEl = document.getElementById('filter-race-current-text');
+      const trigger = document.getElementById('filter-race-trigger');
+      if (!trigger) return;
+
+      if (activeRaceFilter === 'all') {
+        if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
+        if (textEl) textEl.textContent = 'All Races';
+        trigger.classList.remove('is-filtered');
+      } else {
+        const icon = RACE_ICONS[activeRaceFilter] || 'inv_misc_questionmark';
+        if (iconEl) iconEl.src = getIconUrl(icon);
+        if (textEl) textEl.textContent = activeRaceFilter;
+        trigger.classList.add('is-filtered');
+      }
+
+      document.querySelectorAll('#filter-race-menu .filter-select-option').forEach(opt => {
+        const isSel = opt.getAttribute('data-value') === activeRaceFilter;
+        opt.classList.toggle('selected', isSel);
+        opt.setAttribute('aria-selected', isSel ? 'true' : 'false');
+      });
+    }
+
+    function updatePlaystyleFilterDropdownUI() {
+      const iconEl = document.getElementById('filter-playstyle-current-icon');
+      const textEl = document.getElementById('filter-playstyle-current-text');
+      const trigger = document.getElementById('filter-playstyle-trigger');
+      if (!trigger) return;
+
+      if (activePlaystyleFilter === 'all') {
+        if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
+        if (textEl) textEl.textContent = 'All Playstyles';
+        trigger.classList.remove('is-filtered');
+      } else {
+        const opt = PLAYSTYLE_OPTIONS.find(p => p.name === activePlaystyleFilter);
+        const icon = opt ? opt.icon : 'inv_misc_groupneedmore';
+        if (iconEl) iconEl.src = getIconUrl(icon);
+        if (textEl) textEl.textContent = activePlaystyleFilter;
+        trigger.classList.add('is-filtered');
+      }
+
+      document.querySelectorAll('#filter-playstyle-menu .filter-select-option').forEach(opt => {
+        const isSel = opt.getAttribute('data-value') === activePlaystyleFilter;
+        opt.classList.toggle('selected', isSel);
+        opt.setAttribute('aria-selected', isSel ? 'true' : 'false');
+      });
+    }
+
+    function updateClearFiltersButton() {
+      const btn = document.getElementById('btn-clear-filters');
+      if (!btn) return;
+      const isFiltered = activeRoleFilter !== 'all' || activeClassFilter !== 'all' || activeRaceFilter !== 'all' || activePlaystyleFilter !== 'all';
+      btn.style.display = isFiltered ? 'inline-flex' : 'none';
+    }
+
     function closeAllWowDropdowns() {
       document.querySelectorAll('.wow-select-menu').forEach(m => m.style.display = 'none');
       document.querySelectorAll('.wow-select-trigger').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.filter-select-menu').forEach(m => m.style.display = 'none');
+      document.querySelectorAll('.filter-select-trigger').forEach(t => {
         t.classList.remove('active');
         t.setAttribute('aria-expanded', 'false');
       });
@@ -3793,7 +4273,7 @@
 
     if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
       document.addEventListener('click', (e) => {
-        if (!e.target || !e.target.closest || !e.target.closest('.wow-select-container')) {
+        if (!e.target || !e.target.closest || (!e.target.closest('.wow-select-container') && !e.target.closest('.filter-select-container'))) {
           closeAllWowDropdowns();
         }
       });
@@ -4599,6 +5079,29 @@
           if (primRole !== activeRoleFilter) return false;
         }
 
+        // Class filter match
+        if (activeClassFilter !== 'all') {
+          if ((item.className || '') !== activeClassFilter) return false;
+        }
+
+        // Race filter match (supports Skyborne / Highborne alias)
+        if (activeRaceFilter !== 'all') {
+          const r = item.race || '';
+          if (activeRaceFilter === 'Skyborne' || activeRaceFilter === 'Highborne') {
+            if (r !== 'Skyborne' && r !== 'Highborne') return false;
+          } else if (r !== activeRaceFilter) {
+            return false;
+          }
+        }
+
+        // Playstyle filter match
+        if (activePlaystyleFilter !== 'all') {
+          const playstyles = Array.isArray(item.playstyles) && item.playstyles.length > 0
+            ? item.playstyles
+            : (item.playstyle ? [item.playstyle] : []);
+          if (!playstyles.includes(activePlaystyleFilter)) return false;
+        }
+
         // Search filter across player, class, spec, offspec, race, professions, notes
         if (searchTerm) {
           const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
@@ -4625,6 +5128,24 @@
         // Offspec role matches filter AND primary role does not already match
         if (item.offspecRole !== activeRoleFilter || primRole === activeRoleFilter) return false;
 
+        // Apply class, race, and playstyle filters
+        if (activeClassFilter !== 'all' && (item.className || '') !== activeClassFilter) return false;
+        if (activeRaceFilter !== 'all') {
+          const r = item.race || '';
+          if (activeRaceFilter === 'Skyborne' || activeRaceFilter === 'Highborne') {
+            if (r !== 'Skyborne' && r !== 'Highborne') return false;
+          } else if (r !== activeRaceFilter) {
+            return false;
+          }
+        }
+        if (activePlaystyleFilter !== 'all') {
+          const playstyles = Array.isArray(item.playstyles) && item.playstyles.length > 0
+            ? item.playstyles
+            : (item.playstyle ? [item.playstyle] : []);
+          if (!playstyles.includes(activePlaystyleFilter)) return false;
+        }
+
+        // Search filter: must also match search term if present
         if (searchTerm) {
           const matchName = (item.playerName || '').toLowerCase().includes(searchTerm);
           const matchClass = (item.className || '').toLowerCase().includes(searchTerm);
@@ -4724,15 +5245,74 @@
         activeRoleFilter = role;
       }
 
-      // Synchronize all toolbar filter pills
+      // Synchronize all toolbar filter pills (for test mocks and backward compatibility)
       document.querySelectorAll('#filter-chips-row .filter-pill').forEach(pill => {
         const pillRole = pill.getAttribute('data-role');
         pill.classList.toggle('active', pillRole === activeRoleFilter);
       });
 
+      // Synchronize Role dropdown UI
+      updateRoleFilterDropdownUI();
+
       // Synchronize top stat cards
       updateStatCardsActive();
 
+      // Update clear filters button
+      updateClearFiltersButton();
+
+      applyFilters();
+    }
+
+    function setClassFilter(className) {
+      if (activeClassFilter === className && className !== 'all') {
+        activeClassFilter = 'all';
+      } else {
+        activeClassFilter = className;
+      }
+      updateClassFilterDropdownUI();
+      updateClearFiltersButton();
+      applyFilters();
+    }
+
+    function setRaceFilter(race) {
+      if (activeRaceFilter === race && race !== 'all') {
+        activeRaceFilter = 'all';
+      } else {
+        activeRaceFilter = race;
+      }
+      updateRaceFilterDropdownUI();
+      updateClearFiltersButton();
+      applyFilters();
+    }
+
+    function setPlaystyleFilter(playstyle) {
+      if (activePlaystyleFilter === playstyle && playstyle !== 'all') {
+        activePlaystyleFilter = 'all';
+      } else {
+        activePlaystyleFilter = playstyle;
+      }
+      updatePlaystyleFilterDropdownUI();
+      updateClearFiltersButton();
+      applyFilters();
+    }
+
+    function clearAllRosterFilters() {
+      activeRoleFilter = 'all';
+      activeClassFilter = 'all';
+      activeRaceFilter = 'all';
+      activePlaystyleFilter = 'all';
+
+      document.querySelectorAll('#filter-chips-row .filter-pill').forEach(pill => {
+        const pillRole = pill.getAttribute('data-role');
+        pill.classList.toggle('active', pillRole === 'all');
+      });
+
+      updateRoleFilterDropdownUI();
+      updateClassFilterDropdownUI();
+      updateRaceFilterDropdownUI();
+      updatePlaystyleFilterDropdownUI();
+      updateStatCardsActive();
+      updateClearFiltersButton();
       applyFilters();
     }
 
@@ -5360,14 +5940,11 @@
     }
 
     function filterByClassQuick(className) {
-      const searchInput = document.getElementById('roster-search-input');
-      if (!searchInput) return;
-      if (searchInput.value.toLowerCase() === className.toLowerCase()) {
-        searchInput.value = '';
+      if (activeClassFilter === className) {
+        setClassFilter('all');
       } else {
-        searchInput.value = className;
+        setClassFilter(className);
       }
-      applyFilters();
     }
 
     function renderArmorDistribution() {
@@ -6115,6 +6692,7 @@
       populateRaceSelect();
       updateProfessionOptions();
       updateNotesCounter();
+      initFilterDropdowns();
       setViewMode('cards');
       updateStatCardsActive();
       loadRoster();
