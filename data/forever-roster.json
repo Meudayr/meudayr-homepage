@@ -1,5 +1,32 @@
 [
   {
+    "id": "tbs-1793635955210-wfhw",
+    "playerName": "Gorgeouss",
+    "faction": "Horde",
+    "race": "Undead",
+    "gender": "female",
+    "className": "Priest",
+    "spec": "Discipline",
+    "role": "Healer",
+    "roles": [
+      "Healer"
+    ],
+    "offspec": "Holy",
+    "offspecRole": "Healer",
+    "playstyle": "Raiding",
+    "playstyles": [
+      "Raiding",
+      "Leveling & Dungeons"
+    ],
+    "professions": [],
+    "profession1": "",
+    "profession2": "",
+    "notes": "Submitted on behalf of Gorgeouss",
+    "pin": "",
+    "createdAt": "2026-11-02T16:12:35.210Z",
+    "updatedAt": "2026-11-02T16:12:35.210Z"
+  },
+  {
     "id": "tbs-1793456414092-gdmi",
     "playerName": "Mojo",
     "faction": "Horde",
@@ -999,34 +1026,6 @@
     "updatedAt": "2026-09-15T00:43:37.585Z"
   },
   {
-    "id": "tbs-1789432541684-7xr2",
-    "playerName": "Mojorisin",
-    "faction": "Horde",
-    "race": "Orc",
-    "className": "Hunter",
-    "spec": "Survival",
-    "role": "Melee DPS",
-    "roles": [
-      "Melee DPS"
-    ],
-    "offspec": "",
-    "offspecRole": "",
-    "playstyle": "Raiding",
-    "playstyles": [
-      "Raiding"
-    ],
-    "professions": [
-      "Herbalism",
-      "Mining"
-    ],
-    "profession1": "Herbalism",
-    "profession2": "Mining",
-    "notes": "Might go warlock or other unfilled dps class. Dogmeat",
-    "pin": "",
-    "createdAt": "2026-09-15T00:35:41.684Z",
-    "updatedAt": "2026-09-15T17:37:31.165Z"
-  },
-  {
     "id": "tbs-1789432199929-r8dj",
     "playerName": "Vember | Taylor",
     "faction": "Horde",
@@ -1089,7 +1088,7 @@
   },
   {
     "id": "tbs-1789432030405-dfcp",
-    "playerName": "Meudayr",
+    "playerName": "Meudayr Darkpaw",
     "faction": "Horde",
     "race": "Tauren",
     "className": "Druid",
@@ -1112,10 +1111,10 @@
     ],
     "profession1": "Leatherworking",
     "profession2": "Herbalism",
-    "notes": "Do not cry for what ended, bleed for what was stolen by time.",
+    "notes": "RRROAAAARRRRR!!!!! You humans will pay for ruining our homeland! GRRRRRR!! Family Darkpaw of the Strife Clan will slay you all!! ROAR!",
     "pin": "0926",
     "createdAt": "2026-09-15T00:27:10.405Z",
-    "updatedAt": "2026-09-23T00:09:45.993Z",
+    "updatedAt": "2026-11-02T18:36:37.785Z",
     "gender": "male"
   }
 ]
