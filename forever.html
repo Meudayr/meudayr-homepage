@@ -1937,29 +1937,30 @@
     .filter-chips-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .filter-dropdowns-group {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 6px;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
     }
 
     .filter-select-wrapper {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .filter-group-label {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--text-dark);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       white-space: nowrap;
     }
 
@@ -1971,14 +1972,14 @@
     .filter-select-trigger {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      height: 32px;
-      padding: 0 10px;
+      gap: 5px;
+      height: 28px;
+      padding: 0 7px;
       background: linear-gradient(180deg, #181b22 0%, #101216 100%);
       border: 1px solid #3d311d;
       border-radius: var(--radius-sm);
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       font-family: var(--font-sans);
       cursor: pointer;
@@ -2009,8 +2010,8 @@
     }
 
     .filter-select-current-icon {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border-radius: 3px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       flex-shrink: 0;
@@ -2019,11 +2020,14 @@
 
     .filter-select-current-text {
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 95px;
     }
 
     .filter-select-arrow {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       color: #c69b3a;
       flex-shrink: 0;
       transition: transform 0.2s ease;
@@ -2110,17 +2114,19 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      height: 30px;
-      padding: 0 10px;
+      height: 28px;
+      padding: 0 8px;
       background: rgba(220, 38, 38, 0.15);
       border: 1px solid rgba(239, 68, 68, 0.4);
       border-radius: var(--radius-sm);
       color: #fca5a5;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
       font-family: var(--font-sans);
       cursor: pointer;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .filter-clear-btn:hover {
@@ -3052,7 +3058,7 @@
                   <div class="filter-select-container" id="filter-role-container">
                     <button type="button" class="filter-select-trigger" id="filter-role-trigger" onclick="toggleFilterDropdown('filter-role-menu', this)" aria-haspopup="listbox" aria-expanded="false">
                       <img id="filter-role-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
-                      <span id="filter-role-current-text" class="filter-select-current-text">All Roles</span>
+                      <span id="filter-role-current-text" class="filter-select-current-text">All</span>
                       <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
                     <div class="filter-select-menu" id="filter-role-menu" role="listbox"></div>
@@ -3065,7 +3071,7 @@
                   <div class="filter-select-container" id="filter-class-container">
                     <button type="button" class="filter-select-trigger" id="filter-class-trigger" onclick="toggleFilterDropdown('filter-class-menu', this)" aria-haspopup="listbox" aria-expanded="false">
                       <img id="filter-class-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
-                      <span id="filter-class-current-text" class="filter-select-current-text">All Classes</span>
+                      <span id="filter-class-current-text" class="filter-select-current-text">All</span>
                       <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
                     <div class="filter-select-menu" id="filter-class-menu" role="listbox"></div>
@@ -3078,7 +3084,7 @@
                   <div class="filter-select-container" id="filter-race-container">
                     <button type="button" class="filter-select-trigger" id="filter-race-trigger" onclick="toggleFilterDropdown('filter-race-menu', this)" aria-haspopup="listbox" aria-expanded="false">
                       <img id="filter-race-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
-                      <span id="filter-race-current-text" class="filter-select-current-text">All Races</span>
+                      <span id="filter-race-current-text" class="filter-select-current-text">All</span>
                       <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
                     <div class="filter-select-menu" id="filter-race-menu" role="listbox"></div>
@@ -3087,11 +3093,11 @@
 
                 <!-- Playstyle Filter Dropdown -->
                 <div class="filter-select-wrapper">
-                  <span class="filter-group-label">Playstyle:</span>
+                  <span class="filter-group-label">Style:</span>
                   <div class="filter-select-container" id="filter-playstyle-container">
                     <button type="button" class="filter-select-trigger" id="filter-playstyle-trigger" onclick="toggleFilterDropdown('filter-playstyle-menu', this)" aria-haspopup="listbox" aria-expanded="false">
                       <img id="filter-playstyle-current-icon" class="filter-select-current-icon" src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="">
-                      <span id="filter-playstyle-current-text" class="filter-select-current-text">All Playstyles</span>
+                      <span id="filter-playstyle-current-text" class="filter-select-current-text">All</span>
                       <svg class="filter-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
                     <div class="filter-select-menu" id="filter-playstyle-menu" role="listbox"></div>
@@ -4152,11 +4158,11 @@
       if (!trigger) return;
 
       const roleLabels = {
-        'all': 'All Roles',
+        'all': 'All',
         'Tank': 'Tanks',
         'Healer': 'Healers',
-        'Melee DPS': 'Melee DPS',
-        'Ranged DPS': 'Ranged DPS'
+        'Melee DPS': 'Melee',
+        'Ranged DPS': 'Ranged'
       };
       const roleIcons = {
         'all': 'inv_misc_groupneedmore',
@@ -4185,7 +4191,7 @@
 
       if (activeClassFilter === 'all') {
         if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
-        if (textEl) textEl.innerHTML = 'All Classes';
+        if (textEl) textEl.innerHTML = 'All';
         trigger.classList.remove('is-filtered');
       } else {
         const icon = CLASS_ICONS[activeClassFilter] || 'inv_misc_questionmark';
@@ -4210,7 +4216,7 @@
 
       if (activeRaceFilter === 'all') {
         if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
-        if (textEl) textEl.textContent = 'All Races';
+        if (textEl) textEl.textContent = 'All';
         trigger.classList.remove('is-filtered');
       } else {
         const icon = RACE_ICONS[activeRaceFilter] || 'inv_misc_questionmark';
@@ -4234,13 +4240,14 @@
 
       if (activePlaystyleFilter === 'all') {
         if (iconEl) iconEl.src = getIconUrl('inv_misc_groupneedmore');
-        if (textEl) textEl.textContent = 'All Playstyles';
+        if (textEl) textEl.textContent = 'All';
         trigger.classList.remove('is-filtered');
       } else {
         const opt = PLAYSTYLE_OPTIONS.find(p => p.name === activePlaystyleFilter);
         const icon = opt ? opt.icon : 'inv_misc_groupneedmore';
         if (iconEl) iconEl.src = getIconUrl(icon);
-        if (textEl) textEl.textContent = activePlaystyleFilter;
+        const displayLabel = activePlaystyleFilter === 'Leveling & Dungeons' ? 'Leveling' : activePlaystyleFilter;
+        if (textEl) textEl.textContent = displayLabel;
         trigger.classList.add('is-filtered');
       }
 
