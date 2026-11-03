@@ -782,13 +782,16 @@
       "PvP",
       "Leveling & Dungeons"
     ],
-    "professions": [],
-    "profession1": "",
-    "profession2": "",
-    "notes": "\"The fear of death follows from the fear of life. A man who lives fully is prepared to die at any time.\"",
+    "professions": [
+      "Blacksmithing",
+      "Engineering"
+    ],
+    "profession1": "Blacksmithing",
+    "profession2": "Engineering",
+    "notes": "",
     "pin": "2810",
     "createdAt": "2026-09-16T16:26:26.433Z",
-    "updatedAt": "2026-09-23T00:13:04.978Z"
+    "updatedAt": "2026-11-03T16:40:22.479Z"
   },
   {
     "id": "tbs-1789507128783-xudx",
