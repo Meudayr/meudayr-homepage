@@ -639,7 +639,7 @@
     // Only decode the first 16 KB and last 16 KB so 85 MB inline meshes never block the main thread.
     const headLen = Math.min(modelEntryBytes.length, 16384);
     const headText = textDecoder.decode(modelEntryBytes.subarray(0, headLen));
-    const tailStart = Math.max(0, modelEntryBytes.length - 16384);
+    const tailStart = Math.max(0, modelEntryBytes.length - 131072);
     const tailText = textDecoder.decode(modelEntryBytes.subarray(tailStart));
 
     const metadata = Object.create(null);
@@ -1309,8 +1309,8 @@
     return out;
   }
 
-  function transformBuildCoordinatesInModelXml(modelBytes, oldWidth, oldDepth, forceCenter) {
-    const tailSize = Math.min(modelBytes.length, 32768);
+  function transformBuildCoordinatesInModelXml(modelBytes, oldWidth, oldDepth, centerOnPlate) {
+    const tailSize = Math.min(modelBytes.length, 262144);
     const tailOffset = modelBytes.length - tailSize;
     const tailStr = textDecoder.decode(modelBytes.subarray(tailOffset));
 
@@ -1321,81 +1321,42 @@
     const oldStrideY = oldDepth * 1.2;
     const newStride = 256 * 1.2; // 307.2mm
 
-    // First group items by plate (col, row) to compute per-plate centroid if forceCenter is enabled
+    const shiftX = centerOnPlate ? (128 - oldWidth / 2) : 0;
+    const shiftY = centerOnPlate ? (128 - oldDepth / 2) : 0;
+
     const itemRegex = /<item\s+([^>]+?)\/?>/g;
-    const parsedItems = [];
+    let newBuildInner = buildMatch[1];
+    let anyChanged = false;
     let im;
+
     while ((im = itemRegex.exec(buildMatch[1])) !== null) {
       const fullTag = im[0];
       const attrs = im[1];
       const tfMatch = attrs.match(/transform="([^"]+)"/);
       if (!tfMatch) continue;
-      const nums = tfMatch[1].trim().split(/\s+/).map(Number);
-      if (nums.length !== 12) continue;
+      const tokens = tfMatch[1].trim().split(/\s+/);
+      if (tokens.length !== 12) continue;
 
-      const tx = nums[9];
-      const ty = nums[10];
-      const col = Math.floor(tx / oldStrideX + 0.15);
-      const row = Math.floor(-ty / oldStrideY + 0.15);
+      const tx = Number(tokens[9]);
+      const ty = Number(tokens[10]);
+      if (Number.isNaN(tx) || Number.isNaN(ty)) continue;
+
+      const col = Math.round((tx - oldWidth / 2) / oldStrideX);
+      const row = Math.round((oldDepth / 2 - ty) / oldStrideY);
       const localX = tx - col * oldStrideX;
       const localY = ty + row * oldStrideY;
-      parsedItems.push({ fullTag, tfStr: tfMatch[1], nums, col, row, localX, localY });
-    }
 
-    if (parsedItems.length === 0) {
-      return { bytes: modelBytes, shifted: false, deltaX: 0, deltaY: 0 };
-    }
+      const newTx = col * newStride + localX + shiftX;
+      const newTy = -row * newStride + localY + shiftY;
 
-    const byPlate = Object.create(null);
-    for (const it of parsedItems) {
-      const pk = it.col + ',' + it.row;
-      if (!byPlate[pk]) byPlate[pk] = [];
-      byPlate[pk].push(it);
-    }
-
-    let firstDeltaX = 0;
-    let firstDeltaY = 0;
-    let anyChanged = false;
-
-    let newBuildInner = buildMatch[1];
-    for (const [pk, plateItems] of Object.entries(byPlate)) {
-      let shiftX = 128 - oldWidth / 2;
-      let shiftY = 128 - oldDepth / 2;
-
-      if (forceCenter) {
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        for (const it of plateItems) {
-          if (it.localX < minX) minX = it.localX;
-          if (it.localX > maxX) maxX = it.localX;
-          if (it.localY < minY) minY = it.localY;
-          if (it.localY > maxY) maxY = it.localY;
-        }
-        const cx = (minX + maxX) / 2;
-        const cy = (minY + maxY) / 2;
-        shiftX = 128 - cx;
-        shiftY = 128 - cy;
-      }
-
-      if (pk === '0,0') {
-        firstDeltaX = shiftX;
-        firstDeltaY = shiftY;
-      }
-
-      for (const it of plateItems) {
-        const newLocalX = Math.max(15, Math.min(241, it.localX + shiftX));
-        const newLocalY = Math.max(15, Math.min(241, it.localY + shiftY));
-        const newTx = it.col * newStride + newLocalX;
-        const newTy = -it.row * newStride + newLocalY;
-
-        if (Math.abs(newTx - it.nums[9]) > 0.05 || Math.abs(newTy - it.nums[10]) > 0.05) {
-          anyChanged = true;
-          const updatedNums = it.nums.slice();
-          updatedNums[9] = Number(newTx.toFixed(4));
-          updatedNums[10] = Number(newTy.toFixed(4));
-          const newTf = 'transform="' + updatedNums.join(' ') + '"';
-          const newTag = it.fullTag.replace('transform="' + it.tfStr + '"', newTf);
-          newBuildInner = newBuildInner.replace(it.fullTag, newTag);
-        }
+      if (Math.abs(newTx - tx) > 0.001 || Math.abs(newTy - ty) > 0.001) {
+        anyChanged = true;
+        const updatedTokens = tokens.slice();
+        updatedTokens[9] = String(Number(newTx.toFixed(6)));
+        updatedTokens[10] = String(Number(newTy.toFixed(6)));
+        const newTf = 'transform="' + updatedTokens.join(' ') + '"';
+        const newTag = fullTag.replace('transform="' + tfMatch[1] + '"', newTf);
+        newBuildInner = newBuildInner.replace(fullTag, newTag);
       }
     }
 
@@ -1409,7 +1370,7 @@
     merged.set(modelBytes.subarray(0, tailOffset), 0);
     merged.set(updatedTailBytes, tailOffset);
 
-    return { bytes: merged, shifted: true, deltaX: firstDeltaX, deltaY: firstDeltaY };
+    return { bytes: merged, shifted: true, deltaX: shiftX, deltaY: shiftY };
   }
 
   async function convert3mf(inspected, options) {
@@ -1481,7 +1442,7 @@
       }
 
       if (entry.name === '3D/3dmodel.model') {
-        const needsBedRemap = resolvedOpts.centerOnBed || inspected.bedSize.width !== 256 || inspected.bedSize.depth !== 256;
+        const needsBedRemap = inspected.bedSize.width !== 256 || inspected.bedSize.depth !== 256;
         if (needsBedRemap) {
           const origBytes = await entry.getBytes();
           const remapped = transformBuildCoordinatesInModelXml(
@@ -1498,6 +1459,39 @@
             continue;
           }
         }
+      }
+
+      if (/^Metadata\/plate_\d+\.json$/.test(entry.name) && (inspected.bedSize.width !== 256 || inspected.bedSize.depth !== 256) && resolvedOpts.centerOnBed) {
+        try {
+          const pJson = JSON.parse(await entry.getText());
+          const dx = 128 - inspected.bedSize.width / 2;
+          const dy = 128 - inspected.bedSize.depth / 2;
+          if (Array.isArray(pJson.bbox_all) && pJson.bbox_all.length === 4) {
+            pJson.bbox_all = [
+              pJson.bbox_all[0] + dx,
+              pJson.bbox_all[1] + dy,
+              pJson.bbox_all[2] + dx,
+              pJson.bbox_all[3] + dy
+            ];
+          }
+          if (Array.isArray(pJson.bbox_objects)) {
+            for (const bo of pJson.bbox_objects) {
+              if (Array.isArray(bo.bbox) && bo.bbox.length === 4) {
+                bo.bbox = [
+                  bo.bbox[0] + dx,
+                  bo.bbox[1] + dy,
+                  bo.bbox[2] + dx,
+                  bo.bbox[3] + dy
+                ];
+              }
+            }
+          }
+          outSpecs.push({
+            name: entry.name,
+            newBytes: JSON.stringify(pJson)
+          });
+          continue;
+        } catch (e) {}
       }
 
       // Raw pass-through of pre-compressed bytes for untouched mesh and image entries
