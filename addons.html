@@ -291,6 +291,35 @@
               Get on CurseForge
             </a>
           </div>
+          <!-- Card 8: Auto Tag Macro -->
+          <div class="addon-card" id="card-auto-tag-macro">
+            <div class="card-top">
+              <img src="assets/auto_tag_macro.png" alt="Auto Tag Macro Logo" class="addon-icon" id="icon-auto-tag-macro">
+              <span class="addon-game-badge forever" id="badge-auto-tag-macro">Forever</span>
+            </div>
+            <div class="card-details">
+              <h3>Auto Tag Macro</h3>
+              <p id="desc-auto-tag-macro">Creates and dynamically updates a customizable /tar macro for your quests in your area</p>
+              <div class="addon-stats">
+                <div class="stat-item" id="downloads-auto-tag-macro">
+                  <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+                  <span><span id="count-auto-tag-macro">2</span> Downloads</span>
+                </div>
+                <div class="stat-item" id="version-auto-tag-macro" style="display: inline-flex;">
+                  <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                  <span><span id="val-version-auto-tag-macro">v1.3.0</span></span>
+                </div>
+                <div class="stat-item" id="updated-auto-tag-macro" style="display: inline-flex;">
+                  <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+                  <span><span id="val-updated-auto-tag-macro">Updated Nov 10, 2026</span></span>
+                </div>
+              </div>
+            </div>
+            <a href="https://www.curseforge.com/wow/addons/auto-tag-macro" class="download-btn" target="_blank" rel="noopener noreferrer" id="btn-auto-tag-macro">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14V9H9v7H7l5 5 5-5h-2v-7h-2v7h-2z"/></svg>
+              Get on CurseForge
+            </a>
+          </div>
 
         </div>
       </div>
@@ -365,6 +394,18 @@
         downloads: '9',
         version: 'v1.1.1',
         updated: 'Updated Nov 7, 2026'
+      },
+      'auto-tag-macro': {
+        description: 'Creates and dynamically updates a customizable /tar macro for your quests in your area',
+        downloads: '2',
+        version: 'v1.3.0',
+        updated: 'Updated Nov 10, 2026'
+      },
+      '1796347': {
+        description: 'Creates and dynamically updates a customizable /tar macro for your quests in your area',
+        downloads: '2',
+        version: 'v1.3.0',
+        updated: 'Updated Nov 10, 2026'
       }
     };
 
@@ -480,6 +521,7 @@
     fetchDownloads('bulging-pouch-checker', 'bulging-pouch-checker');
     fetchDownloads('1707412', 'plainsrunner');
     fetchDownloads('1789635', 'vember-stats');
+    fetchDownloads('1796347', 'auto-tag-macro');
 
     // Live Plex Status Checker
     const PLEX_TOKEN = "ypFBiUJSYfzyDDivAGhu";
