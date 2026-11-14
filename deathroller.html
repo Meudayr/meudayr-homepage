@@ -222,6 +222,49 @@
       color: var(--text-main);
     }
 
+    .dr-utility-list {
+      grid-column: 1 / -1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .dr-utility-row {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--card-border);
+      display: grid;
+      grid-template-columns: minmax(min(100%, 210px), 240px) 1fr;
+      gap: 12px 24px;
+      align-items: baseline;
+    }
+
+    .dr-utility-row:last-child {
+      border-bottom: none;
+    }
+
+    .dr-utility-row h3 {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .dr-utility-row p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .dr-utility-row {
+        grid-template-columns: 1fr;
+        padding: 14px 18px;
+      }
+    }
+
     .dr-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -609,17 +652,19 @@
             <h3>Trade Banner</h3>
             <p>Appears only when there's a deathroll debt with the person you're trading. It shows the gold going in, warns if it's short, and has a one-click <strong>Put in</strong> button when you're paying.</p>
           </div>
-          <div class="dr-card">
-            <h3>Announcements (Optional)</h3>
-            <p>Your character can emote challenges, results, and milestones such as win streaks and your biggest pot to people nearby. Nothing goes to <code class="cmd">/say</code>, party, or guild chat.</p>
-          </div>
-          <div class="dr-card">
-            <h3>Options</h3>
-            <p>Auto-focus the roll box, pre-fill <code class="cmd">/roll</code>, sounds, window size, and more, in its own window or under <strong>Options &gt; AddOns</strong>.</p>
-          </div>
-          <div class="dr-card">
-            <h3>Minimap Button</h3>
-            <p>Left-click for the game or your stats, right-click for options, drag to move. It's also in the add-on compartment.</p>
+          <div class="dr-utility-list">
+            <div class="dr-utility-row">
+              <h3>Announcements (Optional)</h3>
+              <p>Your character can emote challenges, results, and milestones such as win streaks and your biggest pot to people nearby. Nothing goes to <code class="cmd">/say</code>, party, or guild chat.</p>
+            </div>
+            <div class="dr-utility-row">
+              <h3>Options</h3>
+              <p>Auto-focus the roll box, pre-fill <code class="cmd">/roll</code>, sounds, window size, and more, in its own window or under <strong>Options &gt; AddOns</strong>.</p>
+            </div>
+            <div class="dr-utility-row">
+              <h3>Minimap Button</h3>
+              <p>Left-click for the game or your stats, right-click for options, drag to move. It's also in the add-on compartment.</p>
+            </div>
           </div>
         </div>
       </section>
