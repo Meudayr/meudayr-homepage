@@ -2621,6 +2621,298 @@
       border-color: rgba(245, 158, 11, 0.55);
       background: rgba(0, 0, 0, 0.65);
     }
+    /* ==========================================
+       Guild Sync & Addon Import Styles
+       ========================================== */
+    .guild-sync-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      margin-bottom: 18px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .guild-sync-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .guild-sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+      flex-shrink: 0;
+    }
+
+    .btn-import-export {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-import-export:hover {
+      background: rgba(16, 185, 129, 0.24);
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .member-level-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #facc15;
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    .member-rank-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ==========================================
+       Table Sub-Tabs & Raid Roster Builder
+       ========================================== */
+    .table-subtabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .table-subtabs-group {
+      display: inline-flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .table-subtab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .table-subtab-btn.active {
+      background: rgba(220, 38, 38, 0.2);
+      color: #fca5a5;
+      box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.35);
+    }
+
+    .table-subtab-btn:hover:not(.active) {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .raid-builder-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .raid-team-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .raid-team-tab {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .raid-team-tab.active {
+      background: rgba(250, 204, 21, 0.14);
+      border-color: rgba(250, 204, 21, 0.45);
+      color: #facc15;
+    }
+
+    .raid-builder-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .raid-builder-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .raid-pool-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      max-height: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .raid-pool-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+    }
+
+    .raid-pool-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.78rem;
+    }
+
+    .raid-pool-item.in-raid {
+      opacity: 0.6;
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .raid-groups-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .raid-summary-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+    }
+
+    .raid-groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .raid-group-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .raid-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .raid-slot-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.76rem;
+    }
+
+    .raid-slot-empty {
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      color: var(--text-dark);
+      font-size: 0.72rem;
+      text-align: center;
+    }
+
+    .raid-mini-select {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-main);
+      border-radius: 4px;
+      font-size: 0.68rem;
+      padding: 2px 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -2687,6 +2979,20 @@
     <section class="forever-header">
       <h1>World of Warcraft: Forever Roster</h1>
     </section>
+
+    <!-- Guild Addon Sync Status Banner -->
+    <div class="guild-sync-banner" id="guild-sync-banner" style="display: none;">
+      <div class="guild-sync-banner-left">
+        <span class="guild-sync-dot"></span>
+        <span id="guild-sync-text">Synced from in-game guild roster</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-import-export" onclick="openImportModal()" title="Import guild roster JSON from ForeverRosterSync addon">
+          <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          Import Addon Export
+        </button>
+      </div>
+    </div>
 
     <!-- Composition Stats Dashboard (WoW Asset Icons) -->
     <section class="stats-dashboard" id="stats-dashboard">
@@ -3050,6 +3356,12 @@
                 </button>
               </div>
 
+              <!-- Import Addon Export Button -->
+              <button class="btn-import-export" id="btn-import-addon" onclick="openImportModal()" title="Paste export from ForeverRosterSync in-game addon">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                <span>Import</span>
+              </button>
+
               <!-- Admin Mode Toggle Button -->
               <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="handleAdminClick()" title="Unlock Admin Mode to manage entries without PIN">
                 <svg id="admin-toggle-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
@@ -3268,25 +3580,49 @@
 
         </div>
 
-        <!-- View 3: Dense Roster Table -->
+        <!-- View 3: Dense Roster Table & Raid Rosters Builder -->
         <div class="roster-table-wrapper" id="roster-table-view" style="display: none;">
-          <table class="roster-table" id="roster-table">
-            <thead>
-              <tr>
-                <th onclick="sortTable('playerName')">Player &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('race')">Race &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('className')">Main Spec &amp; Role &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('offspec')">Offspec &amp; Role &#x25B4;&#x25BE;</th>
-                <th onclick="sortTable('professions')">Professions &#x25B4;&#x25BE;</th>
-                <th>Playstyles</th>
-                <th>Notes</th>
-                <th style="text-align: right; width: 75px;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="roster-table-body">
-              <!-- Dynamically rendered -->
-            </tbody>
-          </table>
+          <div class="table-subtabs-bar">
+            <div class="table-subtabs-group">
+              <button type="button" class="table-subtab-btn active" id="btn-subtab-guild" onclick="setTableSubTab('guild')">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                Guild Table
+              </button>
+              <button type="button" class="table-subtab-btn" id="btn-subtab-raids" onclick="setTableSubTab('raids')">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+                Raid Rosters &amp; Teams (<span id="raid-teams-count">0</span>)
+              </button>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);" id="table-subtab-hint">
+              Click column headers to sort, or switch to Raid Rosters &amp; Teams to build raid groups.
+            </div>
+          </div>
+
+          <div id="guild-table-panel">
+            <table class="roster-table" id="roster-table">
+              <thead>
+                <tr>
+                  <th onclick="sortTable('playerName')">Player &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('level')" style="width: 52px;">Lv &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('rankIndex')">Rank &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('race')">Race &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('className')">Main Spec &amp; Role &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('offspec')">Offspec &amp; Role &#x25B4;&#x25BE;</th>
+                  <th onclick="sortTable('professions')">Professions &#x25B4;&#x25BE;</th>
+                  <th>Raid Team</th>
+                  <th>Notes</th>
+                  <th style="text-align: right; width: 75px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="roster-table-body">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="raid-rosters-builder" style="display: none;">
+            <!-- Dynamically populated via renderRaidRosterBuilder() -->
+          </div>
         </div>
 
       </section>
@@ -3327,6 +3663,35 @@
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closeAdminModal()">Cancel</button>
         <button class="form-btn-submit" id="btn-admin-unlock" style="margin: 0; width: auto; padding: 8px 16px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b;" onclick="confirmAdminUnlock()">Unlock Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Addon Export Modal -->
+  <div class="pin-modal-overlay" id="import-export-modal">
+    <div class="pin-modal-box" style="max-width: 620px; width: 92%;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="pin-modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <svg style="width: 18px; height: 18px; color: #10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          Import Guild Roster Export
+        </div>
+        <button type="button" onclick="closeImportModal()" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 4px;" title="Close">✕</button>
+      </div>
+      <p style="font-size: 0.84rem; color: var(--text-muted); margin: 0;">
+        Run <code>/frsync</code> in WoW Forever, copy the JSON string, and paste it below. Existing spec, role, and profession selections are preserved automatically.
+      </p>
+      <textarea id="import-export-textarea" class="form-input" rows="7" placeholder='{"v":1,"guild":"...","members":[...]}' style="font-family: monospace; font-size: 0.76rem; resize: vertical;"></textarea>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-main); cursor: pointer;">
+        <input type="checkbox" id="import-replace-checkbox" checked>
+        <span>Mirror this export (remove members no longer in the guild)</span>
+      </label>
+      <div id="import-admin-key-row" style="display: none;">
+        <input type="password" id="import-admin-pass-input" class="form-input" placeholder="Admin password (required to sync)">
+      </div>
+      <div id="import-export-error" style="color: #ef4444; font-size: 0.8rem; font-weight: 600; display: none;"></div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button type="button" class="form-btn-cancel" style="margin: 0; width: auto;" onclick="closeImportModal()">Cancel</button>
+        <button type="button" class="form-btn-submit" id="btn-confirm-import" style="margin: 0; width: auto; padding: 8px 18px; background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;" onclick="submitAddonExportSync()">Import &amp; Sync</button>
       </div>
     </div>
   </div>
@@ -3509,6 +3874,12 @@
 
     // State Variables
     let rosterList = [];
+    let rosterMeta = null;
+    let raidRosters = [];
+    let activeRaidRosterId = null;
+    let currentTableSubTab = 'guild'; // 'guild' | 'raids'
+    let raidPoolSearch = '';
+    let raidRostersDirty = false;
     let activeRoleFilter = "all";
     let activeClassFilter = "all";
     let activeRaceFilter = "all";
@@ -5030,10 +5401,134 @@
     // Fetch & Render Roster
     // ==========================================
 
+    function updateGuildSyncBanner() {
+      const banner = document.getElementById('guild-sync-banner');
+      const textEl = document.getElementById('guild-sync-text');
+      if (!banner || !textEl) return;
+
+      if (rosterMeta && rosterMeta.guild) {
+        let timeStr = '';
+        if (rosterMeta.exportedAt || rosterMeta.syncedAt) {
+          try {
+            const d = new Date(rosterMeta.exportedAt || rosterMeta.syncedAt);
+            if (!isNaN(d.getTime())) {
+              timeStr = ' · Updated ' + d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+            }
+          } catch (e) {}
+        }
+        const byStr = rosterMeta.exportedBy ? ` by ${escapeHtml(rosterMeta.exportedBy)}` : '';
+        textEl.innerHTML = `<strong style="color: var(--text-main);">${escapeHtml(rosterMeta.guild)}</strong> · ${rosterList.length} Members${byStr}${timeStr}`;
+        banner.style.display = 'flex';
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    function openImportModal() {
+      const modal = document.getElementById('import-export-modal');
+      const errEl = document.getElementById('import-export-error');
+      const adminRow = document.getElementById('import-admin-key-row');
+      const textarea = document.getElementById('import-export-textarea');
+      if (!modal) return;
+      if (errEl) errEl.style.display = 'none';
+      if (adminRow) adminRow.style.display = isAdminMode ? 'none' : 'block';
+      if (textarea) textarea.value = '';
+      modal.classList.add('active');
+      if (textarea) setTimeout(() => textarea.focus(), 50);
+    }
+
+    function closeImportModal() {
+      const modal = document.getElementById('import-export-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    async function submitAddonExportSync() {
+      const textarea = document.getElementById('import-export-textarea');
+      const errEl = document.getElementById('import-export-error');
+      const replaceChk = document.getElementById('import-replace-checkbox');
+      const passInput = document.getElementById('import-admin-pass-input');
+      const btn = document.getElementById('btn-confirm-import');
+
+      const raw = (textarea?.value || '').trim();
+      if (!raw) {
+        if (errEl) { errEl.textContent = 'Please paste the JSON export from /frsync.'; errEl.style.display = 'block'; }
+        return;
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        if (errEl) { errEl.textContent = 'Invalid JSON format. Make sure you copied the entire string from /frsync.'; errEl.style.display = 'block'; }
+        return;
+      }
+
+      if (!parsed || !Array.isArray(parsed.members) || parsed.members.length === 0) {
+        if (errEl) { errEl.textContent = 'Export JSON does not contain a valid members array.'; errEl.style.display = 'block'; }
+        return;
+      }
+
+      const keyToUse = adminPasskey || (passInput ? passInput.value.trim() : '');
+      if (!keyToUse) {
+        if (errEl) { errEl.textContent = 'Admin password is required to sync the guild roster.'; errEl.style.display = 'block'; }
+        return;
+      }
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Syncing...'; }
+      if (errEl) errEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/roster/sync', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': keyToUse
+          },
+          body: JSON.stringify({
+            exportData: parsed,
+            replace: replaceChk ? replaceChk.checked : true
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Failed to sync guild roster.');
+        }
+
+        if (!isAdminMode && keyToUse) {
+          adminPasskey = keyToUse;
+          isAdminMode = true;
+          localStorage.setItem('tbs_admin_passkey', adminPasskey);
+          updateAdminUI();
+        }
+
+        rosterList = data.roster || [];
+        rosterMeta = data.meta || null;
+        localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
+        if (rosterMeta) localStorage.setItem('tbs_forever_roster_meta', JSON.stringify(rosterMeta));
+
+        updateGuildSyncBanner();
+        renderStats();
+        applyFilters();
+        closeImportModal();
+        showToast(`Synced ${data.total} members (+${data.added} new, ${data.updated} updated, ${data.removed} removed)`);
+      } catch (err) {
+        if (errEl) { errEl.textContent = err.message; errEl.style.display = 'block'; }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Import & Sync'; }
+      }
+    }
+
     async function loadRoster() {
       try {
         // Instant check from localStorage for 0ms initial render
         const cached = localStorage.getItem('tbs_forever_roster');
+        const cachedMeta = localStorage.getItem('tbs_forever_roster_meta');
+        if (cachedMeta) {
+          try {
+            rosterMeta = JSON.parse(cachedMeta);
+            updateGuildSyncBanner();
+          } catch(e) {}
+        }
         if (cached) {
           try {
             rosterList = JSON.parse(cached);
@@ -5047,7 +5542,10 @@
           const data = await res.json();
           if (data && Array.isArray(data.roster)) {
             rosterList = data.roster;
+            rosterMeta = data.meta || null;
             localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
+            if (rosterMeta) localStorage.setItem('tbs_forever_roster_meta', JSON.stringify(rosterMeta));
+            updateGuildSyncBanner();
             renderStats();
             applyFilters();
           }
@@ -5055,6 +5553,7 @@
       } catch (err) {
         console.warn('Failed to load roster from API, checking fallback:', err);
       }
+      loadRaidRosters();
     }
 
     function renderStats() {
@@ -5373,17 +5872,22 @@
       const cardsHtml = filtered.map(m => {
         const classColor = CLASS_COLORS[m.className] || '#dc2626';
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
-        const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
+        const specIcon = (m.spec && SPEC_DATA[m.className]?.[m.spec]?.icon) || classIcon;
         const raceIcon = ((m.gender === 'female' ? RACE_ICONS_FEMALE : RACE_ICONS)[m.race]) || 'inv_misc_questionmark';
 
-        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
+        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
         const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
 
         let primTagClass = 'role-melee';
-        const primIcon = ROLE_ICONS[primRole] || 'ability_dualwield';
+        const primIcon = ROLE_ICONS[primRole] || 'inv_misc_questionmark';
         if (primRole === 'Tank') primTagClass = 'role-tank';
         else if (primRole === 'Healer') primTagClass = 'role-healer';
         else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
+
+        const levelBadgeHtml = m.level ? `<span class="member-level-badge" title="Level ${m.level}">Lv ${m.level}</span>` : '';
+        const rankPillHtml = m.rankName ? `<span class="member-rank-pill" title="Guild Rank">${escapeHtml(m.rankName)}</span>` : '';
+        const classSpecLabel = m.spec ? `${escapeHtml(m.spec)} ${escapeHtml(m.className)}` : escapeHtml(m.className);
+        const raceLabel = (m.race && m.race !== 'Unknown') ? escapeHtml(m.race) : 'Unknown Race';
 
         let offspecHtml = '';
         if (m.offspec) {
@@ -5438,40 +5942,55 @@
           } catch(e) {}
         }
 
+        const displayNote = m.publicNote || m.notes || '';
+        const officerNoteHtml = (isAdminMode && m.officerNote)
+          ? `<div class="member-notes" style="color: #fbbf24; border-left-color: #f59e0b; margin-top: 4px;" title="Officer Note">Officer: "${escapeHtml(m.officerNote)}"</div>`
+          : '';
+
         return `
           <div class="member-card" style="--card-accent-color: ${classColor};" id="card-${m.id}">
             <div class="member-card-header">
               <div class="member-name-group">
                 <span class="member-player-name">
-                  ${escapeHtml(m.playerName)}
+                  ${escapeHtml(m.playerName)}${levelBadgeHtml}
                   ${m.pin ? '<svg style="width:12px;height:12px;color:var(--text-dark);" title="PIN Protected" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
                 </span>
-                <span class="member-created-date">${dateStr ? 'Updated ' + dateStr : ''}</span>
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  ${rankPillHtml}
+                  <span class="member-created-date">${dateStr ? 'Updated ' + dateStr : ''}</span>
+                </div>
               </div>
             </div>
 
             <div class="member-spec-row">
               <div class="member-icons-cluster">
-                <img src="${getIconUrl(raceIcon)}" alt="${m.race}" title="${m.race}" class="avatar-icon">
+                <img src="${getIconUrl(raceIcon)}" alt="${m.race || 'Unknown'}" title="${raceLabel}" class="avatar-icon">
                 <img src="${getIconUrl(classIcon)}" alt="${m.className}" title="${m.className}" class="avatar-icon" style="border-color: ${classColor};">
-                <img src="${getIconUrl(specIcon)}" alt="${m.spec}" title="${m.spec}" class="avatar-icon">
+                <img src="${getIconUrl(specIcon)}" alt="${m.spec || m.className}" title="${m.spec || 'Spec Unassigned'}" class="avatar-icon">
               </div>
               <div class="member-spec-text">
-                <span class="member-class-spec">${escapeHtml(m.spec)} ${escapeHtml(m.className)}</span>
-                <span class="member-race-faction">${escapeHtml(m.race)}</span>
+                <span class="member-class-spec">${classSpecLabel}</span>
+                <span class="member-race-faction">${raceLabel}</span>
               </div>
             </div>
 
             <div class="member-roles-container">
-              <span class="member-role-badge ${primTagClass}">
-                <img src="${getIconUrl(primIcon)}" alt="${primRole}">
-                ${escapeHtml(primRole)}
-              </span>
+              ${primRole ? `
+                <span class="member-role-badge ${primTagClass}">
+                  <img src="${getIconUrl(primIcon)}" alt="${primRole}">
+                  ${escapeHtml(primRole)}
+                </span>
+              ` : `
+                <span class="member-role-badge" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: var(--text-dark);">
+                  Spec Unassigned
+                </span>
+              `}
             </div>
 
             ${offspecHtml}
             ${professionsHtml}
-            ${m.notes ? `<div class="member-notes">"${escapeHtml(m.notes)}"</div>` : ''}
+            ${displayNote ? `<div class="member-notes">"${escapeHtml(displayNote)}"</div>` : ''}
+            ${officerNoteHtml}
 
             <div class="member-playstyles-row">
               ${playstyleBadgesHtml}
@@ -6034,6 +6553,16 @@
         if (field === 'playerName') {
           valA = (a.playerName || '').toLowerCase();
           valB = (b.playerName || '').toLowerCase();
+        } else if (field === 'level') {
+          const numA = Number(a.level) || 0;
+          const numB = Number(b.level) || 0;
+          return asc ? (numB - numA) : (numA - numB);
+        } else if (field === 'rankIndex') {
+          const rA = Number.isFinite(Number(a.rankIndex)) ? Number(a.rankIndex) : 99;
+          const rB = Number.isFinite(Number(b.rankIndex)) ? Number(b.rankIndex) : 99;
+          if (rA !== rB) return asc ? (rA - rB) : (rB - rA);
+          valA = (a.playerName || '').toLowerCase();
+          valB = (b.playerName || '').toLowerCase();
         } else if (field === 'race') {
           valA = (a.race || '').toLowerCase();
           valB = (b.race || '').toLowerCase();
@@ -6132,7 +6661,7 @@
       if (dataset.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align:center; padding: 28px; color: var(--text-muted);">
+            <td colspan="10" style="text-align:center; padding: 28px; color: var(--text-muted);">
               No characters match your filter criteria.
             </td>
           </tr>
@@ -6142,29 +6671,34 @@
 
       tbody.innerHTML = dataset.map(m => {
         const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
-        const specIcon = SPEC_DATA[m.className]?.[m.spec]?.icon || 'inv_misc_questionmark';
+        const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
+        const specIcon = (m.spec && SPEC_DATA[m.className]?.[m.spec]?.icon) || classIcon;
         const raceIcon = ((m.gender === 'female' ? RACE_ICONS_FEMALE : RACE_ICONS)[m.race]) || 'inv_misc_questionmark';
 
-        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : 'Melee DPS');
-        const playstyles = Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : (m.playstyle ? [m.playstyle] : []);
+        const primRole = m.role || (Array.isArray(m.roles) && m.roles.length > 0 ? m.roles[0] : '');
 
         let primTagClass = 'role-melee';
-        const primIcon = ROLE_ICONS[primRole] || 'ability_dualwield';
+        const primIcon = ROLE_ICONS[primRole] || 'inv_misc_questionmark';
         if (primRole === 'Tank') primTagClass = 'role-tank';
         else if (primRole === 'Healer') primTagClass = 'role-healer';
         else if (primRole === 'Ranged DPS') primTagClass = 'role-ranged';
 
+        const classSpecLabel = m.spec ? `${escapeHtml(m.spec)} ${escapeHtml(m.className)}` : escapeHtml(m.className);
+        const raceLabel = (m.race && m.race !== 'Unknown') ? escapeHtml(m.race) : 'Unknown';
+
         const mainSpecCell = `
           <div style="display:inline-flex; align-items:center; gap:6px; vertical-align:middle;">
-            <img src="${getIconUrl(specIcon)}" style="width:22px;height:22px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.spec}">
+            <img src="${getIconUrl(specIcon)}" style="width:22px;height:22px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;" alt="${m.spec || m.className}">
             <div style="display:flex; flex-direction:column; gap:1px; align-items:flex-start;">
               <span style="color:${classColor}; font-weight:700; font-size:0.78rem; white-space:nowrap; line-height:1.2;">
-                ${escapeHtml(m.spec)} ${escapeHtml(m.className)}
+                ${classSpecLabel}
               </span>
-              <span class="member-role-badge ${primTagClass}" style="font-size:0.62rem; padding:1px 5px; line-height:1.2;">
-                <img src="${getIconUrl(primIcon)}" style="width:9px;height:9px;" alt="${primRole}">
-                ${escapeHtml(primRole)}
-              </span>
+              ${primRole ? `
+                <span class="member-role-badge ${primTagClass}" style="font-size:0.62rem; padding:1px 5px; line-height:1.2;">
+                  <img src="${getIconUrl(primIcon)}" style="width:9px;height:9px;" alt="${primRole}">
+                  ${escapeHtml(primRole)}
+                </span>
+              ` : `<span style="font-size:0.65rem; color:var(--text-dark);">Unassigned</span>`}
             </div>
           </div>
         `;
@@ -6209,21 +6743,21 @@
             `).join('')}</div>`
           : '<span style="color:var(--text-dark);">-</span>';
 
-        const hasAllPlaystyles = playstyles.length >= 3 || (
-          playstyles.includes('Raiding') &&
-          playstyles.includes('PvP') &&
-          (playstyles.includes('Leveling & Dungeons') || playstyles.includes('Leveling &amp; Dungeons'))
-        );
+        // Assigned Raid Teams for this player
+        const playerTeams = [];
+        raidRosters.forEach(rr => {
+          const hit = (rr.assignments || []).find(a => a.playerName.toLowerCase() === (m.playerName || '').toLowerCase());
+          if (hit) {
+            playerTeams.push({ id: rr.id, name: rr.name, group: hit.group });
+          }
+        });
 
-        const playstyleBadges = hasAllPlaystyles
-          ? `<span class="member-playstyle-pill" style="font-size:0.62rem; padding:1px 6px; font-weight:700;" title="Raiding, Leveling &amp; Dungeons, PvP">All</span>`
-          : (playstyles.length > 0
-              ? playstyles.map(p => `
-                  <span class="member-playstyle-pill" style="font-size:0.62rem; padding:1px 5px; white-space:nowrap;">${escapeHtml(p)}</span>
-                `).join(' ')
-              : '<span style="color:var(--text-dark);">-</span>');
+        const raidTeamCell = playerTeams.length > 0
+          ? `<div style="display:flex; flex-wrap:wrap; gap:3px;">${playerTeams.map(t => `<span class="member-playstyle-pill" style="font-size:0.64rem; padding:1px 6px; cursor:pointer; color:#facc15; border-color:rgba(250,204,21,0.3);" onclick="openRaidTeamById('${t.id}')" title="Open ${escapeHtml(t.name)}">${escapeHtml(t.name)} (G${t.group})</span>`).join('')}</div>`
+          : `<button type="button" class="card-action-btn" style="padding:2px 7px; font-size:0.66rem; color:var(--text-muted);" onclick="quickAssignToActiveRaid('${escapeHtml(m.playerName).replace(/'/g, "\\'")}')" title="Assign to Raid Roster">+ Raid</button>`;
 
-        const notesShort = m.notes ? (m.notes.length > 50 ? escapeHtml(m.notes.slice(0, 50)) + '...' : escapeHtml(m.notes)) : '-';
+        const rawNote = m.publicNote || m.notes || '';
+        const notesShort = rawNote ? (rawNote.length > 45 ? escapeHtml(rawNote.slice(0, 45)) + '...' : escapeHtml(rawNote)) : '-';
 
         return `
           <tr>
@@ -6231,17 +6765,19 @@
               <strong style="color:var(--text-main); font-weight:700;">${escapeHtml(m.playerName)}</strong>
               ${m.pin ? '<svg style="width:11px;height:11px;color:var(--text-dark);vertical-align:middle;margin-left:3px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>' : ''}
             </td>
+            <td style="font-weight:700; color:#facc15; font-size:0.78rem;">${m.level || '-'}</td>
+            <td><span class="member-rank-pill">${escapeHtml(m.rankName || '-')}</span></td>
             <td>
               <span style="display:inline-flex; align-items:center; gap:5px; white-space:nowrap;">
-                <img src="${getIconUrl(raceIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${m.race}">
-                ${escapeHtml(m.race)}
+                <img src="${getIconUrl(raceIcon)}" style="width:16px;height:16px;border-radius:3px;" alt="${raceLabel}">
+                ${raceLabel}
               </span>
             </td>
             <td>${mainSpecCell}</td>
             <td>${offspecCell}</td>
             <td>${profsTableHtml}</td>
-            <td><div style="display:flex; flex-direction:column; gap:2px; align-items:flex-start;">${playstyleBadges}</div></td>
-            <td title="${escapeHtml(m.notes || '')}" style="color:var(--text-muted); font-size:0.73rem; max-width:130px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            <td>${raidTeamCell}</td>
+            <td title="${escapeHtml(rawNote)}" style="color:var(--text-muted); font-size:0.73rem; max-width:130px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
               ${notesShort}
             </td>
             <td style="text-align: right; white-space: nowrap;">
@@ -6253,6 +6789,449 @@
           </tr>
         `;
       }).join('');
+    }
+
+    // ==========================================
+    // Raid Rosters & Teams Builder (Table Sub-Tab)
+    // ==========================================
+
+    function setTableSubTab(tab) {
+      currentTableSubTab = tab;
+      const guildBtn = document.getElementById('btn-subtab-guild');
+      const raidsBtn = document.getElementById('btn-subtab-raids');
+      const guildPanel = document.getElementById('guild-table-panel');
+      const raidsPanel = document.getElementById('raid-rosters-builder');
+      const hintEl = document.getElementById('table-subtab-hint');
+
+      if (guildBtn) guildBtn.classList.toggle('active', tab === 'guild');
+      if (raidsBtn) raidsBtn.classList.toggle('active', tab === 'raids');
+      if (guildPanel) guildPanel.style.display = tab === 'guild' ? 'block' : 'none';
+      if (raidsPanel) raidsPanel.style.display = tab === 'raids' ? 'block' : 'none';
+
+      if (hintEl) {
+        hintEl.textContent = tab === 'raids'
+          ? 'Build raid groups from your exported guild roster and save teams.'
+          : 'Click column headers to sort, or switch to Raid Rosters & Teams to build raid groups.';
+      }
+
+      if (tab === 'raids') {
+        renderRaidRosterBuilder();
+      } else {
+        renderTable();
+      }
+    }
+
+    function openRaidTeamById(teamId) {
+      activeRaidRosterId = teamId;
+      setTableSubTab('raids');
+    }
+
+    async function loadRaidRosters() {
+      try {
+        const cached = localStorage.getItem('tbs_forever_raid_rosters');
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed)) raidRosters = parsed;
+          } catch (e) {}
+        }
+        const res = await fetch('/api/raid-rosters', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.rosters)) {
+            raidRosters = data.rosters;
+            localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to load raid rosters:', e);
+      }
+
+      if (raidRosters.length > 0 && !raidRosters.some(r => r.id === activeRaidRosterId)) {
+        activeRaidRosterId = raidRosters[0].id;
+      }
+      updateRaidTeamsCount();
+      if (currentViewMode === 'table') {
+        if (currentTableSubTab === 'raids') renderRaidRosterBuilder();
+        else renderTable();
+      }
+    }
+
+    function updateRaidTeamsCount() {
+      const el = document.getElementById('raid-teams-count');
+      if (el) el.textContent = raidRosters.length;
+    }
+
+    function getActiveRaidRoster() {
+      if (raidRosters.length === 0) return null;
+      return raidRosters.find(r => r.id === activeRaidRosterId) || raidRosters[0];
+    }
+
+    function markRaidRostersDirty() {
+      raidRostersDirty = true;
+      localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
+      updateRaidTeamsCount();
+    }
+
+    async function saveRaidRosters() {
+      const keyToUse = adminPasskey;
+      if (!keyToUse) {
+        openAdminModal();
+        showToast('Unlock Admin Mode to save raid rosters to the server.', true);
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/raid-rosters', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': keyToUse
+          },
+          body: JSON.stringify({ rosters: raidRosters })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Failed to save raid rosters.');
+        }
+        raidRostersDirty = false;
+        localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
+        showToast('Raid rosters saved to server!');
+        renderRaidRosterBuilder();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    function createNewRaidRoster() {
+      const name = prompt('Enter a name for the new Raid Roster (e.g. "Core 40-Man", "Karazhan Team A"):', `Raid Team ${raidRosters.length + 1}`);
+      if (!name || !name.trim()) return;
+      const newTeam = {
+        id: `raid-${Date.now()}`,
+        name: name.trim(),
+        size: 40,
+        assignments: [],
+        updatedAt: new Date().toISOString()
+      };
+      raidRosters.push(newTeam);
+      activeRaidRosterId = newTeam.id;
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function renameActiveRaidRoster() {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const next = prompt('Rename Raid Roster:', team.name);
+      if (!next || !next.trim()) return;
+      team.name = next.trim();
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function deleteActiveRaidRoster() {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      if (!confirm(`Delete raid roster "${team.name}"?`)) return;
+      raidRosters = raidRosters.filter(r => r.id !== team.id);
+      activeRaidRosterId = raidRosters[0]?.id || null;
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function setActiveRaidSize(size) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      team.size = size;
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function quickAssignToActiveRaid(playerName) {
+      if (raidRosters.length === 0) {
+        const defaultTeam = {
+          id: `raid-${Date.now()}`,
+          name: 'Raid Team 1',
+          size: 40,
+          assignments: [],
+          updatedAt: new Date().toISOString()
+        };
+        raidRosters.push(defaultTeam);
+        activeRaidRosterId = defaultTeam.id;
+      }
+      addMemberToRaidRoster(playerName);
+      setTableSubTab('raids');
+    }
+
+    function addMemberToRaidRoster(playerName, targetGroup = null) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      team.assignments = team.assignments || [];
+      if (team.assignments.some(a => a.playerName.toLowerCase() === playerName.toLowerCase())) {
+        showToast(`${playerName} is already in ${team.name}.`, true);
+        return;
+      }
+
+      const maxGroups = (team.size || 40) / 5;
+      let chosenGroup = targetGroup;
+      if (!chosenGroup) {
+        for (let g = 1; g <= maxGroups; g++) {
+          const countInGroup = team.assignments.filter(a => a.group === g).length;
+          if (countInGroup < 5) {
+            chosenGroup = g;
+            break;
+          }
+        }
+        if (!chosenGroup) chosenGroup = 1;
+      }
+
+      const guildMember = rosterList.find(m => (m.playerName || '').toLowerCase() === playerName.toLowerCase());
+      const defaultRole = guildMember ? (guildMember.role || (Array.isArray(guildMember.roles) && guildMember.roles[0]) || 'Melee DPS') : 'Melee DPS';
+      const defaultSpec = guildMember ? (guildMember.spec || '') : '';
+
+      team.assignments.push({
+        playerName: guildMember ? guildMember.playerName : playerName,
+        group: chosenGroup,
+        role: defaultRole,
+        spec: defaultSpec
+      });
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function removeMemberFromRaidRoster(playerName) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      team.assignments = (team.assignments || []).filter(a => a.playerName.toLowerCase() !== playerName.toLowerCase());
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function moveMemberGroup(playerName, newGroup) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase());
+      if (item) {
+        item.group = Number(newGroup);
+        team.updatedAt = new Date().toISOString();
+        markRaidRostersDirty();
+        renderRaidRosterBuilder();
+      }
+    }
+
+    function setMemberRaidRole(playerName, newRole) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase());
+      if (item) {
+        item.role = newRole;
+        team.updatedAt = new Date().toISOString();
+        markRaidRostersDirty();
+        renderRaidRosterBuilder();
+      }
+    }
+
+    function copyRaidRosterDiscord() {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const maxGroups = (team.size || 40) / 5;
+      const lines = [`**${team.name} (${(team.assignments || []).length}/${team.size})**`];
+      for (let g = 1; g <= maxGroups; g++) {
+        const members = (team.assignments || []).filter(a => a.group === g);
+        if (members.length === 0) continue;
+        const names = members.map(a => {
+          const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
+          const cls = gm ? gm.className : '';
+          return `${a.playerName} (${cls}${a.role ? ' - ' + a.role : ''})`;
+        });
+        lines.push(`**Group ${g}:** ${names.join(', ')}`);
+      }
+      navigator.clipboard.writeText(lines.join('\n')).then(() => {
+        showToast(`Copied ${team.name} lineup for Discord!`);
+      });
+    }
+
+    function renderRaidRosterBuilder() {
+      const container = document.getElementById('raid-rosters-builder');
+      if (!container) return;
+
+      const team = getActiveRaidRoster();
+      const teamTabsHtml = raidRosters.map(r => `
+        <button type="button" class="raid-team-tab ${team && r.id === team.id ? 'active' : ''}" onclick="activeRaidRosterId='${r.id}'; renderRaidRosterBuilder();">
+          ${escapeHtml(r.name)} (${(r.assignments || []).length}/${r.size || 40})
+        </button>
+      `).join('');
+
+      if (!team) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 48px 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);">
+            <h3 style="color: var(--text-main); margin-bottom: 8px;">No Raid Rosters Created Yet</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">Create a 10-man, 20-man, or 40-man raid roster and assign players directly from your exported guild roster.</p>
+            <button type="button" class="form-btn-submit" style="width: auto; padding: 9px 18px;" onclick="createNewRaidRoster()">+ Create First Raid Roster</button>
+          </div>
+        `;
+        return;
+      }
+
+      const maxGroups = (team.size || 40) / 5;
+      const assignments = team.assignments || [];
+      const assignedSet = new Set(assignments.map(a => a.playerName.toLowerCase()));
+
+      // Build Guild Pool filtered by search
+      const q = raidPoolSearch.toLowerCase().trim();
+      const poolMembers = rosterList.filter(m => {
+        if (!q) return true;
+        return (m.playerName || '').toLowerCase().includes(q) ||
+               (m.className || '').toLowerCase().includes(q) ||
+               (m.spec || '').toLowerCase().includes(q) ||
+               (m.role || '').toLowerCase().includes(q);
+      });
+
+      const poolHtml = poolMembers.map(m => {
+        const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
+        const assignedItem = assignments.find(a => a.playerName.toLowerCase() === (m.playerName || '').toLowerCase());
+        const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
+        return `
+          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}">
+            <div style="display: flex; flex-direction: column; min-width: 0;">
+              <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                ${escapeHtml(m.playerName)} ${m.level ? `<span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level}</span>` : ''}
+              </span>
+              <span style="color: var(--text-muted); font-size: 0.7rem;">
+                ${escapeHtml(m.spec || m.className)} ${m.role ? '· ' + escapeHtml(m.role) : ''}
+              </span>
+            </div>
+            ${assignedItem
+              ? `<span style="font-size: 0.68rem; color: #34d399; font-weight: 700; white-space: nowrap;">G${assignedItem.group}</span>`
+              : `<button type="button" class="card-action-btn" style="padding: 3px 8px; font-size: 0.7rem; color: #facc15;" onclick="addMemberToRaidRoster('${safeName}')">+ Add</button>`
+            }
+          </div>
+        `;
+      }).join('') || '<div style="color: var(--text-dark); font-size: 0.8rem; text-align: center; padding: 16px;">No matching guild members.</div>';
+
+      // Role counts & Buff coverage for this raid team
+      let tanks = 0, healers = 0, melee = 0, ranged = 0;
+      const teamRosterObjects = [];
+      assignments.forEach(a => {
+        if (a.role === 'Tank') tanks++;
+        else if (a.role === 'Healer') healers++;
+        else if (a.role === 'Melee DPS') melee++;
+        else if (a.role === 'Ranged DPS') ranged++;
+        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
+        if (gm) {
+          teamRosterObjects.push({ ...gm, role: a.role || gm.role, spec: a.spec || gm.spec });
+        }
+      });
+
+      const buffAnalysis = typeof getBuffAnalysis === 'function' ? getBuffAnalysis(teamRosterObjects) : null;
+      const buffCoverageText = buffAnalysis ? `${buffAnalysis.coveredCount}/${buffAnalysis.totalBuffs} Buffs (${buffAnalysis.coveragePct}%)` : '';
+
+      // Build Group 1..N cards
+      let groupsHtml = '';
+      for (let g = 1; g <= maxGroups; g++) {
+        const groupMembers = assignments.filter(a => a.group === g);
+        let slotsHtml = groupMembers.map(a => {
+          const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
+          const className = gm ? gm.className : '';
+          const classColor = CLASS_COLORS[className] || 'var(--text-main)';
+          const safeName = escapeHtml(a.playerName).replace(/'/g, "\\'");
+
+          let groupOptions = '';
+          for (let og = 1; og <= maxGroups; og++) {
+            groupOptions += `<option value="${og}" ${og === g ? 'selected' : ''}>G${og}</option>`;
+          }
+
+          return `
+            <div class="raid-slot-row">
+              <div style="display: flex; align-items: center; gap: 5px; min-width: 0; flex: 1;">
+                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(className)} ${escapeHtml(a.spec || '')}">
+                  ${escapeHtml(a.playerName)}
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+                <select class="raid-mini-select" onchange="setMemberRaidRole('${safeName}', this.value)" title="Raid Role">
+                  <option value="Tank" ${a.role === 'Tank' ? 'selected' : ''}>Tank</option>
+                  <option value="Healer" ${a.role === 'Healer' ? 'selected' : ''}>Heal</option>
+                  <option value="Melee DPS" ${a.role === 'Melee DPS' ? 'selected' : ''}>Melee</option>
+                  <option value="Ranged DPS" ${a.role === 'Ranged DPS' ? 'selected' : ''}>Ranged</option>
+                </select>
+                <select class="raid-mini-select" onchange="moveMemberGroup('${safeName}', this.value)" title="Move Group">
+                  ${groupOptions}
+                </select>
+                <button type="button" onclick="removeMemberFromRaidRoster('${safeName}')" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.75rem; padding:0 3px;" title="Remove from raid">✕</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        for (let empty = groupMembers.length; empty < 5; empty++) {
+          slotsHtml += `<div class="raid-slot-empty">Empty Slot</div>`;
+        }
+
+        groupsHtml += `
+          <div class="raid-group-card">
+            <div class="raid-group-header">
+              <span>Group ${g}</span>
+              <span>${groupMembers.length}/5</span>
+            </div>
+            ${slotsHtml}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="raid-builder-toolbar">
+          <div class="raid-team-tabs">
+            ${teamTabsHtml}
+            <button type="button" class="raid-team-tab" style="color:#6ee7b7; border-color:rgba(16,185,129,0.35);" onclick="createNewRaidRoster()">+ New Roster</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="raid-size-btn ${team.size === 10 ? 'active' : ''}" onclick="setActiveRaidSize(10)">10-Man</button>
+            <button type="button" class="raid-size-btn ${team.size === 20 ? 'active' : ''}" onclick="setActiveRaidSize(20)">20-Man</button>
+            <button type="button" class="raid-size-btn ${team.size === 40 ? 'active' : ''}" onclick="setActiveRaidSize(40)">40-Man</button>
+            <button type="button" class="toolbar-action-btn" onclick="renameActiveRaidRoster()">Rename</button>
+            <button type="button" class="toolbar-action-btn" onclick="copyRaidRosterDiscord()">Copy Discord</button>
+            <button type="button" class="toolbar-action-btn" style="color:#f87171;" onclick="deleteActiveRaidRoster()">Delete</button>
+            <button type="button" class="btn-import-export" onclick="saveRaidRosters()">
+              ${raidRostersDirty ? 'Save Changes *' : 'Save Rosters'}
+            </button>
+          </div>
+        </div>
+
+        <div class="raid-builder-layout">
+          <div class="raid-pool-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <strong style="font-size: 0.85rem; color: var(--text-main);">Guild Pool (${poolMembers.length})</strong>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">${assignments.length}/${team.size} Assigned</span>
+            </div>
+            <input type="text" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Filter guild members..." value="${escapeHtml(raidPoolSearch)}" oninput="raidPoolSearch=this.value; renderRaidRosterBuilder();">
+            <div class="raid-pool-list">
+              ${poolHtml}
+            </div>
+          </div>
+
+          <div class="raid-groups-panel">
+            <div class="raid-summary-bar">
+              <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 0.82rem;">
+                <strong style="color: var(--text-main);">${escapeHtml(team.name)}</strong>
+                <span style="color: #60a5fa; font-weight: 600;">Tanks: ${tanks}</span>
+                <span style="color: #4ade80; font-weight: 600;">Healers: ${healers}</span>
+                <span style="color: #fbbf24; font-weight: 600;">Melee: ${melee}</span>
+                <span style="color: #c084fc; font-weight: 600;">Ranged: ${ranged}</span>
+              </div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">${buffCoverageText}</span>
+            </div>
+
+            <div class="raid-groups-grid">
+              ${groupsHtml}
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     // ==========================================
@@ -6487,9 +7466,16 @@
       renderRoleChips();
 
       // Set Race, Class, Spec, Offspec
-      populateRaceSelect(entry.race);
-      onRaceChange(entry.race, entry.className);
-      onClassChange(entry.className, entry.spec, entry.offspec, entry.offspecRole);
+      let safeRace = entry.race;
+      if (!safeRace || !HORDE_RACE_CLASSES[safeRace]) {
+        safeRace = Object.keys(HORDE_RACE_CLASSES).find(r => HORDE_RACE_CLASSES[r].includes(entry.className)) || 'Orc';
+      }
+      const safeSpec = (entry.spec && SPEC_DATA[entry.className]?.[entry.spec])
+        ? entry.spec
+        : (Object.keys(SPEC_DATA[entry.className] || {})[0] || '');
+      populateRaceSelect(safeRace);
+      onRaceChange(safeRace, entry.className);
+      onClassChange(entry.className, safeSpec, entry.offspec, entry.offspecRole);
 
       // Professions restore
       const profs = Array.isArray(entry.professions) && entry.professions.length > 0

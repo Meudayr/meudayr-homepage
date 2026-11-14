@@ -767,10 +767,18 @@ export default {
             ? filtered.map(({ pin, ...safeItem }) => ({ ...safeItem, isPinProtected: Boolean(pin && pin.trim()) }))
             : filtered;
 
+          let meta = null;
+          if (env.LOGS_KV) {
+            try {
+              meta = await env.LOGS_KV.get('forever_roster_meta', 'json');
+            } catch (e) {}
+          }
+
           return new Response(JSON.stringify({
             success: true,
             total: rawRoster.length,
             count: finalRoster.length,
+            meta,
             roster: finalRoster
           }), {
             status: 200,
@@ -1047,6 +1055,275 @@ export default {
           return new Response(JSON.stringify({ success: false, error: e.message }), {
             status: 500,
             headers: rosterCorsHeaders
+          });
+        }
+      }
+    }
+
+    // Route: /api/roster/sync (POST, OPTIONS) — Bulk import from ForeverRosterSync addon
+    if (url.pathname === '/api/roster/sync') {
+      const syncCorsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      };
+      const validAdminKey = (env && env.ADMIN_KEY) || 'dontgivemeadpi';
+
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: syncCorsHeaders });
+      }
+
+      if (request.method === 'POST') {
+        try {
+          const body = await request.json();
+          const providedAdminKey = request.headers.get('x-admin-key') || body.adminKey;
+          if (!providedAdminKey || providedAdminKey !== validAdminKey) {
+            return new Response(JSON.stringify({ success: false, error: 'Admin password required to sync guild roster.' }), {
+              status: 403,
+              headers: syncCorsHeaders
+            });
+          }
+
+          const exportData = body.exportData || body;
+          const members = Array.isArray(exportData.members) ? exportData.members : [];
+          if (members.length === 0) {
+            return new Response(JSON.stringify({ success: false, error: 'No guild members found in export data.' }), {
+              status: 400,
+              headers: syncCorsHeaders
+            });
+          }
+
+          const replaceMode = body.replace !== false;
+
+          let existingRoster = [];
+          if (env.LOGS_KV) {
+            try {
+              const kvData = await env.LOGS_KV.get('forever_roster', 'json');
+              if (Array.isArray(kvData)) existingRoster = kvData;
+            } catch (e) {}
+          }
+          if (existingRoster.length === 0 && env.ASSETS) {
+            try {
+              const assetUrl = new URL('/data/forever-roster.json', request.url);
+              const res = await env.ASSETS.fetch(new Request(assetUrl));
+              if (res && res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data)) existingRoster = data;
+              }
+            } catch (e) {}
+          }
+
+          const existingMap = new Map();
+          for (const item of existingRoster) {
+            if (item && item.playerName) {
+              existingMap.set(item.playerName.toLowerCase(), item);
+            }
+          }
+
+          const SPEC_DEFAULT_ROLES = {
+            'Warrior': { 'Arms': 'Melee DPS', 'Fury': 'Melee DPS', 'Protection': 'Tank' },
+            'Paladin': { 'Holy': 'Healer', 'Protection': 'Tank', 'Retribution': 'Melee DPS' },
+            'Hunter': { 'Beast Mastery': 'Ranged DPS', 'Marksmanship': 'Ranged DPS', 'Survival': 'Melee DPS' },
+            'Rogue': { 'Assassination': 'Melee DPS', 'Combat': 'Melee DPS', 'Subtlety': 'Melee DPS' },
+            'Priest': { 'Discipline': 'Healer', 'Holy': 'Healer', 'Shadow': 'Ranged DPS' },
+            'Shaman': { 'Elemental': 'Ranged DPS', 'Enhancement': 'Melee DPS', 'Restoration': 'Healer' },
+            'Mage': { 'Arcane': 'Ranged DPS', 'Fire': 'Ranged DPS', 'Frost': 'Ranged DPS' },
+            'Warlock': { 'Affliction': 'Ranged DPS', 'Demonology': 'Ranged DPS', 'Destruction': 'Ranged DPS' },
+            'Druid': { 'Balance': 'Ranged DPS', 'Feral Combat': 'Melee DPS', 'Restoration': 'Healer' }
+          };
+
+          const nowIso = new Date().toISOString();
+          let added = 0;
+          let updated = 0;
+          const syncedNames = new Set();
+          const nextRoster = [];
+
+          for (const m of members) {
+            const cleanName = (m.playerName || '').trim();
+            if (!cleanName) continue;
+            const key = cleanName.toLowerCase();
+            if (syncedNames.has(key)) continue;
+            syncedNames.add(key);
+
+            const prev = existingMap.get(key);
+            const className = (m.className || (prev && prev.className) || 'Warrior').trim();
+            const race = (m.race && m.race.trim()) ? m.race.trim() : ((prev && prev.race) || 'Unknown');
+            const gender = (m.gender === 'female' || m.gender === 'male') ? m.gender : ((prev && prev.gender) || 'male');
+
+            const spec = (m.spec && m.spec.trim()) ? m.spec.trim() : ((prev && prev.spec) || '');
+            let role = (m.role && m.role.trim()) ? m.role.trim() : ((prev && prev.role) || '');
+            if (!role && spec && SPEC_DEFAULT_ROLES[className] && SPEC_DEFAULT_ROLES[className][spec]) {
+              role = SPEC_DEFAULT_ROLES[className][spec];
+            }
+
+            const offspec = (m.offspec && m.offspec.trim()) ? m.offspec.trim() : ((prev && prev.offspec) || '');
+            let offspecRole = (m.offspecRole && m.offspecRole.trim()) ? m.offspecRole.trim() : ((prev && prev.offspecRole) || '');
+            if (!offspecRole && offspec && SPEC_DEFAULT_ROLES[className] && SPEC_DEFAULT_ROLES[className][offspec]) {
+              offspecRole = SPEC_DEFAULT_ROLES[className][offspec];
+            }
+
+            const profs = Array.isArray(m.professions) && m.professions.length > 0
+              ? m.professions.filter(Boolean).slice(0, 2)
+              : ((prev && Array.isArray(prev.professions)) ? prev.professions : []);
+
+            const publicNote = (m.publicNote !== undefined ? String(m.publicNote) : '').trim().slice(0, 300);
+            const officerNote = (m.officerNote !== undefined ? String(m.officerNote) : '').trim().slice(0, 300);
+            const existingManualNotes = prev && prev.notes ? prev.notes : '';
+            const finalNotes = publicNote || existingManualNotes;
+
+            const playstyles = (prev && Array.isArray(prev.playstyles) && prev.playstyles.length > 0)
+              ? prev.playstyles
+              : ['Raiding'];
+
+            const entry = {
+              id: (prev && prev.id) || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              playerName: cleanName,
+              faction: 'Horde',
+              level: Number(m.level) || (prev && prev.level) || 1,
+              rankName: (m.rankName !== undefined ? String(m.rankName) : (prev && prev.rankName) || '').trim(),
+              rankIndex: Number.isFinite(Number(m.rankIndex)) ? Number(m.rankIndex) : ((prev && prev.rankIndex) ?? 99),
+              race,
+              gender,
+              className,
+              spec,
+              role,
+              roles: role ? [role] : [],
+              offspec,
+              offspecRole,
+              playstyle: playstyles[0],
+              playstyles,
+              professions: profs,
+              profession1: profs[0] || '',
+              profession2: profs[1] || '',
+              notes: finalNotes,
+              publicNote,
+              officerNote,
+              zone: (m.zone || '').trim(),
+              isOnline: Boolean(m.isOnline),
+              lastOnlineDays: Number(m.lastOnlineDays) || 0,
+              synced: Boolean(m.synced),
+              pin: (prev && prev.pin) || '',
+              createdAt: (prev && prev.createdAt) || nowIso,
+              updatedAt: nowIso
+            };
+
+            if (prev) updated++;
+            else added++;
+            nextRoster.push(entry);
+          }
+
+          let removed = 0;
+          if (!replaceMode) {
+            for (const item of existingRoster) {
+              if (item && item.playerName && !syncedNames.has(item.playerName.toLowerCase())) {
+                nextRoster.push(item);
+              }
+            }
+          } else {
+            removed = Math.max(0, existingRoster.length - updated);
+          }
+
+          // Sort by rankIndex asc, then level desc, then playerName asc
+          nextRoster.sort((a, b) => {
+            const ra = Number.isFinite(a.rankIndex) ? a.rankIndex : 99;
+            const rb = Number.isFinite(b.rankIndex) ? b.rankIndex : 99;
+            if (ra !== rb) return ra - rb;
+            const la = Number(a.level) || 0;
+            const lb = Number(b.level) || 0;
+            if (la !== lb) return lb - la;
+            return (a.playerName || '').localeCompare(b.playerName || '');
+          });
+
+          const meta = {
+            guild: exportData.guild || 'TBS',
+            realm: exportData.realm || 'Forever',
+            exportedBy: exportData.exportedBy || '',
+            exportedAt: exportData.exportedAt || nowIso,
+            syncedAt: nowIso,
+            memberCount: nextRoster.length
+          };
+
+          if (env.LOGS_KV) {
+            await env.LOGS_KV.put('forever_roster', JSON.stringify(nextRoster));
+            await env.LOGS_KV.put('forever_roster_meta', JSON.stringify(meta));
+          }
+
+          return new Response(JSON.stringify({
+            success: true,
+            total: nextRoster.length,
+            added,
+            updated,
+            removed,
+            meta,
+            roster: nextRoster
+          }), {
+            status: 200,
+            headers: syncCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: syncCorsHeaders
+          });
+        }
+      }
+    }
+
+    // Route: /api/raid-rosters (GET, POST, OPTIONS) — Persist Raid Teams & Group Assignments
+    if (url.pathname === '/api/raid-rosters') {
+      const raidCorsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      };
+      const validAdminKey = (env && env.ADMIN_KEY) || 'dontgivemeadpi';
+
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: raidCorsHeaders });
+      }
+
+      if (request.method === 'GET') {
+        let rosters = [];
+        if (env.LOGS_KV) {
+          try {
+            const data = await env.LOGS_KV.get('forever_raid_rosters', 'json');
+            if (Array.isArray(data)) rosters = data;
+          } catch (e) {}
+        }
+        return new Response(JSON.stringify({ success: true, rosters }), {
+          status: 200,
+          headers: raidCorsHeaders
+        });
+      }
+
+      if (request.method === 'POST') {
+        try {
+          const body = await request.json();
+          const providedAdminKey = request.headers.get('x-admin-key') || body.adminKey;
+          if (!providedAdminKey || providedAdminKey !== validAdminKey) {
+            return new Response(JSON.stringify({ success: false, error: 'Admin password required to save raid rosters.' }), {
+              status: 403,
+              headers: raidCorsHeaders
+            });
+          }
+
+          const rosters = Array.isArray(body.rosters) ? body.rosters : [];
+          if (env.LOGS_KV) {
+            await env.LOGS_KV.put('forever_raid_rosters', JSON.stringify(rosters));
+          }
+
+          return new Response(JSON.stringify({ success: true, rosters }), {
+            status: 200,
+            headers: raidCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: raidCorsHeaders
           });
         }
       }
