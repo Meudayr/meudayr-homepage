@@ -3,7 +3,7 @@
    WoW Druid/Tauren themed styling with solid colors, clean cards, and flat interfaces.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&family=Pirata+One&display=swap');
 
 :root {
   --bg-color: #111317;
@@ -100,6 +100,7 @@ header {
 
 .nav-menu {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
@@ -114,6 +115,18 @@ header {
 .nav-link:hover, .nav-link.active {
   color: var(--text-main);
 }
+.nav-link.nav-deathroller {
+  font-family: 'Pirata One', var(--font-display), serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.4px;
+  color: #e2ba66;
+}
+
+.nav-link.nav-deathroller:hover,
+.nav-link.nav-deathroller.active {
+  color: #f3d285;
+}
+
 /* Navigation Dropdown ("More" Menu) */
 .nav-dropdown {
   position: relative;
