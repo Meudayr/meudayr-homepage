@@ -209,32 +209,95 @@
       gap: 20px;
     }
 
-    .dr-why-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-      gap: 14px;
-    }
-
-    .dr-why-item {
+    .dr-jump-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+      padding: 12px 16px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      align-items: center;
     }
 
-    .dr-why-item h3 {
-      font-family: var(--font-display);
-      font-size: 1rem;
+    .dr-jump-label {
+      font-size: 0.78rem;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-right: 4px;
     }
 
-    .dr-why-item p {
+    .dr-jump-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      transition: var(--transition);
+    }
+
+    .dr-jump-link:hover {
+      border-color: rgba(226, 186, 102, 0.55);
+      color: #e2ba66;
+    }
+
+    .dr-compare-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+    }
+
+    .dr-compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .dr-compare-table th,
+    .dr-compare-table td {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.92rem;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .dr-compare-table th {
+      font-family: var(--font-display);
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+    }
+
+    .dr-compare-table th.col-gup {
+      color: #e2ba66;
+      background: rgba(192, 157, 82, 0.07);
+    }
+
+    .dr-compare-table td.col-topic {
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .dr-compare-table td.col-old {
       color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.55;
+    }
+
+    .dr-compare-table td.col-gup {
+      color: var(--text-main);
+      background: rgba(192, 157, 82, 0.04);
+    }
+
+    .dr-compare-table tr:last-child td {
+      border-bottom: none;
     }
 
     .dr-features-layout {
@@ -351,38 +414,195 @@
       flex-shrink: 0;
     }
 
-    .dr-steps-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .dr-walkthrough {
+      display: grid;
+      grid-template-columns: minmax(min(100%, 250px), 300px) 1fr;
+      gap: 20px;
+      align-items: start;
     }
 
-    .dr-step-item {
+    .dr-walk-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dr-walk-tab {
+      width: 100%;
+      text-align: left;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .dr-walk-tab:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .dr-walk-tab[aria-selected="true"] {
+      background: rgba(192, 157, 82, 0.1);
+      border-color: rgba(226, 186, 102, 0.65);
+      color: var(--text-main);
+    }
+
+    .dr-walk-panel {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
+      padding: 24px;
     }
 
-    .dr-step-content {
-      flex: 1;
-      min-width: 0;
+    .dr-walk-step[hidden] {
+      display: none;
     }
 
-    .dr-step-body {
+    .dr-walk-step h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .dr-walk-step p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dr-walk-controls {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--card-border);
       display: flex;
-      gap: 20px;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dr-walk-counter {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .dr-walk-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dr-walk-btn {
+      padding: 7px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dr-walk-btn:hover:not(:disabled) {
+      border-color: rgba(226, 186, 102, 0.6);
+      color: #e2ba66;
+    }
+
+    .dr-walk-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .dr-stats-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 16px;
+    }
+
+    .dr-stats-tab {
+      padding: 7px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dr-stats-tab:hover {
+      color: var(--text-main);
+      border-color: var(--card-border-hover);
+    }
+
+    .dr-stats-tab[aria-selected="true"] {
+      background: rgba(192, 157, 82, 0.14);
+      border-color: rgba(226, 186, 102, 0.65);
+      color: #e2ba66;
+    }
+
+    .dr-stats-panel[hidden] {
+      display: none;
+    }
+
+    .dr-stats-panel .dr-shot-card {
+      max-width: 520px;
+      margin-top: 12px;
+    }
+
+    .dr-cmd-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .dr-step-text {
-      flex: 1;
-      min-width: min(100%, 260px);
+    .dr-copy-btn {
+      padding: 2px 8px;
+      border-radius: 5px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dr-copy-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(226, 186, 102, 0.55);
+    }
+
+    .dr-copy-btn.copied {
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.45);
+    }
+
+    @media (max-width: 820px) {
+      .dr-walkthrough {
+        grid-template-columns: 1fr;
+      }
+      .dr-walk-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
     }
 
     .dr-step-media {
@@ -699,6 +919,17 @@
         </div>
       </section>
 
+      <!-- Quick Jump Strip -->
+      <nav class="dr-jump-bar" aria-label="Page sections">
+        <span class="dr-jump-label">Jump to:</span>
+        <a href="#install-heading" class="dr-jump-link">Install</a>
+        <a href="#why-heading" class="dr-jump-link">Why Doctor Gup's?</a>
+        <a href="#howto-heading" class="dr-jump-link">How to Play</a>
+        <a href="#features-heading" class="dr-jump-link">Features</a>
+        <a href="#commands-heading" class="dr-jump-link">Commands</a>
+        <a href="#notes-heading" class="dr-jump-link">Good to Know</a>
+      </nav>
+
       <!-- How to Download & Install -->
       <section class="dr-section" aria-labelledby="install-heading">
         <div class="dr-section-header">
@@ -733,27 +964,43 @@
           <h2 id="why-heading">Why Doctor Gup's?</h2>
           <p>Training wheels for the lil gups who want to gamble like real gamers instead of squinting at chat spam.</p>
         </div>
-        <div class="dr-why-list">
-          <div class="dr-why-item">
-            <h3>Made for Forever</h3>
-            <p>Handles Forever's first-and-last-name characters and modern add-on rules out of the box—no crying about broken ancient scripts, little gup.</p>
-          </div>
-          <div class="dr-why-item">
-            <h3>Rolls you can trust</h3>
-            <p>Every roll is a real <code class="cmd">/roll</code> read straight from the game's system message. Rolling out of turn or typing the wrong range gets ignored, so no cheeky jonboy can fudge a number.</p>
-          </div>
-          <div class="dr-why-item">
-            <h3>Real suspense</h3>
-            <p>Keeps rolls out of chat while the dice spin on both screens, building actual tension before the number lands—try not to blink, gup.</p>
-          </div>
-          <div class="dr-why-item">
-            <h3>Stakes front and center</h3>
-            <p>The gold pot sits dead center in big, gleaming gold from challenge to result, so even a distracted little gup remembers what is on the table.</p>
-          </div>
-          <div class="dr-why-item">
-            <h3>Debts that actually get paid</h3>
-            <p>Open a trade with someone you owe (or who owes you) and a banner tracks the gold going in, clearing the debt on completion. No more "oops, forgot how much I owed" excuses.</p>
-          </div>
+        <div class="dr-compare-wrap">
+          <table class="dr-compare-table">
+            <thead>
+              <tr>
+                <th>What Matters</th>
+                <th>Old-School Chat <code class="cmd">/roll</code> (Lost Gups)</th>
+                <th class="col-gup">Doctor Gup's (Real Gamers)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-topic">Forever Names</td>
+                <td class="col-old">Ancient scripts choke on <code class="cmd">First Last</code> names and Forever's modern rules.</td>
+                <td class="col-gup">Built natively for WoW Forever's <code class="cmd">First Last</code> characters—no crying over broken add-ons, little gup.</td>
+              </tr>
+              <tr>
+                <td class="col-topic">Roll Integrity</td>
+                <td class="col-old">Anyone can roll out of turn, fudge a range, or slip in a fake emote.</td>
+                <td class="col-gup">Reads real system <code class="cmd">/roll</code> messages only; wrong-range or out-of-turn rolls are ignored so no cheeky jonboy cheats.</td>
+              </tr>
+              <tr>
+                <td class="col-topic">Suspense &amp; Chat</td>
+                <td class="col-old">Number spoils instantly in <code class="cmd">/say</code> while cluttering everyone's chat box.</td>
+                <td class="col-gup">Rolls stay out of chat while the dice spin on both screens before landing—try not to blink, gup.</td>
+              </tr>
+              <tr>
+                <td class="col-topic">Stakes Visibility</td>
+                <td class="col-old">"Wait, were we rolling for 50g or 500g?" buried 20 lines up in chat.</td>
+                <td class="col-gup">The pot sits dead center in big, gleaming gold from challenge to result so even a distracted little gup remembers.</td>
+              </tr>
+              <tr>
+                <td class="col-topic">Debt Tracking</td>
+                <td class="col-old">"Oops, forgot how much I owed" until everyone logs off.</td>
+                <td class="col-gup">Open trade and a banner tracks gold going in, clearing the debt automatically when the trade completes.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -764,20 +1011,39 @@
             <svg class="dr-pirate-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="6"/><path d="M9 15v3a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-3"/><circle cx="10" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="10" r="1" fill="currentColor"/><path d="M5 20l14-4M19 20L5 16"/></svg>
             <h2 id="howto-heading">How to Play</h2>
           </div>
-          <p>Five steps, lil gup. Target someone, type <code class="cmd">/dr</code>, name your stakes, and roll down from 100.</p>
+          <p>Five steps, lil gup. Click through the walkthrough instead of scrolling forever.</p>
         </div>
-        <div class="dr-steps-list">
-          <div class="dr-step-item">
-            <span class="dr-step-badge">1</span>
-            <div class="dr-step-content">
-              <h3>Challenge a player</h3>
-              <p>Target a player and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If targeting a moving character is too mechanical for you, use <code class="cmd">/dr challenge First Last</code>.</p>
-            </div>
+        <div class="dr-walkthrough" id="dr-walkthrough">
+          <div class="dr-walk-nav" role="tablist" aria-label="How to play steps">
+            <button type="button" class="dr-walk-tab" role="tab" aria-selected="true" data-step="0">
+              <span class="dr-step-badge">1</span>
+              <span>Challenge a player</span>
+            </button>
+            <button type="button" class="dr-walk-tab" role="tab" aria-selected="false" data-step="1">
+              <span class="dr-step-badge">2</span>
+              <span>Pick your wager</span>
+            </button>
+            <button type="button" class="dr-walk-tab" role="tab" aria-selected="false" data-step="2">
+              <span class="dr-step-badge">3</span>
+              <span>Opponent accepts</span>
+            </button>
+            <button type="button" class="dr-walk-tab" role="tab" aria-selected="false" data-step="3">
+              <span class="dr-step-badge">4</span>
+              <span>Take turns rolling</span>
+            </button>
+            <button type="button" class="dr-walk-tab" role="tab" aria-selected="false" data-step="4">
+              <span class="dr-step-badge">5</span>
+              <span>Roll a 1 &amp; settle up</span>
+            </button>
           </div>
-          <div class="dr-step-item">
-            <span class="dr-step-badge">2</span>
-            <div class="dr-step-content">
-              <h3>Pick your wager</h3>
+          <div class="dr-walk-panel">
+            <div class="dr-walk-step" data-step-panel="0">
+              <h3>1. Challenge a player</h3>
+              <p>Target a player and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If targeting a moving character is too mechanical for you, use <code class="cmd">/dr challenge First Last</code>.</p>
+              <p style="margin-top: 10px;">Grouped up in a party or raid? You can challenge from anywhere in Azeroth. Flying solo? Stand close enough to see each other's rolls.</p>
+            </div>
+            <div class="dr-walk-step" data-step-panel="1" hidden>
+              <h3>2. Pick your wager</h3>
               <p>Type an amount or mash a quick pick (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> if you're broke. Before sending, the add-on checks that your opponent actually has Doctor Gup's Deathroller and a compatible version.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
@@ -788,11 +1054,8 @@
                 </figure>
               </div>
             </div>
-          </div>
-          <div class="dr-step-item">
-            <span class="dr-step-badge">3</span>
-            <div class="dr-step-content">
-              <h3>Opponent accepts</h3>
+            <div class="dr-walk-step" data-step-panel="2" hidden>
+              <h3>3. Opponent accepts</h3>
               <p>They accept from a popup showing the pot, your head-to-head record against each other, and a countdown—plenty of time for a little gup to rethink their life choices.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
@@ -803,11 +1066,8 @@
                 </figure>
               </div>
             </div>
-          </div>
-          <div class="dr-step-item">
-            <span class="dr-step-badge">4</span>
-            <div class="dr-step-content">
-              <h3>Take turns rolling</h3>
+            <div class="dr-walk-step" data-step-panel="3" hidden>
+              <h3>4. Take turns rolling</h3>
               <p>Take turns typing <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled. The first roll is <code class="cmd">/roll 100</code>—don't improvise.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
@@ -824,11 +1084,8 @@
                 </figure>
               </div>
             </div>
-          </div>
-          <div class="dr-step-item">
-            <span class="dr-step-badge">5</span>
-            <div class="dr-step-content">
-              <h3>Roll a 1 and settle up</h3>
+            <div class="dr-walk-step" data-step-panel="4" hidden>
+              <h3>5. Roll a 1 and settle up</h3>
               <p>Roll a <code class="cmd">1</code> and you lose, gup. The result screen shows who owes whom, any milestones, and buttons to rematch, double or nothing, or announce the beatdown.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
@@ -837,6 +1094,13 @@
                   </button>
                   <figcaption class="dr-shot-caption">Result screen with debt summary, milestones, and Rematch / Double or nothing.</figcaption>
                 </figure>
+              </div>
+            </div>
+            <div class="dr-walk-controls">
+              <span class="dr-walk-counter" id="dr-walk-counter">Step 1 of 5</span>
+              <div class="dr-walk-btns">
+                <button type="button" class="dr-walk-btn" id="dr-walk-prev" disabled>Previous</button>
+                <button type="button" class="dr-walk-btn" id="dr-walk-next">Next Step</button>
               </div>
             </div>
           </div>
@@ -855,29 +1119,34 @@
         <div class="dr-features-layout">
           <div class="dr-card dr-card--featured">
             <h3>Stats Window (<code class="cmd">/dr stats</code>)</h3>
-            <ul class="dr-sublist">
-              <li><strong>Overview:</strong> Your win/loss record, net gold, streaks, biggest win, and every opponent you've farmed (or fed).</li>
-              <li><strong>History:</strong> Your last 1,000 games, searchable and filterable by opponent, wins or losses, and time period. Hover any row to inspect every roll.</li>
-              <li><strong>Debts:</strong> Who owes you and who you owe, with <strong>Mark paid</strong> and <strong>Forgive</strong> (for when a lil gup begs hard enough).</li>
-            </ul>
-            <div class="dr-shot-grid-3">
+            <p>Switch between the three ledger tabs just like inside the add-on:</p>
+            <div class="dr-stats-tabs" role="tablist" aria-label="Stats window tabs">
+              <button type="button" class="dr-stats-tab" role="tab" aria-selected="true" data-stats-tab="overview">Overview</button>
+              <button type="button" class="dr-stats-tab" role="tab" aria-selected="false" data-stats-tab="history">History</button>
+              <button type="button" class="dr-stats-tab" role="tab" aria-selected="false" data-stats-tab="debts">Debts</button>
+            </div>
+            <div class="dr-stats-panel" data-stats-panel="overview">
+              <p><strong>Overview:</strong> Your win/loss record, net gold, streaks, biggest win, and every opponent you've farmed (or fed).</p>
               <figure class="dr-shot-card">
                 <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-overview.jpg" data-caption="Stats Overview: win/loss record, net gold, streak, biggest win, and opponents table">
                   <img src="assets/deathroller/stats-overview.jpg" alt="Deathroller Stats Overview tab showing record, net gold, streak, biggest win, and opponents" loading="lazy">
                 </button>
-                <figcaption class="dr-shot-caption"><strong>Overview:</strong> Record, net gold, streaks, and opponent breakdown.</figcaption>
               </figure>
+            </div>
+            <div class="dr-stats-panel" data-stats-panel="history" hidden>
+              <p><strong>History:</strong> Your last 1,000 games, searchable and filterable by opponent, wins or losses, and time period. Hover any row to inspect every roll.</p>
               <figure class="dr-shot-card">
                 <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-history.jpg" data-caption="Stats History: searchable 1,000-game log with time and result filters">
                   <img src="assets/deathroller/stats-history.jpg" alt="Deathroller Stats History tab with opponent search and All/Wins/Losses filters" loading="lazy">
                 </button>
-                <figcaption class="dr-shot-caption"><strong>History:</strong> Searchable 1,000-game log with roll counts and gold.</figcaption>
               </figure>
+            </div>
+            <div class="dr-stats-panel" data-stats-panel="debts" hidden>
+              <p><strong>Debts:</strong> Who owes you and who you owe, with <strong>Mark paid</strong> and <strong>Forgive</strong> (for when a lil gup begs hard enough).</p>
               <figure class="dr-shot-card">
                 <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-debts.jpg" data-caption="Stats Debts: unpaid deathrolls ledger with Mark paid and Forgive">
                   <img src="assets/deathroller/stats-debts.jpg" alt="Deathroller Stats Debts tab showing owed to you, you owe, Mark paid, and Forgive" loading="lazy">
                 </button>
-                <figcaption class="dr-shot-caption"><strong>Debts:</strong> Track unpaid pots with Mark paid and Forgive.</figcaption>
               </figure>
             </div>
           </div>
@@ -929,35 +1198,35 @@
             </thead>
             <tbody>
               <tr>
-                <td><code class="cmd">/dr</code> or <code class="cmd">/gup</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr</code> or <code class="cmd">/gup</code> <button type="button" class="dr-copy-btn" data-copy="/dr">Copy</button></span></td>
                 <td>With a player targeted: challenge them. Otherwise: open your game or stats.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr challenge First Last</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr challenge First Last</code> <button type="button" class="dr-copy-btn" data-copy="/dr challenge ">Copy</button></span></td>
                 <td>Challenge someone you can't manage to click on.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/roll N</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/roll N</code> <button type="button" class="dr-copy-btn" data-copy="/roll 100">Copy</button></span></td>
                 <td>Roll your turn (or type it right into the window's roll box).</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr forfeit</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr forfeit</code> <button type="button" class="dr-copy-btn" data-copy="/dr forfeit">Copy</button></span></td>
                 <td>Wave the white flag, or cancel a pending challenge.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr stats</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr stats</code> <button type="button" class="dr-copy-btn" data-copy="/dr stats">Copy</button></span></td>
                 <td>Open or close your ledger.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr options</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr options</code> <button type="button" class="dr-copy-btn" data-copy="/dr options">Copy</button></span></td>
                 <td>Open the options panel.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr minimap</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr minimap</code> <button type="button" class="dr-copy-btn" data-copy="/dr minimap">Copy</button></span></td>
                 <td>Show or hide the minimap button.</td>
               </tr>
               <tr>
-                <td><code class="cmd">/dr version</code></td>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr version</code> <button type="button" class="dr-copy-btn" data-copy="/dr version">Copy</button></span></td>
                 <td>Check your version before blaming the add-on.</td>
               </tr>
             </tbody>
@@ -1152,6 +1421,57 @@
       });
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && dialog.classList.contains('open')) closeLightbox();
+      });
+    })();
+
+    (function initInteractiveSections() {
+      // Walkthrough stepper
+      const walkTabs = Array.from(document.querySelectorAll('.dr-walk-tab'));
+      const walkPanels = Array.from(document.querySelectorAll('.dr-walk-step'));
+      const prevBtn = document.getElementById('dr-walk-prev');
+      const nextBtn = document.getElementById('dr-walk-next');
+      const counter = document.getElementById('dr-walk-counter');
+      let currentStep = 0;
+
+      function setStep(idx) {
+        currentStep = Math.max(0, Math.min(walkTabs.length - 1, idx));
+        walkTabs.forEach((tab, i) => tab.setAttribute('aria-selected', i === currentStep ? 'true' : 'false'));
+        walkPanels.forEach((panel, i) => { panel.hidden = i !== currentStep; });
+        if (counter) counter.textContent = `Step ${currentStep + 1} of ${walkTabs.length}`;
+        if (prevBtn) prevBtn.disabled = currentStep === 0;
+        if (nextBtn) nextBtn.disabled = currentStep === walkTabs.length - 1;
+      }
+
+      walkTabs.forEach((tab, i) => tab.addEventListener('click', () => setStep(i)));
+      if (prevBtn) prevBtn.addEventListener('click', () => setStep(currentStep - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => setStep(currentStep + 1));
+
+      // Stats window tab switcher
+      const statsTabs = Array.from(document.querySelectorAll('.dr-stats-tab'));
+      const statsPanels = Array.from(document.querySelectorAll('.dr-stats-panel'));
+      statsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.statsTab;
+          statsTabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+          statsPanels.forEach(p => { p.hidden = p.dataset.statsPanel !== target; });
+        });
+      });
+
+      // Click-to-copy command buttons
+      document.querySelectorAll('.dr-copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const text = btn.dataset.copy || '';
+          try {
+            await navigator.clipboard.writeText(text);
+            const orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              btn.textContent = orig;
+              btn.classList.remove('copied');
+            }, 1500);
+          } catch (e) {}
+        });
       });
     })();
   </script>
