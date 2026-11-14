@@ -5433,13 +5433,13 @@
       if (errEl) errEl.style.display = 'none';
       if (adminRow) adminRow.style.display = isAdminMode ? 'none' : 'block';
       if (textarea) textarea.value = '';
-      modal.classList.add('active');
-      if (textarea) setTimeout(() => textarea.focus(), 50);
+      modal.classList.add('open');
+      if (textarea) setTimeout(() => textarea.focus(), 80);
     }
 
     function closeImportModal() {
       const modal = document.getElementById('import-export-modal');
-      if (modal) modal.classList.remove('active');
+      if (modal) modal.classList.remove('open');
     }
 
     async function submitAddonExportSync() {
