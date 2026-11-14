@@ -209,6 +209,388 @@
       gap: 20px;
     }
 
+    .dr-cf-spotlight {
+      background: var(--card-bg);
+      border: 1px solid rgba(226, 186, 102, 0.42);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      margin-bottom: 16px;
+    }
+
+    .dr-cf-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .dr-cf-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dr-cf-title-group h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .dr-cf-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      background: rgba(192, 157, 82, 0.16);
+      border: 1px solid rgba(226, 186, 102, 0.45);
+      color: #e2ba66;
+    }
+
+    .dr-cf-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dr-cf-grid {
+      display: grid;
+      grid-template-columns: minmax(min(100%, 260px), 1fr) minmax(min(100%, 300px), 1.15fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .dr-cf-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dr-cf-step {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: inherit;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dr-cf-step:hover {
+      border-color: var(--card-border-hover);
+      color: var(--text-main);
+    }
+
+    .dr-cf-step[aria-selected="true"] {
+      background: rgba(192, 157, 82, 0.09);
+      border-color: rgba(226, 186, 102, 0.7);
+      color: var(--text-main);
+    }
+
+    .dr-cf-step[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background: #e2ba66;
+      transform-origin: left;
+      animation: drStepProgress 3.8s linear infinite;
+    }
+
+    .dr-cf-spotlight.paused .dr-cf-step[aria-selected="true"]::after {
+      animation: none;
+      width: 100%;
+    }
+
+    .dr-cf-step-text strong {
+      display: block;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .dr-cf-step-text span {
+      display: block;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .dr-cf-stage {
+      background: #0f1115;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 265px;
+    }
+
+    .dr-cf-window-bar {
+      background: #161920;
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .dr-cf-window-dots {
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .dr-cf-window-dots i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2f3440;
+      display: block;
+    }
+
+    .dr-cf-scene {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      animation: drSceneFade 0.25s ease;
+    }
+
+    .dr-cf-scene[hidden] {
+      display: none;
+    }
+
+    .dr-cf-mock-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dr-cf-mock-pill {
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background: #181a1f;
+      color: var(--text-dark);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .dr-cf-mock-pill.target {
+      color: #e2ba66;
+      border-color: #e2ba66;
+      background: rgba(192, 157, 82, 0.12);
+      animation: drPulseRing 1.6s ease-in-out infinite;
+    }
+
+    .dr-cf-mock-search {
+      background: #181a1f;
+      border: 1px solid rgba(226, 186, 102, 0.55);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dr-cf-mock-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: #e2ba66;
+      vertical-align: text-bottom;
+      animation: drBlink 0.9s steps(1) infinite;
+    }
+
+    .dr-cf-mock-row {
+      background: #181a1f;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dr-cf-mock-row-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dr-cf-mock-row-left img {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      background: #f8fafc;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .dr-cf-mock-row-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .dr-cf-mock-row-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .dr-cf-mock-install-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: #9e2a2b;
+      border: 1px solid rgba(226, 186, 102, 0.55);
+      color: #f8fafc;
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      animation: drPulseRing 1.5s ease-in-out infinite;
+    }
+
+    .dr-cf-progress-track {
+      height: 6px;
+      border-radius: 99px;
+      background: #1d2028;
+      overflow: hidden;
+    }
+
+    .dr-cf-progress-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #c09d52, #4ade80);
+      transform-origin: left;
+      animation: drInstallSweep 1.8s ease-out infinite;
+    }
+
+    .dr-cf-chat-box {
+      background: #181a1f;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+
+    .dr-cf-chat-ok {
+      color: #4ade80;
+    }
+
+    .dr-cf-scene-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .dr-manual-details {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 14px 20px;
+    }
+
+    .dr-manual-details summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .dr-manual-details summary:hover {
+      color: var(--text-main);
+    }
+
+    .dr-manual-details[open] summary {
+      color: #e2ba66;
+      margin-bottom: 12px;
+    }
+
+    .dr-manual-details ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @keyframes drStepProgress {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes drSceneFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes drPulseRing {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(226, 186, 102, 0.45); }
+      50% { box-shadow: 0 0 0 6px rgba(226, 186, 102, 0); }
+    }
+
+    @keyframes drBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    @keyframes drInstallSweep {
+      0% { transform: scaleX(0.08); }
+      75%, 100% { transform: scaleX(1); }
+    }
+
+    @media (max-width: 820px) {
+      .dr-cf-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dr-cf-step[aria-selected="true"]::after,
+      .dr-cf-mock-pill.target,
+      .dr-cf-mock-install-btn,
+      .dr-cf-progress-fill,
+      .dr-cf-mock-cursor,
+      .dr-cf-scene {
+        animation: none !important;
+      }
+    }
+
     .dr-jump-bar {
       display: flex;
       flex-wrap: wrap;
@@ -936,26 +1318,127 @@
           <h2 id="install-heading">How to Download &amp; Install</h2>
           <p>Built for World of Warcraft: Forever (interface 1.60.1). Yes, both of you have to install it—even your friend who still clicks their spells.</p>
         </div>
-        <div class="dr-grid-2">
-          <div class="dr-card">
-            <h3>Option 1: CurseForge App (Recommended)</h3>
-            <ol>
-              <li>Open the <strong>CurseForge</strong> desktop app and pick your <strong>WoW Forever</strong> install. Don't pick Retail, gup.</li>
-              <li>Search for <strong>Doctor Gup's Deathroller</strong> (or Project ID <code class="cmd">1803451</code> if spelling is tough today).</li>
-              <li>Click <strong>Install</strong>. CurseForge drops it straight into your AddOns folder and handles updates so you have one less excuse.</li>
-              <li>Already logged in? Type <code class="cmd">/reload</code> in chat so the game actually knows it exists.</li>
-            </ol>
+
+        <div class="dr-cf-spotlight" id="dr-cf-spotlight">
+          <div class="dr-cf-top">
+            <div class="dr-cf-title-group">
+              <h3>The CurseForge Way</h3>
+              <span class="dr-cf-badge">Recommended</span>
+            </div>
+            <div class="dr-cf-actions">
+              <button type="button" class="dr-walk-btn" id="dr-cf-autoplay" aria-pressed="true">Pause Tour</button>
+              <button type="button" class="dr-copy-btn" data-copy="1803451" style="padding: 7px 12px; font-size: 0.82rem;">Copy ID: 1803451</button>
+              <a href="https://www.curseforge.com/download/app" class="dr-secondary-btn" target="_blank" rel="noopener noreferrer" style="padding: 7px 14px;">Get CurseForge App</a>
+            </div>
           </div>
-          <div class="dr-card">
-            <h3>Option 2: Manual Zip Install</h3>
-            <ol>
-              <li>Head to the <a href="https://www.curseforge.com/wow/addons/doctor-gups-deathroller/files" target="_blank" rel="noopener noreferrer" style="color: #e2ba66;">CurseForge Files page</a> and download the latest <code class="cmd">DoctorGupsDeathroller-*.zip</code> release.</li>
-              <li>Extract the archive into your WoW Forever <code class="cmd">Interface\AddOns\</code> folder.</li>
-              <li>Verify the folder contains the <code class="cmd">.toc</code> file directly—not buried three folders deep like a classic little gup mistake.</li>
-              <li>Launch the game (or run <code class="cmd">/reload</code>) and make sure it is checked in the AddOns menu.</li>
-            </ol>
+
+          <div class="dr-cf-grid">
+            <div class="dr-cf-steps" role="tablist" aria-label="CurseForge installation steps">
+              <button type="button" class="dr-cf-step" role="tab" aria-selected="true" data-cf-step="0">
+                <span class="dr-step-badge">1</span>
+                <span class="dr-cf-step-text">
+                  <strong>Pick WoW Forever</strong>
+                  <span>Open CurseForge and select your <strong>WoW Forever</strong> install. Don't pick Retail, gup.</span>
+                </span>
+              </button>
+              <button type="button" class="dr-cf-step" role="tab" aria-selected="false" data-cf-step="1">
+                <span class="dr-step-badge">2</span>
+                <span class="dr-cf-step-text">
+                  <strong>Search Doctor Gup's Deathroller</strong>
+                  <span>Type the name or paste Project ID <code class="cmd">1803451</code> if spelling is tough today.</span>
+                </span>
+              </button>
+              <button type="button" class="dr-cf-step" role="tab" aria-selected="false" data-cf-step="2">
+                <span class="dr-step-badge">3</span>
+                <span class="dr-cf-step-text">
+                  <strong>Click Install</strong>
+                  <span>CurseForge drops it into your AddOns folder and handles updates automatically.</span>
+                </span>
+              </button>
+              <button type="button" class="dr-cf-step" role="tab" aria-selected="false" data-cf-step="3">
+                <span class="dr-step-badge">4</span>
+                <span class="dr-cf-step-text">
+                  <strong>Run /reload in WoW</strong>
+                  <span>Already logged in? Type <code class="cmd">/reload</code> in chat, then target a mark and <code class="cmd">/dr</code>.</span>
+                </span>
+              </button>
+            </div>
+
+            <div class="dr-cf-stage" aria-live="polite">
+              <div class="dr-cf-window-bar">
+                <span class="dr-cf-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span>CurseForge &rarr; World of Warcraft: Forever</span>
+              </div>
+
+              <div class="dr-cf-scene" data-cf-scene="0">
+                <p class="dr-cf-scene-note">1. Switch your active game flavor to <strong>WoW Forever (1.60.1)</strong>:</p>
+                <div class="dr-cf-mock-pills">
+                  <span class="dr-cf-mock-pill">Retail</span>
+                  <span class="dr-cf-mock-pill">Classic</span>
+                  <span class="dr-cf-mock-pill target">WoW Forever (1.60.1)</span>
+                </div>
+                <p class="dr-cf-scene-note">Installing to the wrong client is the #1 little gup mistake.</p>
+              </div>
+
+              <div class="dr-cf-scene" data-cf-scene="1" hidden>
+                <p class="dr-cf-scene-note">2. Search by name or Project ID:</p>
+                <div class="dr-cf-mock-search">
+                  <span>Doctor Gup's Deathroller <span class="dr-cf-mock-cursor"></span></span>
+                  <span style="color: #e2ba66; font-size: 0.78rem;">ID: 1803451</span>
+                </div>
+                <div class="dr-cf-mock-row">
+                  <div class="dr-cf-mock-row-left">
+                    <img src="assets/doctor_gups_deathroller.webp" alt="">
+                    <div>
+                      <div class="dr-cf-mock-row-title">Doctor Gup's Deathroller</div>
+                      <div class="dr-cf-mock-row-sub">by Cileb &middot; Forever 1.60.1</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dr-cf-scene" data-cf-scene="2" hidden>
+                <p class="dr-cf-scene-note">3. Hit Install and let the launcher handle the rest:</p>
+                <div class="dr-cf-mock-row">
+                  <div class="dr-cf-mock-row-left">
+                    <img src="assets/doctor_gups_deathroller.webp" alt="">
+                    <div>
+                      <div class="dr-cf-mock-row-title">Doctor Gup's Deathroller</div>
+                      <div class="dr-cf-mock-row-sub">Installing to Interface\AddOns\...</div>
+                    </div>
+                  </div>
+                  <span class="dr-cf-mock-install-btn">Install</span>
+                </div>
+                <div class="dr-cf-progress-track">
+                  <div class="dr-cf-progress-fill"></div>
+                </div>
+                <p class="dr-cf-scene-note">Future patches update automatically—zero folder juggling.</p>
+              </div>
+
+              <div class="dr-cf-scene" data-cf-scene="3" hidden>
+                <p class="dr-cf-scene-note">4. In-game chat:</p>
+                <div class="dr-cf-chat-box">
+                  <div>&gt; <code class="cmd">/reload</code></div>
+                  <div class="dr-cf-chat-ok">[Doctor Gup's Deathroller] Loaded. Target a player and type /dr!</div>
+                </div>
+                <p class="dr-cf-scene-note">You're ready. Don't embarrass yourself on the first roll.</p>
+              </div>
+            </div>
           </div>
         </div>
+
+        <details class="dr-manual-details">
+          <summary>
+            <span>Prefer Manual .zip Install? (Only if you refuse to use the CurseForge app)</span>
+            <span style="font-size: 0.8rem; color: #e2ba66;">Show steps</span>
+          </summary>
+          <ol>
+            <li>Head to the <a href="https://www.curseforge.com/wow/addons/doctor-gups-deathroller/files" target="_blank" rel="noopener noreferrer" style="color: #e2ba66;">CurseForge Files page</a> and download the latest <code class="cmd">DoctorGupsDeathroller-*.zip</code> release.</li>
+            <li>Extract the archive into your WoW Forever <code class="cmd">Interface\AddOns\</code> folder.</li>
+            <li>Verify the folder contains the <code class="cmd">.toc</code> file directly—not buried three folders deep like a classic little gup mistake.</li>
+            <li>Launch the game (or run <code class="cmd">/reload</code>) and make sure it is checked in the AddOns menu.</li>
+          </ol>
+        </details>
       </section>
 
       <!-- Why Doctor Gup's? -->
@@ -1410,6 +1893,53 @@
     })();
 
     (function initInteractiveSections() {
+      // CurseForge animated install tour
+      const cfSpotlight = document.getElementById('dr-cf-spotlight');
+      const cfSteps = Array.from(document.querySelectorAll('.dr-cf-step'));
+      const cfScenes = Array.from(document.querySelectorAll('.dr-cf-scene'));
+      const cfAutoBtn = document.getElementById('dr-cf-autoplay');
+      let cfIndex = 0;
+      let cfPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let cfTimer = null;
+
+      function setCfStep(idx) {
+        cfIndex = ((idx % cfSteps.length) + cfSteps.length) % cfSteps.length;
+        cfSteps.forEach((btn, i) => btn.setAttribute('aria-selected', i === cfIndex ? 'true' : 'false'));
+        cfScenes.forEach((scene, i) => { scene.hidden = i !== cfIndex; });
+      }
+
+      function syncAutoBtn() {
+        if (!cfSpotlight || !cfAutoBtn) return;
+        cfSpotlight.classList.toggle('paused', cfPaused);
+        cfAutoBtn.textContent = cfPaused ? 'Play Tour' : 'Pause Tour';
+        cfAutoBtn.setAttribute('aria-pressed', cfPaused ? 'false' : 'true');
+      }
+
+      function startCfTimer() {
+        clearInterval(cfTimer);
+        if (!cfPaused && cfSteps.length > 0) {
+          cfTimer = setInterval(() => setCfStep(cfIndex + 1), 3800);
+        }
+      }
+
+      cfSteps.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          setCfStep(i);
+          startCfTimer();
+        });
+      });
+
+      if (cfAutoBtn) {
+        cfAutoBtn.addEventListener('click', () => {
+          cfPaused = !cfPaused;
+          syncAutoBtn();
+          startCfTimer();
+        });
+      }
+
+      syncAutoBtn();
+      startCfTimer();
+
       // Walkthrough stepper
       const walkTabs = Array.from(document.querySelectorAll('.dr-walk-tab'));
       const walkPanels = Array.from(document.querySelectorAll('.dr-walk-step'));
