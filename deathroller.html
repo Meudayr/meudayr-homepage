@@ -7,12 +7,18 @@
   <meta name="description" content="Download and usage guide for Doctor Gup's Deathroller (Project ID 1803451) for World of Warcraft: Forever. Verified rolls, dice reveal, stats, and trade debt tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <style>
     .dr-page {
       padding: 40px 0 80px;
+    }
+
+    .dr-page a:focus-visible,
+    .dr-page button:focus-visible {
+      outline: 2px solid #e2ba66;
+      outline-offset: 2px;
     }
 
     .dr-hero-card {
@@ -33,7 +39,7 @@
       gap: 22px;
       align-items: flex-start;
       flex: 1;
-      min-width: 280px;
+      min-width: min(100%, 280px);
     }
 
     .dr-icon-wrap {
@@ -73,14 +79,17 @@
       margin: 0;
     }
 
-    .dr-meta-pill {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 100px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .dr-meta-text {
+      font-size: 0.82rem;
+      font-weight: 500;
       color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .dr-meta-text span + span::before {
+      content: "·";
+      margin: 0 8px;
+      color: var(--text-dark);
     }
 
     .dr-summary {
@@ -95,7 +104,7 @@
       flex-wrap: wrap;
       gap: 16px;
       font-size: 0.85rem;
-      color: var(--text-dark);
+      color: var(--text-muted);
     }
 
     .dr-stats-row .stat-item {
@@ -158,14 +167,59 @@
 
     .dr-grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
       gap: 20px;
     }
 
-    .dr-grid-3 {
+    .dr-why-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 14px;
+    }
+
+    .dr-why-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+    }
+
+    .dr-why-item h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .dr-why-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .dr-features-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
       gap: 20px;
+    }
+
+    .dr-card--featured {
+      grid-column: 1 / -1;
+      border-color: rgba(192, 157, 82, 0.3);
+    }
+
+    .dr-sublist {
+      margin-top: 12px;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dr-sublist strong {
+      color: var(--text-main);
     }
 
     .dr-card {
@@ -397,21 +451,23 @@
             <div class="dr-title-row">
               <h1 id="deathroller-title">Doctor Gup's Deathroller</h1>
               <span class="addon-game-badge forever">Forever (1.60.1)</span>
-              <span class="dr-meta-pill">Author: Cileb</span>
-              <span class="dr-meta-pill">Project ID: 1803451</span>
             </div>
-            <p class="dr-summary" id="desc-deathroller">Deathroll for gold in WoW Forever, with verified rolls, a suspenseful dice reveal and debt tracking.</p>
+            <p class="dr-meta-text">
+              <span>Author: Cileb</span>
+              <span>Project ID: 1803451</span>
+            </p>
+            <p class="dr-summary" id="desc-deathroller">Deathrolling, built for WoW Forever. Target a player, type /dr, name your stakes, and roll your way down from 100. Whoever rolls a 1 loses the pot.</p>
             <div class="dr-stats-row">
               <div class="stat-item">
-                <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+                <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
                 <span><span id="count-deathroller">9</span> Downloads</span>
               </div>
               <div class="stat-item">
-                <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                 <span><span id="val-version-deathroller">v1.2.0-forever</span></span>
               </div>
               <div class="stat-item">
-                <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+                <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
                 <span><span id="val-updated-deathroller">Updated Nov 14, 2026</span></span>
               </div>
             </div>
@@ -420,7 +476,7 @@
 
         <div class="dr-hero-actions">
           <a href="https://www.curseforge.com/wow/addons/doctor-gups-deathroller" class="download-btn" target="_blank" rel="noopener noreferrer" id="btn-cf-page">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14V9H9v7H7l5 5 5-5h-2v-7h-2v7h-2z"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14V9H9v7H7l5 5 5-5h-2v-7h-2v7h-2z"/></svg>
             Get on CurseForge
           </a>
           <a href="https://www.curseforge.com/wow/addons/doctor-gups-deathroller/files" class="dr-secondary-btn" target="_blank" rel="noopener noreferrer" id="btn-cf-files">
@@ -433,7 +489,7 @@
       <section class="dr-section" aria-labelledby="install-heading">
         <div class="dr-section-header">
           <h2 id="install-heading">How to Download &amp; Install</h2>
-          <p>Built for World of Warcraft: Forever (interface 1.60.1). Both players must have the addon installed to play.</p>
+          <p>Built for World of Warcraft: Forever (interface 1.60.1). Both players must have the add-on installed to play.</p>
         </div>
         <div class="dr-grid-2">
           <div class="dr-card">
@@ -442,7 +498,7 @@
               <li>Open the <strong>CurseForge</strong> desktop app and select your <strong>WoW Forever</strong> installation.</li>
               <li>Search for <strong>Doctor Gup's Deathroller</strong> (or Project ID <code class="cmd">1803451</code>).</li>
               <li>Click <strong>Install</strong>. CurseForge will place it in your AddOns folder and handle updates automatically.</li>
-              <li>If WoW is already running, type <code class="cmd">/reload</code> in chat to load the addon.</li>
+              <li>If WoW is already running, type <code class="cmd">/reload</code> in chat to load the add-on.</li>
             </ol>
           </div>
           <div class="dr-card">
@@ -457,88 +513,121 @@
         </div>
       </section>
 
-      <!-- How to Play -->
+      <!-- Why Gup's? -->
+      <section class="dr-section" aria-labelledby="why-heading">
+        <div class="dr-section-header">
+          <h2 id="why-heading">Why Gup's?</h2>
+        </div>
+        <div class="dr-why-list">
+          <div class="dr-why-item">
+            <h3>Made for Forever</h3>
+            <p>Works with Forever's first-and-last-name characters and its modern add-on rules.</p>
+          </div>
+          <div class="dr-why-item">
+            <h3>Rolls you can trust</h3>
+            <p>Every roll is a real <code class="cmd">/roll</code>, read from the game's own roll message. Rolls out of turn or with the wrong range are ignored, so nobody can fake a result.</p>
+          </div>
+          <div class="dr-why-item">
+            <h3>Real suspense</h3>
+            <p>The roll stays out of chat while the dice spin on both players' screens, then the number lands.</p>
+          </div>
+          <div class="dr-why-item">
+            <h3>Stakes front and center</h3>
+            <p>The gold pot sits in the middle of the window, big and gold, from the challenge to the result.</p>
+          </div>
+          <div class="dr-why-item">
+            <h3>Debts that actually get paid</h3>
+            <p>Open a trade with someone you owe, or who owes you, and a banner shows the amount and tracks the gold as it goes in. The debt clears when the trade completes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to play -->
       <section class="dr-section" aria-labelledby="howto-heading">
         <div class="dr-section-header">
           <h2 id="howto-heading">How to Play</h2>
-          <p>Target a player, name your stakes, and roll your way down from 100. Whoever rolls a 1 loses the pot.</p>
+          <p>Target a player, type <code class="cmd">/dr</code>, name your stakes, and roll your way down from 100.</p>
         </div>
         <div class="dr-steps-list">
           <div class="dr-step-item">
             <span class="dr-step-badge">1</span>
             <div class="dr-step-content">
-              <h3>Challenge Your Opponent</h3>
-              <p>Target another player nearby and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If you cannot target them directly, run <code class="cmd">/dr challenge First Last</code>.</p>
+              <h3>Challenge a player</h3>
+              <p>Target a player and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If you cannot target them directly, use <code class="cmd">/dr challenge First Last</code>.</p>
             </div>
           </div>
           <div class="dr-step-item">
             <span class="dr-step-badge">2</span>
             <div class="dr-step-content">
-              <h3>Pick Your Wager</h3>
-              <p>Type a gold amount or use one of the quick picks (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> for a friendly game. Before sending, the addon verifies that your opponent has Doctor Gup's Deathroller and a compatible version.</p>
+              <h3>Pick your wager</h3>
+              <p>Type an amount or use a quick pick (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> for a friendly game. Before you send, the add-on checks that your opponent has Doctor Gup's Deathroller and a compatible version.</p>
             </div>
           </div>
           <div class="dr-step-item">
             <span class="dr-step-badge">3</span>
             <div class="dr-step-content">
-              <h3>Opponent Accepts</h3>
-              <p>Your opponent receives a popup showing the pot, your head-to-head record against each other, and an accept countdown.</p>
+              <h3>Opponent accepts</h3>
+              <p>They accept from a popup showing the pot, your record against each other, and a countdown.</p>
             </div>
           </div>
           <div class="dr-step-item">
             <span class="dr-step-badge">4</span>
             <div class="dr-step-content">
-              <h3>Take Turns Rolling Down</h3>
-              <p>Type <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled (the opening roll is <code class="cmd">/roll 100</code>). Every roll is read from the game's real roll message—rolls out of turn or with the wrong range are ignored. Dice spin on both screens before the result lands.</p>
+              <h3>Take turns rolling</h3>
+              <p>Take turns typing <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled. The first roll is <code class="cmd">/roll 100</code>.</p>
             </div>
           </div>
           <div class="dr-step-item">
             <span class="dr-step-badge">5</span>
             <div class="dr-step-content">
-              <h3>Pay Out via the Trade Window</h3>
-              <p>Roll a <code class="cmd">1</code> and you lose. The result screen shows who owes whom, milestones, and rematch/announce buttons. When you open a trade with someone you owe (or who owes you), a banner displays the debt, tracks gold going in, warns if it's short, gives a one-click <strong>Put in</strong> button, and clears the debt when the trade completes.</p>
+              <h3>Roll a 1 and settle up</h3>
+              <p>Roll a <code class="cmd">1</code> and you lose. The result screen shows who owes whom, any milestones, and buttons to rematch or announce the result.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Key Features -->
+      <!-- Features -->
       <section class="dr-section" aria-labelledby="features-heading">
         <div class="dr-section-header">
-          <h2 id="features-heading">Key Features</h2>
+          <h2 id="features-heading">Features</h2>
         </div>
-        <div class="dr-grid-3">
-          <div class="dr-card">
-            <h3>Built for WoW Forever</h3>
-            <p>Supports Forever's first-and-last-name characters (<code class="cmd">First Last</code>) and modern addon rules out of the box.</p>
+        <div class="dr-features-layout">
+          <div class="dr-card dr-card--featured">
+            <h3>Stats Window (<code class="cmd">/dr stats</code>)</h3>
+            <ul class="dr-sublist">
+              <li><strong>Overview:</strong> Your record, net gold, streaks, biggest win, and every opponent you've played.</li>
+              <li><strong>History:</strong> Your last 1,000 games, searchable and filterable by opponent, wins or losses, and time period. Hover a game to see every roll.</li>
+              <li><strong>Debts:</strong> Who owes you and who you owe, with <strong>Mark paid</strong> and <strong>Forgive</strong>.</li>
+            </ul>
           </div>
           <div class="dr-card">
-            <h3>Verified Rolls &amp; Suspense</h3>
-            <p>Reads real <code class="cmd">/roll</code> system messages and ignores wrong-range or out-of-turn rolls. Keeps rolls out of chat while the dice spin on both screens.</p>
+            <h3>Game Window</h3>
+            <p>Both players, whose turn it is, the pot, the current number, a roll box, and the full roll history.</p>
           </div>
           <div class="dr-card">
-            <h3>Stats, History &amp; Debts</h3>
-            <p>Open <code class="cmd">/dr stats</code> for your win/loss record, net gold, streaks, biggest win, searchable 1,000-game history (hover to see every roll), and debt ledger with Mark Paid and Forgive.</p>
+            <h3>Trade Banner</h3>
+            <p>Appears only when there's a deathroll debt with the person you're trading. It shows the gold going in, warns if it's short, and has a one-click <strong>Put in</strong> button when you're paying.</p>
           </div>
           <div class="dr-card">
-            <h3>Trade Window Banner</h3>
-            <p>Appears only when trading someone with an active deathroll debt. Tracks gold in real time and offers a one-click <strong>Put in</strong> button.</p>
+            <h3>Announcements (Optional)</h3>
+            <p>Your character can emote challenges, results, and milestones such as win streaks and your biggest pot to people nearby. Nothing goes to <code class="cmd">/say</code>, party, or guild chat.</p>
           </div>
           <div class="dr-card">
-            <h3>No Chat Spam</h3>
-            <p>Addons communicate via hidden addon messages. Optional emotes for challenges, streaks, and big pots only fire if you enable them—nothing goes to <code class="cmd">/say</code>, party, or guild chat.</p>
+            <h3>Options</h3>
+            <p>Auto-focus the roll box, pre-fill <code class="cmd">/roll</code>, sounds, window size, and more, in its own window or under <strong>Options &gt; AddOns</strong>.</p>
           </div>
           <div class="dr-card">
-            <h3>Minimap &amp; Options</h3>
-            <p>Left-click the minimap button for your game or stats; right-click for options (auto-focus roll box, pre-fill <code class="cmd">/roll</code>, sounds, window size).</p>
+            <h3>Minimap Button</h3>
+            <p>Left-click for the game or your stats, right-click for options, drag to move. It's also in the add-on compartment.</p>
           </div>
         </div>
       </section>
 
-      <!-- Slash Commands Table -->
+      <!-- Commands Table -->
       <section class="dr-section" aria-labelledby="commands-heading">
         <div class="dr-section-header">
-          <h2 id="commands-heading">Slash Commands</h2>
+          <h2 id="commands-heading">Commands</h2>
         </div>
         <div class="dr-table-wrap">
           <table class="dr-table">
@@ -551,27 +640,27 @@
             <tbody>
               <tr>
                 <td><code class="cmd">/dr</code> or <code class="cmd">/gup</code></td>
-                <td>With a player targeted: challenge them. Otherwise: show your active game or stats.</td>
+                <td>With a player targeted: challenge them. Otherwise: show your game or stats.</td>
               </tr>
               <tr>
                 <td><code class="cmd">/dr challenge First Last</code></td>
-                <td>Challenge a player by name when you cannot target them directly.</td>
+                <td>Challenge someone you can't target.</td>
               </tr>
               <tr>
                 <td><code class="cmd">/roll N</code></td>
-                <td>Roll your turn (can also be typed in the addon window's roll box).</td>
+                <td>Roll your turn (or type it in the window's roll box).</td>
               </tr>
               <tr>
                 <td><code class="cmd">/dr forfeit</code></td>
-                <td>Forfeit your current game, or cancel a pending challenge.</td>
+                <td>Give up, or cancel your challenge.</td>
               </tr>
               <tr>
                 <td><code class="cmd">/dr stats</code></td>
-                <td>Open or close the Stats, History, and Debts window.</td>
+                <td>Open or close the stats window.</td>
               </tr>
               <tr>
                 <td><code class="cmd">/dr options</code></td>
-                <td>Open the addon options window.</td>
+                <td>Open the options.</td>
               </tr>
               <tr>
                 <td><code class="cmd">/dr minimap</code></td>
@@ -579,20 +668,21 @@
               </tr>
               <tr>
                 <td><code class="cmd">/dr version</code></td>
-                <td>Display your installed addon version.</td>
+                <td>Show your version.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Good to Know -->
+      <!-- Good to know -->
       <section class="dr-notice" aria-labelledby="notes-heading">
         <h3 id="notes-heading">Good to Know</h3>
         <ul>
-          <li><strong>Both players need the addon:</strong> It checks compatibility before sending a challenge and warns you if the other player is offline, busy, or on an incompatible version.</li>
-          <li><strong>Stand close or group up:</strong> System roll messages only reach nearby players and group members.</li>
-          <li><strong>Honor system:</strong> The addon never moves gold on its own—trades still require both players to accept.</li>
+          <li><strong>Both players need the add-on.</strong> It checks before you challenge and tells you if the other player is offline, busy, or on an incompatible version.</li>
+          <li><strong>Stand close or group up.</strong> Roll messages only reach nearby players and group members.</li>
+          <li><strong>It never moves gold on its own.</strong> Trades still need both of you to accept, and wagers are an honor system.</li>
+          <li><strong>No chat spam.</strong> The add-ons talk to each other with hidden add-on messages. Emotes only happen if you turn them on.</li>
         </ul>
       </section>
 
