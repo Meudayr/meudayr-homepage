@@ -22,8 +22,11 @@
     }
 
     .dr-hero-card {
+      position: relative;
+      overflow: hidden;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
+      border-top: 3px solid var(--accent);
       border-radius: var(--radius-lg);
       padding: 32px;
       display: flex;
@@ -32,6 +35,41 @@
       justify-content: space-between;
       flex-wrap: wrap;
       margin-bottom: 32px;
+    }
+
+    .dr-hero-compass {
+      position: absolute;
+      right: -28px;
+      top: -28px;
+      width: 200px;
+      height: 200px;
+      color: var(--accent);
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .dr-hero-actions .download-btn {
+      background: #9e2a2b;
+      border: 1px solid rgba(226, 186, 102, 0.35);
+      color: #f8fafc;
+    }
+
+    .dr-hero-actions .download-btn:hover {
+      background: #b53233;
+      border-color: rgba(226, 186, 102, 0.65);
+    }
+
+    .dr-section-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dr-pirate-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--accent);
+      flex-shrink: 0;
     }
 
     .dr-hero-left {
@@ -329,6 +367,132 @@
       align-items: flex-start;
     }
 
+    .dr-step-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dr-step-body {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .dr-step-text {
+      flex: 1;
+      min-width: min(100%, 260px);
+    }
+
+    .dr-step-media {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .dr-shot-card {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 230px;
+    }
+
+    .dr-shot-btn {
+      display: block;
+      padding: 0;
+      border: 1px solid rgba(192, 157, 82, 0.35);
+      border-radius: var(--radius-md);
+      background: #0d0f12;
+      overflow: hidden;
+      cursor: zoom-in;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .dr-shot-btn:hover {
+      border-color: #e2ba66;
+      transform: translateY(-2px);
+    }
+
+    .dr-shot-btn img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .dr-shot-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .dr-shot-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .dr-shot-grid-3 .dr-shot-card {
+      max-width: none;
+    }
+
+    .dr-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(8, 10, 13, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .dr-lightbox.open {
+      display: flex;
+    }
+
+    .dr-lightbox-inner {
+      position: relative;
+      max-width: min(92vw, 900px);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dr-lightbox-inner img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(192, 157, 82, 0.5);
+      background: #111317;
+    }
+
+    .dr-lightbox-caption {
+      color: var(--text-main);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .dr-lightbox-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(192, 157, 82, 0.6);
+      background: #181a1f;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
     .dr-step-content h3 {
       font-family: var(--font-display);
       font-size: 1.05rem;
@@ -486,6 +650,12 @@
 
       <!-- Addon Hero Card -->
       <section class="dr-hero-card" aria-labelledby="deathroller-title">
+        <svg class="dr-hero-compass" aria-hidden="true" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="50" cy="50" r="44"/>
+          <circle cx="50" cy="50" r="34" stroke-dasharray="3 4"/>
+          <polygon points="50,6 56,44 94,50 56,56 50,94 44,56 6,50 44,44" fill="currentColor" fill-opacity="0.35"/>
+          <circle cx="50" cy="50" r="5" fill="currentColor"/>
+        </svg>
         <div class="dr-hero-left">
           <div class="dr-icon-wrap">
             <img src="assets/doctor_gups_deathroller.webp" alt="Doctor Gup's Deathroller Icon">
@@ -588,7 +758,10 @@
       <!-- How to play -->
       <section class="dr-section" aria-labelledby="howto-heading">
         <div class="dr-section-header">
-          <h2 id="howto-heading">How to Play</h2>
+          <div class="dr-section-title-row">
+            <svg class="dr-pirate-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="6"/><path d="M9 15v3a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-3"/><circle cx="10" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="10" r="1" fill="currentColor"/><path d="M5 20l14-4M19 20L5 16"/></svg>
+            <h2 id="howto-heading">How to Play</h2>
+          </div>
           <p>Target a player, type <code class="cmd">/dr</code>, name your stakes, and roll your way down from 100.</p>
         </div>
         <div class="dr-steps-list">
@@ -604,6 +777,14 @@
             <div class="dr-step-content">
               <h3>Pick your wager</h3>
               <p>Type an amount or use a quick pick (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> for a friendly game. Before you send, the add-on checks that your opponent has Doctor Gup's Deathroller and a compatible version.</p>
+              <div class="dr-step-media">
+                <figure class="dr-shot-card">
+                  <button type="button" class="dr-shot-btn" data-full="assets/deathroller/wager-challenge.jpg" data-caption="New deathroll window with quick picks and version check">
+                    <img src="assets/deathroller/wager-challenge.jpg" alt="New deathroll wager window showing quick picks, gold balance, and version check" loading="lazy">
+                  </button>
+                  <figcaption class="dr-shot-caption">Quick-pick stakes and automatic version check before challenging.</figcaption>
+                </figure>
+              </div>
             </div>
           </div>
           <div class="dr-step-item">
@@ -611,6 +792,14 @@
             <div class="dr-step-content">
               <h3>Opponent accepts</h3>
               <p>They accept from a popup showing the pot, your record against each other, and a countdown.</p>
+              <div class="dr-step-media">
+                <figure class="dr-shot-card">
+                  <button type="button" class="dr-shot-btn" data-full="assets/deathroller/challenge-waiting.jpg" data-caption="Active challenge waiting for opponent acceptance with 60s countdown">
+                    <img src="assets/deathroller/challenge-waiting.jpg" alt="Challenge window showing 2G pot, starting roll 100, and expiration countdown" loading="lazy">
+                  </button>
+                  <figcaption class="dr-shot-caption">Gold pot and challenge countdown while waiting for parley.</figcaption>
+                </figure>
+              </div>
             </div>
           </div>
           <div class="dr-step-item">
@@ -618,6 +807,20 @@
             <div class="dr-step-content">
               <h3>Take turns rolling</h3>
               <p>Take turns typing <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled. The first roll is <code class="cmd">/roll 100</code>.</p>
+              <div class="dr-step-media">
+                <figure class="dr-shot-card">
+                  <button type="button" class="dr-shot-btn" data-full="assets/deathroller/turn-roll.jpg" data-caption="Your turn: roll box pre-filled with /roll 100 and Chance to Win bar">
+                    <img src="assets/deathroller/turn-roll.jpg" alt="Deathroll game window showing Your turn prompt and /roll 100 input" loading="lazy">
+                  </button>
+                  <figcaption class="dr-shot-caption">Your turn prompt with the <code class="cmd">/roll</code> box ready.</figcaption>
+                </figure>
+                <figure class="dr-shot-card">
+                  <button type="button" class="dr-shot-btn" data-full="assets/deathroller/dice-reveal.jpg" data-caption="Dice spinning on both screens before the roll result lands">
+                    <img src="assets/deathroller/dice-reveal.jpg" alt="Deathroll window showing spinning dice animation during active roll" loading="lazy">
+                  </button>
+                  <figcaption class="dr-shot-caption">Dice spin on both screens while the result stays out of chat.</figcaption>
+                </figure>
+              </div>
             </div>
           </div>
           <div class="dr-step-item">
@@ -625,6 +828,14 @@
             <div class="dr-step-content">
               <h3>Roll a 1 and settle up</h3>
               <p>Roll a <code class="cmd">1</code> and you lose. The result screen shows who owes whom, any milestones, and buttons to rematch or announce the result.</p>
+              <div class="dr-step-media">
+                <figure class="dr-shot-card">
+                  <button type="button" class="dr-shot-btn" data-full="assets/deathroller/victory-result.jpg" data-caption="Victory screen showing owed gold, head-to-head score, milestones, and Rematch / Double or nothing">
+                    <img src="assets/deathroller/victory-result.jpg" alt="Victory result screen showing 2G won, Biggest pot yet milestone, and Rematch or Double or nothing buttons" loading="lazy">
+                  </button>
+                  <figcaption class="dr-shot-caption">Result screen with debt summary, milestones, and Rematch / Double or nothing.</figcaption>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
@@ -633,7 +844,10 @@
       <!-- Features -->
       <section class="dr-section" aria-labelledby="features-heading">
         <div class="dr-section-header">
-          <h2 id="features-heading">Features</h2>
+          <div class="dr-section-title-row">
+            <svg class="dr-pirate-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="12,5 14,10 19,12 14,14 12,19 10,14 5,12 10,10" fill="currentColor" fill-opacity="0.3"/></svg>
+            <h2 id="features-heading">Features &amp; Captain's Ledger</h2>
+          </div>
         </div>
         <div class="dr-features-layout">
           <div class="dr-card dr-card--featured">
@@ -643,10 +857,38 @@
               <li><strong>History:</strong> Your last 1,000 games, searchable and filterable by opponent, wins or losses, and time period. Hover a game to see every roll.</li>
               <li><strong>Debts:</strong> Who owes you and who you owe, with <strong>Mark paid</strong> and <strong>Forgive</strong>.</li>
             </ul>
+            <div class="dr-shot-grid-3">
+              <figure class="dr-shot-card">
+                <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-overview.jpg" data-caption="Stats Overview: win/loss record, net gold, streak, biggest win, and opponents table">
+                  <img src="assets/deathroller/stats-overview.jpg" alt="Deathroller Stats Overview tab showing record, net gold, streak, biggest win, and opponents" loading="lazy">
+                </button>
+                <figcaption class="dr-shot-caption"><strong>Overview:</strong> Record, net gold, streaks, and opponent breakdown.</figcaption>
+              </figure>
+              <figure class="dr-shot-card">
+                <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-history.jpg" data-caption="Stats History: searchable 1,000-game log with time and result filters">
+                  <img src="assets/deathroller/stats-history.jpg" alt="Deathroller Stats History tab with opponent search and All/Wins/Losses filters" loading="lazy">
+                </button>
+                <figcaption class="dr-shot-caption"><strong>History:</strong> Searchable 1,000-game log with roll counts and gold.</figcaption>
+              </figure>
+              <figure class="dr-shot-card">
+                <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-debts.jpg" data-caption="Stats Debts: unpaid deathrolls ledger with Mark paid and Forgive">
+                  <img src="assets/deathroller/stats-debts.jpg" alt="Deathroller Stats Debts tab showing owed to you, you owe, Mark paid, and Forgive" loading="lazy">
+                </button>
+                <figcaption class="dr-shot-caption"><strong>Debts:</strong> Track unpaid pots with Mark paid and Forgive.</figcaption>
+              </figure>
+            </div>
           </div>
           <div class="dr-card">
             <h3>Game Window</h3>
             <p>Both players, whose turn it is, the pot, the current number, a roll box, and the full roll history.</p>
+            <div class="dr-step-media">
+              <figure class="dr-shot-card">
+                <button type="button" class="dr-shot-btn" data-full="assets/deathroller/close-call.jpg" data-caption="Game Window close call: 1 in 2 chance of rolling a 1 with full roll history">
+                  <img src="assets/deathroller/close-call.jpg" alt="Deathroll Game Window showing Close Call 1 in 2 chance of a 1 and roll trail" loading="lazy">
+                </button>
+                <figcaption class="dr-shot-caption">Live odds bar, close-call alert, and color-coded roll trail.</figcaption>
+              </figure>
+            </div>
           </div>
           <div class="dr-card">
             <h3>Trade Banner</h3>
@@ -733,6 +975,15 @@
 
     </div>
   </main>
+
+  <!-- Screenshot Lightbox -->
+  <div class="dr-lightbox" id="dr-lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+    <div class="dr-lightbox-inner">
+      <button type="button" class="dr-lightbox-close" id="dr-lightbox-close" aria-label="Close screenshot preview">&times;</button>
+      <img id="dr-lightbox-img" src="" alt="">
+      <p class="dr-lightbox-caption" id="dr-lightbox-caption"></p>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -869,6 +1120,41 @@
     }
 
     checkPlexStatus();
+
+    (function initLightbox() {
+      const dialog = document.getElementById('dr-lightbox');
+      const img = document.getElementById('dr-lightbox-img');
+      const caption = document.getElementById('dr-lightbox-caption');
+      const closeBtn = document.getElementById('dr-lightbox-close');
+      if (!dialog || !img || !caption || !closeBtn) return;
+
+      let lastTrigger = null;
+
+      function closeLightbox() {
+        dialog.classList.remove('open');
+        img.src = '';
+        if (lastTrigger) lastTrigger.focus();
+      }
+
+      document.querySelectorAll('.dr-shot-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          lastTrigger = btn;
+          img.src = btn.dataset.full || '';
+          img.alt = btn.querySelector('img')?.alt || '';
+          caption.textContent = btn.dataset.caption || '';
+          dialog.classList.add('open');
+          closeBtn.focus();
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      dialog.addEventListener('click', e => {
+        if (e.target === dialog) closeLightbox();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && dialog.classList.contains('open')) closeLightbox();
+      });
+    })();
   </script>
   <script src="nav.js" defer></script>
 </body>
