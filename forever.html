@@ -2407,7 +2407,8 @@
       transition: var(--transition);
     }
 
-    .quick-spec-opt:hover {
+    .quick-spec-opt:hover,
+    .quick-spec-opt.active {
       background: rgba(250, 204, 21, 0.12);
       border-color: rgba(250, 204, 21, 0.35);
       color: #facc15;
@@ -6563,12 +6564,7 @@
             </div>
 
             <div class="member-roles-container">
-              ${primRole ? `
-                <span class="member-role-badge ${primTagClass}">
-                  <img src="${getIconUrl(primIcon)}" alt="${primRole}">
-                  ${escapeHtml(primRole)}
-                </span>
-              ` : (() => {
+              ${(() => {
                 const classSpecs = SPEC_DATA[m.className] || {};
                 const specChoices = [];
                 Object.entries(classSpecs).forEach(([sName, sInfo]) => {
@@ -6579,22 +6575,33 @@
                 const isMenuOpen = openQuickSpecCardId === m.id;
                 const menuHtml = isMenuOpen ? `
                   <div class="quick-spec-menu" onclick="event.stopPropagation()">
-                    ${specChoices.map(ch => `
-                      <button type="button" class="quick-spec-opt" onclick="quickSetMemberSpec(event, '${escapeHtml(m.id)}', '${escapeHtml(ch.spec).replace(/'/g, "\\'")}', '${escapeHtml(ch.role)}')">
-                        <span class="quick-spec-opt-left">
-                          <img src="${getIconUrl(ch.icon)}" alt="">
-                          <span>${escapeHtml(ch.spec)}</span>
-                        </span>
-                        <span style="font-size:0.66rem; color:var(--text-muted);">${escapeHtml(ch.role)}</span>
-                      </button>
-                    `).join('')}
+                    ${specChoices.map(ch => {
+                      const isCur = m.spec === ch.spec && primRole === ch.role;
+                      return `
+                        <button type="button" class="quick-spec-opt ${isCur ? 'active' : ''}" onclick="quickSetMemberSpec(event, '${escapeHtml(m.id)}', '${escapeHtml(ch.spec).replace(/'/g, "\\'")}', '${escapeHtml(ch.role)}')">
+                          <span class="quick-spec-opt-left">
+                            <img src="${getIconUrl(ch.icon)}" alt="">
+                            <span>${escapeHtml(ch.spec)}</span>
+                          </span>
+                          <span style="font-size:0.66rem; color:var(--text-muted);">${escapeHtml(ch.role)}</span>
+                        </button>
+                      `;
+                    }).join('')}
                   </div>
                 ` : '';
+                const triggerBtn = primRole ? `
+                  <button type="button" class="member-role-badge ${primTagClass}" onclick="toggleQuickSpecDropdown(event, '${escapeHtml(m.id)}')" style="cursor: pointer;" title="Click to change spec">
+                    <img src="${getIconUrl(primIcon)}" alt="${primRole}">
+                    ${escapeHtml(primRole)} ▾
+                  </button>
+                ` : `
+                  <button type="button" class="member-role-badge" onclick="toggleQuickSpecDropdown(event, '${escapeHtml(m.id)}')" style="background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.28); color: #facc15; cursor: pointer;" title="Quick-select spec">
+                    + Set Spec ▾
+                  </button>
+                `;
                 return `
                   <div class="quick-spec-wrap">
-                    <button type="button" class="member-role-badge" onclick="toggleQuickSpecDropdown(event, '${escapeHtml(m.id)}')" style="background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.28); color: #facc15; cursor: pointer;" title="Quick-select spec">
-                      + Set Spec ▾
-                    </button>
+                    ${triggerBtn}
                     ${menuHtml}
                   </div>
                 `;
