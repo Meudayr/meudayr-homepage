@@ -1251,6 +1251,106 @@
       color: #facc15;
     }
 
+    .action-items-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-items-btn.has-items {
+      border-color: rgba(250, 204, 21, 0.4);
+      color: #facc15;
+    }
+
+    .action-items-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(250, 204, 21, 0.18);
+      color: #facc15;
+    }
+
+    .action-items-btn:not(.has-items) .action-items-badge {
+      background: rgba(52, 211, 153, 0.15);
+      color: #34d399;
+    }
+
+    .action-items-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: 420px;
+      max-width: 94vw;
+      background: #14161d;
+      border-left: 1px solid rgba(250, 204, 21, 0.25);
+      box-shadow: -16px 0 42px rgba(0, 0, 0, 0.7);
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.22s ease;
+    }
+
+    .action-items-drawer.open {
+      transform: translateX(0);
+    }
+
+    .action-items-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .action-items-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .action-items-section-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .action-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      margin-bottom: 6px;
+    }
+
+    .action-item-select {
+      background: #0f1116;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      font-size: 0.74rem;
+      padding: 5px 8px;
+      max-width: 155px;
+      cursor: pointer;
+    }
+
     /* Analytics Dashboard Layout */
     .analytics-view {
       display: flex;
@@ -3819,6 +3919,12 @@
                 <span id="btn-toggle-sidebar-text">+ Add Manual</span>
               </button>
 
+              <!-- Action Items Drawer Trigger -->
+              <button type="button" class="toolbar-action-btn action-items-btn" id="btn-action-items" onclick="toggleActionItemsDrawer()" title="Assign specs to members and mains to alts">
+                <span>Action Items</span>
+                <span class="action-items-badge" id="action-items-count">0</span>
+              </button>
+
               <!-- Admin Mode Toggle Button -->
               <button class="admin-toggle-btn" id="btn-admin-toggle" onclick="handleAdminClick()" title="Unlock Admin Mode to manage entries without PIN">
                 <svg id="admin-toggle-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
@@ -4074,6 +4180,23 @@
 
     </div>
   </main>
+
+  <!-- Action Items Side Drawer -->
+  <aside class="action-items-drawer" id="action-items-drawer" aria-hidden="true">
+    <div class="action-items-header">
+      <div>
+        <strong style="font-family: var(--font-display); color: #facc15; font-size: 1rem;">Action Items</strong>
+        <div id="action-items-subtitle" style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Unassigned specs &amp; alts</div>
+      </div>
+      <button type="button" class="form-collapse-btn" onclick="closeActionItemsDrawer()" title="Close Action Items">
+        <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        <span>Close</span>
+      </button>
+    </div>
+    <div class="action-items-body" id="action-items-body">
+      <!-- Dynamically rendered -->
+    </div>
+  </aside>
 
   <!-- PIN Modal for editing protected records (Bypassed in Admin Mode) -->
   <div class="pin-modal-overlay" id="pin-modal">
@@ -6048,6 +6171,7 @@
       document.getElementById('stat-melee-count').textContent = meleeDps;
       document.getElementById('stat-ranged-count').textContent = rangedDps;
       updateStatCardsActive();
+      if (typeof renderActionItemsDrawer === 'function') renderActionItemsDrawer();
     }
 
     function updateStatCardsActive() {
@@ -8321,6 +8445,142 @@
       updateGuildSyncBanner();
       renderAltsWorkflow();
       renderRoster();
+      renderActionItemsDrawer();
+    }
+
+    function toggleActionItemsDrawer(forceOpen = null) {
+      const drawer = document.getElementById('action-items-drawer');
+      if (!drawer) return;
+      const shouldOpen = forceOpen !== null ? Boolean(forceOpen) : !drawer.classList.contains('open');
+      drawer.classList.toggle('open', shouldOpen);
+      drawer.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+      if (shouldOpen) renderActionItemsDrawer();
+    }
+
+    function closeActionItemsDrawer() {
+      toggleActionItemsDrawer(false);
+    }
+
+    function quickSetMemberSpecFromAction(selectEl, memberId) {
+      const val = selectEl ? selectEl.value : '';
+      if (!val) return;
+      const [specName, roleName] = val.split('||');
+      if (specName && roleName) {
+        quickSetMemberSpec(null, memberId, specName, roleName);
+      }
+    }
+
+    function renderActionItemsDrawer() {
+      const noSpecMembers = rosterList
+        .filter(m => !m.spec || !(m.role || (Array.isArray(m.roles) && m.roles.length > 0)))
+        .sort((a, b) => (a.playerName || '').localeCompare(b.playerName || ''));
+      const unassignedAlts = altsList
+        .filter(a => !(a.mainName || '').trim())
+        .sort((a, b) => (a.playerName || '').localeCompare(b.playerName || ''));
+
+      const totalCount = noSpecMembers.length + unassignedAlts.length;
+      const badgeEl = document.getElementById('action-items-count');
+      const btnEl = document.getElementById('btn-action-items');
+      if (badgeEl) badgeEl.textContent = totalCount;
+      if (btnEl) btnEl.classList.toggle('has-items', totalCount > 0);
+
+      const subtitleEl = document.getElementById('action-items-subtitle');
+      if (subtitleEl) {
+        subtitleEl.textContent = `${noSpecMembers.length} missing spec · ${unassignedAlts.length} unassigned alts`;
+      }
+
+      const body = document.getElementById('action-items-body');
+      if (!body) return;
+
+      if (totalCount === 0) {
+        body.innerHTML = `
+          <div style="text-align: center; padding: 36px 16px; color: var(--text-muted);">
+            <div style="font-size: 1.05rem; font-weight: 700; color: #34d399; margin-bottom: 6px;">All Caught Up</div>
+            <p style="font-size: 0.82rem;">Every guild member has a spec assigned and every alt is linked to a main.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const mainNames = rosterList.map(m => m.playerName).filter(Boolean).sort((a, b) => a.localeCompare(b));
+
+      const specsSectionHtml = `
+        <div class="action-items-section">
+          <div class="action-items-section-title">
+            <span>Players Without Specs (${noSpecMembers.length})</span>
+          </div>
+          ${noSpecMembers.length === 0 ? '<div style="font-size:0.78rem; color:var(--text-dark); padding:6px 2px;">All members have a spec assigned.</div>' : noSpecMembers.map(m => {
+            const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
+            const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
+            const classSpecs = SPEC_DATA[m.className] || {};
+            const choices = [];
+            Object.entries(classSpecs).forEach(([sName, sInfo]) => {
+              (sInfo.defaultRoles || []).forEach(rName => {
+                choices.push({ spec: sName, role: rName });
+              });
+            });
+            const noteText = (m.publicNote || m.notes || '').trim();
+            return `
+              <div class="action-item-row">
+                <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+                  <img src="${getIconUrl(classIcon)}" style="width:20px; height:20px; border-radius:4px; border:1px solid ${classColor}; flex-shrink:0;" alt="">
+                  <div style="min-width:0;">
+                    <div style="color:${classColor}; font-weight:700; font-size:0.8rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                      ${escapeHtml(m.playerName)} <span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level || '?'}</span>
+                    </div>
+                    <div style="color:var(--text-muted); font-size:0.68rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtml(noteText)}">
+                      ${escapeHtml(m.className || '')}${noteText ? ' · ' + escapeHtml(noteText) : ''}
+                    </div>
+                  </div>
+                </div>
+                <select class="action-item-select" onchange="quickSetMemberSpecFromAction(this, '${escapeHtml(m.id)}')">
+                  <option value="">Set Spec...</option>
+                  ${choices.map(ch => `<option value="${escapeHtml(ch.spec)}||${escapeHtml(ch.role)}">${escapeHtml(ch.spec)} (${escapeHtml(ch.role)})</option>`).join('')}
+                </select>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      const altsSectionHtml = `
+        <div class="action-items-section">
+          <div class="action-items-section-title">
+            <span>Unassigned Alts (${unassignedAlts.length})</span>
+            ${altsDirty ? '<button type="button" class="btn-import-export" style="padding:3px 9px; font-size:0.7rem;" onclick="saveAltsAssignments()">Save Alts *</button>' : ''}
+          </div>
+          ${unassignedAlts.length === 0 ? '<div style="font-size:0.78rem; color:var(--text-dark); padding:6px 2px;">All alts are assigned to a main.</div>' : unassignedAlts.map(alt => {
+            const classColor = CLASS_COLORS[alt.className] || 'var(--text-main)';
+            const classIcon = CLASS_ICONS[alt.className] || 'inv_misc_questionmark';
+            const suggested = suggestMainForAlt(alt);
+            const safeAlt = escapeHtml(alt.playerName).replace(/'/g, "\\'");
+            return `
+              <div class="action-item-row">
+                <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+                  <img src="${getIconUrl(classIcon)}" style="width:20px; height:20px; border-radius:4px; border:1px solid ${classColor}; flex-shrink:0;" alt="">
+                  <div style="min-width:0;">
+                    <div style="color:${classColor}; font-weight:700; font-size:0.8rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                      ${escapeHtml(alt.playerName)} <span style="color:var(--text-dark); font-size:0.7rem;">Lv${alt.level || '?'}</span>
+                    </div>
+                    <div style="color:var(--text-muted); font-size:0.68rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtml(alt.publicNote || '')}">
+                      ${alt.publicNote ? escapeHtml(alt.publicNote) : 'No guild note'}
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">
+                  ${suggested ? `<button type="button" class="card-action-btn" style="padding:4px 7px; font-size:0.68rem; color:#6ee7b7;" onclick="assignAltMain('${safeAlt}', '${escapeHtml(suggested).replace(/'/g, "\\'")}')">→ ${escapeHtml(suggested)}</button>` : ''}
+                  <select class="action-item-select" style="max-width:125px;" onchange="assignAltMain('${safeAlt}', this.value)">
+                    <option value="">Assign Main...</option>
+                    ${mainNames.map(mn => `<option value="${escapeHtml(mn)}">${escapeHtml(mn)}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      body.innerHTML = specsSectionHtml + altsSectionHtml;
     }
 
     async function saveAltsAssignments() {
@@ -8349,6 +8609,7 @@
         updateAltsTabCount();
         updateGuildSyncBanner();
         renderAltsWorkflow();
+        renderActionItemsDrawer();
         showToast('Alt-to-main assignments saved!');
       } catch (err) {
         showToast(err.message, true);
