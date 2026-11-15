@@ -7509,8 +7509,9 @@
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
         const lowerName = (m.playerName || '').toLowerCase();
         const assignedItem = assignments.find(a => a.playerName.toLowerCase() === lowerName);
+        const activeSize = team.size || 40;
         const otherTeams = !assignedItem
-          ? raidRosters.filter(r => r.id !== team.id && (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
+          ? raidRosters.filter(r => r.id !== team.id && (r.size || 40) === activeSize && (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
           : [];
         const isInOther = otherTeams.length > 0;
         const otherNamesStr = otherTeams.map(t => t.name).join(', ');
