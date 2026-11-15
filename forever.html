@@ -7511,12 +7511,16 @@
         const isInOther = otherTeams.length > 0;
         const otherNamesStr = otherTeams.map(t => t.name).join(', ');
         const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
+        const noteText = (m.publicNote || m.notes || '').trim();
+        const tooltipParts = [noteText ? `Guild Note: ${noteText}` : 'No guild note'];
+        if (isInOther) tooltipParts.push(`Also in: ${otherNamesStr}`);
+        const titleAttr = `title="${escapeHtml(tooltipParts.join(' | '))}"`;
         const dragAttrs = assignedItem
           ? ''
-          : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()" title="${isInOther ? 'Also in: ' + escapeHtml(otherNamesStr) + ' — ' : ''}Drag into a raid group or click + Add"`;
+          : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()"`;
         const itemStateClass = assignedItem ? 'in-raid' : (isInOther ? 'in-other-raid' : '');
         return `
-          <div class="raid-pool-item ${itemStateClass}" style="border-left: 3px solid ${classColor};" ${dragAttrs}>
+          <div class="raid-pool-item ${itemStateClass}" style="border-left: 3px solid ${classColor};" ${titleAttr} ${dragAttrs}>
             <div style="display: flex; align-items: center; gap: 7px; min-width: 0;">
               <img src="${getIconUrl(classIcon)}" style="width: 20px; height: 20px; border-radius: 4px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(m.className || '')}">
               <div style="display: flex; flex-direction: column; min-width: 0;">
