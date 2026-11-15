@@ -2836,6 +2836,18 @@
       border-color: rgba(16, 185, 129, 0.25);
     }
 
+    .raid-pool-item.in-other-raid {
+      opacity: 0.5;
+      filter: grayscale(0.55);
+      border-color: rgba(255, 255, 255, 0.06);
+      transition: opacity 0.15s ease, filter 0.15s ease;
+    }
+
+    .raid-pool-item.in-other-raid:hover {
+      opacity: 0.92;
+      filter: grayscale(0.1);
+    }
+
     .raid-groups-panel {
       display: flex;
       flex-direction: column;
@@ -7488,21 +7500,28 @@
       const poolHtml = poolMembers.map(m => {
         const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
         const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
-        const assignedItem = assignments.find(a => a.playerName.toLowerCase() === (m.playerName || '').toLowerCase());
+        const lowerName = (m.playerName || '').toLowerCase();
+        const assignedItem = assignments.find(a => a.playerName.toLowerCase() === lowerName);
+        const otherTeams = !assignedItem
+          ? raidRosters.filter(r => r.id !== team.id && (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
+          : [];
+        const isInOther = otherTeams.length > 0;
+        const otherNamesStr = otherTeams.map(t => t.name).join(', ');
         const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
         const dragAttrs = assignedItem
           ? ''
-          : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()" title="Drag into a raid group or click + Add"`;
+          : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()" title="${isInOther ? 'Also in: ' + escapeHtml(otherNamesStr) + ' — ' : ''}Drag into a raid group or click + Add"`;
+        const itemStateClass = assignedItem ? 'in-raid' : (isInOther ? 'in-other-raid' : '');
         return `
-          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}" style="border-left: 3px solid ${classColor};" ${dragAttrs}>
+          <div class="raid-pool-item ${itemStateClass}" style="border-left: 3px solid ${classColor};" ${dragAttrs}>
             <div style="display: flex; align-items: center; gap: 7px; min-width: 0;">
               <img src="${getIconUrl(classIcon)}" style="width: 20px; height: 20px; border-radius: 4px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(m.className || '')}">
               <div style="display: flex; flex-direction: column; min-width: 0;">
                 <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${escapeHtml(m.playerName)} ${m.level ? `<span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level}</span>` : ''}
                 </span>
-                <span style="color: var(--text-muted); font-size: 0.7rem;">
-                  ${escapeHtml(m.spec || m.className)} ${m.role ? '· ' + escapeHtml(m.role) : ''}
+                <span style="color: var(--text-muted); font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  ${escapeHtml(m.spec || m.className)} ${m.role ? '· ' + escapeHtml(m.role) : ''}${isInOther ? ` · <span style="color:#fbbf24;">In ${escapeHtml(otherNamesStr)}</span>` : ''}
                 </span>
               </div>
             </div>
