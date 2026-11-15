@@ -7465,6 +7465,9 @@
       const container = document.getElementById('raid-rosters-builder');
       if (!container) return;
 
+      const prevPoolList = container.querySelector ? container.querySelector('.raid-pool-list') : null;
+      const prevPoolScrollTop = prevPoolList ? prevPoolList.scrollTop : 0;
+
       const team = getActiveRaidRoster();
       const teamTabsHtml = raidRosters.map(r => `
         <button type="button" class="raid-team-tab ${team && r.id === team.id ? 'active' : ''}" onclick="activeRaidRosterId='${r.id}'; renderRaidRosterBuilder();">
@@ -7685,6 +7688,11 @@
           </div>
         </div>
       `;
+
+      if (prevPoolScrollTop > 0) {
+        const nextPoolList = container.querySelector ? container.querySelector('.raid-pool-list') : null;
+        if (nextPoolList) nextPoolList.scrollTop = prevPoolScrollTop;
+      }
     }
 
     // ==========================================
