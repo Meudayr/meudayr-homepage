@@ -7178,6 +7178,26 @@
       setTableSubTab('raids');
     }
 
+    function getAllowedRolesForClass(className) {
+      const specs = SPEC_DATA[className];
+      if (!specs) return ['Tank', 'Healer', 'Melee DPS', 'Ranged DPS'];
+      const allowed = new Set();
+      Object.values(specs).forEach(s => {
+        (s.defaultRoles || []).forEach(r => allowed.add(r));
+      });
+      return ['Tank', 'Healer', 'Melee DPS', 'Ranged DPS'].filter(r => allowed.has(r));
+    }
+
+    function getDefaultRoleForMember(gm) {
+      if (!gm) return 'Melee DPS';
+      const allowed = getAllowedRolesForClass(gm.className);
+      const explicit = gm.role || (Array.isArray(gm.roles) && gm.roles[0]) || '';
+      if (explicit && allowed.includes(explicit)) return explicit;
+      if (gm.className === 'Hunter') return 'Ranged DPS';
+      if (gm.className === 'Priest') return 'Healer';
+      return allowed[0] || 'Melee DPS';
+    }
+
     function addMemberToRaidRoster(playerName, targetGroup = null) {
       const team = getActiveRaidRoster();
       if (!team) return;
@@ -7201,7 +7221,7 @@
       }
 
       const guildMember = rosterList.find(m => (m.playerName || '').toLowerCase() === playerName.toLowerCase());
-      const defaultRole = guildMember ? (guildMember.role || (Array.isArray(guildMember.roles) && guildMember.roles[0]) || 'Melee DPS') : 'Melee DPS';
+      const defaultRole = getDefaultRoleForMember(guildMember);
       const defaultSpec = guildMember ? (guildMember.spec || '') : '';
 
       team.assignments.push({
@@ -7241,6 +7261,12 @@
       if (!team) return;
       const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase());
       if (item) {
+        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === playerName.toLowerCase());
+        const allowed = getAllowedRolesForClass(gm ? gm.className : '');
+        if (!allowed.includes(newRole)) {
+          showToast(`${gm ? gm.className : 'This class'} cannot be assigned as ${newRole}.`, true);
+          return;
+        }
         item.role = newRole;
         team.updatedAt = new Date().toISOString();
         markRaidRostersDirty();
@@ -7343,7 +7369,7 @@
         movingItem = {
           playerName: gm ? gm.playerName : playerName,
           group: targetGroup,
-          role: gm ? (gm.role || (Array.isArray(gm.roles) && gm.roles[0]) || 'Melee DPS') : 'Melee DPS',
+          role: getDefaultRoleForMember(gm),
           spec: gm ? (gm.spec || '') : ''
         };
       } else {
@@ -7523,20 +7549,27 @@
           const classIcon = CLASS_ICONS[className] || 'inv_misc_questionmark';
           const safeName = escapeHtml(a.playerName).replace(/'/g, "\\'");
 
-          const curRole = a.role || 'Melee DPS';
+          const allowedRoles = getAllowedRolesForClass(className);
+          const curRole = (a.role && allowedRoles.includes(a.role)) ? a.role : getDefaultRoleForMember(gm);
           const roleMeta = ROLE_OPTIONS.find(r => r.role === curRole) || ROLE_OPTIONS[2];
           const roleIconUrl = getIconUrl(ROLE_ICONS[curRole] || 'ability_dualwield');
-          const isPopoverOpen = openRaidRolePopoverFor === a.playerName;
+          const allowedOptions = ROLE_OPTIONS.filter(opt => allowedRoles.includes(opt.role));
+          const canSwitchRole = allowedOptions.length > 1;
+          const isPopoverOpen = canSwitchRole && openRaidRolePopoverFor === a.playerName;
 
           const popoverHtml = isPopoverOpen ? `
             <div class="raid-role-popover" onclick="event.stopPropagation()">
-              ${ROLE_OPTIONS.map(opt => `
+              ${allowedOptions.map(opt => `
                 <button type="button" class="raid-role-opt ${curRole === opt.role ? 'active' : ''}" title="${opt.label}" onclick="selectRaidSlotRole(event, '${safeName}', '${opt.role}')">
                   <img src="${getIconUrl(ROLE_ICONS[opt.role])}" alt="${opt.label}">
                 </button>
               `).join('')}
             </div>
           ` : '';
+
+          const roleBtnAttrs = canSwitchRole
+            ? `title="Role: ${curRole} (click to change)" onclick="toggleRaidRolePopover(event, '${safeName}')"`
+            : `title="Role: ${curRole}" style="cursor: default;"`;
 
           return `
             <div class="raid-slot-row" style="--slot-class-color: ${classColor};" draggable="true" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
@@ -7549,7 +7582,7 @@
               </div>
               <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
                 <div class="raid-role-wrap">
-                  <button type="button" class="raid-role-icon-btn ${roleMeta.cls}" title="Role: ${curRole} (click to change)" onclick="toggleRaidRolePopover(event, '${safeName}')">
+                  <button type="button" class="raid-role-icon-btn ${roleMeta.cls}" ${roleBtnAttrs}>
                     <img src="${roleIconUrl}" alt="${curRole}">
                   </button>
                   ${popoverHtml}
