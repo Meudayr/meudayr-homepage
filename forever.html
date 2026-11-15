@@ -2367,6 +2367,64 @@
       gap: 4px;
     }
 
+    .quick-spec-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .quick-spec-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      min-width: 195px;
+      padding: 5px;
+      background: #16181f;
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
+      z-index: 55;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .quick-spec-opt {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .quick-spec-opt:hover {
+      background: rgba(250, 204, 21, 0.12);
+      border-color: rgba(250, 204, 21, 0.35);
+      color: #facc15;
+    }
+
+    .quick-spec-opt-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-spec-opt-left img {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+    }
+
     .member-role-badge {
       display: inline-flex;
       align-items: center;
@@ -4267,6 +4325,7 @@
     let draggedRaidPlayer = null;
     let draggedRaidTeamId = null;
     let openRaidColorPopover = false;
+    let openQuickSpecCardId = null;
     let activeRoleFilter = "all";
     let activeClassFilter = "all";
     let activeRaceFilter = "all";
@@ -6288,6 +6347,76 @@
     // View 1: Roster Cards Grid
     // ==========================================
 
+    function toggleQuickSpecDropdown(e, memberId) {
+      if (e) e.stopPropagation();
+      openQuickSpecCardId = (openQuickSpecCardId === memberId) ? null : memberId;
+      renderRoster();
+    }
+
+    async function quickSetMemberSpec(e, memberId, specName, roleName) {
+      if (e) e.stopPropagation();
+      openQuickSpecCardId = null;
+      const m = rosterList.find(x => x.id === memberId);
+      if (!m) return;
+
+      let safeRace = m.race;
+      if (!safeRace || !HORDE_RACE_CLASSES[safeRace]) {
+        safeRace = Object.keys(HORDE_RACE_CLASSES).find(r => HORDE_RACE_CLASSES[r].includes(m.className)) || 'Orc';
+      }
+
+      const payload = {
+        id: m.id,
+        playerName: m.playerName,
+        level: Number(m.level) || 60,
+        faction: m.faction || 'Horde',
+        race: safeRace,
+        gender: m.gender || 'male',
+        className: m.className,
+        spec: specName,
+        role: roleName,
+        roles: [roleName],
+        offspec: m.offspec || '',
+        offspecRole: m.offspecRole || '',
+        professions: Array.isArray(m.professions) ? m.professions : [m.profession1, m.profession2].filter(Boolean),
+        profession1: m.profession1 || '',
+        profession2: m.profession2 || '',
+        playstyles: Array.isArray(m.playstyles) && m.playstyles.length > 0 ? m.playstyles : [m.playstyle || 'Raiding'],
+        playstyle: m.playstyle || 'Raiding',
+        webNotes: m.webNotes || '',
+        currentPin: m.pin || undefined,
+        pin: m.pin || '',
+        adminKey: (isAdminMode && adminPasskey) ? adminPasskey : undefined
+      };
+
+      // Optimistic local update
+      m.spec = specName;
+      m.role = roleName;
+      m.roles = [roleName];
+      renderStats();
+      renderRoster();
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (isAdminMode && adminPasskey) headers['x-admin-key'] = adminPasskey;
+        const res = await fetch('/api/roster', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast(`${m.playerName} set to ${specName} (${roleName}).`);
+          await loadRoster();
+        } else {
+          showToast(data.error || 'Could not save spec.', true);
+          await loadRoster();
+        }
+      } catch (err) {
+        localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
+        showToast(`${m.playerName} set to ${specName} locally.`);
+      }
+    }
+
     function renderRoster() {
       const container = document.getElementById('roster-grid');
       if (!container) return;
@@ -6439,11 +6568,37 @@
                   <img src="${getIconUrl(primIcon)}" alt="${primRole}">
                   ${escapeHtml(primRole)}
                 </span>
-              ` : `
-                <button type="button" class="member-role-badge" onclick="startEdit('${m.id}')" style="background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.28); color: #facc15; cursor: pointer;" title="Click to assign spec &amp; level">
-                  + Set Spec
-                </button>
-              `}
+              ` : (() => {
+                const classSpecs = SPEC_DATA[m.className] || {};
+                const specChoices = [];
+                Object.entries(classSpecs).forEach(([sName, sInfo]) => {
+                  (sInfo.defaultRoles || []).forEach(rName => {
+                    specChoices.push({ spec: sName, role: rName, icon: sInfo.icon });
+                  });
+                });
+                const isMenuOpen = openQuickSpecCardId === m.id;
+                const menuHtml = isMenuOpen ? `
+                  <div class="quick-spec-menu" onclick="event.stopPropagation()">
+                    ${specChoices.map(ch => `
+                      <button type="button" class="quick-spec-opt" onclick="quickSetMemberSpec(event, '${escapeHtml(m.id)}', '${escapeHtml(ch.spec).replace(/'/g, "\\'")}', '${escapeHtml(ch.role)}')">
+                        <span class="quick-spec-opt-left">
+                          <img src="${getIconUrl(ch.icon)}" alt="">
+                          <span>${escapeHtml(ch.spec)}</span>
+                        </span>
+                        <span style="font-size:0.66rem; color:var(--text-muted);">${escapeHtml(ch.role)}</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                ` : '';
+                return `
+                  <div class="quick-spec-wrap">
+                    <button type="button" class="member-role-badge" onclick="toggleQuickSpecDropdown(event, '${escapeHtml(m.id)}')" style="background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.28); color: #facc15; cursor: pointer;" title="Quick-select spec">
+                      + Set Spec ▾
+                    </button>
+                    ${menuHtml}
+                  </div>
+                `;
+              })()}
             </div>
 
             ${offspecHtml}
@@ -7805,6 +7960,10 @@
 
     document.addEventListener('click', () => {
       closeMoreViewsMenu();
+      if (openQuickSpecCardId) {
+        openQuickSpecCardId = null;
+        if (currentViewMode === 'cards') renderRoster();
+      }
       let needsRender = false;
       if (openRaidRolePopoverFor) {
         openRaidRolePopoverFor = null;
