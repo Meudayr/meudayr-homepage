@@ -1196,6 +1196,61 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
+    .more-views-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .more-views-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 175px;
+      padding: 6px;
+      background: #16181f;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
+      z-index: 60;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .more-views-menu.open {
+      display: flex;
+    }
+
+    .more-views-item {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .more-views-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    .more-views-item.active {
+      background: rgba(250, 204, 21, 0.12);
+      border-color: rgba(250, 204, 21, 0.35);
+      color: #facc15;
+    }
+
     /* Analytics Dashboard Layout */
     .analytics-view {
       display: flex;
@@ -3634,20 +3689,33 @@
                 <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, spec, rank, guild or web notes..." oninput="applyFilters()">
               </div>
 
-              <!-- View Switcher -->
+              <!-- Primary Workflow Switcher: Roster Cards & Raid Rosters + Nested More Views -->
               <div class="view-mode-group">
-                <button type="button" class="view-mode-btn active" id="btn-view-cards" onclick="setViewMode('cards')" title="Cards Grid View">
+                <button type="button" class="view-mode-btn active" id="btn-view-cards" onclick="setViewMode('cards')" title="Guild Roster Cards">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                  <span>Cards</span>
+                  <span>Roster Cards</span>
                 </button>
-                <button type="button" class="view-mode-btn" id="btn-view-analytics" onclick="setViewMode('analytics')" title="Graphs &amp; Analytics">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                  <span>Analytics</span>
+                <button type="button" class="view-mode-btn" id="btn-view-raids" onclick="setViewMode('raids')" title="Raid Roster &amp; Squad Management">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+                  <span>Raid Rosters (<span id="raid-teams-count">0</span>)</span>
                 </button>
-                <button type="button" class="view-mode-btn" id="btn-view-table" onclick="setViewMode('table')" title="Guild Table, Raid Rosters &amp; Alts">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                  <span>Table</span>
-                </button>
+                <div class="more-views-wrap" id="more-views-wrap">
+                  <button type="button" class="view-mode-btn" id="btn-view-more" onclick="toggleMoreViewsMenu(event)" title="Table, Analytics &amp; Alts">
+                    <span id="btn-view-more-label">More</span>
+                    <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                  <div class="more-views-menu" id="more-views-menu" onclick="event.stopPropagation()">
+                    <button type="button" class="more-views-item" id="btn-view-table" onclick="closeMoreViewsMenu(); setViewMode('table')">
+                      <span>Guild Table</span>
+                    </button>
+                    <button type="button" class="more-views-item" id="btn-view-analytics" onclick="closeMoreViewsMenu(); setViewMode('analytics')">
+                      <span>Analytics &amp; Buffs</span>
+                    </button>
+                    <button type="button" class="more-views-item" id="btn-view-alts" onclick="closeMoreViewsMenu(); setViewMode('alts')">
+                      <span>Alts (<span id="alts-tab-count">0</span>)</span>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <!-- Import Addon Export Button (Primary Roster Action) -->
@@ -3879,28 +3947,8 @@
 
         </div>
 
-        <!-- View 3: Dense Roster Table & Raid Rosters Builder -->
+        <!-- View 3: Dense Roster Table, Raid Rosters Builder & Alts -->
         <div class="roster-table-wrapper" id="roster-table-view" style="display: none;">
-          <div class="table-subtabs-bar">
-            <div class="table-subtabs-group">
-              <button type="button" class="table-subtab-btn active" id="btn-subtab-guild" onclick="setTableSubTab('guild')">
-                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                Guild Table
-              </button>
-              <button type="button" class="table-subtab-btn" id="btn-subtab-raids" onclick="setTableSubTab('raids')">
-                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-                Raid Rosters &amp; Teams (<span id="raid-teams-count">0</span>)
-              </button>
-              <button type="button" class="table-subtab-btn" id="btn-subtab-alts" onclick="setTableSubTab('alts')">
-                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
-                Alts (<span id="alts-tab-count">0</span>)
-              </button>
-            </div>
-            <div style="font-size: 0.78rem; color: var(--text-muted);" id="table-subtab-hint">
-              Click column headers to sort, or switch to Raid Rosters &amp; Teams to build raid groups.
-            </div>
-          </div>
-
           <div id="guild-table-panel">
             <table class="roster-table" id="roster-table">
               <thead>
@@ -6043,28 +6091,68 @@
     // View Switcher & Filter Management
     // ==========================================
 
+    function toggleMoreViewsMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('more-views-menu');
+      if (menu) menu.classList.toggle('open');
+    }
+
+    function closeMoreViewsMenu() {
+      const menu = document.getElementById('more-views-menu');
+      if (menu) menu.classList.remove('open');
+    }
+
     function setViewMode(mode) {
       currentViewMode = mode;
 
       const cardsBtn = document.getElementById('btn-view-cards');
+      const raidsBtn = document.getElementById('btn-view-raids');
+      const moreBtn = document.getElementById('btn-view-more');
+      const moreLabel = document.getElementById('btn-view-more-label');
       const analyticsBtn = document.getElementById('btn-view-analytics');
       const tableBtn = document.getElementById('btn-view-table');
+      const altsBtn = document.getElementById('btn-view-alts');
 
       const cardsView = document.getElementById('roster-grid');
       const analyticsView = document.getElementById('roster-analytics-view');
       const tableView = document.getElementById('roster-table-view');
 
+      const isMoreMode = (mode === 'table' || mode === 'analytics' || mode === 'alts');
+
       if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
+      if (raidsBtn) raidsBtn.classList.toggle('active', mode === 'raids');
+      if (moreBtn) moreBtn.classList.toggle('active', isMoreMode);
       if (analyticsBtn) analyticsBtn.classList.toggle('active', mode === 'analytics');
       if (tableBtn) tableBtn.classList.toggle('active', mode === 'table');
+      if (altsBtn) altsBtn.classList.toggle('active', mode === 'alts');
+
+      if (moreLabel) {
+        if (mode === 'table') moreLabel.textContent = 'More: Table';
+        else if (mode === 'analytics') moreLabel.textContent = 'More: Analytics';
+        else if (mode === 'alts') moreLabel.textContent = 'More: Alts';
+        else moreLabel.textContent = 'More';
+      }
 
       if (cardsView) cardsView.style.display = mode === 'cards' ? 'grid' : 'none';
       if (analyticsView) analyticsView.style.display = mode === 'analytics' ? 'flex' : 'none';
-      if (tableView) tableView.style.display = mode === 'table' ? 'block' : 'none';
+      if (tableView) tableView.style.display = (mode === 'table' || mode === 'raids' || mode === 'alts') ? 'block' : 'none';
 
       const toolbarCsvBtn = document.getElementById('btn-toolbar-export-csv');
       if (toolbarCsvBtn) {
         toolbarCsvBtn.style.display = mode === 'table' ? 'inline-flex' : 'none';
+      }
+
+      if (mode === 'raids') {
+        setTableSubTab('raids');
+        return;
+      }
+      if (mode === 'alts') {
+        setTableSubTab('alts');
+        return;
+      }
+      if (mode === 'table') {
+        setTableSubTab('guild');
+        return;
       }
 
       applyFilters();
@@ -6084,7 +6172,7 @@
         renderRoster();
       } else if (currentViewMode === 'analytics') {
         renderAnalytics();
-      } else if (currentViewMode === 'table') {
+      } else if (currentViewMode === 'table' || currentViewMode === 'raids' || currentViewMode === 'alts') {
         renderTable();
       }
     }
@@ -7179,7 +7267,7 @@
 
     function openRaidTeamById(teamId) {
       activeRaidRosterId = teamId;
-      setTableSubTab('raids');
+      setViewMode('raids');
     }
 
     async function loadRaidRosters() {
@@ -7687,6 +7775,7 @@
     }
 
     document.addEventListener('click', () => {
+      closeMoreViewsMenu();
       let needsRender = false;
       if (openRaidRolePopoverFor) {
         openRaidRolePopoverFor = null;
@@ -7696,7 +7785,7 @@
         openRaidColorPopover = false;
         needsRender = true;
       }
-      if (needsRender && currentViewMode === 'table' && currentTableSubTab === 'raids') {
+      if (needsRender && (currentViewMode === 'raids' || (currentViewMode === 'table' && currentTableSubTab === 'raids'))) {
         renderRaidRosterBuilder();
       }
     });
