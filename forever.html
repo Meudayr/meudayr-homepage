@@ -2267,6 +2267,11 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
+    .member-card.spec-menu-open {
+      overflow: visible;
+      z-index: 40;
+    }
+
     .member-card::before {
       content: "";
       position: absolute;
@@ -6537,7 +6542,7 @@
           : '';
 
         return `
-          <div class="member-card" style="--card-accent-color: ${classColor};" id="card-${m.id}">
+          <div class="member-card ${openQuickSpecCardId === m.id ? 'spec-menu-open' : ''}" style="--card-accent-color: ${classColor};" id="card-${m.id}">
             <div class="member-card-header">
               <div class="member-name-group">
                 <span class="member-player-name">
