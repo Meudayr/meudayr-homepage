@@ -2861,47 +2861,189 @@
     }
 
     .raid-group-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: linear-gradient(180deg, rgba(28, 31, 38, 0.95) 0%, rgba(20, 22, 28, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: var(--radius-md);
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
     .raid-group-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.78rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
       font-weight: 700;
-      color: var(--text-muted);
+      color: #facc15;
+      letter-spacing: 0.7px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 7px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid rgba(250, 204, 21, 0.16);
+    }
+
+    .raid-group-count-pill {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+
+    .raid-group-count-pill.full {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
     }
 
     .raid-slot-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      padding: 5px 8px;
+      gap: 8px;
+      padding: 6px 9px;
       border-radius: var(--radius-sm);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-left: 3px solid var(--slot-class-color, rgba(255, 255, 255, 0.2));
+      font-size: 0.8rem;
+      position: relative;
+      transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .raid-slot-row:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .raid-slot-row.slot-drag-over {
+      box-shadow: inset 0 2px 0 #facc15, 0 0 10px rgba(250, 204, 21, 0.18);
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    .raid-slot-grip {
+      color: var(--text-dark);
+      font-size: 0.72rem;
+      letter-spacing: -1px;
+      opacity: 0.5;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .raid-slot-row:hover .raid-slot-grip {
+      opacity: 1;
+      color: var(--text-muted);
+    }
+
+    .raid-role-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .raid-role-icon-btn {
+      width: 24px;
+      height: 24px;
+      padding: 2px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease;
+    }
+
+    .raid-role-icon-btn:hover {
+      transform: scale(1.08);
+      border-color: #facc15;
+    }
+
+    .raid-role-icon-btn img {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+    }
+
+    .raid-role-icon-btn.role-tank { border-color: rgba(96, 165, 250, 0.5); }
+    .raid-role-icon-btn.role-healer { border-color: rgba(74, 222, 128, 0.5); }
+    .raid-role-icon-btn.role-melee { border-color: rgba(251, 191, 36, 0.5); }
+    .raid-role-icon-btn.role-ranged { border-color: rgba(192, 132, 252, 0.5); }
+
+    .raid-role-popover {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      z-index: 40;
+      display: flex;
+      gap: 4px;
+      padding: 5px;
+      background: #16181f;
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .raid-role-opt {
+      width: 26px;
+      height: 26px;
+      padding: 2px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .raid-role-opt:hover,
+    .raid-role-opt.active {
+      background: rgba(250, 204, 21, 0.16);
+      border-color: #facc15;
+    }
+
+    .raid-role-opt img {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+    }
+
+    .raid-summary-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .raid-summary-pill img {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
     }
 
     .raid-slot-empty {
-      padding: 5px 8px;
+      padding: 6px 8px;
       border-radius: var(--radius-sm);
       border: 1px dashed rgba(255, 255, 255, 0.08);
       color: var(--text-dark);
       font-size: 0.72rem;
       text-align: center;
+      background: rgba(0, 0, 0, 0.12);
     }
 
     .raid-mini-select {
@@ -7126,7 +7268,11 @@
       });
     }
 
+    let draggedRaidPlayer = null;
+    let openRaidRolePopoverFor = null;
+
     function handleRaidDragStart(e, source, playerName, fromGroup = null) {
+      openRaidRolePopoverFor = null;
       draggedRaidPlayer = { source, playerName, fromGroup };
       if (e && e.dataTransfer) {
         e.dataTransfer.effectAllowed = 'move';
@@ -7136,7 +7282,10 @@
 
     function handleRaidDragEnd() {
       draggedRaidPlayer = null;
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+      document.querySelectorAll('.drag-over, .slot-drag-over').forEach(el => {
+        el.classList.remove('drag-over');
+        el.classList.remove('slot-drag-over');
+      });
     }
 
     function handleRaidDragOver(e, el) {
@@ -7154,42 +7303,126 @@
       el.classList.remove('drag-over');
     }
 
-    function handleRaidDropOnGroup(e, targetGroup) {
-      e.preventDefault();
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    function handleRaidSlotDragOver(e, el) {
       if (!draggedRaidPlayer) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      if (el && !el.classList.contains('slot-drag-over')) {
+        el.classList.add('slot-drag-over');
+      }
+    }
 
-      const { source, playerName, fromGroup } = draggedRaidPlayer;
-      draggedRaidPlayer = null;
+    function handleRaidSlotDragLeave(e, el) {
+      if (!el) return;
+      if (e && e.relatedTarget && el.contains(e.relatedTarget)) return;
+      el.classList.remove('slot-drag-over');
+    }
 
+    function reorderOrInsertAssignment(playerName, targetGroup, beforePlayerName = null, fromPool = false) {
       const team = getActiveRaidRoster();
       if (!team) return;
+      team.assignments = team.assignments || [];
 
-      if (source === 'group' && fromGroup === targetGroup) return;
+      const lowerDrag = playerName.toLowerCase();
+      if (beforePlayerName && beforePlayerName.toLowerCase() === lowerDrag) return;
 
-      const countInTarget = (team.assignments || []).filter(a => a.group === targetGroup).length;
-      if (countInTarget >= 5) {
-        showToast(`Group ${targetGroup} is full (5/5).`, true);
+      let movingItem = team.assignments.find(a => a.playerName.toLowerCase() === lowerDrag);
+      const isChangingGroup = !movingItem || movingItem.group !== targetGroup;
+
+      if (isChangingGroup) {
+        const countInTarget = team.assignments.filter(a => a.group === targetGroup).length;
+        if (countInTarget >= 5) {
+          showToast(`Group ${targetGroup} is full (5/5).`, true);
+          return;
+        }
+      }
+
+      if (!movingItem) {
+        if (!fromPool) return;
+        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === lowerDrag);
+        movingItem = {
+          playerName: gm ? gm.playerName : playerName,
+          group: targetGroup,
+          role: gm ? (gm.role || (Array.isArray(gm.roles) && gm.roles[0]) || 'Melee DPS') : 'Melee DPS',
+          spec: gm ? (gm.spec || '') : ''
+        };
+      } else {
+        team.assignments = team.assignments.filter(a => a.playerName.toLowerCase() !== lowerDrag);
+        movingItem = { ...movingItem, group: targetGroup };
+      }
+
+      if (beforePlayerName) {
+        const idx = team.assignments.findIndex(a => a.playerName.toLowerCase() === beforePlayerName.toLowerCase());
+        if (idx >= 0) {
+          team.assignments.splice(idx, 0, movingItem);
+        } else {
+          team.assignments.push(movingItem);
+        }
+      } else {
+        team.assignments.push(movingItem);
+      }
+
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function handleRaidDropOnSlot(e, targetGroup, targetPlayerName) {
+      e.preventDefault();
+      e.stopPropagation();
+      const payload = draggedRaidPlayer;
+      handleRaidDragEnd();
+      if (!payload) return;
+      reorderOrInsertAssignment(payload.playerName, targetGroup, targetPlayerName, payload.source === 'pool');
+    }
+
+    function handleRaidDropOnGroup(e, targetGroup) {
+      e.preventDefault();
+      const payload = draggedRaidPlayer;
+      handleRaidDragEnd();
+      if (!payload) return;
+
+      const { source, playerName, fromGroup } = payload;
+      if (source === 'group' && fromGroup === targetGroup) {
+        // Dropped onto group container (after slots): move to end of this group
+        reorderOrInsertAssignment(playerName, targetGroup, null, false);
         return;
       }
 
-      if (source === 'pool') {
-        addMemberToRaidRoster(playerName, targetGroup);
-      } else if (source === 'group') {
-        moveMemberGroup(playerName, targetGroup);
-      }
+      reorderOrInsertAssignment(playerName, targetGroup, null, source === 'pool');
     }
 
     function handleRaidDropOnPool(e) {
       e.preventDefault();
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-      if (!draggedRaidPlayer) return;
-      const { source, playerName } = draggedRaidPlayer;
-      draggedRaidPlayer = null;
-      if (source === 'group') {
-        removeMemberFromRaidRoster(playerName);
+      const payload = draggedRaidPlayer;
+      handleRaidDragEnd();
+      if (!payload) return;
+      if (payload.source === 'group') {
+        removeMemberFromRaidRoster(payload.playerName);
       }
     }
+
+    function toggleRaidRolePopover(e, playerName) {
+      if (e) e.stopPropagation();
+      openRaidRolePopoverFor = (openRaidRolePopoverFor === playerName) ? null : playerName;
+      renderRaidRosterBuilder();
+    }
+
+    function selectRaidSlotRole(e, playerName, role) {
+      if (e) e.stopPropagation();
+      openRaidRolePopoverFor = null;
+      setMemberRaidRole(playerName, role);
+    }
+
+    document.addEventListener('click', () => {
+      if (openRaidRolePopoverFor) {
+        openRaidRolePopoverFor = null;
+        if (currentViewMode === 'table' && currentTableSubTab === 'raids') {
+          renderRaidRosterBuilder();
+        }
+      }
+    });
 
     function renderRaidRosterBuilder() {
       const container = document.getElementById('raid-rosters-builder');
@@ -7229,20 +7462,24 @@
 
       const poolHtml = poolMembers.map(m => {
         const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
+        const classIcon = CLASS_ICONS[m.className] || 'inv_misc_questionmark';
         const assignedItem = assignments.find(a => a.playerName.toLowerCase() === (m.playerName || '').toLowerCase());
         const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
         const dragAttrs = assignedItem
           ? ''
           : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()" title="Drag into a raid group or click + Add"`;
         return `
-          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}" ${dragAttrs}>
-            <div style="display: flex; flex-direction: column; min-width: 0;">
-              <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                ${escapeHtml(m.playerName)} ${m.level ? `<span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level}</span>` : ''}
-              </span>
-              <span style="color: var(--text-muted); font-size: 0.7rem;">
-                ${escapeHtml(m.spec || m.className)} ${m.role ? '· ' + escapeHtml(m.role) : ''}
-              </span>
+          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}" style="border-left: 3px solid ${classColor};" ${dragAttrs}>
+            <div style="display: flex; align-items: center; gap: 7px; min-width: 0;">
+              <img src="${getIconUrl(classIcon)}" style="width: 20px; height: 20px; border-radius: 4px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(m.className || '')}">
+              <div style="display: flex; flex-direction: column; min-width: 0;">
+                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  ${escapeHtml(m.playerName)} ${m.level ? `<span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level}</span>` : ''}
+                </span>
+                <span style="color: var(--text-muted); font-size: 0.7rem;">
+                  ${escapeHtml(m.spec || m.className)} ${m.role ? '· ' + escapeHtml(m.role) : ''}
+                </span>
+              </div>
             </div>
             ${assignedItem
               ? `<span style="font-size: 0.68rem; color: #34d399; font-weight: 700; white-space: nowrap;">G${assignedItem.group}</span>`
@@ -7270,6 +7507,13 @@
       const buffCoverageText = buffAnalysis ? `${buffAnalysis.totalCovered}/${buffAnalysis.totalBuffs} Buffs (${buffAnalysis.coveragePct}%)` : '';
 
       // Build Group 1..N cards
+      const ROLE_OPTIONS = [
+        { role: 'Tank', cls: 'role-tank', label: 'Tank' },
+        { role: 'Healer', cls: 'role-healer', label: 'Healer' },
+        { role: 'Melee DPS', cls: 'role-melee', label: 'Melee DPS' },
+        { role: 'Ranged DPS', cls: 'role-ranged', label: 'Ranged DPS' }
+      ];
+
       let groupsHtml = '';
       for (let g = 1; g <= maxGroups; g++) {
         const groupMembers = assignments.filter(a => a.group === g);
@@ -7277,31 +7521,41 @@
           const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
           const className = gm ? gm.className : '';
           const classColor = CLASS_COLORS[className] || 'var(--text-main)';
+          const classIcon = CLASS_ICONS[className] || 'inv_misc_questionmark';
           const safeName = escapeHtml(a.playerName).replace(/'/g, "\\'");
 
-          let groupOptions = '';
-          for (let og = 1; og <= maxGroups; og++) {
-            groupOptions += `<option value="${og}" ${og === g ? 'selected' : ''}>G${og}</option>`;
-          }
+          const curRole = a.role || 'Melee DPS';
+          const roleMeta = ROLE_OPTIONS.find(r => r.role === curRole) || ROLE_OPTIONS[2];
+          const roleIconUrl = getIconUrl(ROLE_ICONS[curRole] || 'ability_dualwield');
+          const isPopoverOpen = openRaidRolePopoverFor === a.playerName;
+
+          const popoverHtml = isPopoverOpen ? `
+            <div class="raid-role-popover" onclick="event.stopPropagation()">
+              ${ROLE_OPTIONS.map(opt => `
+                <button type="button" class="raid-role-opt ${curRole === opt.role ? 'active' : ''}" title="${opt.label}" onclick="selectRaidSlotRole(event, '${safeName}', '${opt.role}')">
+                  <img src="${getIconUrl(ROLE_ICONS[opt.role])}" alt="${opt.label}">
+                </button>
+              `).join('')}
+            </div>
+          ` : '';
 
           return `
-            <div class="raid-slot-row" draggable="true" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()">
-              <div style="display: flex; align-items: center; gap: 5px; min-width: 0; flex: 1;">
-                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(className)} ${escapeHtml(a.spec || '')}">
+            <div class="raid-slot-row" style="--slot-class-color: ${classColor};" draggable="true" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
+              <div style="display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1;">
+                <span class="raid-slot-grip" title="Drag to reorder or move group">⋮⋮</span>
+                <img src="${getIconUrl(classIcon)}" style="width: 17px; height: 17px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(className)}">
+                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(className)}${a.spec ? ' · ' + escapeHtml(a.spec) : ''}">
                   ${escapeHtml(a.playerName)}
                 </span>
               </div>
-              <div style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
-                <select class="raid-mini-select" onchange="setMemberRaidRole('${safeName}', this.value)" title="Raid Role">
-                  <option value="Tank" ${a.role === 'Tank' ? 'selected' : ''}>Tank</option>
-                  <option value="Healer" ${a.role === 'Healer' ? 'selected' : ''}>Heal</option>
-                  <option value="Melee DPS" ${a.role === 'Melee DPS' ? 'selected' : ''}>Melee</option>
-                  <option value="Ranged DPS" ${a.role === 'Ranged DPS' ? 'selected' : ''}>Ranged</option>
-                </select>
-                <select class="raid-mini-select" onchange="moveMemberGroup('${safeName}', this.value)" title="Move Group">
-                  ${groupOptions}
-                </select>
-                <button type="button" onclick="removeMemberFromRaidRoster('${safeName}')" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.75rem; padding:0 3px;" title="Remove from raid">✕</button>
+              <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
+                <div class="raid-role-wrap">
+                  <button type="button" class="raid-role-icon-btn ${roleMeta.cls}" title="Role: ${curRole} (click to change)" onclick="toggleRaidRolePopover(event, '${safeName}')">
+                    <img src="${roleIconUrl}" alt="${curRole}">
+                  </button>
+                  ${popoverHtml}
+                </div>
+                <button type="button" onclick="removeMemberFromRaidRoster('${safeName}')" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.78rem; padding:0 3px; opacity:0.75;" title="Remove from raid">✕</button>
               </div>
             </div>
           `;
@@ -7311,11 +7565,12 @@
           slotsHtml += `<div class="raid-slot-empty">Empty Slot</div>`;
         }
 
+        const isFull = groupMembers.length >= 5;
         groupsHtml += `
           <div class="raid-group-card" ondragover="handleRaidDragOver(event, this)" ondragleave="handleRaidDragLeave(event, this)" ondrop="handleRaidDropOnGroup(event, ${g})">
             <div class="raid-group-header">
               <span>Group ${g}</span>
-              <span>${groupMembers.length}/5</span>
+              <span class="raid-group-count-pill ${isFull ? 'full' : ''}">${groupMembers.length}/5</span>
             </div>
             ${slotsHtml}
           </div>
@@ -7355,14 +7610,22 @@
 
           <div class="raid-groups-panel">
             <div class="raid-summary-bar">
-              <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 0.82rem;">
-                <strong style="color: var(--text-main);">${escapeHtml(team.name)}</strong>
-                <span style="color: #60a5fa; font-weight: 600;">Tanks: ${tanks}</span>
-                <span style="color: #4ade80; font-weight: 600;">Healers: ${healers}</span>
-                <span style="color: #fbbf24; font-weight: 600;">Melee: ${melee}</span>
-                <span style="color: #c084fc; font-weight: 600;">Ranged: ${ranged}</span>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <strong style="font-family: var(--font-display); color: #facc15; font-size: 0.95rem; letter-spacing: 0.4px; margin-right: 4px;">${escapeHtml(team.name)}</strong>
+                <span class="raid-summary-pill" style="color: #60a5fa; border-color: rgba(96,165,250,0.25);">
+                  <img src="${getIconUrl(ROLE_ICONS['Tank'])}" alt="Tank"> Tanks: ${tanks}
+                </span>
+                <span class="raid-summary-pill" style="color: #4ade80; border-color: rgba(74,222,128,0.25);">
+                  <img src="${getIconUrl(ROLE_ICONS['Healer'])}" alt="Healer"> Healers: ${healers}
+                </span>
+                <span class="raid-summary-pill" style="color: #fbbf24; border-color: rgba(251,191,36,0.25);">
+                  <img src="${getIconUrl(ROLE_ICONS['Melee DPS'])}" alt="Melee"> Melee: ${melee}
+                </span>
+                <span class="raid-summary-pill" style="color: #c084fc; border-color: rgba(192,132,252,0.25);">
+                  <img src="${getIconUrl(ROLE_ICONS['Ranged DPS'])}" alt="Ranged"> Ranged: ${ranged}
+                </span>
               </div>
-              <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">${buffCoverageText}</span>
+              <span class="raid-summary-pill" style="color: #34d399; border-color: rgba(52,211,153,0.25);">${buffCoverageText}</span>
             </div>
 
             <div class="raid-groups-grid">
