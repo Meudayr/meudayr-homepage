@@ -2913,6 +2913,28 @@
       padding: 2px 4px;
       cursor: pointer;
     }
+
+    .raid-pool-item[draggable="true"],
+    .raid-slot-row[draggable="true"] {
+      cursor: grab;
+    }
+
+    .raid-pool-item[draggable="true"]:active,
+    .raid-slot-row[draggable="true"]:active {
+      cursor: grabbing;
+      opacity: 0.7;
+    }
+
+    .raid-group-card.drag-over {
+      border-color: #facc15;
+      background: rgba(250, 204, 21, 0.08);
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.2);
+    }
+
+    .raid-pool-panel.drag-over {
+      border-color: rgba(248, 113, 113, 0.6);
+      background: rgba(248, 113, 113, 0.06);
+    }
   </style>
 </head>
 <body>
@@ -3892,6 +3914,7 @@
     let currentTableSubTab = 'guild'; // 'guild' | 'raids'
     let raidPoolSearch = '';
     let raidRostersDirty = false;
+    let draggedRaidPlayer = null;
     let activeRoleFilter = "all";
     let activeClassFilter = "all";
     let activeRaceFilter = "all";
@@ -7103,6 +7126,71 @@
       });
     }
 
+    function handleRaidDragStart(e, source, playerName, fromGroup = null) {
+      draggedRaidPlayer = { source, playerName, fromGroup };
+      if (e && e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', playerName);
+      }
+    }
+
+    function handleRaidDragEnd() {
+      draggedRaidPlayer = null;
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    }
+
+    function handleRaidDragOver(e, el) {
+      if (!draggedRaidPlayer) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      if (el && !el.classList.contains('drag-over')) {
+        el.classList.add('drag-over');
+      }
+    }
+
+    function handleRaidDragLeave(e, el) {
+      if (!el) return;
+      if (e && e.relatedTarget && el.contains(e.relatedTarget)) return;
+      el.classList.remove('drag-over');
+    }
+
+    function handleRaidDropOnGroup(e, targetGroup) {
+      e.preventDefault();
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+      if (!draggedRaidPlayer) return;
+
+      const { source, playerName, fromGroup } = draggedRaidPlayer;
+      draggedRaidPlayer = null;
+
+      const team = getActiveRaidRoster();
+      if (!team) return;
+
+      if (source === 'group' && fromGroup === targetGroup) return;
+
+      const countInTarget = (team.assignments || []).filter(a => a.group === targetGroup).length;
+      if (countInTarget >= 5) {
+        showToast(`Group ${targetGroup} is full (5/5).`, true);
+        return;
+      }
+
+      if (source === 'pool') {
+        addMemberToRaidRoster(playerName, targetGroup);
+      } else if (source === 'group') {
+        moveMemberGroup(playerName, targetGroup);
+      }
+    }
+
+    function handleRaidDropOnPool(e) {
+      e.preventDefault();
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+      if (!draggedRaidPlayer) return;
+      const { source, playerName } = draggedRaidPlayer;
+      draggedRaidPlayer = null;
+      if (source === 'group') {
+        removeMemberFromRaidRoster(playerName);
+      }
+    }
+
     function renderRaidRosterBuilder() {
       const container = document.getElementById('raid-rosters-builder');
       if (!container) return;
@@ -7143,8 +7231,11 @@
         const classColor = CLASS_COLORS[m.className] || 'var(--text-main)';
         const assignedItem = assignments.find(a => a.playerName.toLowerCase() === (m.playerName || '').toLowerCase());
         const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
+        const dragAttrs = assignedItem
+          ? ''
+          : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()" title="Drag into a raid group or click + Add"`;
         return `
-          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}">
+          <div class="raid-pool-item ${assignedItem ? 'in-raid' : ''}" ${dragAttrs}>
             <div style="display: flex; flex-direction: column; min-width: 0;">
               <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                 ${escapeHtml(m.playerName)} ${m.level ? `<span style="color:var(--text-dark); font-size:0.7rem;">Lv${m.level}</span>` : ''}
@@ -7176,7 +7267,7 @@
       });
 
       const buffAnalysis = typeof getBuffAnalysis === 'function' ? getBuffAnalysis(teamRosterObjects) : null;
-      const buffCoverageText = buffAnalysis ? `${buffAnalysis.coveredCount}/${buffAnalysis.totalBuffs} Buffs (${buffAnalysis.coveragePct}%)` : '';
+      const buffCoverageText = buffAnalysis ? `${buffAnalysis.totalCovered}/${buffAnalysis.totalBuffs} Buffs (${buffAnalysis.coveragePct}%)` : '';
 
       // Build Group 1..N cards
       let groupsHtml = '';
@@ -7194,7 +7285,7 @@
           }
 
           return `
-            <div class="raid-slot-row">
+            <div class="raid-slot-row" draggable="true" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()">
               <div style="display: flex; align-items: center; gap: 5px; min-width: 0; flex: 1;">
                 <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(className)} ${escapeHtml(a.spec || '')}">
                   ${escapeHtml(a.playerName)}
@@ -7221,7 +7312,7 @@
         }
 
         groupsHtml += `
-          <div class="raid-group-card">
+          <div class="raid-group-card" ondragover="handleRaidDragOver(event, this)" ondragleave="handleRaidDragLeave(event, this)" ondrop="handleRaidDropOnGroup(event, ${g})">
             <div class="raid-group-header">
               <span>Group ${g}</span>
               <span>${groupMembers.length}/5</span>
@@ -7251,7 +7342,7 @@
         </div>
 
         <div class="raid-builder-layout">
-          <div class="raid-pool-panel">
+          <div class="raid-pool-panel" ondragover="handleRaidDragOver(event, this)" ondragleave="handleRaidDragLeave(event, this)" ondrop="handleRaidDropOnPool(event)">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <strong style="font-size: 0.85rem; color: var(--text-main);">Guild Pool (${poolMembers.length})</strong>
               <span style="font-size: 0.72rem; color: var(--text-muted);">${assignments.length}/${team.size} Assigned</span>
