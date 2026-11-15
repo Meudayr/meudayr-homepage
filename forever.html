@@ -7736,9 +7736,12 @@
         const dragAttrs = assignedItem
           ? ''
           : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()"`;
+        const contextAttr = assignedItem
+          ? `oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')"`
+          : `oncontextmenu="event.preventDefault(); addMemberToRaidRoster('${safeName}')"`;
         const itemStateClass = assignedItem ? 'in-raid' : (isInOther ? 'in-other-raid' : '');
         return `
-          <div class="raid-pool-item ${itemStateClass}" style="border-left: 3px solid ${classColor};" ${titleAttr} ${dragAttrs}>
+          <div class="raid-pool-item ${itemStateClass}" style="border-left: 3px solid ${classColor};" ${titleAttr} ${dragAttrs} ${contextAttr}>
             <div style="display: flex; align-items: center; gap: 7px; min-width: 0;">
               <img src="${getIconUrl(classIcon)}" style="width: 20px; height: 20px; border-radius: 4px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(m.className || '')}">
               <div style="display: flex; flex-direction: column; min-width: 0;">
@@ -7816,7 +7819,7 @@
             : `title="Role: ${curRole} (${escapeHtml(className)} only has ${curRole})" style="cursor: default;"`;
 
           return `
-            <div class="raid-slot-row ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" draggable="true" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
+            <div class="raid-slot-row ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" draggable="true" oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
               <div style="display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1;">
                 <span class="raid-slot-grip" title="Drag to reorder or move group">⋮⋮</span>
                 <img src="${getIconUrl(classIcon)}" style="width: 17px; height: 17px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(className)}">
