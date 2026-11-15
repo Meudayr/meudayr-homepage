@@ -3216,6 +3216,7 @@
     }
 
     .raid-pool-panel {
+      position: relative;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-lg);
@@ -3232,6 +3233,60 @@
       flex-direction: column;
       gap: 6px;
       padding-right: 4px;
+    }
+
+    .raid-add-alt-btn {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(250, 204, 21, 0.08);
+      border: 1px dashed rgba(250, 204, 21, 0.35);
+      color: #facc15;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .raid-add-alt-btn:hover {
+      background: rgba(250, 204, 21, 0.16);
+      border-color: #facc15;
+    }
+
+    .raid-alt-popout {
+      position: absolute;
+      left: calc(100% + 10px);
+      bottom: 0;
+      width: 330px;
+      max-width: 90vw;
+      max-height: 480px;
+      background: #14161d;
+      border: 1px solid rgba(250, 204, 21, 0.38);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.78);
+      z-index: 80;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .raid-alt-popout-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+    }
+
+    @media (max-width: 960px) {
+      .raid-alt-popout {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
     }
 
     .raid-pool-item {
@@ -4524,6 +4579,8 @@
     let draggedRaidPlayer = null;
     let draggedRaidTeamId = null;
     let openRaidColorPopover = false;
+    let openRaidAltPopout = false;
+    let raidAltPopoutSearch = '';
     let openQuickSpecCardId = null;
     let activeRoleFilter = "all";
     let activeClassFilter = "all";
@@ -7796,6 +7853,14 @@
       return allowed[0] || 'Melee DPS';
     }
 
+    function findGuildOrAltMember(playerName) {
+      const lower = (playerName || '').toLowerCase();
+      if (!lower) return null;
+      return rosterList.find(m => (m.playerName || '').toLowerCase() === lower)
+        || altsList.find(a => (a.playerName || '').toLowerCase() === lower)
+        || null;
+    }
+
     function addMemberToRaidRoster(playerName, targetGroup = null) {
       const team = getActiveRaidRoster();
       if (!team) return;
@@ -7818,7 +7883,7 @@
         if (!chosenGroup) chosenGroup = 1;
       }
 
-      const guildMember = rosterList.find(m => (m.playerName || '').toLowerCase() === playerName.toLowerCase());
+      const guildMember = findGuildOrAltMember(playerName);
       const defaultRole = getDefaultRoleForMember(guildMember);
       const defaultSpec = guildMember ? (guildMember.spec || '') : '';
 
@@ -7859,7 +7924,7 @@
       if (!team) return;
       const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase());
       if (item) {
-        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === playerName.toLowerCase());
+        const gm = findGuildOrAltMember(playerName);
         const allowed = getAllowedRolesForClass(gm ? gm.className : '');
         if (!allowed.includes(newRole)) {
           showToast(`${gm ? gm.className : 'This class'} cannot be assigned as ${newRole}.`, true);
@@ -7963,7 +8028,7 @@
 
       if (!movingItem) {
         if (!fromPool) return;
-        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === lowerDrag);
+        const gm = findGuildOrAltMember(lowerDrag);
         movingItem = {
           playerName: gm ? gm.playerName : playerName,
           group: targetGroup,
@@ -8141,6 +8206,14 @@
       renderRaidRosterBuilder();
     }
 
+    function toggleRaidAltPopout(e) {
+      if (e) e.stopPropagation();
+      openRaidAltPopout = !openRaidAltPopout;
+      openRaidRolePopoverFor = null;
+      openRaidColorPopover = false;
+      renderRaidRosterBuilder();
+    }
+
     document.addEventListener('click', () => {
       closeMoreViewsMenu();
       if (openQuickSpecCardId) {
@@ -8154,6 +8227,10 @@
       }
       if (openRaidColorPopover) {
         openRaidColorPopover = false;
+        needsRender = true;
+      }
+      if (openRaidAltPopout) {
+        openRaidAltPopout = false;
         needsRender = true;
       }
       if (needsRender && (currentViewMode === 'raids' || (currentViewMode === 'table' && currentTableSubTab === 'raids'))) {
@@ -8181,6 +8258,11 @@
 
       const prevPoolList = container.querySelector ? container.querySelector('.raid-pool-list') : null;
       const prevPoolScrollTop = prevPoolList ? prevPoolList.scrollTop : 0;
+      const prevAltPopoutList = container.querySelector ? container.querySelector('.raid-alt-popout-list') : null;
+      const prevAltPopoutScrollTop = prevAltPopoutList ? prevAltPopoutList.scrollTop : 0;
+      const activeEl = typeof document !== 'undefined' ? document.activeElement : null;
+      const wasAltSearchFocused = Boolean(activeEl && activeEl.id === 'raid-alt-popout-search');
+      const altSearchCaret = wasAltSearchFocused && typeof activeEl.selectionStart === 'number' ? activeEl.selectionStart : null;
 
       const team = getActiveRaidRoster();
       const teamTabsHtml = raidRosters.map(r => {
@@ -8286,7 +8368,7 @@
         else if (a.role === 'Healer') healers++;
         else if (a.role === 'Melee DPS') melee++;
         else if (a.role === 'Ranged DPS') ranged++;
-        const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
+        const gm = findGuildOrAltMember(a.playerName);
         if (gm) {
           teamRosterObjects.push({ ...gm, role: a.role || gm.role, spec: a.spec || gm.spec });
         }
@@ -8307,7 +8389,7 @@
       for (let g = 1; g <= maxGroups; g++) {
         const groupMembers = assignments.filter(a => a.group === g);
         let slotsHtml = groupMembers.map(a => {
-          const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
+          const gm = findGuildOrAltMember(a.playerName);
           const className = gm ? gm.className : '';
           const classColor = CLASS_COLORS[className] || 'var(--text-main)';
           const classIcon = CLASS_ICONS[className] || 'inv_misc_questionmark';
@@ -8387,6 +8469,69 @@
         </div>
       ` : '';
 
+      const altQuery = (raidAltPopoutSearch || '').trim().toLowerCase();
+      const filteredAlts = openRaidAltPopout
+        ? [...altsList]
+            .filter(alt => {
+              if (!altQuery) return true;
+              const hay = `${alt.playerName || ''} ${alt.className || ''} ${alt.mainName || ''} ${alt.publicNote || ''} ${alt.notes || ''}`.toLowerCase();
+              return hay.includes(altQuery);
+            })
+            .sort((a, b) => (Number(b.level) || 0) - (Number(a.level) || 0) || (a.playerName || '').localeCompare(b.playerName || ''))
+        : [];
+
+      const altPopoutRowsHtml = openRaidAltPopout ? (filteredAlts.map(alt => {
+        const classColor = CLASS_COLORS[alt.className] || 'var(--text-main)';
+        const classIcon = CLASS_ICONS[alt.className] || 'inv_misc_questionmark';
+        const assignedItem = assignments.find(a => a.playerName.toLowerCase() === (alt.playerName || '').toLowerCase());
+        const assignedGroup = assignedItem ? assignedItem.group : null;
+        const safeName = escapeHtml(alt.playerName || '').replace(/'/g, "\\'");
+        const mainText = alt.mainName ? `Main: ${alt.mainName}` : 'Unassigned Alt';
+        const noteText = (alt.publicNote || alt.notes || '').trim();
+        const metaLine = [mainText, noteText].filter(Boolean).join(' · ');
+        const tooltip = buildRaidPlayerTooltip(alt.playerName, alt, [alt.mainName ? `Alt of ${alt.mainName}` : 'Unassigned Alt']);
+
+        return `
+          <div class="raid-pool-item ${assignedGroup ? 'assigned' : ''}"
+               style="--pool-class-color: ${classColor};"
+               title="${escapeHtml(tooltip)}"
+               draggable="${assignedGroup ? 'false' : 'true'}"
+               oncontextmenu="event.preventDefault(); ${assignedGroup ? `removeMemberFromRaidRoster('${safeName}')` : `addMemberToRaidRoster('${safeName}')`}"
+               ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')"
+               ondragend="handleRaidDragEnd()">
+            <div style="display: flex; align-items: center; gap: 7px; min-width: 0; flex: 1;">
+              <img src="${getIconUrl(classIcon)}" style="width: 19px; height: 19px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(alt.className || '')}">
+              <div style="min-width: 0;">
+                <div style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  ${escapeHtml(alt.playerName || '')} <span style="font-weight: 500; font-size: 0.7rem; color: var(--text-muted);">Lv${alt.level || 60}</span>
+                </div>
+                <div style="font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  ${escapeHtml(metaLine)}
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+              ${assignedGroup
+                ? `<span style="font-size: 0.7rem; font-weight: 700; color: #34d399; padding: 2px 6px;">G${assignedGroup}</span>`
+                : `<button type="button" class="raid-pool-add-btn" onclick="event.stopPropagation(); addMemberToRaidRoster('${safeName}')">+ Add</button>`}
+            </div>
+          </div>
+        `;
+      }).join('') || '<div style="color: var(--text-dark); font-size: 0.8rem; text-align: center; padding: 16px;">No matching alts.</div>') : '';
+
+      const altPopoutHtml = openRaidAltPopout ? `
+        <div id="raid-alt-popout" class="raid-alt-popout" onclick="event.stopPropagation()">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <strong style="font-size: 0.83rem; color: var(--text-main);">All Guild Alts (${altsList.length})</strong>
+            <button type="button" class="toolbar-action-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="openRaidAltPopout=false; renderRaidRosterBuilder();">Close</button>
+          </div>
+          <input id="raid-alt-popout-search" type="text" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Filter alts or main..." value="${escapeHtml(raidAltPopoutSearch)}" oninput="raidAltPopoutSearch=this.value; renderRaidRosterBuilder();">
+          <div class="raid-alt-popout-list">
+            ${altPopoutRowsHtml}
+          </div>
+        </div>
+      ` : '';
+
       container.innerHTML = `
         <div class="raid-builder-toolbar">
           <div class="raid-team-tabs">
@@ -8423,6 +8568,10 @@
             <div class="raid-pool-list">
               ${poolHtml}
             </div>
+            <button type="button" class="raid-add-alt-btn ${openRaidAltPopout ? 'active' : ''}" onclick="toggleRaidAltPopout(event)">
+              + Add Alt (${altsList.length})
+            </button>
+            ${altPopoutHtml}
           </div>
 
           <div class="raid-groups-panel">
@@ -8455,6 +8604,19 @@
       if (prevPoolScrollTop > 0) {
         const nextPoolList = container.querySelector ? container.querySelector('.raid-pool-list') : null;
         if (nextPoolList) nextPoolList.scrollTop = prevPoolScrollTop;
+      }
+      if (prevAltPopoutScrollTop > 0) {
+        const nextAltList = container.querySelector ? container.querySelector('.raid-alt-popout-list') : null;
+        if (nextAltList) nextAltList.scrollTop = prevAltPopoutScrollTop;
+      }
+      if (wasAltSearchFocused) {
+        const nextAltSearch = document.getElementById('raid-alt-popout-search');
+        if (nextAltSearch && typeof nextAltSearch.focus === 'function') {
+          nextAltSearch.focus();
+          if (altSearchCaret !== null && typeof nextAltSearch.setSelectionRange === 'function') {
+            nextAltSearch.setSelectionRange(altSearchCaret, altSearchCaret);
+          }
+        }
       }
     }
 
