@@ -3054,8 +3054,8 @@
     }
 
     .raid-slot-row.slot-drag-over {
-      box-shadow: inset 0 2px 0 #facc15, 0 0 10px rgba(250, 204, 21, 0.18);
-      background: rgba(250, 204, 21, 0.08);
+      box-shadow: inset 0 0 0 1px #facc15, 0 0 10px rgba(250, 204, 21, 0.22);
+      background: rgba(250, 204, 21, 0.1);
     }
 
     .raid-slot-grip {
@@ -7536,12 +7536,41 @@
       renderRaidRosterBuilder();
     }
 
+    function swapRaidAssignments(playerA, playerB) {
+      const team = getActiveRaidRoster();
+      if (!team || !Array.isArray(team.assignments)) return;
+      const lowerA = (playerA || '').toLowerCase();
+      const lowerB = (playerB || '').toLowerCase();
+      if (!lowerA || !lowerB || lowerA === lowerB) return;
+
+      const idxA = team.assignments.findIndex(a => a.playerName.toLowerCase() === lowerA);
+      const idxB = team.assignments.findIndex(a => a.playerName.toLowerCase() === lowerB);
+      if (idxA < 0 || idxB < 0) return;
+
+      const itemA = team.assignments[idxA];
+      const itemB = team.assignments[idxB];
+      const groupA = itemA.group;
+      itemA.group = itemB.group;
+      itemB.group = groupA;
+
+      team.assignments[idxA] = itemB;
+      team.assignments[idxB] = itemA;
+
+      team.updatedAt = new Date().toISOString();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
     function handleRaidDropOnSlot(e, targetGroup, targetPlayerName) {
       e.preventDefault();
       e.stopPropagation();
       const payload = draggedRaidPlayer;
       handleRaidDragEnd();
       if (!payload) return;
+      if (payload.source === 'group' && targetPlayerName) {
+        swapRaidAssignments(payload.playerName, targetPlayerName);
+        return;
+      }
       reorderOrInsertAssignment(payload.playerName, targetGroup, targetPlayerName, payload.source === 'pool');
     }
 
