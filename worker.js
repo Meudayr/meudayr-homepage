@@ -1151,6 +1151,9 @@ export default {
           let added = 0;
           let updated = 0;
           let skippedLowOrRank = 0;
+          const addedNames = [];
+          const removedNames = [];
+          const leveledUp = [];
           const syncedNames = new Set();
           const nextRoster = [];
           const nextAlts = [];
@@ -1272,8 +1275,16 @@ export default {
               updatedAt: nowIso
             };
 
-            if (prev) updated++;
-            else added++;
+            if (prev) {
+              updated++;
+              const prevLv = Number(prev.level) || 0;
+              if (prevLv > 0 && level > prevLv) {
+                leveledUp.push(`${cleanName} (${prevLv} → ${level})`);
+              }
+            } else {
+              added++;
+              addedNames.push(cleanName);
+            }
             nextRoster.push(entry);
           }
 
@@ -1286,7 +1297,12 @@ export default {
               }
             }
           } else {
-            removed = Math.max(0, existingRoster.length - updated);
+            for (const item of existingRoster) {
+              if (item && item.playerName && !syncedNames.has(item.playerName.toLowerCase())) {
+                removedNames.push(item.playerName);
+              }
+            }
+            removed = removedNames.length;
           }
 
           // Sort main roster by rankIndex asc, then level desc, then playerName asc
@@ -1317,7 +1333,15 @@ export default {
             syncedAt: nowIso,
             memberCount: nextRoster.length,
             altCount: nextAlts.length,
-            excludedCount: skippedLowOrRank
+            excludedCount: skippedLowOrRank,
+            added,
+            updated,
+            removed,
+            changelog: {
+              added: addedNames.slice(0, 15),
+              removed: removedNames.slice(0, 15),
+              leveledUp: leveledUp.slice(0, 15)
+            }
           };
 
           if (env.LOGS_KV) {

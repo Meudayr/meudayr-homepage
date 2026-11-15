@@ -1297,6 +1297,87 @@
       transform: translateX(0);
     }
 
+    .action-items-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 1190;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .action-items-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .action-items-edge-tab {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1180;
+      background: #1a1d26;
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      cursor: pointer;
+      box-shadow: -4px 4px 18px rgba(0, 0, 0, 0.45);
+      transition: var(--transition);
+    }
+
+    .action-items-edge-tab:hover {
+      background: #232836;
+      border-color: #facc15;
+      padding-right: 11px;
+    }
+
+    .action-items-edge-tab.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .action-items-edge-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .action-items-edge-tab:hover .action-items-edge-label {
+      color: #facc15;
+    }
+
+    .action-sync-card {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .action-changelog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      padding-top: 6px;
+    }
+
     .action-items-header {
       padding: 16px 18px;
       border-bottom: 1px solid var(--card-border);
@@ -3519,20 +3600,6 @@
       <h1>World of Warcraft: Forever Roster</h1>
     </section>
 
-    <!-- Guild Addon Sync Status Banner -->
-    <div class="guild-sync-banner" id="guild-sync-banner" style="display: none;">
-      <div class="guild-sync-banner-left">
-        <span class="guild-sync-dot"></span>
-        <span id="guild-sync-text">Synced from in-game guild roster</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <button type="button" class="btn-import-export" onclick="openImportModal()" title="Import guild roster JSON from ForeverRosterSync addon">
-          <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-          Import Addon Export
-        </button>
-      </div>
-    </div>
-
     <!-- Composition Stats Dashboard (WoW Asset Icons) -->
     <section class="stats-dashboard" id="stats-dashboard">
       <div class="stat-card stat-all active" data-stat-role="all" role="button" tabindex="0" onclick="setRoleFilter('all')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('all');}" title="Show all guild members">
@@ -4180,6 +4247,14 @@
 
     </div>
   </main>
+
+  <!-- Action Items Pullout Tab & Backdrop -->
+  <div class="action-items-backdrop" id="action-items-backdrop" onclick="closeActionItemsDrawer()"></div>
+  <button type="button" class="action-items-edge-tab" id="action-items-edge-tab" onclick="toggleActionItemsDrawer(true)" title="Open Action Items &amp; Sync Changelog">
+    <svg style="width:14px;height:14px;color:#facc15;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    <span class="action-items-badge" id="action-items-edge-count">0</span>
+    <span class="action-items-edge-label">Action Items</span>
+  </button>
 
   <!-- Action Items Side Drawer -->
   <aside class="action-items-drawer" id="action-items-drawer" aria-hidden="true">
@@ -5974,31 +6049,8 @@
     // ==========================================
 
     function updateGuildSyncBanner() {
-      const banner = document.getElementById('guild-sync-banner');
-      const textEl = document.getElementById('guild-sync-text');
-      if (!banner || !textEl) return;
-
-      if (rosterMeta && rosterMeta.guild) {
-        let timeStr = '';
-        if (rosterMeta.exportedAt || rosterMeta.syncedAt) {
-          try {
-            const d = new Date(rosterMeta.exportedAt || rosterMeta.syncedAt);
-            if (!isNaN(d.getTime())) {
-              timeStr = ' · Updated ' + d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-            }
-          } catch (e) {}
-        }
-        const byStr = rosterMeta.exportedBy ? ` by ${escapeHtml(rosterMeta.exportedBy)}` : '';
-        const unassignedCount = altsList.filter(a => !a.mainName).length;
-        const altShortcutHtml = altsList.length > 0
-          ? ` · <a href="#" onclick="event.preventDefault(); setViewMode('table'); setTableSubTab('alts');" style="color:#fbbf24; font-weight:700; text-decoration:underline;">${unassignedCount > 0 ? unassignedCount + ' Unassigned Alts' : altsList.length + ' Alts'} →</a>`
-          : '';
-        textEl.innerHTML = `<strong style="color: var(--text-main);">${escapeHtml(rosterMeta.guild)}</strong> · ${rosterList.length} Members${byStr}${timeStr}${altShortcutHtml}`;
-        banner.style.display = 'flex';
-      } else {
-        banner.style.display = 'none';
-      }
       updateAltsTabCount();
+      if (typeof renderActionItemsDrawer === 'function') renderActionItemsDrawer();
     }
 
     function updateAltsTabCount() {
@@ -8450,16 +8502,29 @@
 
     function toggleActionItemsDrawer(forceOpen = null) {
       const drawer = document.getElementById('action-items-drawer');
+      const backdrop = document.getElementById('action-items-backdrop');
+      const edgeTab = document.getElementById('action-items-edge-tab');
       if (!drawer) return;
       const shouldOpen = forceOpen !== null ? Boolean(forceOpen) : !drawer.classList.contains('open');
       drawer.classList.toggle('open', shouldOpen);
       drawer.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+      if (backdrop) backdrop.classList.toggle('open', shouldOpen);
+      if (edgeTab) edgeTab.classList.toggle('hidden', shouldOpen);
       if (shouldOpen) renderActionItemsDrawer();
     }
 
     function closeActionItemsDrawer() {
       toggleActionItemsDrawer(false);
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const drawer = document.getElementById('action-items-drawer');
+        if (drawer && drawer.classList.contains('open')) {
+          closeActionItemsDrawer();
+        }
+      }
+    });
 
     function quickSetMemberSpecFromAction(selectEl, memberId) {
       const val = selectEl ? selectEl.value : '';
@@ -8480,8 +8545,10 @@
 
       const totalCount = noSpecMembers.length + unassignedAlts.length;
       const badgeEl = document.getElementById('action-items-count');
+      const edgeBadgeEl = document.getElementById('action-items-edge-count');
       const btnEl = document.getElementById('btn-action-items');
       if (badgeEl) badgeEl.textContent = totalCount;
+      if (edgeBadgeEl) edgeBadgeEl.textContent = totalCount;
       if (btnEl) btnEl.classList.toggle('has-items', totalCount > 0);
 
       const subtitleEl = document.getElementById('action-items-subtitle');
@@ -8492,9 +8559,69 @@
       const body = document.getElementById('action-items-body');
       if (!body) return;
 
+      // Last Sync Info & Changelog Card
+      let syncCardHtml = '';
+      if (rosterMeta && rosterMeta.guild) {
+        let timeStr = '';
+        if (rosterMeta.exportedAt || rosterMeta.syncedAt) {
+          try {
+            const d = new Date(rosterMeta.exportedAt || rosterMeta.syncedAt);
+            if (!isNaN(d.getTime())) {
+              timeStr = d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+            }
+          } catch (e) {}
+        }
+        const byStr = rosterMeta.exportedBy ? ` by <strong>${escapeHtml(rosterMeta.exportedBy)}</strong>` : '';
+        const cl = rosterMeta.changelog || {};
+        const addedCount = Number.isFinite(rosterMeta.added) ? rosterMeta.added : (Array.isArray(cl.added) ? cl.added.length : 0);
+        const updatedCount = Number.isFinite(rosterMeta.updated) ? rosterMeta.updated : 0;
+        const removedCount = Number.isFinite(rosterMeta.removed) ? rosterMeta.removed : (Array.isArray(cl.removed) ? cl.removed.length : 0);
+
+        const logLines = [];
+        if (Array.isArray(cl.added) && cl.added.length > 0) {
+          logLines.push(`<div><span style="color:#34d399; font-weight:700;">+ Joined:</span> ${escapeHtml(cl.added.join(', '))}</div>`);
+        }
+        if (Array.isArray(cl.leveledUp) && cl.leveledUp.length > 0) {
+          logLines.push(`<div><span style="color:#facc15; font-weight:700;">↑ Level Ups:</span> ${escapeHtml(cl.leveledUp.join(', '))}</div>`);
+        }
+        if (Array.isArray(cl.removed) && cl.removed.length > 0) {
+          logLines.push(`<div><span style="color:#f87171; font-weight:700;">- Removed:</span> ${escapeHtml(cl.removed.join(', '))}</div>`);
+        }
+
+        syncCardHtml = `
+          <div class="action-sync-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <div style="display:flex; align-items:center; gap:7px; font-size:0.8rem; color:var(--text-main);">
+                <span class="guild-sync-dot"></span>
+                <strong>${escapeHtml(rosterMeta.guild)}</strong>
+              </div>
+              <button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>
+            </div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">
+              ${rosterList.length} Members · ${altsList.length} Alts${byStr}${timeStr ? ` · Updated ${escapeHtml(timeStr)}` : ''}
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; font-size:0.7rem;">
+              <span style="color:#34d399; font-weight:700;">+${addedCount} Added</span>
+              <span style="color:#60a5fa; font-weight:700;">${updatedCount} Updated</span>
+              <span style="color:#f87171; font-weight:700;">-${removedCount} Removed</span>
+            </div>
+            ${logLines.length > 0 ? `<div class="action-changelog-list">${logLines.join('')}</div>` : ''}
+          </div>
+        `;
+      } else {
+        syncCardHtml = `
+          <div class="action-sync-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <span style="font-size:0.78rem; color:var(--text-muted);">No addon sync recorded yet.</span>
+              <button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>
+            </div>
+          </div>
+        `;
+      }
+
       if (totalCount === 0) {
-        body.innerHTML = `
-          <div style="text-align: center; padding: 36px 16px; color: var(--text-muted);">
+        body.innerHTML = syncCardHtml + `
+          <div style="text-align: center; padding: 28px 16px; color: var(--text-muted);">
             <div style="font-size: 1.05rem; font-weight: 700; color: #34d399; margin-bottom: 6px;">All Caught Up</div>
             <p style="font-size: 0.82rem;">Every guild member has a spec assigned and every alt is linked to a main.</p>
           </div>
@@ -8580,7 +8707,7 @@
         </div>
       `;
 
-      body.innerHTML = specsSectionHtml + altsSectionHtml;
+      body.innerHTML = syncCardHtml + specsSectionHtml + altsSectionHtml;
     }
 
     async function saveAltsAssignments() {
