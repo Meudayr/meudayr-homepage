@@ -3290,11 +3290,11 @@
 
     <!-- Composition Stats Dashboard (WoW Asset Icons) -->
     <section class="stats-dashboard" id="stats-dashboard">
-      <div class="stat-card stat-all active" data-stat-role="all" role="button" tabindex="0" onclick="setRoleFilter('all')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('all');}" title="Show all signups">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="Signups" class="stat-wow-icon">
+      <div class="stat-card stat-all active" data-stat-role="all" role="button" tabindex="0" onclick="setRoleFilter('all')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('all');}" title="Show all guild members">
+        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="Guild Members" class="stat-wow-icon">
         <div class="stat-content">
           <span class="stat-number" id="stat-total-count">0</span>
-          <span class="stat-label">Signups</span>
+          <span class="stat-label">Guild Members</span>
         </div>
       </div>
 
@@ -3340,28 +3340,34 @@
         <aside class="form-card" id="signup-form-container">
         <div class="form-card-title">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span id="form-heading-text">Submit Character</span>
+            <span id="form-heading-text">Add Character (Manual)</span>
             <span class="edit-mode-badge" id="edit-mode-badge" style="display: none;">
               <svg style="width: 12px; height: 12px;" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/></svg>
-              Editing Entry
+              Editing Member
             </span>
           </div>
-          <button type="button" class="form-collapse-btn" onclick="toggleFormCollapse()" title="Close Submit Character panel">
+          <button type="button" class="form-collapse-btn" onclick="toggleFormCollapse()" title="Close panel">
             <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             <span>Close</span>
           </button>
         </div>
-        <p class="form-card-subtitle" id="form-subheading-text">Select your race, class, spec, and roles for WoW Forever.</p>
+        <p class="form-card-subtitle" id="form-subheading-text">Optional manual entry — most members sync from the in-game addon.</p>
 
         <form id="character-form" onsubmit="handleFormSubmit(event)">
           <!-- Hidden ID for edit tracking -->
           <input type="hidden" id="entry-id" value="">
           <input type="hidden" id="select-gender" value="male">
 
-          <!-- Player / Discord Name -->
-          <div class="form-group">
-            <label class="form-label" for="player-name">Player / Discord Name <span class="req">*</span></label>
-            <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr" required maxlength="30">
+          <!-- Player Name & Level -->
+          <div style="display: grid; grid-template-columns: 1fr 82px; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label" for="player-name">Character Name <span class="req">*</span></label>
+              <input type="text" id="player-name" class="form-input" placeholder="e.g. Meudayr" required maxlength="30">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-level">Level</label>
+              <input type="number" id="input-level" class="form-input" min="1" max="60" value="60" placeholder="60">
+            </div>
           </div>
 
           <!-- Race Selector -->
@@ -3580,13 +3586,18 @@
             </div>
           </div>
 
-          <!-- Notes / Availability -->
+          <!-- In-Game Guild Note (Read-Only when synced) + Website-Only Notes -->
+          <div class="form-group" id="ingame-note-preview-group" style="display: none;">
+            <label class="form-label" style="margin-bottom: 4px;"><span>In-Game Guild Note <span style="font-size: 0.7rem; color: var(--text-dark); font-weight: normal;">(Synced from addon)</span></span></label>
+            <div id="ingame-note-preview" style="padding: 8px 10px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 0.8rem; font-style: italic;"></div>
+          </div>
+
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <label class="form-label" for="input-notes" style="margin-bottom: 0;"><span>Notes <span style="font-size: 0.72rem; color: var(--text-dark); font-weight: normal;">(Optional)</span></span></label>
+              <label class="form-label" for="input-notes" style="margin-bottom: 0;"><span>Website-Only Note <span style="font-size: 0.72rem; color: #34d399; font-weight: normal;">(Kept across addon syncs)</span></span></label>
               <span id="notes-char-counter" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;"><span id="notes-count">0</span>/300</span>
             </div>
-            <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Raid availability, scheduling, or notes for officers..." oninput="updateNotesCounter()"></textarea>
+            <textarea id="input-notes" class="form-textarea" maxlength="300" placeholder="Officer/raid notes, attendance, gear goals, or notes that stay on the website..." oninput="updateNotesCounter()"></textarea>
           </div>
 
           <!-- Optional 4-digit PIN for edit protection -->
@@ -3601,7 +3612,7 @@
           <!-- Submit Buttons -->
           <button type="submit" class="form-btn-submit" id="btn-submit-form">
             <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-            <span id="btn-submit-text">Submit Intention</span>
+            <span id="btn-submit-text">Add Character</span>
           </button>
           <button type="button" class="form-btn-cancel" id="btn-cancel-edit" style="display: none;" onclick="cancelEditMode()">
             Cancel Edit
@@ -3613,25 +3624,14 @@
       <!-- Live Roster Directory Panel -->
       <section class="roster-panel">
         
-        <!-- Search & Filter Toolbar + Submit Action Box -->
+        <!-- Search & Filter Toolbar -->
         <div class="toolbar-section-row">
-          <!-- Dedicated Standout Submit Character Action Box (Left Side, opens into form) -->
-          <div class="submit-cta-card retracted-mode" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" onkeydown="if(event.key==='Enter'||event.key===' '){ event.preventDefault(); toggleFormCollapse(); }" role="button" tabindex="0" title="Expand Submit Character menu (moves cards to 2 columns)">
-            <div class="submit-cta-icon-box" id="btn-toggle-sidebar-icon">
-              <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_01.jpg" alt="Submit" class="submit-cta-wow-icon">
-            </div>
-            <span class="submit-cta-title" id="btn-toggle-sidebar-text">Submit Character</span>
-            <div class="submit-cta-action-arrow" id="btn-toggle-sidebar-action">
-              <span class="submit-cta-badge">+ Open</span>
-            </div>
-          </div>
-
-          <!-- Search & Filter Toolbar (Right Side) -->
-          <div class="toolbar-wrapper">
+          <!-- Search & Filter Toolbar (Full Width) -->
+          <div class="toolbar-wrapper" style="width: 100%;">
             <div class="toolbar-top-row">
               <div class="search-input-wrapper">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, professions, notes..." oninput="applyFilters()">
+                <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, spec, rank, guild or web notes..." oninput="applyFilters()">
               </div>
 
               <!-- View Switcher -->
@@ -3644,16 +3644,21 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                   <span>Analytics</span>
                 </button>
-                <button type="button" class="view-mode-btn" id="btn-view-table" onclick="setViewMode('table')" title="Dense Roster Table">
+                <button type="button" class="view-mode-btn" id="btn-view-table" onclick="setViewMode('table')" title="Guild Table, Raid Rosters &amp; Alts">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                   <span>Table</span>
                 </button>
               </div>
 
-              <!-- Import Addon Export Button -->
+              <!-- Import Addon Export Button (Primary Roster Action) -->
               <button class="btn-import-export" id="btn-import-addon" onclick="openImportModal()" title="Paste export from ForeverRosterSync in-game addon">
                 <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-                <span>Import</span>
+                <span>Import Addon</span>
+              </button>
+
+              <!-- Secondary Manual Add Button -->
+              <button type="button" class="toolbar-action-btn" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" title="Manually add a character not in the addon export">
+                <span id="btn-toggle-sidebar-text">+ Add Manual</span>
               </button>
 
               <!-- Admin Mode Toggle Button -->
@@ -4644,33 +4649,25 @@
 
     function updateFormCollapseUI() {
       const layout = document.getElementById('roster-main-layout');
-      const ctaCard = document.getElementById('btn-toggle-sidebar');
-      const toggleIcon = document.getElementById('btn-toggle-sidebar-icon');
+      const ctaBtn = document.getElementById('btn-toggle-sidebar');
       const toggleText = document.getElementById('btn-toggle-sidebar-text');
-      const toggleAction = document.getElementById('btn-toggle-sidebar-action');
 
       if (!layout) return;
 
       if (isFormRetracted) {
         layout.classList.add('sidebar-retracted');
-        if (ctaCard) {
-          ctaCard.style.display = '';
-          ctaCard.classList.remove('expanded-mode');
-          ctaCard.classList.add('retracted-mode');
-          ctaCard.setAttribute('title', 'Expand Submit Character menu (moves cards to 2 columns)');
+        if (ctaBtn) {
+          ctaBtn.classList.remove('active');
+          ctaBtn.setAttribute('title', 'Manually add a character not in the addon export');
         }
-        if (toggleText) toggleText.textContent = 'Submit Character';
-        if (toggleIcon) {
-          toggleIcon.innerHTML = '<img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_01.jpg" alt="Submit" class="submit-cta-wow-icon">';
-        }
-        if (toggleAction) {
-          toggleAction.innerHTML = '<span class="submit-cta-badge">+ Open</span>';
-        }
+        if (toggleText) toggleText.textContent = '+ Add Manual';
       } else {
         layout.classList.remove('sidebar-retracted');
-        if (ctaCard) {
-          ctaCard.style.display = '';
+        if (ctaBtn) {
+          ctaBtn.classList.add('active');
+          ctaBtn.setAttribute('title', 'Close character editor panel');
         }
+        if (toggleText) toggleText.textContent = 'Close Editor';
       }
     }
 
@@ -5957,7 +5954,10 @@
           const matchSpec = (item.spec || '').toLowerCase().includes(searchTerm);
           const matchOffspec = (item.offspec || '').toLowerCase().includes(searchTerm);
           const matchOffspecRole = (item.offspecRole || '').toLowerCase().includes(searchTerm);
-          const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
+          const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm) ||
+                             (item.publicNote || '').toLowerCase().includes(searchTerm) ||
+                             (item.webNotes || '').toLowerCase().includes(searchTerm) ||
+                             (item.rankName || '').toLowerCase().includes(searchTerm);
           const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
           const profsStr = Array.isArray(item.professions) ? item.professions.join(' ') : `${item.profession1 || ''} ${item.profession2 || ''}`;
           const matchProf = profsStr.toLowerCase().includes(searchTerm);
@@ -6000,7 +6000,10 @@
           const matchSpec = (item.spec || '').toLowerCase().includes(searchTerm);
           const matchOffspec = (item.offspec || '').toLowerCase().includes(searchTerm);
           const matchOffspecRole = (item.offspecRole || '').toLowerCase().includes(searchTerm);
-          const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm);
+          const matchNotes = (item.notes || '').toLowerCase().includes(searchTerm) ||
+                             (item.publicNote || '').toLowerCase().includes(searchTerm) ||
+                             (item.webNotes || '').toLowerCase().includes(searchTerm) ||
+                             (item.rankName || '').toLowerCase().includes(searchTerm);
           const matchRace = (item.race || '').toLowerCase().includes(searchTerm);
           const profsStr = Array.isArray(item.professions) ? item.professions.join(' ') : `${item.profession1 || ''} ${item.profession2 || ''}`;
           const matchProf = profsStr.toLowerCase().includes(searchTerm);
@@ -6180,8 +6183,12 @@
           container.innerHTML = `
             <div class="roster-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px;">
               <svg style="width: 48px; height: 48px; color: var(--text-dark); margin-bottom: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-              <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Characters Registered Yet</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 420px; margin: 0 auto;">Be the first to join the TBS WoW: Forever guild roster by submitting your character plan on the left!</p>
+              <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Guild Members Imported Yet</h3>
+              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px; margin: 0 auto 16px;">Import your in-game guild roster export from ForeverRosterSync, or add a character manually.</p>
+              <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                <button type="button" class="btn-import-export" onclick="openImportModal()">Import Addon Export</button>
+                <button type="button" class="toolbar-action-btn" onclick="toggleFormCollapse(true)">+ Add Manual</button>
+              </div>
             </div>
           `;
         } else if (offspecList.length > 0) {
@@ -6316,15 +6323,16 @@
                   ${escapeHtml(primRole)}
                 </span>
               ` : `
-                <span class="member-role-badge" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: var(--text-dark);">
-                  Spec Unassigned
-                </span>
+                <button type="button" class="member-role-badge" onclick="startEdit('${m.id}')" style="background: rgba(250,204,21,0.08); border-color: rgba(250,204,21,0.28); color: #facc15; cursor: pointer;" title="Click to assign spec &amp; level">
+                  + Set Spec
+                </button>
               `}
             </div>
 
             ${offspecHtml}
             ${professionsHtml}
             ${displayNote ? `<div class="member-notes">"${escapeHtml(displayNote)}"</div>` : ''}
+            ${m.webNotes ? `<div class="member-notes" style="border-left-color: #34d399; color: #cbd5e1;"><span style="font-size:0.65rem; font-weight:700; color:#34d399; text-transform:uppercase; letter-spacing:0.4px; margin-right:5px;">Web Note:</span>${escapeHtml(m.webNotes)}</div>` : ''}
             ${altsTagHtml}
 
             <div class="member-playstyles-row">
@@ -7092,7 +7100,10 @@
           : `<button type="button" class="card-action-btn" style="padding:2px 7px; font-size:0.66rem; color:var(--text-muted);" onclick="quickAssignToActiveRaid('${escapeHtml(m.playerName).replace(/'/g, "\\'")}')" title="Assign to Raid Roster">+ Raid</button>`;
 
         const rawNote = m.publicNote || m.notes || '';
-        const notesShort = rawNote ? (rawNote.length > 45 ? escapeHtml(rawNote.slice(0, 45)) + '...' : escapeHtml(rawNote)) : '-';
+        const webNote = (m.webNotes || '').trim();
+        const combinedNoteTitle = [rawNote ? `Guild: ${rawNote}` : '', webNote ? `Web: ${webNote}` : ''].filter(Boolean).join(' | ');
+        const notesShort = rawNote ? (rawNote.length > 42 ? escapeHtml(rawNote.slice(0, 42)) + '...' : escapeHtml(rawNote)) : (webNote ? '' : '-');
+        const webNoteShort = webNote ? `<div style="color:#6ee7b7; font-size:0.68rem; margin-top:1px;">Web: ${escapeHtml(webNote.length > 36 ? webNote.slice(0, 36) + '...' : webNote)}</div>` : '';
 
         return `
           <tr>
@@ -7112,8 +7123,8 @@
             <td>${offspecCell}</td>
             <td>${profsTableHtml}</td>
             <td>${raidTeamCell}</td>
-            <td title="${escapeHtml(rawNote)}" style="color:var(--text-muted); font-size:0.73rem; max-width:130px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              ${notesShort}
+            <td title="${escapeHtml(combinedNoteTitle)}" style="color:var(--text-muted); font-size:0.73rem; max-width:160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${notesShort}${webNoteShort}
             </td>
             <td style="text-align: right; white-space: nowrap;">
               <div style="display:inline-flex; gap:3px;">
@@ -7664,11 +7675,13 @@
     function buildRaidPlayerTooltip(playerName, gm, extraParts = []) {
       const lowerName = (playerName || '').toLowerCase();
       const noteText = gm ? (gm.publicNote || gm.notes || '').trim() : '';
+      const webNoteText = gm ? (gm.webNotes || '').trim() : '';
       const squads = raidRosters
         .filter(r => (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
         .map(r => `${r.name} (${r.size || 40}-Man)`);
       const parts = [...extraParts];
       parts.push(noteText ? `Guild Note: ${noteText}` : 'No guild note');
+      if (webNoteText) parts.push(`Web Note: ${webNoteText}`);
       parts.push(squads.length ? `Squads: ${squads.join(', ')}` : 'Squads: None');
       return parts.join(' | ');
     }
@@ -8164,6 +8177,8 @@
       const submitText = document.getElementById('btn-submit-text');
       const id = document.getElementById('entry-id').value;
       const playerName = document.getElementById('player-name').value.trim();
+      const rawLevel = document.getElementById('input-level')?.value;
+      const level = rawLevel !== undefined && rawLevel !== '' ? Math.max(1, Math.min(60, parseInt(rawLevel, 10) || 60)) : 60;
       const race = document.getElementById('select-race').value;
       const className = document.getElementById('select-class').value;
       const spec = document.getElementById('select-spec').value;
@@ -8172,7 +8187,7 @@
       const prof1 = document.getElementById('select-profession-1')?.value.trim() || '';
       const prof2 = document.getElementById('select-profession-2')?.value.trim() || '';
       const professions = [prof1, prof2].filter(Boolean);
-      const notes = document.getElementById('input-notes').value.trim();
+      const webNotes = document.getElementById('input-notes').value.trim();
       const pin = document.getElementById('input-pin').value.trim();
 
       if (!playerName) {
@@ -8234,6 +8249,7 @@
       const payload = {
         id: id || undefined,
         playerName: cleanPlayerName,
+        level,
         faction: 'Horde',
         race,
         gender: (document.getElementById('select-gender')?.value || (isFemaleRaceIcon ? 'female' : 'male')),
@@ -8248,7 +8264,7 @@
         profession2: prof2,
         playstyles: selectedPlaystyles,
         playstyle: selectedPlaystyles[0],
-        notes,
+        webNotes,
         currentPin: isEditing ? editingCurrentPin : undefined,
         newPin: isEditing ? newPinVal : undefined,
         pin: isEditing ? (editingCurrentPin || newPinVal) : newPinVal,
@@ -8304,7 +8320,7 @@
         updateFormCollapseUI();
       } finally {
         submitBtn.disabled = false;
-        submitText.textContent = id ? 'Update Character' : 'Submit Intention';
+        submitText.textContent = id ? 'Save Member Changes' : 'Add Character';
       }
     }
 
@@ -8338,7 +8354,23 @@
       if (genderInput) genderInput.value = isFemaleRaceIcon ? 'female' : 'male';
       document.getElementById('entry-id').value = entry.id;
       document.getElementById('player-name').value = entry.playerName;
-      document.getElementById('input-notes').value = entry.notes || '';
+      const levelInput = document.getElementById('input-level');
+      if (levelInput) levelInput.value = entry.level || 60;
+
+      const ingameGroup = document.getElementById('ingame-note-preview-group');
+      const ingamePreview = document.getElementById('ingame-note-preview');
+      const ingameNoteText = (entry.publicNote || '').trim();
+      if (ingameGroup && ingamePreview) {
+        if (ingameNoteText) {
+          ingamePreview.textContent = ingameNoteText;
+          ingameGroup.style.display = 'block';
+        } else {
+          ingameGroup.style.display = 'none';
+        }
+      }
+
+      const initialWebNote = entry.webNotes !== undefined ? (entry.webNotes || '') : (!ingameNoteText ? (entry.notes || '') : '');
+      document.getElementById('input-notes').value = initialWebNote;
       document.getElementById('input-pin').value = entry.pin || '';
       const pinLabelText = document.getElementById('pin-label-text');
       if (pinLabelText) {
@@ -8378,10 +8410,10 @@
       renderPlaystyleChips();
 
       // UI states
-      document.getElementById('form-heading-text').textContent = 'Edit Character';
-      document.getElementById('form-subheading-text').textContent = `Updating character plan for ${entry.playerName}.`;
+      document.getElementById('form-heading-text').textContent = 'Edit Guild Member';
+      document.getElementById('form-subheading-text').textContent = `Update level, spec, or website-only notes for ${entry.playerName}.`;
       document.getElementById('edit-mode-badge').style.display = 'inline-flex';
-      document.getElementById('btn-submit-text').textContent = 'Update Character';
+      document.getElementById('btn-submit-text').textContent = 'Save Member Changes';
       document.getElementById('btn-cancel-edit').style.display = 'block';
 
       // Scroll form into view smoothly
@@ -8394,10 +8426,14 @@
       if (genderInput) genderInput.value = 'male';
       document.getElementById('character-form')?.reset?.();
       document.getElementById('entry-id').value = '';
-      document.getElementById('form-heading-text').textContent = 'Submit Character';
-      document.getElementById('form-subheading-text').textContent = 'Select your race, class, spec, and roles for WoW Forever.';
+      const levelInput = document.getElementById('input-level');
+      if (levelInput) levelInput.value = '60';
+      const ingameGroup = document.getElementById('ingame-note-preview-group');
+      if (ingameGroup) ingameGroup.style.display = 'none';
+      document.getElementById('form-heading-text').textContent = 'Add Character (Manual)';
+      document.getElementById('form-subheading-text').textContent = 'Optional manual entry — most members sync from the in-game addon.';
       document.getElementById('edit-mode-badge').style.display = 'none';
-      document.getElementById('btn-submit-text').textContent = 'Submit Intention';
+      document.getElementById('btn-submit-text').textContent = 'Add Character';
       document.getElementById('btn-cancel-edit').style.display = 'none';
 
       const pinLabelText = document.getElementById('pin-label-text');

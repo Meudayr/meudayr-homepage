@@ -801,7 +801,7 @@ export default {
       if (request.method === 'POST') {
         try {
           const body = await request.json();
-          const { id, playerName, faction, race, gender, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, professions, profession1, profession2, notes, pin, currentPin, newPin, admin } = body;
+          const { id, playerName, level, faction, race, gender, className, spec, role, roles, offspec, offspecRole, playstyle, playstyles, professions, profession1, profession2, notes, webNotes, pin, currentPin, newPin, admin } = body;
 
           if (!playerName || !playerName.trim()) {
             return new Response(JSON.stringify({ success: false, error: 'Player Name is required.' }), {
@@ -903,7 +903,10 @@ export default {
           const nowIso = new Date().toISOString();
           let savedEntry = null;
 
-          const cleanNotes = notes ? notes.trim().slice(0, 300) : '';
+          const cleanNotes = notes !== undefined && notes !== null ? String(notes).trim().slice(0, 300) : '';
+          const cleanWebNotes = webNotes !== undefined && webNotes !== null ? String(webNotes).trim().slice(0, 300) : null;
+          const hasExplicitLevel = level !== undefined && level !== null && level !== '';
+          const parsedExplicitLevel = hasExplicitLevel ? Math.max(1, Math.min(60, Math.round(Number(level)) || 60)) : null;
 
           if (existingIndex >= 0) {
             const existing = roster[existingIndex];
@@ -930,6 +933,7 @@ export default {
             savedEntry = {
               ...existing,
               playerName: cleanName,
+              level: parsedExplicitLevel !== null ? parsedExplicitLevel : (Number(existing.level) || 60),
               faction: 'Horde',
               race,
               gender: gender === 'female' ? 'female' : (gender === 'male' ? 'male' : (existing.gender || 'male')),
@@ -944,7 +948,8 @@ export default {
               professions: resolvedProfessions,
               profession1: resolvedProfessions[0] || '',
               profession2: resolvedProfessions[1] || '',
-              notes: cleanNotes,
+              notes: notes !== undefined ? cleanNotes : (existing.notes || ''),
+              webNotes: cleanWebNotes !== null ? cleanWebNotes : (existing.webNotes || ''),
               pin: finalPin,
               updatedAt: nowIso
             };
@@ -953,6 +958,7 @@ export default {
             savedEntry = {
               id: id || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
               playerName: cleanName,
+              level: parsedExplicitLevel !== null ? parsedExplicitLevel : 60,
               faction: 'Horde',
               race,
               gender: gender === 'female' ? 'female' : 'male',
@@ -968,6 +974,7 @@ export default {
               profession1: resolvedProfessions[0] || '',
               profession2: resolvedProfessions[1] || '',
               notes: cleanNotes,
+              webNotes: cleanWebNotes !== null ? cleanWebNotes : '',
               pin: pin ? pin.trim() : '',
               createdAt: nowIso,
               updatedAt: nowIso
@@ -1254,6 +1261,7 @@ export default {
               profession1: profs[0] || '',
               profession2: profs[1] || '',
               notes: finalNotes,
+              webNotes: (prev && prev.webNotes) ? prev.webNotes : '',
               publicNote,
               zone: (m.zone || '').trim(),
               isOnline: Boolean(m.isOnline),
