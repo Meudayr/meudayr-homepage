@@ -761,16 +761,21 @@ export default {
             });
           }
 
-          // If any filter is used or clean=1, sanitize pin field for privacy
+          // If any filter is used or clean=1, sanitize pin field for privacy; always strip officerNote
           const hasFilter = roleFilter || classFilter || playerFilter || playstyleFilter || cleanParam === '1' || cleanParam === 'true';
-          const finalRoster = hasFilter
-            ? filtered.map(({ pin, ...safeItem }) => ({ ...safeItem, isPinProtected: Boolean(pin && pin.trim()) }))
-            : filtered;
+          const finalRoster = (hasFilter
+            ? filtered.map(({ pin, officerNote, ...safeItem }) => ({ ...safeItem, isPinProtected: Boolean(pin && pin.trim()) }))
+            : filtered.map(({ officerNote, ...safeItem }) => safeItem));
 
           let meta = null;
+          let alts = [];
           if (env.LOGS_KV) {
             try {
               meta = await env.LOGS_KV.get('forever_roster_meta', 'json');
+            } catch (e) {}
+            try {
+              const kvAlts = await env.LOGS_KV.get('forever_alts', 'json');
+              if (Array.isArray(kvAlts)) alts = kvAlts;
             } catch (e) {}
           }
 
@@ -779,6 +784,7 @@ export default {
             total: rawRoster.length,
             count: finalRoster.length,
             meta,
+            alts,
             roster: finalRoster
           }), {
             status: 200,
@@ -1137,8 +1143,25 @@ export default {
           const nowIso = new Date().toISOString();
           let added = 0;
           let updated = 0;
+          let skippedLowOrRank = 0;
           const syncedNames = new Set();
           const nextRoster = [];
+          const nextAlts = [];
+
+          // Load existing alts to preserve mainName assignments
+          let existingAlts = [];
+          if (env.LOGS_KV) {
+            try {
+              const kvAlts = await env.LOGS_KV.get('forever_alts', 'json');
+              if (Array.isArray(kvAlts)) existingAlts = kvAlts;
+            } catch (e) {}
+          }
+          const existingAltsMap = new Map();
+          for (const alt of existingAlts) {
+            if (alt && alt.playerName) {
+              existingAltsMap.set(alt.playerName.toLowerCase(), alt);
+            }
+          }
 
           for (const m of members) {
             const cleanName = (m.playerName || '').trim();
@@ -1147,29 +1170,62 @@ export default {
             if (syncedNames.has(key)) continue;
             syncedNames.add(key);
 
+            const level = Number(m.level) || 1;
+            const rankName = (m.rankName !== undefined ? String(m.rankName) : '').trim();
+            const rankLower = rankName.toLowerCase();
+            const rankIndex = Number.isFinite(Number(m.rankIndex)) ? Number(m.rankIndex) : 99;
+            const className = (m.className || 'Warrior').trim();
+            const publicNote = (m.publicNote !== undefined ? String(m.publicNote) : '').trim().slice(0, 300);
+
+            const isAltRank = /\balt(s)?\b/i.test(rankName);
+            const isJonboyRank = rankLower.includes('jonboy');
+
+            // Collect all "alt" rank characters into the Alts workflow
+            if (isAltRank) {
+              const prevAlt = existingAltsMap.get(key);
+              nextAlts.push({
+                id: (prevAlt && prevAlt.id) || `alt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+                playerName: cleanName,
+                level,
+                rankName,
+                rankIndex,
+                className,
+                race: (m.race && m.race.trim()) ? m.race.trim() : ((prevAlt && prevAlt.race) || 'Unknown'),
+                gender: (m.gender === 'female' || m.gender === 'male') ? m.gender : ((prevAlt && prevAlt.gender) || 'male'),
+                publicNote,
+                mainName: (prevAlt && prevAlt.mainName) || '',
+                updatedAt: nowIso
+              });
+              continue;
+            }
+
+            // Exclude "jonboy" rank and sub-level 20 characters from the main roster
+            if (isJonboyRank || level < 20) {
+              skippedLowOrRank++;
+              continue;
+            }
+
             const prev = existingMap.get(key);
-            const className = (m.className || (prev && prev.className) || 'Warrior').trim();
+            const resolvedClass = (m.className || (prev && prev.className) || 'Warrior').trim();
             const race = (m.race && m.race.trim()) ? m.race.trim() : ((prev && prev.race) || 'Unknown');
             const gender = (m.gender === 'female' || m.gender === 'male') ? m.gender : ((prev && prev.gender) || 'male');
 
             const spec = (m.spec && m.spec.trim()) ? m.spec.trim() : ((prev && prev.spec) || '');
             let role = (m.role && m.role.trim()) ? m.role.trim() : ((prev && prev.role) || '');
-            if (!role && spec && SPEC_DEFAULT_ROLES[className] && SPEC_DEFAULT_ROLES[className][spec]) {
-              role = SPEC_DEFAULT_ROLES[className][spec];
+            if (!role && spec && SPEC_DEFAULT_ROLES[resolvedClass] && SPEC_DEFAULT_ROLES[resolvedClass][spec]) {
+              role = SPEC_DEFAULT_ROLES[resolvedClass][spec];
             }
 
             const offspec = (m.offspec && m.offspec.trim()) ? m.offspec.trim() : ((prev && prev.offspec) || '');
             let offspecRole = (m.offspecRole && m.offspecRole.trim()) ? m.offspecRole.trim() : ((prev && prev.offspecRole) || '');
-            if (!offspecRole && offspec && SPEC_DEFAULT_ROLES[className] && SPEC_DEFAULT_ROLES[className][offspec]) {
-              offspecRole = SPEC_DEFAULT_ROLES[className][offspec];
+            if (!offspecRole && offspec && SPEC_DEFAULT_ROLES[resolvedClass] && SPEC_DEFAULT_ROLES[resolvedClass][offspec]) {
+              offspecRole = SPEC_DEFAULT_ROLES[resolvedClass][offspec];
             }
 
             const profs = Array.isArray(m.professions) && m.professions.length > 0
               ? m.professions.filter(Boolean).slice(0, 2)
               : ((prev && Array.isArray(prev.professions)) ? prev.professions : []);
 
-            const publicNote = (m.publicNote !== undefined ? String(m.publicNote) : '').trim().slice(0, 300);
-            const officerNote = (m.officerNote !== undefined ? String(m.officerNote) : '').trim().slice(0, 300);
             const existingManualNotes = prev && prev.notes ? prev.notes : '';
             const finalNotes = publicNote || existingManualNotes;
 
@@ -1181,12 +1237,12 @@ export default {
               id: (prev && prev.id) || `tbs-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
               playerName: cleanName,
               faction: 'Horde',
-              level: Number(m.level) || (prev && prev.level) || 1,
-              rankName: (m.rankName !== undefined ? String(m.rankName) : (prev && prev.rankName) || '').trim(),
+              level,
+              rankName: rankName || (prev && prev.rankName) || '',
               rankIndex: Number.isFinite(Number(m.rankIndex)) ? Number(m.rankIndex) : ((prev && prev.rankIndex) ?? 99),
               race,
               gender,
-              className,
+              className: resolvedClass,
               spec,
               role,
               roles: role ? [role] : [],
@@ -1199,7 +1255,6 @@ export default {
               profession2: profs[1] || '',
               notes: finalNotes,
               publicNote,
-              officerNote,
               zone: (m.zone || '').trim(),
               isOnline: Boolean(m.isOnline),
               lastOnlineDays: Number(m.lastOnlineDays) || 0,
@@ -1218,14 +1273,15 @@ export default {
           if (!replaceMode) {
             for (const item of existingRoster) {
               if (item && item.playerName && !syncedNames.has(item.playerName.toLowerCase())) {
-                nextRoster.push(item);
+                const { officerNote, ...cleanItem } = item;
+                nextRoster.push(cleanItem);
               }
             }
           } else {
             removed = Math.max(0, existingRoster.length - updated);
           }
 
-          // Sort by rankIndex asc, then level desc, then playerName asc
+          // Sort main roster by rankIndex asc, then level desc, then playerName asc
           nextRoster.sort((a, b) => {
             const ra = Number.isFinite(a.rankIndex) ? a.rankIndex : 99;
             const rb = Number.isFinite(b.rankIndex) ? b.rankIndex : 99;
@@ -1236,27 +1292,42 @@ export default {
             return (a.playerName || '').localeCompare(b.playerName || '');
           });
 
+          // Sort alts: unassigned first, then level desc, then name asc
+          nextAlts.sort((a, b) => {
+            const ua = a.mainName ? 1 : 0;
+            const ub = b.mainName ? 1 : 0;
+            if (ua !== ub) return ua - ub;
+            if ((b.level || 0) !== (a.level || 0)) return (b.level || 0) - (a.level || 0);
+            return (a.playerName || '').localeCompare(b.playerName || '');
+          });
+
           const meta = {
             guild: exportData.guild || 'TBS',
             realm: exportData.realm || 'Forever',
             exportedBy: exportData.exportedBy || '',
             exportedAt: exportData.exportedAt || nowIso,
             syncedAt: nowIso,
-            memberCount: nextRoster.length
+            memberCount: nextRoster.length,
+            altCount: nextAlts.length,
+            excludedCount: skippedLowOrRank
           };
 
           if (env.LOGS_KV) {
             await env.LOGS_KV.put('forever_roster', JSON.stringify(nextRoster));
+            await env.LOGS_KV.put('forever_alts', JSON.stringify(nextAlts));
             await env.LOGS_KV.put('forever_roster_meta', JSON.stringify(meta));
           }
 
           return new Response(JSON.stringify({
             success: true,
             total: nextRoster.length,
+            altCount: nextAlts.length,
+            excludedCount: skippedLowOrRank,
             added,
             updated,
             removed,
             meta,
+            alts: nextAlts,
             roster: nextRoster
           }), {
             status: 200,
@@ -1324,6 +1395,84 @@ export default {
           return new Response(JSON.stringify({ success: false, error: e.message }), {
             status: 500,
             headers: raidCorsHeaders
+          });
+        }
+      }
+    }
+
+    // Route: /api/alts (GET, POST, OPTIONS) — Persist Alt-to-Main assignments
+    if (url.pathname === '/api/alts') {
+      const altsCorsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, x-admin-key',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      };
+      const validAdminKey = (env && env.ADMIN_KEY) || 'dontgivemeadpi';
+
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: altsCorsHeaders });
+      }
+
+      if (request.method === 'GET') {
+        let alts = [];
+        if (env.LOGS_KV) {
+          try {
+            const data = await env.LOGS_KV.get('forever_alts', 'json');
+            if (Array.isArray(data)) alts = data;
+          } catch (e) {}
+        }
+        return new Response(JSON.stringify({ success: true, alts }), {
+          status: 200,
+          headers: altsCorsHeaders
+        });
+      }
+
+      if (request.method === 'POST') {
+        try {
+          const body = await request.json();
+          const providedAdminKey = request.headers.get('x-admin-key') || body.adminKey;
+          if (!providedAdminKey || providedAdminKey !== validAdminKey) {
+            return new Response(JSON.stringify({ success: false, error: 'Admin password required to assign alts.' }), {
+              status: 403,
+              headers: altsCorsHeaders
+            });
+          }
+
+          let alts = [];
+          if (env.LOGS_KV) {
+            try {
+              const data = await env.LOGS_KV.get('forever_alts', 'json');
+              if (Array.isArray(data)) alts = data;
+            } catch (e) {}
+          }
+
+          if (Array.isArray(body.alts)) {
+            alts = body.alts;
+          } else if (body.altName) {
+            const targetKey = String(body.altName).trim().toLowerCase();
+            const mainName = String(body.mainName || '').trim();
+            alts = alts.map(a => {
+              if ((a.playerName || '').toLowerCase() === targetKey) {
+                return { ...a, mainName, updatedAt: new Date().toISOString() };
+              }
+              return a;
+            });
+          }
+
+          if (env.LOGS_KV) {
+            await env.LOGS_KV.put('forever_alts', JSON.stringify(alts));
+          }
+
+          return new Response(JSON.stringify({ success: true, alts }), {
+            status: 200,
+            headers: altsCorsHeaders
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ success: false, error: e.message }), {
+            status: 500,
+            headers: altsCorsHeaders
           });
         }
       }

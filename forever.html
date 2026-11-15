@@ -3592,6 +3592,10 @@
                 <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
                 Raid Rosters &amp; Teams (<span id="raid-teams-count">0</span>)
               </button>
+              <button type="button" class="table-subtab-btn" id="btn-subtab-alts" onclick="setTableSubTab('alts')">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+                Alts (<span id="alts-tab-count">0</span>)
+              </button>
             </div>
             <div style="font-size: 0.78rem; color: var(--text-muted);" id="table-subtab-hint">
               Click column headers to sort, or switch to Raid Rosters &amp; Teams to build raid groups.
@@ -3622,6 +3626,10 @@
 
           <div id="raid-rosters-builder" style="display: none;">
             <!-- Dynamically populated via renderRaidRosterBuilder() -->
+          </div>
+
+          <div id="alts-workflow-panel" style="display: none;">
+            <!-- Dynamically populated via renderAltsWorkflow() -->
           </div>
         </div>
 
@@ -3874,6 +3882,10 @@
 
     // State Variables
     let rosterList = [];
+    let altsList = [];
+    let altsFilterMode = 'unassigned'; // 'unassigned' | 'all'
+    let altsSearchQuery = '';
+    let altsDirty = false;
     let rosterMeta = null;
     let raidRosters = [];
     let activeRaidRosterId = null;
@@ -5417,11 +5429,23 @@
           } catch (e) {}
         }
         const byStr = rosterMeta.exportedBy ? ` by ${escapeHtml(rosterMeta.exportedBy)}` : '';
-        textEl.innerHTML = `<strong style="color: var(--text-main);">${escapeHtml(rosterMeta.guild)}</strong> · ${rosterList.length} Members${byStr}${timeStr}`;
+        const unassignedCount = altsList.filter(a => !a.mainName).length;
+        const altShortcutHtml = altsList.length > 0
+          ? ` · <a href="#" onclick="event.preventDefault(); setViewMode('table'); setTableSubTab('alts');" style="color:#fbbf24; font-weight:700; text-decoration:underline;">${unassignedCount > 0 ? unassignedCount + ' Unassigned Alts' : altsList.length + ' Alts'} →</a>`
+          : '';
+        textEl.innerHTML = `<strong style="color: var(--text-main);">${escapeHtml(rosterMeta.guild)}</strong> · ${rosterList.length} Members${byStr}${timeStr}${altShortcutHtml}`;
         banner.style.display = 'flex';
       } else {
         banner.style.display = 'none';
       }
+      updateAltsTabCount();
+    }
+
+    function updateAltsTabCount() {
+      const el = document.getElementById('alts-tab-count');
+      if (!el) return;
+      const unassigned = altsList.filter(a => !a.mainName).length;
+      el.textContent = unassigned > 0 ? `${unassigned} unassigned` : `${altsList.length}`;
     }
 
     function openImportModal() {
@@ -5502,15 +5526,17 @@
         }
 
         rosterList = data.roster || [];
+        altsList = Array.isArray(data.alts) ? data.alts : [];
         rosterMeta = data.meta || null;
         localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
+        localStorage.setItem('tbs_forever_alts', JSON.stringify(altsList));
         if (rosterMeta) localStorage.setItem('tbs_forever_roster_meta', JSON.stringify(rosterMeta));
 
         updateGuildSyncBanner();
         renderStats();
         applyFilters();
         closeImportModal();
-        showToast(`Synced ${data.total} members (+${data.added} new, ${data.updated} updated, ${data.removed} removed)`);
+        showToast(`Synced ${data.total} mains & ${data.altCount || 0} alts (+${data.added} new, ${data.updated} updated, ${data.removed} removed)`);
       } catch (err) {
         if (errEl) { errEl.textContent = err.message; errEl.style.display = 'block'; }
       } finally {
@@ -5523,6 +5549,13 @@
         // Instant check from localStorage for 0ms initial render
         const cached = localStorage.getItem('tbs_forever_roster');
         const cachedMeta = localStorage.getItem('tbs_forever_roster_meta');
+        const cachedAlts = localStorage.getItem('tbs_forever_alts');
+        if (cachedAlts) {
+          try {
+            const pa = JSON.parse(cachedAlts);
+            if (Array.isArray(pa)) altsList = pa;
+          } catch (e) {}
+        }
         if (cachedMeta) {
           try {
             rosterMeta = JSON.parse(cachedMeta);
@@ -5542,6 +5575,10 @@
           const data = await res.json();
           if (data && Array.isArray(data.roster)) {
             rosterList = data.roster;
+            if (Array.isArray(data.alts)) {
+              altsList = data.alts;
+              localStorage.setItem('tbs_forever_alts', JSON.stringify(altsList));
+            }
             rosterMeta = data.meta || null;
             localStorage.setItem('tbs_forever_roster', JSON.stringify(rosterList));
             if (rosterMeta) localStorage.setItem('tbs_forever_roster_meta', JSON.stringify(rosterMeta));
@@ -5943,8 +5980,9 @@
         }
 
         const displayNote = m.publicNote || m.notes || '';
-        const officerNoteHtml = (isAdminMode && m.officerNote)
-          ? `<div class="member-notes" style="color: #fbbf24; border-left-color: #f59e0b; margin-top: 4px;" title="Officer Note">Officer: "${escapeHtml(m.officerNote)}"</div>`
+        const playerAlts = altsList.filter(a => a.mainName && a.mainName.toLowerCase() === (m.playerName || '').toLowerCase());
+        const altsTagHtml = playerAlts.length > 0
+          ? `<div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;"><strong style="color: var(--text-dark);">Alts:</strong> ${playerAlts.map(a => `<span style="color:${CLASS_COLORS[a.className] || 'var(--text-main)'}; font-weight:600;">${escapeHtml(a.playerName)}</span> (Lv${a.level || '?'})`).join(', ')}</div>`
           : '';
 
         return `
@@ -5990,7 +6028,7 @@
             ${offspecHtml}
             ${professionsHtml}
             ${displayNote ? `<div class="member-notes">"${escapeHtml(displayNote)}"</div>` : ''}
-            ${officerNoteHtml}
+            ${altsTagHtml}
 
             <div class="member-playstyles-row">
               ${playstyleBadgesHtml}
@@ -6799,23 +6837,33 @@
       currentTableSubTab = tab;
       const guildBtn = document.getElementById('btn-subtab-guild');
       const raidsBtn = document.getElementById('btn-subtab-raids');
+      const altsBtn = document.getElementById('btn-subtab-alts');
       const guildPanel = document.getElementById('guild-table-panel');
       const raidsPanel = document.getElementById('raid-rosters-builder');
+      const altsPanel = document.getElementById('alts-workflow-panel');
       const hintEl = document.getElementById('table-subtab-hint');
 
       if (guildBtn) guildBtn.classList.toggle('active', tab === 'guild');
       if (raidsBtn) raidsBtn.classList.toggle('active', tab === 'raids');
+      if (altsBtn) altsBtn.classList.toggle('active', tab === 'alts');
       if (guildPanel) guildPanel.style.display = tab === 'guild' ? 'block' : 'none';
       if (raidsPanel) raidsPanel.style.display = tab === 'raids' ? 'block' : 'none';
+      if (altsPanel) altsPanel.style.display = tab === 'alts' ? 'block' : 'none';
 
       if (hintEl) {
-        hintEl.textContent = tab === 'raids'
-          ? 'Build raid groups from your exported guild roster and save teams.'
-          : 'Click column headers to sort, or switch to Raid Rosters & Teams to build raid groups.';
+        if (tab === 'raids') {
+          hintEl.textContent = 'Build raid groups from your exported guild roster and save teams.';
+        } else if (tab === 'alts') {
+          hintEl.textContent = 'Assign exported alt characters to their main character on the roster.';
+        } else {
+          hintEl.textContent = 'Click column headers to sort, or switch to Raid Rosters & Teams to build raid groups.';
+        }
       }
 
       if (tab === 'raids') {
         renderRaidRosterBuilder();
+      } else if (tab === 'alts') {
+        renderAltsWorkflow();
       } else {
         renderTable();
       }
@@ -7231,6 +7279,177 @@
             </div>
           </div>
         </div>
+      `;
+    }
+
+    // ==========================================
+    // Alts & Main Assignment Workflow
+    // ==========================================
+
+    function suggestMainForAlt(alt) {
+      const note = (alt.publicNote || '').toLowerCase();
+      if (!note || rosterList.length === 0) return '';
+      // Prefer exact word match in publicNote for any main character name
+      for (const main of rosterList) {
+        const name = (main.playerName || '').trim();
+        if (name.length < 3) continue;
+        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        if (new RegExp(`\\b${escaped}\\b`, 'i').test(note)) {
+          return name;
+        }
+      }
+      return '';
+    }
+
+    function assignAltMain(altName, mainName) {
+      const target = (altName || '').toLowerCase();
+      altsList = altsList.map(a => {
+        if ((a.playerName || '').toLowerCase() === target) {
+          return { ...a, mainName: (mainName || '').trim(), updatedAt: new Date().toISOString() };
+        }
+        return a;
+      });
+      altsDirty = true;
+      localStorage.setItem('tbs_forever_alts', JSON.stringify(altsList));
+      updateAltsTabCount();
+      updateGuildSyncBanner();
+      renderAltsWorkflow();
+      renderRoster();
+    }
+
+    async function saveAltsAssignments() {
+      if (!adminPasskey) {
+        openAdminModal();
+        showToast('Unlock Admin Mode to save alt assignments to the server.', true);
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/alts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminPasskey
+          },
+          body: JSON.stringify({ alts: altsList })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Failed to save alt assignments.');
+        }
+        altsDirty = false;
+        altsList = data.alts || altsList;
+        localStorage.setItem('tbs_forever_alts', JSON.stringify(altsList));
+        updateAltsTabCount();
+        updateGuildSyncBanner();
+        renderAltsWorkflow();
+        showToast('Alt-to-main assignments saved!');
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    function renderAltsWorkflow() {
+      const container = document.getElementById('alts-workflow-panel');
+      if (!container) return;
+
+      if (altsList.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 48px 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);">
+            <h3 style="color: var(--text-main); margin-bottom: 8px;">No Alts Collected Yet</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">Characters with the <strong>Alt</strong> guild rank are automatically separated from the main roster and collected here when you import an addon export.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const unassignedCount = altsList.filter(a => !a.mainName).length;
+      const assignedCount = altsList.length - unassignedCount;
+      const sortedMains = [...rosterList].sort((a, b) => (a.playerName || '').localeCompare(b.playerName || ''));
+
+      const q = altsSearchQuery.toLowerCase().trim();
+      const filteredAlts = altsList.filter(a => {
+        if (altsFilterMode === 'unassigned' && a.mainName) return false;
+        if (!q) return true;
+        return (a.playerName || '').toLowerCase().includes(q) ||
+               (a.className || '').toLowerCase().includes(q) ||
+               (a.publicNote || '').toLowerCase().includes(q) ||
+               (a.mainName || '').toLowerCase().includes(q);
+      });
+
+      const rowsHtml = filteredAlts.map(alt => {
+        const classColor = CLASS_COLORS[alt.className] || 'var(--text-main)';
+        const safeAlt = escapeHtml(alt.playerName).replace(/'/g, "\\'");
+        const suggested = !alt.mainName ? suggestMainForAlt(alt) : '';
+        const safeSuggested = suggested ? escapeHtml(suggested).replace(/'/g, "\\'") : '';
+
+        const mainOptionsHtml = sortedMains.map(m => {
+          const sel = alt.mainName && alt.mainName.toLowerCase() === (m.playerName || '').toLowerCase() ? 'selected' : '';
+          return `<option value="${escapeHtml(m.playerName)}" ${sel}>${escapeHtml(m.playerName)} (${escapeHtml(m.className)})</option>`;
+        }).join('');
+
+        return `
+          <tr>
+            <td>
+              <strong style="color: ${classColor}; font-weight: 700;">${escapeHtml(alt.playerName)}</strong>
+            </td>
+            <td style="font-weight: 700; color: #facc15; font-size: 0.78rem;">${alt.level || '-'}</td>
+            <td><span style="color: ${classColor}; font-size: 0.78rem; font-weight: 600;">${escapeHtml(alt.className || '')}</span></td>
+            <td style="color: var(--text-muted); font-size: 0.76rem; max-width: 220px;">
+              ${alt.publicNote ? escapeHtml(alt.publicNote) : '<span style="color:var(--text-dark);">-</span>'}
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <select class="raid-mini-select" style="font-size: 0.78rem; padding: 4px 8px; min-width: 170px;" onchange="assignAltMain('${safeAlt}', this.value)">
+                  <option value="">-- Unassigned --</option>
+                  ${mainOptionsHtml}
+                </select>
+                ${suggested ? `<button type="button" class="card-action-btn" style="padding: 3px 8px; font-size: 0.7rem; color: #34d399; border-color: rgba(16,185,129,0.35);" onclick="assignAltMain('${safeAlt}', '${safeSuggested}')" title="Detected in public note">Suggest: ${escapeHtml(suggested)}</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('') || `
+        <tr>
+          <td colspan="5" style="text-align:center; padding: 24px; color: var(--text-muted);">
+            ${altsFilterMode === 'unassigned' ? 'All alts have been assigned a main character!' : 'No alts match your search.'}
+          </td>
+        </tr>
+      `;
+
+      container.innerHTML = `
+        <div class="raid-builder-toolbar">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="raid-team-tab ${altsFilterMode === 'unassigned' ? 'active' : ''}" onclick="altsFilterMode='unassigned'; renderAltsWorkflow();">
+              Unassigned (${unassignedCount})
+            </button>
+            <button type="button" class="raid-team-tab ${altsFilterMode === 'all' ? 'active' : ''}" onclick="altsFilterMode='all'; renderAltsWorkflow();">
+              All Alts (${altsList.length})
+            </button>
+            <span style="font-size: 0.78rem; color: var(--text-muted); margin-left: 6px;">${assignedCount} assigned</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <input type="text" class="form-input" style="padding: 6px 10px; font-size: 0.8rem; width: 200px;" placeholder="Search alts or notes..." value="${escapeHtml(altsSearchQuery)}" oninput="altsSearchQuery=this.value; renderAltsWorkflow();">
+            <button type="button" class="btn-import-export" onclick="saveAltsAssignments()">
+              ${altsDirty ? 'Save Assignments *' : 'Save Assignments'}
+            </button>
+          </div>
+        </div>
+
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>Alt Character</th>
+              <th style="width: 55px;">Lv</th>
+              <th>Class</th>
+              <th>Guild Public Note</th>
+              <th>Assigned Main</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
       `;
     }
 
