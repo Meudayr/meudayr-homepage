@@ -7661,6 +7661,18 @@
       }
     });
 
+    function buildRaidPlayerTooltip(playerName, gm, extraParts = []) {
+      const lowerName = (playerName || '').toLowerCase();
+      const noteText = gm ? (gm.publicNote || gm.notes || '').trim() : '';
+      const squads = raidRosters
+        .filter(r => (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
+        .map(r => `${r.name} (${r.size || 40}-Man)`);
+      const parts = [...extraParts];
+      parts.push(noteText ? `Guild Note: ${noteText}` : 'No guild note');
+      parts.push(squads.length ? `Squads: ${squads.join(', ')}` : 'Squads: None');
+      return parts.join(' | ');
+    }
+
     function renderRaidRosterBuilder() {
       const container = document.getElementById('raid-rosters-builder');
       if (!container) return;
@@ -7729,10 +7741,7 @@
         const isInOther = otherTeams.length > 0;
         const otherNamesStr = otherTeams.map(t => t.name).join(', ');
         const safeName = escapeHtml(m.playerName).replace(/'/g, "\\'");
-        const noteText = (m.publicNote || m.notes || '').trim();
-        const tooltipParts = [noteText ? `Guild Note: ${noteText}` : 'No guild note'];
-        if (isInOther) tooltipParts.push(`Also in: ${otherNamesStr}`);
-        const titleAttr = `title="${escapeHtml(tooltipParts.join(' | '))}"`;
+        const titleAttr = `title="${escapeHtml(buildRaidPlayerTooltip(m.playerName, m))}"`;
         const dragAttrs = assignedItem
           ? ''
           : `draggable="true" ondragstart="handleRaidDragStart(event, 'pool', '${safeName}')" ondragend="handleRaidDragEnd()"`;
@@ -7818,12 +7827,15 @@
             ? `title="Role: ${curRole} (click to change)" onclick="toggleRaidRolePopover(event, '${safeName}')"`
             : `title="Role: ${curRole} (${escapeHtml(className)} only has ${curRole})" style="cursor: default;"`;
 
+          const slotSpecText = `${className}${a.spec ? ' · ' + a.spec : ''}`;
+          const slotTitle = buildRaidPlayerTooltip(a.playerName, gm, slotSpecText ? [slotSpecText] : []);
+
           return `
-            <div class="raid-slot-row ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" draggable="true" oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
+            <div class="raid-slot-row ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" title="${escapeHtml(slotTitle)}" draggable="true" oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
               <div style="display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1;">
                 <span class="raid-slot-grip" title="Drag to reorder or move group">⋮⋮</span>
                 <img src="${getIconUrl(classIcon)}" style="width: 17px; height: 17px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(className)}">
-                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(className)}${a.spec ? ' · ' + escapeHtml(a.spec) : ''}">
+                <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${escapeHtml(a.playerName)}
                 </span>
               </div>
