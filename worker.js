@@ -896,10 +896,19 @@ export default {
             }
           }
 
-          const existingIndex = id ? roster.findIndex(item => item.id === id) : -1;
-
           const providedAdminKey = request.headers.get('x-admin-key') || body.adminKey;
           const isAdmin = Boolean(providedAdminKey && providedAdminKey === validAdminKey);
+          if (!isAdmin) {
+            return new Response(JSON.stringify({
+              success: false,
+              error: 'Admin password required to create or edit roster cards.'
+            }), {
+              status: 403,
+              headers: rosterCorsHeaders
+            });
+          }
+
+          const existingIndex = id ? roster.findIndex(item => item.id === id) : -1;
           const nowIso = new Date().toISOString();
           let savedEntry = null;
 
@@ -1014,8 +1023,17 @@ export default {
           }
 
           const isAdmin = Boolean(providedAdminKey && providedAdminKey === validAdminKey);
+          if (!isAdmin) {
+            return new Response(JSON.stringify({
+              success: false,
+              error: 'Admin password required to delete roster cards.'
+            }), {
+              status: 403,
+              headers: rosterCorsHeaders
+            });
+          }
 
-          if (isAdmin && (url.searchParams.get('clear_all') === '1' || targetId === 'all')) {
+          if (url.searchParams.get('clear_all') === '1' || targetId === 'all') {
             if (env.LOGS_KV) {
               await env.LOGS_KV.put('forever_roster', JSON.stringify([]));
             }

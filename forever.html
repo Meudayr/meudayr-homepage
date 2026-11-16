@@ -4888,7 +4888,26 @@
         }
       }
 
-      if (typeof currentViewMode !== 'undefined' && (currentViewMode === 'raids' || (currentViewMode === 'table' && currentTableSubTab === 'raids'))) {
+      const canAdmin = Boolean(isAdminMode && adminPasskey);
+      const sidebarToggleBtn = document.getElementById('btn-toggle-sidebar');
+      if (sidebarToggleBtn) {
+        sidebarToggleBtn.style.display = canAdmin ? '' : 'none';
+      }
+      if (!canAdmin && typeof isFormRetracted !== 'undefined' && !isFormRetracted) {
+        isFormRetracted = true;
+        if (typeof updateFormCollapseUI === 'function') updateFormCollapseUI();
+      }
+
+      if (typeof renderRoster === 'function' && typeof rosterList !== 'undefined') {
+        renderRoster();
+      }
+      if (typeof currentViewMode !== 'undefined' && currentViewMode === 'table') {
+        if (currentTableSubTab === 'raids' && typeof renderRaidRosterBuilder === 'function') {
+          renderRaidRosterBuilder();
+        } else if (typeof renderTable === 'function') {
+          renderTable();
+        }
+      } else if (typeof currentViewMode !== 'undefined' && currentViewMode === 'raids' && typeof renderRaidRosterBuilder === 'function') {
         renderRaidRosterBuilder();
       }
     }
@@ -5064,6 +5083,12 @@
     }
 
     function toggleFormCollapse(forceExpand = false) {
+      const opening = forceExpand || isFormRetracted;
+      if (opening && !(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to add or edit roster cards.', true);
+        openAdminModal();
+        return;
+      }
       if (forceExpand) {
         isFormRetracted = false;
       } else {
@@ -6583,12 +6608,22 @@
 
     function toggleQuickSpecDropdown(e, memberId) {
       if (e) e.stopPropagation();
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to edit specs.', true);
+        openAdminModal();
+        return;
+      }
       openQuickSpecCardId = (openQuickSpecCardId === memberId) ? null : memberId;
       renderRoster();
     }
 
     async function quickSetMemberSpec(e, memberId, specName, roleName) {
       if (e) e.stopPropagation();
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to edit specs.', true);
+        openAdminModal();
+        return;
+      }
       openQuickSpecCardId = null;
       const m = rosterList.find(x => x.id === memberId);
       if (!m) return;
@@ -6655,6 +6690,7 @@
       const container = document.getElementById('roster-grid');
       if (!container) return;
 
+      const canAdminEdit = Boolean(isAdminMode && adminPasskey);
       const filtered = getFilteredRoster();
       const offspecList = getOffspecRoster();
 
@@ -6664,10 +6700,10 @@
             <div class="roster-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px;">
               <svg style="width: 48px; height: 48px; color: var(--text-dark); margin-bottom: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
               <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Guild Members Imported Yet</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px; margin: 0 auto 16px;">Import your in-game guild roster export from ForeverRosterSync, or add a character manually.</p>
+              <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px; margin: 0 auto 16px;">Import your in-game guild roster export from ForeverRosterSync${canAdminEdit ? ', or add a character manually' : ''}.</p>
               <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
                 <button type="button" class="btn-import-export" onclick="openImportModal()">Import Addon Export</button>
-                <button type="button" class="toolbar-action-btn" onclick="toggleFormCollapse(true)">+ Add Manual</button>
+                ${canAdminEdit ? `<button type="button" class="toolbar-action-btn" onclick="toggleFormCollapse(true)">+ Add Manual</button>` : ''}
               </div>
             </div>
           `;
@@ -6798,6 +6834,18 @@
 
             <div class="member-roles-container">
               ${(() => {
+                if (!canAdminEdit) {
+                  return primRole ? `
+                    <span class="member-role-badge ${primTagClass}">
+                      <img src="${getIconUrl(primIcon)}" alt="${primRole}">
+                      ${escapeHtml(primRole)}
+                    </span>
+                  ` : `
+                    <span class="member-role-badge" style="background: rgba(250,204,21,0.06); border-color: rgba(250,204,21,0.2); color: rgba(250,204,21,0.75);">
+                      Spec Unassigned
+                    </span>
+                  `;
+                }
                 const classSpecs = SPEC_DATA[m.className] || {};
                 const specChoices = [];
                 Object.entries(classSpecs).forEach(([sName, sInfo]) => {
@@ -6851,6 +6899,7 @@
               ${playstyleBadgesHtml}
             </div>
 
+            ${canAdminEdit ? `
             <div class="member-card-footer">
               <div class="member-actions">
                 <button class="card-action-btn edit-btn" onclick="startEdit('${m.id}')">
@@ -6862,6 +6911,7 @@
                 </button>
               </div>
             </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -7639,10 +7689,12 @@
               ${notesShort}${webNoteShort}
             </td>
             <td style="text-align: right; white-space: nowrap;">
-              <div style="display:inline-flex; gap:3px;">
-                <button class="card-action-btn edit-btn" style="padding:3px 7px; font-size:0.70rem;" onclick="startEdit('${m.id}')">Edit</button>
-                <button class="card-action-btn delete-btn" style="padding:3px 6px; font-size:0.70rem;" onclick="startDelete('${m.id}')" title="Delete">✕</button>
-              </div>
+              ${(isAdminMode && adminPasskey) ? `
+                <div style="display:inline-flex; gap:3px;">
+                  <button class="card-action-btn edit-btn" style="padding:3px 7px; font-size:0.70rem;" onclick="startEdit('${m.id}')">Edit</button>
+                  <button class="card-action-btn delete-btn" style="padding:3px 6px; font-size:0.70rem;" onclick="startDelete('${m.id}')" title="Delete">✕</button>
+                </div>
+              ` : '<span style="color:var(--text-dark); font-size:0.68rem;">Admin Only</span>'}
             </td>
           </tr>
         `;
@@ -9039,6 +9091,11 @@
 
     async function handleFormSubmit(e) {
       e.preventDefault();
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to add or edit roster cards.', true);
+        openAdminModal();
+        return;
+      }
       const submitBtn = document.getElementById('btn-submit-form');
       const submitText = document.getElementById('btn-submit-text');
       const id = document.getElementById('entry-id').value;
@@ -9191,6 +9248,11 @@
     }
 
     function startEdit(id) {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to edit roster cards.', true);
+        openAdminModal();
+        return;
+      }
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
@@ -9330,6 +9392,11 @@
     }
 
     function startDelete(id) {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to delete roster cards.', true);
+        openAdminModal();
+        return;
+      }
       const entry = rosterList.find(x => x.id === id);
       if (!entry) return;
 
