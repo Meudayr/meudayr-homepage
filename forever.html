@@ -1153,6 +1153,117 @@
       font-weight: 700;
     }
 
+    /* Promoted Primary Feature Navigation */
+    .primary-feature-nav {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .feature-tab-card {
+      flex: 1 1 240px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+      color: var(--text-muted);
+    }
+
+    .feature-tab-card:hover {
+      border-color: rgba(192, 157, 82, 0.45);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    .feature-tab-card.active {
+      background: linear-gradient(135deg, rgba(240, 178, 50, 0.14), rgba(37, 42, 53, 0.94));
+      border-color: rgba(240, 178, 50, 0.65);
+      color: var(--text-main);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(250, 204, 21, 0.2);
+    }
+
+    .feature-tab-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .feature-tab-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .feature-tab-card.active .feature-tab-icon {
+      background: rgba(240, 178, 50, 0.16);
+      border-color: rgba(240, 178, 50, 0.45);
+      color: #facc15;
+    }
+
+    .feature-tab-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .feature-tab-card.active .feature-tab-title {
+      color: #facc15;
+    }
+
+    .feature-tab-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .feature-more-wrap {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .feature-more-btn {
+      padding: 12px 18px;
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+
+    .feature-more-btn:hover {
+      border-color: rgba(192, 157, 82, 0.45);
+      color: var(--text-main);
+    }
+
+    .feature-more-btn.active {
+      background: linear-gradient(135deg, rgba(240, 178, 50, 0.14), rgba(37, 42, 53, 0.94));
+      border-color: rgba(240, 178, 50, 0.65);
+      color: #facc15;
+      font-weight: 700;
+    }
+
     /* View Switcher Controls */
     .view-mode-group {
       display: inline-flex;
@@ -3655,48 +3766,46 @@
       <h1>World of Warcraft: Forever Roster</h1>
     </section>
 
-    <!-- Composition Stats Dashboard (WoW Asset Icons) -->
-    <section class="stats-dashboard" id="stats-dashboard">
-      <div class="stat-card stat-all active" data-stat-role="all" role="button" tabindex="0" onclick="setRoleFilter('all')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('all');}" title="Show all guild members">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="Guild Members" class="stat-wow-icon">
-        <div class="stat-content">
-          <span class="stat-number" id="stat-total-count">0</span>
-          <span class="stat-label">Guild Members</span>
+    <!-- Promoted Primary Feature Navigation -->
+    <nav class="primary-feature-nav" aria-label="Roster Views">
+      <button type="button" class="feature-tab-card active" id="btn-view-cards" onclick="setViewMode('cards')" title="Guild Roster Cards">
+        <div class="feature-tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
         </div>
-      </div>
+        <div>
+          <div class="feature-tab-title">Roster Cards</div>
+          <div class="feature-tab-sub">Browse guild characters, specs &amp; role counts</div>
+        </div>
+      </button>
 
-      <div class="stat-card stat-tank" data-stat-role="Tank" role="button" tabindex="0" onclick="setRoleFilter('Tank')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Tank');}" title="Filter by Tanks">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tanks" class="stat-wow-icon">
-        <div class="stat-content">
-          <span class="stat-number" id="stat-tank-count">0</span>
-          <span class="stat-label">Tanks</span>
+      <button type="button" class="feature-tab-card" id="btn-view-raids" onclick="setViewMode('raids')" title="Raid Roster &amp; Squad Management">
+        <div class="feature-tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
         </div>
-      </div>
+        <div>
+          <div class="feature-tab-title">Raid Rosters (<span id="raid-teams-count">0</span>)</div>
+          <div class="feature-tab-sub">Build 10, 20 &amp; 40-man raid squads</div>
+        </div>
+      </button>
 
-      <div class="stat-card stat-healer" data-stat-role="Healer" role="button" tabindex="0" onclick="setRoleFilter('Healer')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Healer');}" title="Filter by Healers">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healers" class="stat-wow-icon">
-        <div class="stat-content">
-          <span class="stat-number" id="stat-healer-count">0</span>
-          <span class="stat-label">Healers</span>
+      <div class="more-views-wrap feature-more-wrap" id="more-views-wrap">
+        <button type="button" class="feature-more-btn" id="btn-view-more" onclick="toggleMoreViewsMenu(event)" title="Table, Analytics &amp; Alts">
+          <span id="btn-view-more-label">More</span>
+          <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="more-views-menu" id="more-views-menu" onclick="event.stopPropagation()">
+          <button type="button" class="more-views-item" id="btn-view-table" onclick="closeMoreViewsMenu(); setViewMode('table')">
+            <span>Guild Table</span>
+          </button>
+          <button type="button" class="more-views-item" id="btn-view-analytics" onclick="closeMoreViewsMenu(); setViewMode('analytics')">
+            <span>Analytics &amp; Buffs</span>
+          </button>
+          <button type="button" class="more-views-item" id="btn-view-alts" onclick="closeMoreViewsMenu(); setViewMode('alts')">
+            <span>Alts (<span id="alts-tab-count">0</span>)</span>
+          </button>
         </div>
       </div>
-
-      <div class="stat-card stat-melee" data-stat-role="Melee DPS" role="button" tabindex="0" onclick="setRoleFilter('Melee DPS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Melee DPS');}" title="Filter by Melee DPS">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee DPS" class="stat-wow-icon">
-        <div class="stat-content">
-          <span class="stat-number" id="stat-melee-count">0</span>
-          <span class="stat-label">Melee DPS</span>
-        </div>
-      </div>
-
-      <div class="stat-card stat-ranged" data-stat-role="Ranged DPS" role="button" tabindex="0" onclick="setRoleFilter('Ranged DPS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Ranged DPS');}" title="Filter by Ranged DPS">
-        <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_fire_fireball02.jpg" alt="Ranged DPS" class="stat-wow-icon">
-        <div class="stat-content">
-          <span class="stat-number" id="stat-ranged-count">0</span>
-          <span class="stat-label">Ranged DPS</span>
-        </div>
-      </div>
-    </section>
+    </nav>
 
     <!-- Main Layout: Submission Form + Roster Directory -->
     <div class="roster-layout sidebar-retracted" id="roster-main-layout">
@@ -3990,7 +4099,50 @@
 
       <!-- Live Roster Directory Panel -->
       <section class="roster-panel">
-        
+
+        <!-- Composition Stats Dashboard (Visible only in Roster Cards view) -->
+        <section class="stats-dashboard" id="stats-dashboard" style="margin-bottom: 14px;">
+          <div class="stat-card stat-all active" data-stat-role="all" role="button" tabindex="0" onclick="setRoleFilter('all')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('all');}" title="Show all guild members">
+            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_groupneedmore.jpg" alt="Guild Members" class="stat-wow-icon">
+            <div class="stat-content">
+              <span class="stat-number" id="stat-total-count">0</span>
+              <span class="stat-label">Guild Members</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-tank" data-stat-role="Tank" role="button" tabindex="0" onclick="setRoleFilter('Tank')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Tank');}" title="Filter by Tanks">
+            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shield_06.jpg" alt="Tanks" class="stat-wow-icon">
+            <div class="stat-content">
+              <span class="stat-number" id="stat-tank-count">0</span>
+              <span class="stat-label">Tanks</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-healer" data-stat-role="Healer" role="button" tabindex="0" onclick="setRoleFilter('Healer')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Healer');}" title="Filter by Healers">
+            <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_flashheal.jpg" alt="Healers" class="stat-wow-icon">
+            <div class="stat-content">
+              <span class="stat-number" id="stat-healer-count">0</span>
+              <span class="stat-label">Healers</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-melee" data-stat-role="Melee DPS" role="button" tabindex="0" onclick="setRoleFilter('Melee DPS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Melee DPS');}" title="Filter by Melee DPS">
+            <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_dualwield.jpg" alt="Melee DPS" class="stat-wow-icon">
+            <div class="stat-content">
+              <span class="stat-number" id="stat-melee-count">0</span>
+              <span class="stat-label">Melee DPS</span>
+            </div>
+          </div>
+
+          <div class="stat-card stat-ranged" data-stat-role="Ranged DPS" role="button" tabindex="0" onclick="setRoleFilter('Ranged DPS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setRoleFilter('Ranged DPS');}" title="Filter by Ranged DPS">
+            <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_fire_fireball02.jpg" alt="Ranged DPS" class="stat-wow-icon">
+            <div class="stat-content">
+              <span class="stat-number" id="stat-ranged-count">0</span>
+              <span class="stat-label">Ranged DPS</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Search & Filter Toolbar -->
         <div class="toolbar-section-row">
           <!-- Search & Filter Toolbar (Full Width) -->
@@ -3999,35 +4151,6 @@
               <div class="search-input-wrapper">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <input type="text" id="roster-search-input" class="search-box" placeholder="Search by player, class, spec, rank, guild or web notes..." oninput="applyFilters()">
-              </div>
-
-              <!-- Primary Workflow Switcher: Roster Cards & Raid Rosters + Nested More Views -->
-              <div class="view-mode-group">
-                <button type="button" class="view-mode-btn active" id="btn-view-cards" onclick="setViewMode('cards')" title="Guild Roster Cards">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                  <span>Roster Cards</span>
-                </button>
-                <button type="button" class="view-mode-btn" id="btn-view-raids" onclick="setViewMode('raids')" title="Raid Roster &amp; Squad Management">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-                  <span>Raid Rosters (<span id="raid-teams-count">0</span>)</span>
-                </button>
-                <div class="more-views-wrap" id="more-views-wrap">
-                  <button type="button" class="view-mode-btn" id="btn-view-more" onclick="toggleMoreViewsMenu(event)" title="Table, Analytics &amp; Alts">
-                    <span id="btn-view-more-label">More</span>
-                    <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                  </button>
-                  <div class="more-views-menu" id="more-views-menu" onclick="event.stopPropagation()">
-                    <button type="button" class="more-views-item" id="btn-view-table" onclick="closeMoreViewsMenu(); setViewMode('table')">
-                      <span>Guild Table</span>
-                    </button>
-                    <button type="button" class="more-views-item" id="btn-view-analytics" onclick="closeMoreViewsMenu(); setViewMode('analytics')">
-                      <span>Analytics &amp; Buffs</span>
-                    </button>
-                    <button type="button" class="more-views-item" id="btn-view-alts" onclick="closeMoreViewsMenu(); setViewMode('alts')">
-                      <span>Alts (<span id="alts-tab-count">0</span>)</span>
-                    </button>
-                  </div>
-                </div>
               </div>
 
               <!-- Import Addon Export Button (Primary Roster Action) -->
@@ -6472,8 +6595,11 @@
       const cardsView = document.getElementById('roster-grid');
       const analyticsView = document.getElementById('roster-analytics-view');
       const tableView = document.getElementById('roster-table-view');
+      const statsDashboard = document.getElementById('stats-dashboard');
 
       const isMoreMode = (mode === 'table' || mode === 'analytics' || mode === 'alts');
+
+      if (statsDashboard) statsDashboard.style.display = mode === 'cards' ? '' : 'none';
 
       if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
       if (raidsBtn) raidsBtn.classList.toggle('active', mode === 'raids');
