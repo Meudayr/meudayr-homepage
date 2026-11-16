@@ -3220,6 +3220,15 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
+    .raid-size-group-raids {
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0.2px;
+      color: var(--text-dark);
+      font-size: 0.65rem;
+      white-space: nowrap;
+    }
+
     .raid-builder-actions {
       display: flex;
       align-items: center;
@@ -8546,12 +8555,21 @@
         `;
       };
 
+      const RAID_SIZE_NAMES = {
+        10: 'UBRS / Karazhan',
+        20: 'ZG / AQ20',
+        40: 'MC / Ony / BWL / AQ40 / Naxx'
+      };
       const sizeGroupsHtml = [10, 20, 40].map(size => {
         const groupTeams = raidRosters.filter(r => (Number(r.size) || 40) === size);
         if (groupTeams.length === 0) return '';
+        const raidNames = RAID_SIZE_NAMES[size] || '';
         return `
           <div class="raid-size-group raid-size-group-${size}">
-            <div class="raid-size-group-header">${size}-Man</div>
+            <div class="raid-size-group-header">
+              <span>${size}-Man</span>
+              ${raidNames ? `<span class="raid-size-group-raids">${escapeHtml(raidNames)}</span>` : ''}
+            </div>
             <div class="raid-team-tabs">
               ${groupTeams.map(renderTeamTabBtn).join('')}
             </div>
