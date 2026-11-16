@@ -3169,11 +3169,70 @@
 
     .raid-builder-toolbar {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: stretch;
       gap: 10px;
       margin-bottom: 14px;
+    }
+
+    .raid-team-sections {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .raid-size-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1 1 auto;
+      min-width: 0;
+      padding-right: 14px;
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .raid-size-group:last-of-type {
+      padding-right: 0;
+      border-right: none;
+    }
+
+    .raid-size-group-40 {
+      flex: 0 0 auto;
+    }
+
+    .raid-size-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .raid-size-group-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .raid-builder-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .raid-size-group {
+        flex: 1 1 100%;
+        padding-right: 0;
+        border-right: none;
+      }
     }
 
     .raid-team-tabs {
@@ -8464,7 +8523,7 @@
       const altSearchCaret = wasAltSearchFocused && typeof activeEl.selectionStart === 'number' ? activeEl.selectionStart : null;
 
       const team = getActiveRaidRoster();
-      const teamTabsHtml = raidRosters.map(r => {
+      const renderTeamTabBtn = (r) => {
         const squadColor = r.color || '#facc15';
         const crestIcon = getSquadCrestIcon(r.size || 40);
         const isActive = team && r.id === team.id;
@@ -8484,6 +8543,19 @@
             <span>${escapeHtml(r.name)}</span>
             <span class="raid-squad-count">${(r.assignments || []).length}/${r.size || 40}</span>
           </button>
+        `;
+      };
+
+      const sizeGroupsHtml = [10, 20, 40].map(size => {
+        const groupTeams = raidRosters.filter(r => (Number(r.size) || 40) === size);
+        if (groupTeams.length === 0) return '';
+        return `
+          <div class="raid-size-group raid-size-group-${size}">
+            <div class="raid-size-group-header">${size}-Man</div>
+            <div class="raid-team-tabs">
+              ${groupTeams.map(renderTeamTabBtn).join('')}
+            </div>
+          </div>
         `;
       }).join('');
 
@@ -8733,11 +8805,11 @@
 
       container.innerHTML = `
         <div class="raid-builder-toolbar">
-          <div class="raid-team-tabs">
-            ${teamTabsHtml}
-            ${canAdminEdit ? `<button type="button" class="raid-team-tab warcraft-squad-btn" style="--squad-color: #34d399; color:#6ee7b7;" onclick="createNewRaidRoster()">+ New Roster</button>` : ''}
+          <div class="raid-team-sections">
+            ${sizeGroupsHtml}
+            ${canAdminEdit ? `<button type="button" class="raid-team-tab warcraft-squad-btn" style="--squad-color: #34d399; color:#6ee7b7; align-self: flex-end;" onclick="createNewRaidRoster()">+ New Roster</button>` : ''}
           </div>
-          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <div class="raid-builder-actions">
             <button type="button" class="raid-size-btn ${team.size === 10 ? 'active' : ''}" onclick="setActiveRaidSize(10)">10-Man</button>
             <button type="button" class="raid-size-btn ${team.size === 20 ? 'active' : ''}" onclick="setActiveRaidSize(20)">20-Man</button>
             <button type="button" class="raid-size-btn ${team.size === 40 ? 'active' : ''}" onclick="setActiveRaidSize(40)">40-Man</button>
