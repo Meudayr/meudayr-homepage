@@ -4031,13 +4031,13 @@
               </div>
 
               <!-- Import Addon Export Button (Primary Roster Action) -->
-              <button class="btn-import-export" id="btn-import-addon" onclick="openImportModal()" title="Paste export from ForeverRosterSync in-game addon">
+              <button class="btn-import-export" id="btn-import-addon" style="display: none;" onclick="openImportModal()" title="Paste export from ForeverRosterSync in-game addon">
                 <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                 <span>Import Addon</span>
               </button>
 
               <!-- Secondary Manual Add Button -->
-              <button type="button" class="toolbar-action-btn" id="btn-toggle-sidebar" onclick="toggleFormCollapse()" title="Manually add a character not in the addon export">
+              <button type="button" class="toolbar-action-btn" id="btn-toggle-sidebar" style="display: none;" onclick="toggleFormCollapse()" title="Manually add a character not in the addon export">
                 <span id="btn-toggle-sidebar-text">+ Add Manual</span>
               </button>
 
@@ -4889,6 +4889,10 @@
       }
 
       const canAdmin = Boolean(isAdminMode && adminPasskey);
+      const importAddonBtn = document.getElementById('btn-import-addon');
+      if (importAddonBtn) {
+        importAddonBtn.style.display = canAdmin ? '' : 'none';
+      }
       const sidebarToggleBtn = document.getElementById('btn-toggle-sidebar');
       if (sidebarToggleBtn) {
         sidebarToggleBtn.style.display = canAdmin ? '' : 'none';
@@ -6137,6 +6141,11 @@
     }
 
     function openImportModal() {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to import addon data.', true);
+        openAdminModal();
+        return;
+      }
       const modal = document.getElementById('import-export-modal');
       const errEl = document.getElementById('import-export-error');
       const adminRow = document.getElementById('import-admin-key-row');
@@ -6702,7 +6711,7 @@
               <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 6px;">No Guild Members Imported Yet</h3>
               <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 440px; margin: 0 auto 16px;">Import your in-game guild roster export from ForeverRosterSync${canAdminEdit ? ', or add a character manually' : ''}.</p>
               <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-                <button type="button" class="btn-import-export" onclick="openImportModal()">Import Addon Export</button>
+                ${canAdminEdit ? `<button type="button" class="btn-import-export" onclick="openImportModal()">Import Addon Export</button>` : ''}
                 ${canAdminEdit ? `<button type="button" class="toolbar-action-btn" onclick="toggleFormCollapse(true)">+ Add Manual</button>` : ''}
               </div>
             </div>
@@ -8799,7 +8808,7 @@
                 <span class="guild-sync-dot"></span>
                 <strong>${escapeHtml(rosterMeta.guild)}</strong>
               </div>
-              <button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>
+              ${(isAdminMode && adminPasskey) ? `<button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>` : ''}
             </div>
             <div style="font-size:0.74rem; color:var(--text-muted);">
               ${rosterList.length} Members · ${altsList.length} Alts${byStr}${timeStr ? ` · Updated ${escapeHtml(timeStr)}` : ''}
@@ -8817,7 +8826,7 @@
           <div class="action-sync-card">
             <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
               <span style="font-size:0.78rem; color:var(--text-muted);">No addon sync recorded yet.</span>
-              <button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>
+              ${(isAdminMode && adminPasskey) ? `<button type="button" class="card-action-btn" style="padding:3px 8px; font-size:0.68rem; color:#6ee7b7;" onclick="closeActionItemsDrawer(); openImportModal()">Import Addon</button>` : ''}
             </div>
           </div>
         `;
