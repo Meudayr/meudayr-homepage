@@ -7961,6 +7961,11 @@
     }
 
     function createNewRaidRoster() {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to create a new raid roster.', true);
+        openAdminModal();
+        return;
+      }
       const name = prompt('Enter a name for the new Raid Roster (e.g. "Core 40-Man", "Karazhan Team A"):', `Raid Team ${raidRosters.length + 1}`);
       if (!name || !name.trim()) return;
       const newTeam = {
@@ -8008,6 +8013,11 @@
 
     function quickAssignToActiveRaid(playerName) {
       if (raidRosters.length === 0) {
+        if (!(isAdminMode && adminPasskey)) {
+          showToast('Admin login required to create a new raid roster.', true);
+          openAdminModal();
+          return;
+        }
         const defaultTeam = {
           id: `raid-${Date.now()}`,
           name: 'Raid Team 1',
@@ -8477,12 +8487,13 @@
         `;
       }).join('');
 
+      const canAdminEdit = Boolean(isAdminMode && adminPasskey);
       if (!team) {
         container.innerHTML = `
           <div style="text-align: center; padding: 48px 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);">
             <h3 style="color: var(--text-main); margin-bottom: 8px;">No Raid Rosters Created Yet</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">Create a 10-man, 20-man, or 40-man raid roster and assign players directly from your exported guild roster.</p>
-            <button type="button" class="form-btn-submit" style="width: auto; padding: 9px 18px;" onclick="createNewRaidRoster()">+ Create First Raid Roster</button>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">${canAdminEdit ? 'Create a 10-man, 20-man, or 40-man raid roster and assign players directly from your exported guild roster.' : 'An admin can log in to create the first raid roster.'}</p>
+            ${canAdminEdit ? `<button type="button" class="form-btn-submit" style="width: auto; padding: 9px 18px;" onclick="createNewRaidRoster()">+ Create First Raid Roster</button>` : ''}
           </div>
         `;
         return;
@@ -8502,7 +8513,6 @@
                (m.role || '').toLowerCase().includes(q);
       });
 
-      const canAdminEdit = Boolean(isAdminMode && adminPasskey);
       const editPencilSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/></svg>';
 
       const poolHtml = poolMembers.map(m => {
@@ -8725,7 +8735,7 @@
         <div class="raid-builder-toolbar">
           <div class="raid-team-tabs">
             ${teamTabsHtml}
-            <button type="button" class="raid-team-tab warcraft-squad-btn" style="--squad-color: #34d399; color:#6ee7b7;" onclick="createNewRaidRoster()">+ New Roster</button>
+            ${canAdminEdit ? `<button type="button" class="raid-team-tab warcraft-squad-btn" style="--squad-color: #34d399; color:#6ee7b7;" onclick="createNewRaidRoster()">+ New Roster</button>` : ''}
           </div>
           <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
             <button type="button" class="raid-size-btn ${team.size === 10 ? 'active' : ''}" onclick="setActiveRaidSize(10)">10-Man</button>
