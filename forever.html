@@ -1491,6 +1491,58 @@
       padding-top: 6px;
     }
 
+    .import-audit-box {
+      background: #101218;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .import-audit-summary {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.72rem;
+    }
+
+    .import-audit-pill {
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .import-audit-list {
+      max-height: 210px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-right: 4px;
+    }
+
+    .import-audit-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.025);
+      border-left: 3px solid transparent;
+      font-size: 0.76rem;
+    }
+
+    .import-audit-row.audit-add { border-left-color: #34d399; }
+    .import-audit-row.audit-update { border-left-color: #60a5fa; }
+    .import-audit-row.audit-remove { border-left-color: #f87171; }
+    .import-audit-row.audit-alt { border-left-color: #facc15; }
+
     .action-items-header {
       padding: 16px 18px;
       border-bottom: 1px solid var(--card-border);
@@ -4554,7 +4606,7 @@
 
   <!-- Import Addon Export Modal -->
   <div class="pin-modal-overlay" id="import-export-modal">
-    <div class="pin-modal-box" style="max-width: 620px; width: 92%;">
+    <div class="pin-modal-box" style="max-width: 700px; width: 94%;">
       <div style="display: flex; align-items: center; justify-content: space-between;">
         <div class="pin-modal-title" style="display: flex; align-items: center; gap: 8px;">
           <svg style="width: 18px; height: 18px; color: #10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
@@ -4565,11 +4617,12 @@
       <p style="font-size: 0.84rem; color: var(--text-muted); margin: 0;">
         Run <code>/frsync</code> in WoW Forever, copy the JSON string, and paste it below. Existing spec, role, and profession selections are preserved automatically.
       </p>
-      <textarea id="import-export-textarea" class="form-input" rows="7" placeholder='{"v":1,"guild":"...","members":[...]}' style="font-family: monospace; font-size: 0.76rem; resize: vertical;"></textarea>
+      <textarea id="import-export-textarea" class="form-input" rows="5" placeholder='{"v":1,"guild":"...","members":[...]}' style="font-family: monospace; font-size: 0.76rem; resize: vertical;" oninput="renderImportAuditPreview()"></textarea>
       <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-main); cursor: pointer;">
-        <input type="checkbox" id="import-replace-checkbox" checked>
+        <input type="checkbox" id="import-replace-checkbox" checked onchange="renderImportAuditPreview()">
         <span>Mirror this export (remove members no longer in the guild)</span>
       </label>
+      <div id="import-audit-preview" class="import-audit-box" style="display: none;"></div>
       <div id="import-admin-key-row" style="display: none;">
         <input type="password" id="import-admin-pass-input" class="form-input" placeholder="Admin password (required to sync)">
       </div>
@@ -6347,6 +6400,13 @@
       if (errEl) errEl.style.display = 'none';
       if (adminRow) adminRow.style.display = isAdminMode ? 'none' : 'block';
       if (textarea) textarea.value = '';
+      const auditBox = document.getElementById('import-audit-preview');
+      if (auditBox) {
+        auditBox.innerHTML = '';
+        auditBox.style.display = 'none';
+      }
+      const confirmBtn = document.getElementById('btn-confirm-import');
+      if (confirmBtn) confirmBtn.textContent = 'Import & Sync';
       modal.classList.add('open');
       if (textarea) setTimeout(() => textarea.focus(), 80);
     }
@@ -6354,6 +6414,241 @@
     function closeImportModal() {
       const modal = document.getElementById('import-export-modal');
       if (modal) modal.classList.remove('open');
+    }
+
+    function computeImportAudit(parsed, replaceMode = true) {
+      const members = Array.isArray(parsed?.members) ? parsed.members : [];
+      const existingMap = new Map();
+      rosterList.forEach(item => {
+        if (item && item.playerName) existingMap.set(item.playerName.toLowerCase(), item);
+      });
+      const existingAltsMap = new Map();
+      altsList.forEach(alt => {
+        if (alt && alt.playerName) existingAltsMap.set(alt.playerName.toLowerCase(), alt);
+      });
+
+      const seen = new Set();
+      const seenMains = new Set();
+      const seenAlts = new Set();
+
+      const addedMains = [];
+      const updatedMains = [];
+      const removedMains = [];
+      const addedAlts = [];
+      const updatedAlts = [];
+      const removedAlts = [];
+      let unchangedCount = 0;
+      let skippedCount = 0;
+
+      for (const m of members) {
+        const cleanName = (m.playerName || '').trim();
+        if (!cleanName) continue;
+        const key = cleanName.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        const level = Number(m.level) || 1;
+        const rankName = (m.rankName !== undefined ? String(m.rankName) : '').trim();
+        const rankLower = rankName.toLowerCase();
+        const className = (m.className || 'Warrior').trim();
+        const publicNote = (m.publicNote !== undefined ? String(m.publicNote) : '').trim().slice(0, 300);
+        const isAltRank = /\balt(s)?\b/i.test(rankName);
+        const isJonboyRank = rankLower.includes('jonboy');
+
+        if (isAltRank) {
+          seenAlts.add(key);
+          const prevAlt = existingAltsMap.get(key);
+          if (!prevAlt) {
+            addedAlts.push({ playerName: cleanName, level, className, rankName });
+          } else {
+            const diffs = [];
+            if ((Number(prevAlt.level) || 1) !== level) diffs.push(`Lv${prevAlt.level || 1} → Lv${level}`);
+            if ((prevAlt.rankName || '') !== rankName) diffs.push(`Rank: ${prevAlt.rankName || '—'} → ${rankName || '—'}`);
+            if ((prevAlt.publicNote || '') !== publicNote) diffs.push(publicNote ? `Note: "${publicNote}"` : 'Note cleared');
+            if (diffs.length > 0) {
+              updatedAlts.push({ playerName: cleanName, level, className, diffs });
+            } else {
+              unchangedCount++;
+            }
+          }
+          continue;
+        }
+
+        if (isJonboyRank || level < 20) {
+          skippedCount++;
+          continue;
+        }
+
+        seenMains.add(key);
+        const prev = existingMap.get(key);
+        if (!prev) {
+          addedMains.push({ playerName: cleanName, level, className, rankName, publicNote });
+        } else {
+          const diffs = [];
+          const prevLevel = Number(prev.level) || 1;
+          if (prevLevel !== level) diffs.push(`Lv${prevLevel} → Lv${level}`);
+          if ((prev.rankName || '') !== rankName) diffs.push(`Rank: ${prev.rankName || '—'} → ${rankName || '—'}`);
+          if ((prev.publicNote || '') !== publicNote) diffs.push(publicNote ? `Note: "${publicNote}"` : 'Note cleared');
+          if (m.className && (prev.className || '') !== className) diffs.push(`Class: ${prev.className || '—'} → ${className}`);
+          const nextRace = (m.race && m.race.trim()) ? m.race.trim() : '';
+          if (nextRace && (prev.race || 'Unknown') !== nextRace) diffs.push(`Race: ${prev.race || 'Unknown'} → ${nextRace}`);
+          if (diffs.length > 0) {
+            updatedMains.push({ playerName: cleanName, level, className, diffs });
+          } else {
+            unchangedCount++;
+          }
+        }
+      }
+
+      if (replaceMode) {
+        for (const prev of rosterList) {
+          if (prev && prev.playerName && !seenMains.has(prev.playerName.toLowerCase())) {
+            removedMains.push({ playerName: prev.playerName, level: prev.level || 60, className: prev.className || '' });
+          }
+        }
+        for (const prevAlt of altsList) {
+          if (prevAlt && prevAlt.playerName && !seenAlts.has(prevAlt.playerName.toLowerCase())) {
+            removedAlts.push({ playerName: prevAlt.playerName, level: prevAlt.level || 1, className: prevAlt.className || '' });
+          }
+        }
+      }
+
+      return {
+        addedMains,
+        updatedMains,
+        removedMains,
+        addedAlts,
+        updatedAlts,
+        removedAlts,
+        unchangedCount,
+        skippedCount
+      };
+    }
+
+    function renderImportAuditPreview() {
+      const textarea = document.getElementById('import-export-textarea');
+      const replaceChk = document.getElementById('import-replace-checkbox');
+      const auditBox = document.getElementById('import-audit-preview');
+      const errEl = document.getElementById('import-export-error');
+      const confirmBtn = document.getElementById('btn-confirm-import');
+      if (!auditBox) return;
+
+      const raw = (textarea?.value || '').trim();
+      if (!raw) {
+        auditBox.innerHTML = '';
+        auditBox.style.display = 'none';
+        if (errEl) errEl.style.display = 'none';
+        if (confirmBtn) confirmBtn.textContent = 'Import & Sync';
+        return;
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        auditBox.innerHTML = '';
+        auditBox.style.display = 'none';
+        if (errEl) {
+          errEl.textContent = 'Invalid JSON format. Make sure you copied the entire string from /frsync.';
+          errEl.style.display = 'block';
+        }
+        if (confirmBtn) confirmBtn.textContent = 'Import & Sync';
+        return;
+      }
+
+      if (!parsed || !Array.isArray(parsed.members) || parsed.members.length === 0) {
+        auditBox.innerHTML = '';
+        auditBox.style.display = 'none';
+        if (errEl) {
+          errEl.textContent = 'Export JSON does not contain a valid members array.';
+          errEl.style.display = 'block';
+        }
+        if (confirmBtn) confirmBtn.textContent = 'Import & Sync';
+        return;
+      }
+
+      if (errEl) errEl.style.display = 'none';
+      const replaceMode = replaceChk ? replaceChk.checked : true;
+      const audit = computeImportAudit(parsed, replaceMode);
+      const totalChanges = audit.addedMains.length + audit.updatedMains.length + audit.removedMains.length
+        + audit.addedAlts.length + audit.updatedAlts.length + audit.removedAlts.length;
+
+      const rows = [];
+      audit.addedMains.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-add">
+            <div><strong style="color:#34d399;">+ ADD</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span> <span style="color:var(--text-muted);">Lv${item.level} ${escapeHtml(item.className)}</span></div>
+            <span style="color:var(--text-muted); font-size:0.7rem;">${escapeHtml(item.rankName || '')}</span>
+          </div>
+        `);
+      });
+      audit.updatedMains.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-update">
+            <div><strong style="color:#60a5fa;">~ UPDATE</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span></div>
+            <span style="color:var(--text-muted); font-size:0.7rem; text-align:right;">${escapeHtml(item.diffs.join(' · '))}</span>
+          </div>
+        `);
+      });
+      audit.removedMains.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-remove">
+            <div><strong style="color:#f87171;">- REMOVE</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span> <span style="color:var(--text-muted);">Lv${item.level} ${escapeHtml(item.className)}</span></div>
+            <span style="color:#f87171; font-size:0.7rem;">Not in export</span>
+          </div>
+        `);
+      });
+      audit.addedAlts.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-alt">
+            <div><strong style="color:#facc15;">+ ALT</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span> <span style="color:var(--text-muted);">Lv${item.level} ${escapeHtml(item.className)}</span></div>
+            <span style="color:var(--text-muted); font-size:0.7rem;">${escapeHtml(item.rankName || 'Alt')}</span>
+          </div>
+        `);
+      });
+      audit.updatedAlts.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-alt">
+            <div><strong style="color:#facc15;">~ ALT</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span></div>
+            <span style="color:var(--text-muted); font-size:0.7rem; text-align:right;">${escapeHtml(item.diffs.join(' · '))}</span>
+          </div>
+        `);
+      });
+      audit.removedAlts.forEach(item => {
+        const c = CLASS_COLORS[item.className] || 'var(--text-main)';
+        rows.push(`
+          <div class="import-audit-row audit-remove">
+            <div><strong style="color:#f87171;">- ALT</strong> <span style="color:${c}; font-weight:700;">${escapeHtml(item.playerName)}</span></div>
+            <span style="color:#f87171; font-size:0.7rem;">Not in export</span>
+          </div>
+        `);
+      });
+
+      const altChangesCount = audit.addedAlts.length + audit.updatedAlts.length + audit.removedAlts.length;
+      auditBox.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <strong style="font-size:0.78rem; color:var(--text-main);">Pre-Import Audit (${totalChanges} ${totalChanges === 1 ? 'change' : 'changes'})</strong>
+          <span style="font-size:0.7rem; color:var(--text-muted);">${audit.unchangedCount} unchanged${audit.skippedCount ? ` · ${audit.skippedCount} skipped (&lt;Lv20/Jonboy)` : ''}</span>
+        </div>
+        <div class="import-audit-summary">
+          <span class="import-audit-pill" style="color:#34d399; border-color:rgba(52,211,153,0.3);">+${audit.addedMains.length} Added</span>
+          <span class="import-audit-pill" style="color:#60a5fa; border-color:rgba(96,165,250,0.3);">~${audit.updatedMains.length} Updated</span>
+          <span class="import-audit-pill" style="color:#f87171; border-color:rgba(248,113,113,0.3);">-${audit.removedMains.length} Removed</span>
+          ${altChangesCount > 0 ? `<span class="import-audit-pill" style="color:#facc15; border-color:rgba(250,204,21,0.3);">Alts: +${audit.addedAlts.length} / ~${audit.updatedAlts.length} / -${audit.removedAlts.length}</span>` : ''}
+        </div>
+        <div class="import-audit-list">
+          ${rows.length > 0 ? rows.join('') : '<div style="font-size:0.76rem; color:var(--text-muted); padding:6px 2px;">No changes detected — roster is already up to date.</div>'}
+        </div>
+      `;
+      auditBox.style.display = 'flex';
+      if (confirmBtn) {
+        confirmBtn.textContent = totalChanges > 0 ? `Confirm & Sync (${totalChanges})` : 'Import & Sync';
+      }
     }
 
     async function submitAddonExportSync() {
