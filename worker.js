@@ -687,6 +687,120 @@ export default {
       }
     }
 
+    // Route: /api/forever-logs (POST, OPTIONS) - Import/sync Forever reports
+    if (url.pathname === '/api/forever-logs') {
+      const corsHeaders = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, x-admin-key, x-api-key, Authorization',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      };
+
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: corsHeaders });
+      }
+
+      if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ success: false, error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+      }
+
+      try {
+        const validAdminKey = (env && env.ADMIN_KEY) || 'dontgivemeadpi';
+        const body = await request.json();
+        const providedKey = request.headers.get('x-admin-key') || body.adminKey || url.searchParams.get('admin_key');
+        if (!providedKey || providedKey.trim() !== validAdminKey) {
+          return new Response(JSON.stringify({ success: false, error: 'Invalid admin password.' }), { status: 401, headers: corsHeaders });
+        }
+
+        if (!env.LOGS_KV) {
+          return new Response(JSON.stringify({ success: false, error: 'LOGS_KV not bound.' }), { status: 500, headers: corsHeaders });
+        }
+
+        let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
+        if (!cached) {
+          cached = await performRefresh(env, request.url);
+        }
+
+        // Resolve target account by id or userId
+        let targetAcc = ACCOUNTS.find(a => a.default) || ACCOUNTS[0];
+        if (body.userId) {
+          const byUid = ACCOUNTS.find(a => Number(a.userId) === Number(body.userId));
+          if (byUid) targetAcc = byUid;
+        } else if (body.account) {
+          const byId = ACCOUNTS.find(a => a.id.toLowerCase() === String(body.account).toLowerCase());
+          if (byId) targetAcc = byId;
+        }
+
+        const rawList = Array.isArray(body.reports) ? body.reports : [];
+        const normalized = [];
+        for (let i = 0; i < rawList.length; i++) {
+          const item = rawList[i];
+          if (!item) continue;
+          let code = String(item.code || '').trim();
+          const urlMatch = code.match(/\/reports\/([a-zA-Z0-9]{12,24})/) || String(item.url || '').match(/\/reports\/([a-zA-Z0-9]{12,24})/);
+          if (urlMatch) code = urlMatch[1];
+          if (!/^[a-zA-Z0-9]{12,24}$/.test(code)) continue;
+
+          const startTime = Number(item.startTime) > 100000000000 ? Number(item.startTime) : (Date.now() - i * 1000);
+          const endTime = Number(item.endTime) >= startTime ? Number(item.endTime) : (startTime + 3600000);
+          const zoneName = typeof item.zone === 'string' ? item.zone.trim() : (item.zone?.name ? String(item.zone.name).trim() : '');
+          const dungeons = Array.isArray(item.dungeons) && item.dungeons.length > 0
+            ? item.dungeons.map(d => String(d).trim()).filter(Boolean)
+            : (zoneName ? [zoneName] : []);
+
+          normalized.push({
+            code,
+            url: `${WCL_FOREVER_REPORT_BASE}/${code}`,
+            title: String(item.title || zoneName || 'Forever Combat Log').trim(),
+            startTime,
+            endTime,
+            zone: zoneName ? { name: zoneName } : null,
+            dungeons,
+            bosses: Array.isArray(item.bosses) ? item.bosses : [],
+            players: Array.isArray(item.players) ? item.players : [targetAcc.name],
+            classes: Array.isArray(item.classes) ? item.classes : [],
+            difficulties: Array.isArray(item.difficulties) ? item.difficulties : [],
+            keyLevels: []
+          });
+        }
+
+        if (!cached.foreverReportsByAccount) cached.foreverReportsByAccount = {};
+        const existingList = body.replace ? [] : (cached.foreverReportsByAccount[targetAcc.id] || []);
+        const combined = [...normalized, ...existingList];
+        const seen = new Set();
+        const deduped = [];
+        for (const r of combined) {
+          if (r && r.code && !seen.has(r.code)) {
+            seen.add(r.code);
+            deduped.push(r);
+          }
+        }
+        deduped.sort((a, b) => (b.startTime || 0) - (a.startTime || 0));
+
+        cached.foreverReportsByAccount[targetAcc.id] = deduped;
+        const defaultAcc = ACCOUNTS.find(a => a.default) || ACCOUNTS[0];
+        cached.foreverReports = cached.foreverReportsByAccount[defaultAcc.id] || [];
+        cached.foreverSchemaVersion = 4;
+        if (Array.isArray(cached.accounts)) {
+          const accEntry = cached.accounts.find(a => a.id === targetAcc.id);
+          if (accEntry) accEntry.foreverReportsCount = deduped.length;
+        }
+
+        await env.LOGS_KV.put('warcraft_logs', JSON.stringify(cached));
+
+        return new Response(JSON.stringify({
+          success: true,
+          account: targetAcc.id,
+          imported: normalized.length,
+          total: deduped.length,
+          data: cached
+        }), { status: 200, headers: corsHeaders });
+      } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), { status: 500, headers: corsHeaders });
+      }
+    }
+
     // Route: /api/roster (GET, POST, DELETE, OPTIONS)
     if (url.pathname === '/api/roster') {
       const rosterCorsHeaders = {

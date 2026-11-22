@@ -96,6 +96,168 @@
       opacity: 0.85;
     }
 
+    .sync-forever-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(192, 157, 82, 0.12);
+      border: 1px solid rgba(226, 186, 102, 0.45);
+      border-radius: 20px;
+      padding: 6px 14px;
+      color: #e2ba66;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .sync-forever-btn:hover {
+      background: rgba(192, 157, 82, 0.22);
+      border-color: #e2ba66;
+    }
+
+    .forever-sync-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2500;
+      background: rgba(8, 10, 14, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .forever-sync-modal.open {
+      display: flex;
+    }
+
+    .forever-sync-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius-lg);
+      max-width: 600px;
+      width: 100%;
+      padding: 26px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .forever-sync-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .forever-sync-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .forever-sync-close {
+      background: none;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .forever-sync-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .forever-sync-box h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--text-main);
+      margin: 0 0 8px;
+    }
+
+    .forever-sync-box p,
+    .forever-sync-box ol {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .forever-sync-box ol {
+      padding-left: 18px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .forever-bookmarklet-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(192, 157, 82, 0.18);
+      border: 1px dashed #e2ba66;
+      color: #e2ba66;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      cursor: grab;
+    }
+
+    .forever-paste-area {
+      width: 100%;
+      min-height: 95px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: #111317;
+      color: var(--text-main);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      resize: vertical;
+    }
+
+    .forever-sync-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .forever-pass-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: #111317;
+      color: var(--text-main);
+      font-size: 0.86rem;
+    }
+
+    .forever-sync-status {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: #e2ba66;
+    }
+
     .last-updated {
       display: inline-flex;
       align-items: center;
@@ -894,6 +1056,9 @@
           </svg>
           <span id="refresh-btn-text">Refresh Logs</span>
         </button>
+        <button id="sync-forever-btn" class="sync-forever-btn" onclick="openForeverSyncModal()" title="Sync Forever logs from WarcraftLogs Forever">
+          <span>Sync Forever Logs</span>
+        </button>
       </div>
 
       <!-- Real-time Progress Bar -->
@@ -957,6 +1122,39 @@
       </button>
     </div>
   </main>
+
+  <!-- Sync Forever Logs Modal -->
+  <div class="forever-sync-modal" id="forever-sync-modal" role="dialog" aria-modal="true" aria-labelledby="forever-sync-title">
+    <div class="forever-sync-card">
+      <div class="forever-sync-header">
+        <h2 id="forever-sync-title">Sync Forever Logs</h2>
+        <button type="button" class="forever-sync-close" onclick="closeForeverSyncModal()" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="forever-sync-box">
+        <h3>Option 1: 1-Click Browser Bookmarklet (Recommended)</h3>
+        <ol>
+          <li>Drag the gold button below onto your browser's Bookmarks Bar.</li>
+          <li>Open your <a id="forever-sync-wcl-link" href="https://forever.warcraftlogs.com/user/reports-list/323892" target="_blank" rel="noopener noreferrer" style="color: #e2ba66;">WarcraftLogs Forever Reports List</a> while signed in.</li>
+          <li>Click the <strong>Sync Forever Logs</strong> bookmark in your bar. It extracts every report on the page and sends you right back here to save them.</li>
+        </ol>
+        <a id="forever-bookmarklet-link" class="forever-bookmarklet-pill" href="#" onclick="event.preventDefault(); alert('Drag this button to your Bookmarks Bar, then click it while viewing forever.warcraftlogs.com!');">
+          Sync Forever Logs
+        </a>
+      </div>
+
+      <div class="forever-sync-box" style="margin-bottom: 0;">
+        <h3>Option 2: Paste Forever Report Links or Page Text</h3>
+        <p>Paste one or more <code style="color: #e2ba66;">forever.warcraftlogs.com/reports/...</code> URLs (one per line, optionally followed by <code style="color: #e2ba66;">| Title | Zone</code>) or paste copied rows from your Forever reports page:</p>
+        <textarea id="forever-paste-input" class="forever-paste-area" placeholder="https://forever.warcraftlogs.com/reports/AbCdEf1234567890 | Deadmines Run | The Deadmines"></textarea>
+        <div class="forever-sync-footer">
+          <input type="password" id="forever-admin-pass" class="forever-pass-input" placeholder="Admin passkey" autocomplete="off">
+          <button type="button" class="sync-forever-btn" id="forever-save-btn" onclick="submitForeverSync()" style="padding: 9px 18px;">Save Forever Logs</button>
+        </div>
+        <div class="forever-sync-status" id="forever-sync-status" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
 
   <footer style="margin-top: auto; padding: 40px 0; border-top: 1px solid var(--card-border); text-align: center; color: var(--text-dark); font-size: 0.85rem;">
     <div class="container">
@@ -1259,9 +1457,12 @@
             const foreverListUrl = `https://forever.warcraftlogs.com/user/reports-list/${acc.userId || 323892}`;
             container.innerHTML = `
               <div class="no-results-state">
-                <div class="no-results-title">Forever Logs Not Available via Public API Yet</div>
-                <p class="no-results-text">WarcraftLogs Forever does not expose an <code style="color: #e2ba66;">/api/v2/client</code> endpoint yet (it returns HTTP 404), and its web pages are behind a browser challenge. View ${escapeHtml(acc.name)}'s Forever reports directly on WarcraftLogs:</p>
-                <a class="clear-search-link" href="${foreverListUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block; text-decoration:none;">Open Forever Reports on WarcraftLogs</a>
+                <div class="no-results-title">No Forever Logs Synced Yet</div>
+                <p class="no-results-text">Because WarcraftLogs Forever has not turned on its public <code style="color: #e2ba66;">/api/v2/client</code> endpoint yet, use the 1-Click Bookmarklet (or paste report links) to sync ${escapeHtml(acc.name)}'s Forever logs:</p>
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                  <button class="clear-search-link" onclick="openForeverSyncModal()">Sync Forever Logs</button>
+                  <a class="clear-search-link" href="${foreverListUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block; text-decoration:none;">Open ${escapeHtml(acc.name)} on WarcraftLogs Forever</a>
+                </div>
               </div>`;
           } else {
             container.innerHTML = `
@@ -1365,6 +1566,10 @@
         const isModern = currentLogMode === 'modern';
         modernTab.classList.toggle('active', isModern);
         modernTab.setAttribute('aria-selected', isModern ? 'true' : 'false');
+      }
+      const syncBtn = document.getElementById('sync-forever-btn');
+      if (syncBtn) {
+        syncBtn.style.display = currentLogMode === 'forever' ? 'inline-flex' : 'none';
       }
     }
 
@@ -1878,7 +2083,194 @@
       pill.setAttribute('title', 'Plex Server: Offline');
     }
 
-    loadLogs();
+    // Forever Logs Bookmarklet & Sync Modal
+    function initForeverBookmarklet() {
+      const link = document.getElementById('forever-bookmarklet-link');
+      if (!link) return;
+      const code = `(function(){` +
+        `var anchors=Array.from(document.querySelectorAll('a[href*="/reports/"]'));` +
+        `var seen={};var list=[];` +
+        `anchors.forEach(function(a,idx){` +
+          `var m=(a.getAttribute('href')||'').match(/\\/reports\\/([a-zA-Z0-9]{12,24})/);` +
+          `if(!m||seen[m[1]])return;` +
+          `var code=m[1];seen[code]=1;` +
+          `var title=(a.textContent||'').trim()||'Forever Combat Log';` +
+          `var row=a.closest('tr,li,div');` +
+          `var ts=0;var zone='';` +
+          `if(row){` +
+            `var tEl=row.querySelector('[data-timestamp],[data-time],time');` +
+            `if(tEl){var raw=tEl.getAttribute('data-timestamp')||tEl.getAttribute('data-time')||tEl.getAttribute('datetime')||tEl.textContent;var n=Number(raw);if(n>1e9)ts=n<1e12?n*1000:n;else if(Date.parse(raw))ts=Date.parse(raw);}` +
+            `var cells=Array.from(row.querySelectorAll('td,span,div')).map(function(c){return(c.textContent||'').trim();});` +
+            `cells.forEach(function(txt){if(!ts&&/\\b202\\d\\b|\\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\b/i.test(txt)&&txt.length<45){var p=Date.parse(txt);if(p)ts=p;}});` +
+          `}` +
+          `list.push({code:code,title:title,startTime:ts||(Date.now()-idx*60000),zone:zone});` +
+        `});` +
+        `if(!list.length){alert('No Forever report links (/reports/...) found on this page.');return;}` +
+        `var uidMatch=location.pathname.match(/\\/reports-list\\/(\\d+)/);` +
+        `var payload={userId:uidMatch?Number(uidMatch[1]):null,reports:list};` +
+        `location.href='https://meudayr.com/logs#forever_import='+encodeURIComponent(JSON.stringify(payload));` +
+      `})();`;
+      link.href = 'javascript:' + encodeURIComponent(code);
+    }
+
+    let pendingImportedPayload = null;
+
+    function openForeverSyncModal(prefillText = '', statusMsg = '') {
+      const modal = document.getElementById('forever-sync-modal');
+      const passInput = document.getElementById('forever-admin-pass');
+      const pasteInput = document.getElementById('forever-paste-input');
+      const statusEl = document.getElementById('forever-sync-status');
+      const wclLink = document.getElementById('forever-sync-wcl-link');
+      if (!modal) return;
+
+      const acc = accounts.find(a => a.id === currentAccountId) || { name: 'Meudayr', userId: 323892 };
+      if (wclLink) wclLink.href = `https://forever.warcraftlogs.com/user/reports-list/${acc.userId || 323892}`;
+
+      const savedPass = localStorage.getItem('tbs_admin_passkey') || '';
+      if (passInput && savedPass) passInput.value = savedPass;
+      if (pasteInput && prefillText) pasteInput.value = prefillText;
+      if (statusEl) {
+        statusEl.style.display = statusMsg ? 'block' : 'none';
+        statusEl.textContent = statusMsg;
+      }
+
+      modal.classList.add('open');
+    }
+
+    function closeForeverSyncModal() {
+      const modal = document.getElementById('forever-sync-modal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function parsePastedForeverReports(rawText) {
+      const lines = String(rawText || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const seen = new Set();
+      const reports = [];
+
+      // First check if rawText is JSON array or object from bookmarklet
+      try {
+        const parsed = JSON.parse(rawText);
+        const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.reports) ? parsed.reports : null);
+        if (arr) return arr;
+      } catch (e) {}
+
+      lines.forEach((line, idx) => {
+        const parts = line.split('|').map(p => p.trim());
+        const codeMatch = parts[0].match(/\/reports\/([a-zA-Z0-9]{12,24})/) || parts[0].match(/^([a-zA-Z0-9]{16})$/);
+        if (codeMatch && !seen.has(codeMatch[1])) {
+          const code = codeMatch[1];
+          seen.add(code);
+          const title = parts[1] || 'Forever Combat Log';
+          const zone = parts[2] || '';
+          reports.push({
+            code,
+            title,
+            zone,
+            startTime: Date.now() - idx * 60000
+          });
+        }
+      });
+
+      // Fallback: extract any /reports/CODE anywhere in the pasted text
+      if (reports.length === 0) {
+        const regex = /\/reports\/([a-zA-Z0-9]{12,24})/g;
+        let m;
+        let idx = 0;
+        while ((m = regex.exec(rawText)) !== null) {
+          if (!seen.has(m[1])) {
+            seen.add(m[1]);
+            reports.push({ code: m[1], title: 'Forever Combat Log', startTime: Date.now() - (idx++) * 60000 });
+          }
+        }
+      }
+      return reports;
+    }
+
+    async function sendForeverReportsToApi(reports, adminKey, userId = null) {
+      const res = await fetch('/api/forever-logs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-key': adminKey
+        },
+        body: JSON.stringify({
+          account: currentAccountId,
+          userId,
+          reports
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to save Forever logs.');
+      }
+      localStorage.setItem('tbs_admin_passkey', adminKey);
+      if (data.data) {
+        try { localStorage.setItem('cached_warcraft_logs', JSON.stringify(data.data)); } catch (e) {}
+        applyLogsData(data.data);
+      }
+      return data;
+    }
+
+    async function submitForeverSync() {
+      const pasteInput = document.getElementById('forever-paste-input');
+      const passInput = document.getElementById('forever-admin-pass');
+      const statusEl = document.getElementById('forever-sync-status');
+      const saveBtn = document.getElementById('forever-save-btn');
+      const adminKey = (passInput?.value || '').trim();
+
+      if (!adminKey) {
+        if (statusEl) { statusEl.style.display = 'block'; statusEl.textContent = 'Please enter the admin passkey.'; }
+        return;
+      }
+
+      const reports = pendingImportedPayload?.reports?.length
+        ? pendingImportedPayload.reports
+        : parsePastedForeverReports(pasteInput?.value || '');
+
+      if (!reports.length) {
+        if (statusEl) { statusEl.style.display = 'block'; statusEl.textContent = 'No valid Forever report links or codes found.'; }
+        return;
+      }
+
+      if (saveBtn) saveBtn.disabled = true;
+      if (statusEl) { statusEl.style.display = 'block'; statusEl.textContent = `Saving ${reports.length} Forever log(s)...`; }
+
+      try {
+        const result = await sendForeverReportsToApi(reports, adminKey, pendingImportedPayload?.userId || null);
+        pendingImportedPayload = null;
+        if (pasteInput) pasteInput.value = '';
+        if (statusEl) statusEl.textContent = `Synced ${result.imported} Forever log(s) (${result.total} total)!`;
+        setTimeout(() => closeForeverSyncModal(), 900);
+      } catch (err) {
+        if (statusEl) statusEl.textContent = err.message;
+      } finally {
+        if (saveBtn) saveBtn.disabled = false;
+      }
+    }
+
+    async function checkForeverImportHash() {
+      if (!window.location.hash.startsWith('#forever_import=')) return;
+      try {
+        const raw = decodeURIComponent(window.location.hash.slice('#forever_import='.length));
+        const payload = JSON.parse(raw);
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+        if (!payload || !Array.isArray(payload.reports) || !payload.reports.length) return;
+
+        const savedPass = localStorage.getItem('tbs_admin_passkey') || '';
+        if (savedPass) {
+          try {
+            await sendForeverReportsToApi(payload.reports, savedPass, payload.userId || null);
+            return;
+          } catch (e) {}
+        }
+        pendingImportedPayload = payload;
+        const previewLines = payload.reports.map(r => `https://forever.warcraftlogs.com/reports/${r.code} | ${r.title}`).join('\n');
+        openForeverSyncModal(previewLines, `Found ${payload.reports.length} Forever log(s) from bookmarklet. Enter your admin passkey and click Save.`);
+      } catch (e) {}
+    }
+
+    initForeverBookmarklet();
+    loadLogs().then(() => checkForeverImportHash());
     checkPlexStatus();
   </script>
 
