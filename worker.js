@@ -11,7 +11,7 @@ const ACCOUNTS = [
 const REPORTS_PER_PAGE = 25;
 const MAX_PAGES_ON_REFRESH = 2; // Up to 50 reports per account (fast, ~1.5s total, well under API rate limits)
 const WCL_MODERN_API = 'https://www.warcraftlogs.com/api/v2/client';
-const WCL_FOREVER_API = 'https://classic.warcraftlogs.com/api/v2/client';
+const WCL_FOREVER_API = null; // forever.warcraftlogs.com/api/v2/client currently returns 404
 const WCL_MODERN_REPORT_BASE = 'https://www.warcraftlogs.com/reports';
 const WCL_FOREVER_REPORT_BASE = 'https://forever.warcraftlogs.com/reports';
 
@@ -300,7 +300,7 @@ async function performRefresh(env, requestUrl = null) {
   const existingReportsByAccount = existingData?.reportsByAccount || {};
   const existingForeverByAccount = existingData?.foreverReportsByAccount || {};
 
-  // 3. Fetch Modern and Forever accounts in parallel
+  // 3. Fetch Modern accounts (and Forever when an API endpoint is available)
   const [accountResults, foreverResults] = await Promise.all([
     Promise.all(
       ACCOUNTS.map(async acc => {
@@ -312,16 +312,18 @@ async function performRefresh(env, requestUrl = null) {
         }
       })
     ),
-    Promise.all(
-      ACCOUNTS.map(async acc => {
-        try {
-          const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc, WCL_FOREVER_API, WCL_FOREVER_REPORT_BASE);
-          return { id: acc.id, freshReports: reports, hasMorePages, error: null };
-        } catch (err) {
-          return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
-        }
-      })
-    )
+    WCL_FOREVER_API
+      ? Promise.all(
+          ACCOUNTS.map(async acc => {
+            try {
+              const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc, WCL_FOREVER_API, WCL_FOREVER_REPORT_BASE);
+              return { id: acc.id, freshReports: reports, hasMorePages, error: null };
+            } catch (err) {
+              return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
+            }
+          })
+        )
+      : Promise.resolve(ACCOUNTS.map(acc => ({ id: acc.id, freshReports: [], hasMorePages: false, error: null })))
   ]);
 
   // If WarcraftLogs threw an error for the primary Modern account when Forever also failed, surface it
@@ -345,8 +347,8 @@ async function performRefresh(env, requestUrl = null) {
     updatedReportsByAccount[acc.id] = reportList;
 
     const incomingForever = foreverResults.find(r => r.id === acc.id);
-    const existingForeverList = existingForeverByAccount[acc.id] || [];
-    const foreverList = (incomingForever && incomingForever.error === null && incomingForever.freshReports)
+    const existingForeverList = existingData?.foreverSchemaVersion === 3 ? (existingForeverByAccount[acc.id] || []) : [];
+    const foreverList = (WCL_FOREVER_API && incomingForever && incomingForever.error === null && incomingForever.freshReports)
       ? reconcileReports(existingForeverList, incomingForever.freshReports, incomingForever.hasMorePages)
       : filterCleanReports(existingForeverList);
     updatedForeverByAccount[acc.id] = foreverList;
@@ -368,7 +370,7 @@ async function performRefresh(env, requestUrl = null) {
   const finalOutput = {
     fetchedAt: new Date().toISOString(),
     foreverCheckedAt: new Date().toISOString(),
-    foreverSchemaVersion: 2,
+    foreverSchemaVersion: 3,
     accounts: accountList,
     reportsByAccount: updatedReportsByAccount,
     foreverReportsByAccount: updatedForeverByAccount,
@@ -566,8 +568,8 @@ export default {
       try {
         if (env.LOGS_KV) {
           let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
-          // Backfill Forever logs automatically once if KV predates Forever support
-          if (cached && cached.foreverSchemaVersion !== 2 && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+          // Clear stale Classic reports cached under Forever if schema < 3
+          if (cached && cached.foreverSchemaVersion !== 3 && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
             try {
               cached = await performRefresh(env, request.url);
             } catch (e) {}

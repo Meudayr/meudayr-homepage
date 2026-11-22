@@ -1254,13 +1254,23 @@
 
       if (filtered.length === 0) {
         if (!currentSearchQuery.trim()) {
-          const modeLabel = currentLogMode === 'forever' ? 'Forever' : 'Modern';
-          container.innerHTML = `
-            <div class="no-results-state">
-              <div class="no-results-title">No ${modeLabel} Logs Found</div>
-              <p class="no-results-text">No ${modeLabel} combat reports are cached for this player yet. Click Refresh Logs to fetch the latest reports from WarcraftLogs.</p>
-              <button class="clear-search-link" onclick="manualRefreshLogs()">Refresh Logs</button>
-            </div>`;
+          const acc = accounts.find(a => a.id === currentAccountId) || { name: 'Meudayr', userId: 323892 };
+          if (currentLogMode === 'forever') {
+            const foreverListUrl = `https://forever.warcraftlogs.com/user/reports-list/${acc.userId || 323892}`;
+            container.innerHTML = `
+              <div class="no-results-state">
+                <div class="no-results-title">Forever Logs Not Available via Public API Yet</div>
+                <p class="no-results-text">WarcraftLogs Forever does not expose an <code style="color: #e2ba66;">/api/v2/client</code> endpoint yet (it returns HTTP 404), and its web pages are behind a browser challenge. View ${escapeHtml(acc.name)}'s Forever reports directly on WarcraftLogs:</p>
+                <a class="clear-search-link" href="${foreverListUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block; text-decoration:none;">Open Forever Reports on WarcraftLogs</a>
+              </div>`;
+          } else {
+            container.innerHTML = `
+              <div class="no-results-state">
+                <div class="no-results-title">No Modern Logs Found</div>
+                <p class="no-results-text">No Modern combat reports are cached for this player yet. Click Refresh Logs to fetch the latest reports from WarcraftLogs.</p>
+                <button class="clear-search-link" onclick="manualRefreshLogs()">Refresh Logs</button>
+              </div>`;
+          }
         } else {
           container.innerHTML = `
             <div class="no-results-state">
