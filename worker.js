@@ -358,6 +358,7 @@ async function performRefresh(env, requestUrl = null) {
       server: acc.server,
       reportsCount: reportList.length,
       foreverReportsCount: foreverList.length,
+      foreverError: incomingForever?.error || null,
       default: !!acc.default
     });
   }
@@ -366,6 +367,7 @@ async function performRefresh(env, requestUrl = null) {
 
   const finalOutput = {
     fetchedAt: new Date().toISOString(),
+    foreverCheckedAt: new Date().toISOString(),
     accounts: accountList,
     reportsByAccount: updatedReportsByAccount,
     foreverReportsByAccount: updatedForeverByAccount,
@@ -564,7 +566,7 @@ export default {
         if (env.LOGS_KV) {
           let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
           // Backfill Forever logs automatically once if KV predates Forever support
-          if (cached && !cached.foreverReportsByAccount && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+          if (cached && !cached.foreverCheckedAt && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
             try {
               cached = await performRefresh(env, request.url);
             } catch (e) {}
