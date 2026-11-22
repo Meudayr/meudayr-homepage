@@ -11,7 +11,7 @@ const ACCOUNTS = [
 const REPORTS_PER_PAGE = 25;
 const MAX_PAGES_ON_REFRESH = 2; // Up to 50 reports per account (fast, ~1.5s total, well under API rate limits)
 const WCL_MODERN_API = 'https://www.warcraftlogs.com/api/v2/client';
-const WCL_FOREVER_API = 'https://forever.warcraftlogs.com/api/v2/client';
+const WCL_FOREVER_API = 'https://classic.warcraftlogs.com/api/v2/client';
 const WCL_MODERN_REPORT_BASE = 'https://www.warcraftlogs.com/reports';
 const WCL_FOREVER_REPORT_BASE = 'https://forever.warcraftlogs.com/reports';
 
@@ -368,6 +368,7 @@ async function performRefresh(env, requestUrl = null) {
   const finalOutput = {
     fetchedAt: new Date().toISOString(),
     foreverCheckedAt: new Date().toISOString(),
+    foreverSchemaVersion: 2,
     accounts: accountList,
     reportsByAccount: updatedReportsByAccount,
     foreverReportsByAccount: updatedForeverByAccount,
@@ -566,7 +567,7 @@ export default {
         if (env.LOGS_KV) {
           let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
           // Backfill Forever logs automatically once if KV predates Forever support
-          if (cached && !cached.foreverCheckedAt && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+          if (cached && cached.foreverSchemaVersion !== 2 && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
             try {
               cached = await performRefresh(env, request.url);
             } catch (e) {}
