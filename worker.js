@@ -11,7 +11,9 @@ const ACCOUNTS = [
 const REPORTS_PER_PAGE = 25;
 const MAX_PAGES_ON_REFRESH = 2; // Up to 50 reports per account (fast, ~1.5s total, well under API rate limits)
 const WCL_MODERN_API = 'https://www.warcraftlogs.com/api/v2/client';
-const WCL_FOREVER_API = null; // forever.warcraftlogs.com/api/v2/client currently returns 404
+const WCL_FOREVER_API = 'https://forever.warcraftlogs.com/api/v2/client';
+const WCL_MODERN_TOKEN_URL = 'https://www.warcraftlogs.com/oauth/token';
+const WCL_FOREVER_TOKEN_URL = 'https://forever.warcraftlogs.com/oauth/token';
 const WCL_MODERN_REPORT_BASE = 'https://www.warcraftlogs.com/reports';
 const WCL_FOREVER_REPORT_BASE = 'https://forever.warcraftlogs.com/reports';
 
@@ -76,27 +78,25 @@ function reconcileReports(existingList = [], freshReports = [], hasMorePages = f
   return deduped;
 }
 
-let memoryToken = null;
-let memoryTokenExpiresAt = 0;
+const memoryTokens = {};
 
-async function getAccessToken(clientId, clientSecret, env) {
+async function getAccessToken(clientId, clientSecret, env, tokenUrl = WCL_MODERN_TOKEN_URL, kvKey = 'wcl_token') {
   const now = Date.now();
-  if (memoryToken && now < memoryTokenExpiresAt - 60000) {
-    return memoryToken;
+  if (memoryTokens[kvKey] && now < memoryTokens[kvKey].expiresAt - 60000) {
+    return memoryTokens[kvKey].token;
   }
   if (env && env.LOGS_KV) {
     try {
-      const kvToken = await env.LOGS_KV.get('wcl_token', 'json');
+      const kvToken = await env.LOGS_KV.get(kvKey, 'json');
       if (kvToken && kvToken.token && now < kvToken.expiresAt - 60000) {
-        memoryToken = kvToken.token;
-        memoryTokenExpiresAt = kvToken.expiresAt;
-        return memoryToken;
+        memoryTokens[kvKey] = { token: kvToken.token, expiresAt: kvToken.expiresAt };
+        return kvToken.token;
       }
     } catch(e) {}
   }
 
   const credentials = btoa(`${clientId}:${clientSecret}`);
-  const res = await fetch('https://www.warcraftlogs.com/oauth/token', {
+  const res = await fetch(tokenUrl, {
     method: 'POST',
     headers: {
       'Authorization': `Basic ${credentials}`,
@@ -109,7 +109,7 @@ async function getAccessToken(clientId, clientSecret, env) {
     const headers = {};
     res.headers.forEach((v, k) => { headers[k] = v; });
     const text = await res.text();
-    throw new Error(`Failed to get access token from WarcraftLogs: ${res.status} [Retry-After: ${headers['retry-after'] || 'none'}] ${text}`);
+    throw new Error(`Failed to get access token from ${tokenUrl}: ${res.status} [Retry-After: ${headers['retry-after'] || 'none'}] ${text}`);
   }
 
   const data = await res.json();
@@ -117,12 +117,11 @@ async function getAccessToken(clientId, clientSecret, env) {
   const expiresIn = data.expires_in || 86400;
   const expiresAt = now + (expiresIn * 1000);
 
-  memoryToken = token;
-  memoryTokenExpiresAt = expiresAt;
+  memoryTokens[kvKey] = { token, expiresAt };
 
   if (env && env.LOGS_KV) {
     try {
-      await env.LOGS_KV.put('wcl_token', JSON.stringify({ token, expiresAt }), {
+      await env.LOGS_KV.put(kvKey, JSON.stringify({ token, expiresAt }), {
         expirationTtl: Math.min(expiresIn, 86400)
       });
     } catch(e) {}
@@ -281,8 +280,17 @@ async function performRefresh(env, requestUrl = null) {
     throw new Error('Missing WCL_CLIENT_ID or WCL_CLIENT_SECRET environment variables.');
   }
 
-  // 1. Get access token (cached in KV / memory)
-  const token = await getAccessToken(clientId, clientSecret, env);
+  // 1. Get access tokens (Modern + Forever)
+  const token = await getAccessToken(clientId, clientSecret, env, WCL_MODERN_TOKEN_URL, 'wcl_token');
+  const foreverClientId = env.WCL_FOREVER_CLIENT_ID || clientId;
+  const foreverClientSecret = env.WCL_FOREVER_CLIENT_SECRET || clientSecret;
+  let foreverToken = null;
+  let foreverTokenError = null;
+  try {
+    foreverToken = await getAccessToken(foreverClientId, foreverClientSecret, env, WCL_FOREVER_TOKEN_URL, 'wcl_forever_token');
+  } catch (err) {
+    foreverTokenError = err.message;
+  }
 
   // 2. Fetch existing baseline logs from KV or static asset to preserve historical records
   let existingData = null;
@@ -312,18 +320,18 @@ async function performRefresh(env, requestUrl = null) {
         }
       })
     ),
-    WCL_FOREVER_API
+    (WCL_FOREVER_API && foreverToken)
       ? Promise.all(
           ACCOUNTS.map(async acc => {
             try {
-              const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc, WCL_FOREVER_API, WCL_FOREVER_REPORT_BASE);
+              const { reports, hasMorePages } = await fetchAccountRecentReports(foreverToken, acc, WCL_FOREVER_API, WCL_FOREVER_REPORT_BASE);
               return { id: acc.id, freshReports: reports, hasMorePages, error: null };
             } catch (err) {
               return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
             }
           })
         )
-      : Promise.resolve(ACCOUNTS.map(acc => ({ id: acc.id, freshReports: [], hasMorePages: false, error: null })))
+      : Promise.resolve(ACCOUNTS.map(acc => ({ id: acc.id, freshReports: [], hasMorePages: false, error: foreverTokenError })))
   ]);
 
   // If WarcraftLogs threw an error for the primary Modern account when Forever also failed, surface it
@@ -347,7 +355,7 @@ async function performRefresh(env, requestUrl = null) {
     updatedReportsByAccount[acc.id] = reportList;
 
     const incomingForever = foreverResults.find(r => r.id === acc.id);
-    const existingForeverList = existingData?.foreverSchemaVersion === 3 ? (existingForeverByAccount[acc.id] || []) : [];
+    const existingForeverList = existingData?.foreverSchemaVersion === 4 ? (existingForeverByAccount[acc.id] || []) : [];
     const foreverList = (WCL_FOREVER_API && incomingForever && incomingForever.error === null && incomingForever.freshReports)
       ? reconcileReports(existingForeverList, incomingForever.freshReports, incomingForever.hasMorePages)
       : filterCleanReports(existingForeverList);
@@ -370,7 +378,7 @@ async function performRefresh(env, requestUrl = null) {
   const finalOutput = {
     fetchedAt: new Date().toISOString(),
     foreverCheckedAt: new Date().toISOString(),
-    foreverSchemaVersion: 3,
+    foreverSchemaVersion: 4,
     accounts: accountList,
     reportsByAccount: updatedReportsByAccount,
     foreverReportsByAccount: updatedForeverByAccount,
@@ -568,8 +576,8 @@ export default {
       try {
         if (env.LOGS_KV) {
           let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
-          // Clear stale Classic reports cached under Forever if schema < 3
-          if (cached && cached.foreverSchemaVersion !== 3 && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+          // Refresh Forever logs when schema version bumps
+          if (cached && cached.foreverSchemaVersion !== 4 && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
             try {
               cached = await performRefresh(env, request.url);
             } catch (e) {}
