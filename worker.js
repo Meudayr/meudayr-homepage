@@ -599,14 +599,19 @@ export default {
             }
           `;
           const hosts = [
-            'https://www.warcraftlogs.com/api/v2/client',
-            'https://classic.warcraftlogs.com/api/v2/client',
-            'https://vanilla.warcraftlogs.com/api/v2/client',
-            'https://fresh.warcraftlogs.com/api/v2/client',
-            'https://sod.warcraftlogs.com/api/v2/client',
-            'https://forever.warcraftlogs.com/api/v2/client'
+            'https://forever.warcraftlogs.com/api/v2/client',
+            'https://forever.warcraftlogs.com/api/v2/user',
+            'https://forever.warcraftlogs.com/api/v2',
+            'https://wowforever.warcraftlogs.com/api/v2/client',
+            'https://plus.warcraftlogs.com/api/v2/client',
+            'https://classicplus.warcraftlogs.com/api/v2/client'
           ];
-          const results = {};
+          const fToken = await getAccessToken(env.WCL_CLIENT_ID, env.WCL_CLIENT_SECRET, env, WCL_FOREVER_TOKEN_URL, 'wcl_forever_token');
+          let jwtClaims = null;
+          try {
+            jwtClaims = JSON.parse(atob(fToken.split('.')[1]));
+          } catch (e) {}
+          const results = { jwtClaims: { aud: jwtClaims?.aud, iss: jwtClaims?.iss, scopes: jwtClaims?.scopes } };
           await Promise.all(hosts.map(async h => {
             try {
               const r = await fetch(h, {
