@@ -574,6 +574,65 @@ export default {
     // Route: GET /api/logs
     if (url.pathname === '/api/logs') {
       try {
+        if (url.searchParams.get('debug_forever') === '1' && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+          const token = await getAccessToken(env.WCL_CLIENT_ID, env.WCL_CLIENT_SECRET, env, WCL_MODERN_TOKEN_URL, 'wcl_token');
+          const probeQuery = `
+            query {
+              worldData {
+                expansions {
+                  id
+                  name
+                  zones { id name }
+                }
+              }
+              reportData {
+                reports(userID: 323892, limit: 10) {
+                  total
+                  data {
+                    code
+                    title
+                    startTime
+                    zone { id name expansion { id name } }
+                  }
+                }
+              }
+            }
+          `;
+          const hosts = [
+            'https://www.warcraftlogs.com/api/v2/client',
+            'https://classic.warcraftlogs.com/api/v2/client',
+            'https://vanilla.warcraftlogs.com/api/v2/client',
+            'https://fresh.warcraftlogs.com/api/v2/client',
+            'https://sod.warcraftlogs.com/api/v2/client',
+            'https://forever.warcraftlogs.com/api/v2/client'
+          ];
+          const results = {};
+          await Promise.all(hosts.map(async h => {
+            try {
+              const r = await fetch(h, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: probeQuery })
+              });
+              const txt = await r.text();
+              let parsed = null;
+              try { parsed = JSON.parse(txt); } catch (e) {}
+              results[h] = {
+                status: r.status,
+                expansions: parsed?.data?.worldData?.expansions?.map(e => ({ id: e.id, name: e.name, zonesCount: e.zones?.length, sampleZones: e.zones?.slice(0, 5) })),
+                totalReports: parsed?.data?.reportData?.reports?.total,
+                reports: parsed?.data?.reportData?.reports?.data,
+                errors: parsed?.errors,
+                rawSnippet: parsed ? undefined : txt.slice(0, 120)
+              };
+            } catch (err) {
+              results[h] = { error: err.message };
+            }
+          }));
+          return new Response(JSON.stringify(results, null, 2), {
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
         if (env.LOGS_KV) {
           let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
           // Refresh Forever logs when schema version bumps
