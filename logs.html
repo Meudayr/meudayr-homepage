@@ -45,6 +45,57 @@
       flex-wrap: wrap;
     }
 
+    .logs-mode-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 22px;
+      padding: 5px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+    }
+
+    .logs-mode-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .logs-mode-tab:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .logs-mode-tab[data-mode="forever"].active {
+      background: rgba(192, 157, 82, 0.14);
+      border-color: rgba(226, 186, 102, 0.5);
+      color: #e2ba66;
+    }
+
+    .logs-mode-tab[data-mode="modern"].active {
+      background: rgba(56, 142, 60, 0.15);
+      border-color: rgba(129, 199, 132, 0.45);
+      color: #81c784;
+    }
+
+    .logs-tab-count {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
     .last-updated {
       display: inline-flex;
       align-items: center;
@@ -819,7 +870,18 @@
       </div>
 
       <h1>WoW Logs</h1>
-      <p id="logs-subtitle">Recent combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs.</p>
+      <p id="logs-subtitle">Recent WoW Forever combat log reports from Meudayr. Click any log to view the full breakdown on WarcraftLogs Forever.</p>
+
+      <div class="logs-mode-tabs" role="tablist" aria-label="Game version logs">
+        <button type="button" class="logs-mode-tab active" role="tab" aria-selected="true" data-mode="forever" id="tab-forever-logs" onclick="selectLogMode('forever')">
+          <span>Forever</span>
+          <span class="logs-tab-count" id="tab-count-forever"></span>
+        </button>
+        <button type="button" class="logs-mode-tab" role="tab" aria-selected="false" data-mode="modern" id="tab-modern-logs" onclick="selectLogMode('modern')">
+          <span>Modern</span>
+          <span class="logs-tab-count" id="tab-count-modern"></span>
+        </button>
+      </div>
 
       <div class="logs-header-actions">
         <div class="last-updated" id="last-updated-text" style="display:none;">
@@ -906,10 +968,16 @@
     const PAGE_SIZE = 15;
     let accounts = [];
     let currentAccountId = 'meudayr';
+    let currentLogMode = 'forever';
     let reportsByAccount = {};
+    let foreverReportsByAccount = {};
     let allReports = [];
     let currentSearchQuery = '';
     let currentPage = 1;
+
+    function getActiveReportsMap() {
+      return currentLogMode === 'forever' ? foreverReportsByAccount : reportsByAccount;
+    }
 
     function escapeHtml(str) {
       if (!str) return '';
@@ -1141,7 +1209,8 @@
 
       const card = document.createElement('a');
       card.className = 'log-card' + (isFirst ? ' latest' : '');
-      card.href = `https://www.warcraftlogs.com/reports/${report.code}`;
+      const fallbackBase = currentLogMode === 'forever' ? 'https://forever.warcraftlogs.com/reports' : 'https://www.warcraftlogs.com/reports';
+      card.href = report.url || `${fallbackBase}/${report.code}`;
       card.target = '_blank';
       card.rel = 'noopener noreferrer';
       card.innerHTML = `
@@ -1184,17 +1253,27 @@
       }
 
       if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="no-results-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              <line x1="8" y1="11" x2="14" y2="11"></line>
-            </svg>
-            <div class="no-results-title">No Matching Logs</div>
-            <p class="no-results-text">No combat reports matched your search query. Try searching by title, date, dungeon, or player name.</p>
-            <button class="clear-search-link" onclick="clearSearch()">Clear Search</button>
-          </div>`;
+        if (!currentSearchQuery.trim()) {
+          const modeLabel = currentLogMode === 'forever' ? 'Forever' : 'Modern';
+          container.innerHTML = `
+            <div class="no-results-state">
+              <div class="no-results-title">No ${modeLabel} Logs Found</div>
+              <p class="no-results-text">No ${modeLabel} combat reports are cached for this player yet. Click Refresh Logs to fetch the latest reports from WarcraftLogs.</p>
+              <button class="clear-search-link" onclick="manualRefreshLogs()">Refresh Logs</button>
+            </div>`;
+        } else {
+          container.innerHTML = `
+            <div class="no-results-state">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              <div class="no-results-title">No Matching Logs</div>
+              <p class="no-results-text">No combat reports matched your search query. Try searching by title, date, dungeon, or player name.</p>
+              <button class="clear-search-link" onclick="clearSearch()">Clear Search</button>
+            </div>`;
+        }
         paginationEl.style.display = 'none';
         return;
       }
@@ -1248,8 +1327,58 @@
       const acc = accounts.find(a => a.id === currentAccountId) || { name: 'Meudayr' };
       const sub = document.getElementById('logs-subtitle');
       if (sub) {
-        sub.textContent = `Recent combat log reports from ${acc.name}. Click any log to view the full breakdown on WarcraftLogs.`;
+        if (currentLogMode === 'forever') {
+          sub.textContent = `Recent WoW Forever combat log reports from ${acc.name}. Click any log to view the full breakdown on WarcraftLogs Forever.`;
+        } else {
+          sub.textContent = `Recent Modern WoW combat log reports from ${acc.name}. Click any log to view the full breakdown on WarcraftLogs.`;
+        }
       }
+    }
+
+    function updateModeTabs() {
+      const foreverTab = document.getElementById('tab-forever-logs');
+      const modernTab = document.getElementById('tab-modern-logs');
+      const foreverCount = (foreverReportsByAccount[currentAccountId] || []).length;
+      const modernCount = (reportsByAccount[currentAccountId] || []).length;
+
+      const foreverCountEl = document.getElementById('tab-count-forever');
+      const modernCountEl = document.getElementById('tab-count-modern');
+      if (foreverCountEl) foreverCountEl.textContent = `(${foreverCount})`;
+      if (modernCountEl) modernCountEl.textContent = `(${modernCount})`;
+
+      if (foreverTab) {
+        const isForever = currentLogMode === 'forever';
+        foreverTab.classList.toggle('active', isForever);
+        foreverTab.setAttribute('aria-selected', isForever ? 'true' : 'false');
+      }
+      if (modernTab) {
+        const isModern = currentLogMode === 'modern';
+        modernTab.classList.toggle('active', isModern);
+        modernTab.setAttribute('aria-selected', isModern ? 'true' : 'false');
+      }
+    }
+
+    function selectLogMode(mode) {
+      if (mode !== 'forever' && mode !== 'modern') return;
+      if (mode === currentLogMode) return;
+      currentLogMode = mode;
+
+      const url = new URL(window.location);
+      url.searchParams.set('mode', mode);
+      window.history.replaceState({}, '', url);
+
+      allReports = getActiveReportsMap()[currentAccountId] || [];
+      updateModeTabs();
+      updateHeaderSubtitle();
+
+      const searchInput = document.getElementById('logs-search-input');
+      if (searchInput) searchInput.value = '';
+      currentSearchQuery = '';
+      const clearBtn = document.getElementById('logs-search-clear');
+      if (clearBtn) clearBtn.style.display = 'none';
+
+      currentPage = 1;
+      renderPage(1);
     }
 
     function toggleAccountDropdown(e) {
@@ -1331,7 +1460,8 @@
       url.searchParams.set('user', accId);
       window.history.replaceState({}, '', url);
 
-      allReports = reportsByAccount[currentAccountId] || [];
+      allReports = getActiveReportsMap()[currentAccountId] || [];
+      updateModeTabs();
       updateHeaderSubtitle();
       renderAccountSwitcher();
 
@@ -1351,9 +1481,11 @@
       if (Array.isArray(data.accounts) && data.reportsByAccount) {
         accounts = data.accounts;
         reportsByAccount = data.reportsByAccount;
+        foreverReportsByAccount = data.foreverReportsByAccount || {};
       } else {
         accounts = [{ id: 'meudayr', name: data.character || 'Meudayr', userId: 323892, default: true }];
         reportsByAccount = { meudayr: data.reports || [] };
+        foreverReportsByAccount = { meudayr: data.foreverReports || [] };
       }
 
       // Sanitize out specifically purged historical test logs
@@ -1361,14 +1493,20 @@
       function isTestLog(r) {
         return r && PURGED_LOG_CODES.has(r.code);
       }
-      if (reportsByAccount) {
-        for (const accId of Object.keys(reportsByAccount)) {
-          reportsByAccount[accId] = reportsByAccount[accId].filter(r => !isTestLog(r));
+      const sanitizeMap = (mapObj) => {
+        if (!mapObj) return;
+        for (const accId of Object.keys(mapObj)) {
+          mapObj[accId] = mapObj[accId].filter(r => !isTestLog(r));
         }
-      }
+      };
+      sanitizeMap(reportsByAccount);
+      sanitizeMap(foreverReportsByAccount);
 
-      // Determine active account from URL or storage
+      // Determine active mode (defaults to 'forever') and account from URL or storage
       const urlParams = new URLSearchParams(window.location.search);
+      const requestedMode = (urlParams.get('mode') || urlParams.get('game') || '').toLowerCase();
+      currentLogMode = requestedMode === 'modern' ? 'modern' : 'forever';
+
       const requestedUser = urlParams.get('user') || urlParams.get('player') || localStorage.getItem('selected_log_account');
       const validAcc = accounts.find(a => a.id.toLowerCase() === (requestedUser || '').toLowerCase() || a.name.toLowerCase() === (requestedUser || '').toLowerCase());
 
@@ -1379,7 +1517,7 @@
         currentAccountId = def ? def.id : 'meudayr';
       }
 
-      allReports = reportsByAccount[currentAccountId] || [];
+      allReports = getActiveReportsMap()[currentAccountId] || [];
 
       // Show last updated timestamp
       if (data.fetchedAt) {
@@ -1389,6 +1527,7 @@
       }
 
       renderAccountSwitcher();
+      updateModeTabs();
       updateHeaderSubtitle();
       currentPage = 1;
       renderPage(1);

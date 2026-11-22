@@ -10,6 +10,10 @@ const ACCOUNTS = [
 
 const REPORTS_PER_PAGE = 25;
 const MAX_PAGES_ON_REFRESH = 2; // Up to 50 reports per account (fast, ~1.5s total, well under API rate limits)
+const WCL_MODERN_API = 'https://www.warcraftlogs.com/api/v2/client';
+const WCL_FOREVER_API = 'https://forever.warcraftlogs.com/api/v2/client';
+const WCL_MODERN_REPORT_BASE = 'https://www.warcraftlogs.com/reports';
+const WCL_FOREVER_REPORT_BASE = 'https://forever.warcraftlogs.com/reports';
 
 const diffMap = {
   1: 'LFR',
@@ -127,7 +131,7 @@ async function getAccessToken(clientId, clientSecret, env) {
   return token;
 }
 
-async function fetchReportsPage(token, userId, page) {
+async function fetchReportsPage(token, userId, page, apiUrl = WCL_MODERN_API) {
   const query = `
     query {
       reportData {
@@ -164,7 +168,7 @@ async function fetchReportsPage(token, userId, page) {
     }
   `;
 
-  const res = await fetch('https://www.warcraftlogs.com/api/v2/client', {
+  const res = await fetch(apiUrl, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -186,7 +190,7 @@ async function fetchReportsPage(token, userId, page) {
   return json.data?.reportData?.reports ?? { data: [], has_more_pages: false, total: 0 };
 }
 
-function processRawReports(rawReports) {
+function processRawReports(rawReports, reportBaseUrl = WCL_MODERN_REPORT_BASE) {
   return rawReports.map(r => {
     const dungeonSet = new Set();
     const bossSet = new Set();
@@ -238,6 +242,7 @@ function processRawReports(rawReports) {
 
     return {
       code: r.code,
+      url: `${reportBaseUrl}/${r.code}`,
       title: r.title,
       startTime: r.startTime,
       endTime: r.endTime,
@@ -252,14 +257,14 @@ function processRawReports(rawReports) {
   });
 }
 
-async function fetchAccountRecentReports(token, account) {
+async function fetchAccountRecentReports(token, account, apiUrl = WCL_MODERN_API, reportBaseUrl = WCL_MODERN_REPORT_BASE) {
   let allRecent = [];
   let page = 1;
   let hasMore = true;
 
   while (hasMore && page <= MAX_PAGES_ON_REFRESH) {
-    const result = await fetchReportsPage(token, account.userId, page);
-    const processed = processRawReports(result.data ?? []);
+    const result = await fetchReportsPage(token, account.userId, page, apiUrl);
+    const processed = processRawReports(result.data ?? [], reportBaseUrl);
     allRecent = allRecent.concat(processed);
     hasMore = result.has_more_pages === true;
     page++;
@@ -293,41 +298,58 @@ async function performRefresh(env, requestUrl = null) {
   }
 
   const existingReportsByAccount = existingData?.reportsByAccount || {};
+  const existingForeverByAccount = existingData?.foreverReportsByAccount || {};
 
-  // 3. Fetch all accounts in parallel with safety
-  const accountResults = await Promise.all(
-    ACCOUNTS.map(async acc => {
-      try {
-        const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc);
-        return { id: acc.id, freshReports: reports, hasMorePages, error: null };
-      } catch (err) {
-        return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
-      }
-    })
-  );
+  // 3. Fetch Modern and Forever accounts in parallel
+  const [accountResults, foreverResults] = await Promise.all([
+    Promise.all(
+      ACCOUNTS.map(async acc => {
+        try {
+          const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc, WCL_MODERN_API, WCL_MODERN_REPORT_BASE);
+          return { id: acc.id, freshReports: reports, hasMorePages, error: null };
+        } catch (err) {
+          return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
+        }
+      })
+    ),
+    Promise.all(
+      ACCOUNTS.map(async acc => {
+        try {
+          const { reports, hasMorePages } = await fetchAccountRecentReports(token, acc, WCL_FOREVER_API, WCL_FOREVER_REPORT_BASE);
+          return { id: acc.id, freshReports: reports, hasMorePages, error: null };
+        } catch (err) {
+          return { id: acc.id, freshReports: [], hasMorePages: false, error: err.message };
+        }
+      })
+    )
+  ]);
 
-  // If WarcraftLogs threw an error for the primary account (e.g. rate limit), throw error
+  // If WarcraftLogs threw an error for the primary Modern account when Forever also failed, surface it
   const meudayrResult = accountResults.find(r => r.id === 'meudayr');
-  if (meudayrResult && meudayrResult.error) {
+  const meudayrForeverResult = foreverResults.find(r => r.id === 'meudayr');
+  if (meudayrResult?.error && meudayrForeverResult?.error) {
     throw new Error(`WarcraftLogs fetch failed: ${meudayrResult.error}`);
   }
 
   // 4. Reconcile logs with smart sliding window
   const updatedReportsByAccount = {};
+  const updatedForeverByAccount = {};
   const accountList = [];
 
   for (const acc of ACCOUNTS) {
     const incoming = accountResults.find(r => r.id === acc.id);
     const existingList = existingReportsByAccount[acc.id] || [];
-
-    let reportList;
-    if (incoming && incoming.error === null && incoming.freshReports) {
-      reportList = reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages);
-    } else {
-      reportList = filterCleanReports(existingList);
-    }
-
+    const reportList = (incoming && incoming.error === null && incoming.freshReports)
+      ? reconcileReports(existingList, incoming.freshReports, incoming.hasMorePages)
+      : filterCleanReports(existingList);
     updatedReportsByAccount[acc.id] = reportList;
+
+    const incomingForever = foreverResults.find(r => r.id === acc.id);
+    const existingForeverList = existingForeverByAccount[acc.id] || [];
+    const foreverList = (incomingForever && incomingForever.error === null && incomingForever.freshReports)
+      ? reconcileReports(existingForeverList, incomingForever.freshReports, incomingForever.hasMorePages)
+      : filterCleanReports(existingForeverList);
+    updatedForeverByAccount[acc.id] = foreverList;
 
     accountList.push({
       id: acc.id,
@@ -335,6 +357,7 @@ async function performRefresh(env, requestUrl = null) {
       userId: acc.userId,
       server: acc.server,
       reportsCount: reportList.length,
+      foreverReportsCount: foreverList.length,
       default: !!acc.default
     });
   }
@@ -345,9 +368,11 @@ async function performRefresh(env, requestUrl = null) {
     fetchedAt: new Date().toISOString(),
     accounts: accountList,
     reportsByAccount: updatedReportsByAccount,
+    foreverReportsByAccount: updatedForeverByAccount,
     character: defaultAcc.name,
     server: defaultAcc.server,
-    reports: updatedReportsByAccount[defaultAcc.id] || []
+    reports: updatedReportsByAccount[defaultAcc.id] || [],
+    foreverReports: updatedForeverByAccount[defaultAcc.id] || []
   };
 
   // 5. Store into Cloudflare KV if bound
@@ -359,6 +384,8 @@ async function performRefresh(env, requestUrl = null) {
 }
 
 function filterLogsResponse(data, url) {
+  const modeParam = (url.searchParams.get('mode') || url.searchParams.get('game') || '').toLowerCase();
+  const isForever = modeParam === 'forever';
   const latestParam = url.searchParams.get('latest');
   const limitParam = url.searchParams.get('limit');
   const accountParam = url.searchParams.get('account');
@@ -367,21 +394,25 @@ function filterLogsResponse(data, url) {
   const difficultyParam = url.searchParams.get('difficulty');
   const searchParam = url.searchParams.get('search') || url.searchParams.get('q');
 
-  const hasFilter = latestParam || limitParam || accountParam || playerParam || classParam || difficultyParam || searchParam;
+  const hasFilter = modeParam || latestParam || limitParam || accountParam || playerParam || classParam || difficultyParam || searchParam;
 
   if (!hasFilter) {
     return data;
   }
 
+  const byAccount = isForever ? data.foreverReportsByAccount : data.reportsByAccount;
+  const fallbackList = isForever ? data.foreverReports : data.reports;
+  const defaultReportBase = isForever ? WCL_FOREVER_REPORT_BASE : WCL_MODERN_REPORT_BASE;
+
   let reports = [];
-  if (accountParam && data.reportsByAccount && data.reportsByAccount[accountParam.toLowerCase()]) {
-    reports = [...data.reportsByAccount[accountParam.toLowerCase()]];
-  } else if (Array.isArray(data.reports)) {
-    reports = [...data.reports];
+  if (accountParam && byAccount && byAccount[accountParam.toLowerCase()]) {
+    reports = [...byAccount[accountParam.toLowerCase()]];
+  } else if (Array.isArray(fallbackList)) {
+    reports = [...fallbackList];
   }
 
   // Ensure each report has the direct warcraftlogs URL
-  reports = reports.map(r => r.url ? r : { ...r, url: `https://www.warcraftlogs.com/reports/${r.code}` });
+  reports = reports.map(r => r.url ? r : { ...r, url: `${defaultReportBase}/${r.code}` });
 
   if (playerParam) {
     const q = playerParam.toLowerCase();
@@ -531,31 +562,40 @@ export default {
     if (url.pathname === '/api/logs') {
       try {
         if (env.LOGS_KV) {
-          const cached = await env.LOGS_KV.get('warcraft_logs', 'json');
-          if (cached && (cached.reportsByAccount || (Array.isArray(cached.reports) && cached.reports.length > 0))) {
+          let cached = await env.LOGS_KV.get('warcraft_logs', 'json');
+          // Backfill Forever logs automatically once if KV predates Forever support
+          if (cached && !cached.foreverReportsByAccount && env.WCL_CLIENT_ID && env.WCL_CLIENT_SECRET) {
+            try {
+              cached = await performRefresh(env, request.url);
+            } catch (e) {}
+          }
+          if (cached && (cached.reportsByAccount || cached.foreverReportsByAccount || (Array.isArray(cached.reports) && cached.reports.length > 0))) {
             // Sanitize cached KV: immediately strip any private / test logs
             let sanitized = false;
-            if (cached.reportsByAccount) {
-              for (const accId of Object.keys(cached.reportsByAccount)) {
-                const beforeCount = cached.reportsByAccount[accId].length;
-                cached.reportsByAccount[accId] = filterCleanReports(cached.reportsByAccount[accId]);
-                if (cached.reportsByAccount[accId].length !== beforeCount) {
-                  sanitized = true;
-                }
+            const sanitizeMap = (mapObj) => {
+              if (!mapObj) return;
+              for (const accId of Object.keys(mapObj)) {
+                const beforeCount = mapObj[accId].length;
+                mapObj[accId] = filterCleanReports(mapObj[accId]);
+                if (mapObj[accId].length !== beforeCount) sanitized = true;
               }
-            }
+            };
+            sanitizeMap(cached.reportsByAccount);
+            sanitizeMap(cached.foreverReportsByAccount);
             if (Array.isArray(cached.reports)) {
               const beforeCount = cached.reports.length;
               cached.reports = filterCleanReports(cached.reports);
-              if (cached.reports.length !== beforeCount) {
-                sanitized = true;
-              }
+              if (cached.reports.length !== beforeCount) sanitized = true;
             }
-            if (Array.isArray(cached.accounts) && cached.reportsByAccount) {
+            if (Array.isArray(cached.foreverReports)) {
+              const beforeCount = cached.foreverReports.length;
+              cached.foreverReports = filterCleanReports(cached.foreverReports);
+              if (cached.foreverReports.length !== beforeCount) sanitized = true;
+            }
+            if (Array.isArray(cached.accounts)) {
               for (const acc of cached.accounts) {
-                if (cached.reportsByAccount[acc.id]) {
-                  acc.reportsCount = cached.reportsByAccount[acc.id].length;
-                }
+                if (cached.reportsByAccount?.[acc.id]) acc.reportsCount = cached.reportsByAccount[acc.id].length;
+                if (cached.foreverReportsByAccount?.[acc.id]) acc.foreverReportsCount = cached.foreverReportsByAccount[acc.id].length;
               }
             }
             if (sanitized && env.LOGS_KV) {
