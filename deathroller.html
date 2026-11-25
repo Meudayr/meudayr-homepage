@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Gup's Deathroller - WoW Forever Addon Guide | Meudayr</title>
-  <meta name="description" content="Download and usage guide for Doctor Gup's Deathroller (Project ID 1803451) for World of Warcraft: Forever. Verified rolls, dice reveal, stats, and trade debt tracking.">
+  <meta name="description" content="Download and usage guide for Doctor Gup's Deathroller (Project ID 1803451) for World of Warcraft: Forever. 1v1 duels, Free For All lobbies, live spectating, verified rolls, dice reveal, and trade debt tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1272,7 +1272,7 @@
               <span>Author: Cileb</span>
               <span>Project ID: 1803451</span>
             </p>
-            <p class="dr-summary" id="desc-deathroller">Still typing <code class="cmd">/roll</code> in say chat like a lost little gup? Target a player, type <code class="cmd">/dr</code>, name your stakes, and roll down from 100. Whoever hits 1 forks over the gold. Try to keep up.</p>
+            <p class="dr-summary" id="desc-deathroller">Still typing <code class="cmd">/roll</code> in say chat like a lost little gup? Target a player, type <code class="cmd">/dr</code>, name your stakes, and roll down from 100. Run a Free For All lobby with <code class="cmd">/dr ffa</code>, or sweat somebody else's gold from across Azeroth with <code class="cmd">/dr watch</code>. Whoever hits 1 forks over the gold. Try to keep up.</p>
             <div class="dr-stats-row">
               <div class="stat-item">
                 <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
@@ -1280,11 +1280,11 @@
               </div>
               <div class="stat-item">
                 <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                <span><span id="val-version-deathroller">v1.2.0-forever</span></span>
+                <span><span id="val-version-deathroller">v1.5.1</span></span>
               </div>
               <div class="stat-item">
                 <svg aria-hidden="true" style="width: 15px; height: 15px;" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-                <span><span id="val-updated-deathroller">Updated Nov 14, 2026</span></span>
+                <span><span id="val-updated-deathroller">Updated Nov 18, 2026</span></span>
               </div>
             </div>
           </div>
@@ -1307,6 +1307,7 @@
         <a href="#install-heading" class="dr-jump-link">Install</a>
         <a href="#why-heading" class="dr-jump-link">Why Doctor Gup's?</a>
         <a href="#howto-heading" class="dr-jump-link">How to Play</a>
+        <a href="#modes-heading" class="dr-jump-link">FFA &amp; Spectating</a>
         <a href="#features-heading" class="dr-jump-link">Features</a>
         <a href="#commands-heading" class="dr-jump-link">Commands</a>
         <a href="#notes-heading" class="dr-jump-link">Good to Know</a>
@@ -1316,7 +1317,7 @@
       <section class="dr-section" aria-labelledby="install-heading">
         <div class="dr-section-header">
           <h2 id="install-heading">How to Download &amp; Install</h2>
-          <p>Built for World of Warcraft: Forever (interface 1.60.1). Yes, both of you have to install it, even your friend who still clicks their spells.</p>
+          <p>Built for World of Warcraft: Forever (interface 1.60.1). Install it on both ends for the challenge popup, coin flip, and synced dice reveal, or farm the add-onless gups right in chat.</p>
         </div>
 
         <div class="dr-cf-spotlight" id="dr-cf-spotlight">
@@ -1522,12 +1523,12 @@
           <div class="dr-walk-panel">
             <div class="dr-walk-step" data-step-panel="0">
               <h3>1. Challenge a player</h3>
-              <p>Target a player and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If targeting a moving character is too mechanical for you, use <code class="cmd">/dr challenge First Last</code>.</p>
+              <p>Target a player and type <code class="cmd">/dr</code> (or <code class="cmd">/gup</code>). If targeting a moving character is too mechanical for you, use <code class="cmd">/dr challenge First Last</code>. Want to farm any brave gup nearby without picking a target? Type <code class="cmd">/dr open [gold]</code> and the first player to type <code class="cmd">/roll 100</code> within 60 seconds takes the bait.</p>
               <p style="margin-top: 10px;">Grouped up in a party or raid? You can challenge from anywhere in Azeroth. Flying solo? Stand close enough to see each other's rolls.</p>
             </div>
             <div class="dr-walk-step" data-step-panel="1" hidden>
               <h3>2. Pick your wager</h3>
-              <p>Type an amount or mash a quick pick (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> if you're broke. Before sending, the add-on checks that your opponent actually has Doctor Gup's Deathroller and a compatible version.</p>
+              <p>Type an amount or mash a quick pick (<code class="cmd">10</code>, <code class="cmd">50</code>, <code class="cmd">100</code>, <code class="cmd">500</code>, <code class="cmd">1,000</code>), or leave it at <code class="cmd">0</code> if you're broke. Before sending, the add-on checks if your opponent has Doctor Gup's Deathroller. If that gup hasn't installed it yet, the button switches to <strong>Challenge in chat</strong> so they can still play by typing <code class="cmd">/roll 100</code>.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
                   <button type="button" class="dr-shot-btn" data-full="assets/deathroller/wager-challenge.jpg" data-caption="New deathroll window with quick picks and version check">
@@ -1539,7 +1540,7 @@
             </div>
             <div class="dr-walk-step" data-step-panel="2" hidden>
               <h3>3. Opponent accepts</h3>
-              <p>They accept from a popup showing the pot, your head-to-head record against each other, and a countdown, giving a little gup plenty of time to rethink their life choices.</p>
+              <p>Add-on players accept from a popup showing the pot, your head-to-head record, and a 60-second countdown, then a 50/50 coin flip picks who rolls first. Chat-challenged gups skip the coin flip and accept by typing <code class="cmd">/roll 100</code> as their opening roll.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
                   <button type="button" class="dr-shot-btn" data-full="assets/deathroller/challenge-waiting.jpg" data-caption="Active challenge waiting for opponent acceptance with 60s countdown">
@@ -1551,7 +1552,7 @@
             </div>
             <div class="dr-walk-step" data-step-panel="3" hidden>
               <h3>4. Take turns rolling</h3>
-              <p>Take turns typing <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled. The first roll is <code class="cmd">/roll 100</code>. Don't improvise.</p>
+              <p>Take turns typing <code class="cmd">/roll N</code> in the window's roll box, where <code class="cmd">N</code> is the last number rolled. The first roll is <code class="cmd">/roll 100</code>. Don't improvise. If an add-onless gup panics and goes quiet for 2 minutes, you can end the game with no result.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
                   <button type="button" class="dr-shot-btn" data-full="assets/deathroller/turn-roll.jpg" data-caption="Your turn: roll box pre-filled with /roll 100 and Chance to Win bar">
@@ -1569,8 +1570,8 @@
             </div>
             <div class="dr-walk-step" data-step-panel="4" hidden>
               <h3>5. Roll a 1 and settle up</h3>
-              <p>Roll a <code class="cmd">1</code> and you lose, gup. The result screen shows who owes whom, any milestones, and buttons to rematch, double or nothing, or announce the beatdown.</p>
-              <p style="margin-top: 10px;"><strong>Trade Window Reminder:</strong> Open a trade with someone you owe (or who owes you) and a banner automatically reminds you of the exact debt, tracks gold going in, warns if it's short, gives you a one-click <strong>Put in</strong> button when paying, and clears the debt when the trade completes.</p>
+              <p>Roll a <code class="cmd">1</code> and you lose, gup. The result screen shows who owes whom, any milestones, and buttons to rematch, go double or nothing, or announce the beatdown to Emote, Party, or Guild.</p>
+              <p style="margin-top: 10px;">Open a trade with someone you owe (or who owes you) and a banner above the trade window tells you the exact gold to type into the trade box, tracks the gold going in live, warns if it's short, and clears the debt when the trade completes.</p>
               <div class="dr-step-media">
                 <figure class="dr-shot-card">
                   <button type="button" class="dr-shot-btn" data-full="assets/deathroller/victory-result.jpg" data-caption="Victory screen showing owed gold, head-to-head score, milestones, and Rematch / Double or nothing">
@@ -1591,6 +1592,39 @@
         </div>
       </section>
 
+      <!-- Free For All & Live Spectating -->
+      <section class="dr-section" aria-labelledby="modes-heading">
+        <div class="dr-section-header">
+          <div class="dr-section-title-row">
+            <svg class="dr-pirate-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <h2 id="modes-heading">Free For All &amp; Live Spectating</h2>
+          </div>
+          <p>Clean out a whole tavern at once, or sweat someone else's gold from across the map.</p>
+        </div>
+        <div class="dr-grid-2">
+          <div class="dr-card">
+            <h3>Free For All (<code class="cmd">/dr ffa</code>)</h3>
+            <p>One host, any number of degens, and nobody else in the pile even needs the add-on installed.</p>
+            <ul class="dr-sublist">
+              <li>Run <code class="cmd">/dr ffa [roll]</code> (like <code class="cmd">/dr ffa 150</code>) or click <strong>Free For All</strong> in your stats window. Your character emotes the lobby, and anyone nearby types <code class="cmd">1</code> in chat to jump in (<code class="cmd">-1</code> to bail out).</li>
+              <li>Click <strong>Start rolling</strong> (or let the 60-second timer finish) to call everyone in by name to <code class="cmd">/roll N</code>. Each player's first roll in range counts, and you can click <strong>Close rolls</strong> early if a slow gup wanders off. The lowest roller pays the highest roller the difference: roll <code class="cmd">120</code> at the top and <code class="cmd">10</code> at the bottom, and the bottom gup owes the winner <code class="cmd">110g</code>.</li>
+              <li>Ties for highest or lowest force just the tied players to re-roll <code class="cmd">/roll N</code> to settle who wins or pays, while the gold owed still uses the original rolls. If the whole lobby rolls the same number, nobody owes a copper.</li>
+              <li>Anyone in the lobby running the add-on gets hidden whispers when they join, a ready-check alert when rolls open, and automatic stats, history (tagged <code class="cmd">free for all</code>), and debt tracking when they win or pay. If some sneaky jonboy hosts a forged result that doesn't match the roll you made, your add-on throws it out.</li>
+            </ul>
+          </div>
+          <div class="dr-card">
+            <h3>Live Spectating (<code class="cmd">/dr watch</code>)</h3>
+            <p>Watch any 1v1 duel or Free For All live from anywhere in Azeroth without spoiling the rolls.</p>
+            <ul class="dr-sublist">
+              <li>Target a player and type <code class="cmd">/dr watch</code> (or <code class="cmd">/dr watch First Last</code>), or open the <strong>Live</strong> tab in <code class="cmd">/dr stats</code> to see every game running in your guild or group and click one to tune in.</li>
+              <li>1v1 spectators get a read-only game window with both players, the pot, the live Chance to Win bar, close-call alarms, the roll ladder, and the spinning dice reveal. System roll lines stay out of your chat until the dice land, and joining mid-game catches you up on the rolls so far. Free For All spectators watch players join, rolls drop live, tie-breaks play out, and who owes whom.</li>
+              <li>Up to 10 spectators can watch a game. Watching is silent, records nothing to your own stats or debts, and stops the moment you close the window.</li>
+              <li>Players in a match see <code class="cmd">2 watching</code> in their window header with spectator names on mouseover, so you always know which nosey jonboy is sweating your pot. Uncheck <strong>Let others watch your games</strong> in Options to lock the doors and hide from the Live list.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <!-- Features -->
       <section class="dr-section" aria-labelledby="features-heading">
         <div class="dr-section-header">
@@ -1603,11 +1637,12 @@
         <div class="dr-features-layout">
           <div class="dr-card dr-card--featured">
             <h3>Stats Window (<code class="cmd">/dr stats</code>)</h3>
-            <p>Switch between the three ledger tabs just like inside the add-on:</p>
+            <p>Switch between the four ledger tabs just like inside the add-on, or launch an <strong>Open challenge</strong> or <strong>Free For All</strong> straight from the bottom bar:</p>
             <div class="dr-stats-tabs" role="tablist" aria-label="Stats window tabs">
               <button type="button" class="dr-stats-tab" role="tab" aria-selected="true" data-stats-tab="overview">Overview</button>
               <button type="button" class="dr-stats-tab" role="tab" aria-selected="false" data-stats-tab="history">History</button>
               <button type="button" class="dr-stats-tab" role="tab" aria-selected="false" data-stats-tab="debts">Debts</button>
+              <button type="button" class="dr-stats-tab" role="tab" aria-selected="false" data-stats-tab="live">Live</button>
             </div>
             <div class="dr-stats-panel" data-stats-panel="overview">
               <p><strong>Overview:</strong> Your win/loss record, net gold, streaks, biggest win, and every opponent you've farmed (or fed).</p>
@@ -1618,7 +1653,7 @@
               </figure>
             </div>
             <div class="dr-stats-panel" data-stats-panel="history" hidden>
-              <p><strong>History:</strong> Your last 1,000 games, searchable and filterable by opponent, wins or losses, and time period. Hover any row to inspect every roll.</p>
+              <p><strong>History:</strong> Your last 1,000 games (including matches tagged <code class="cmd">free for all</code>, <code class="cmd">no add-on</code>, or <code class="cmd">forfeit</code>), searchable and filterable by opponent, wins or losses, and time period. Hover any row to inspect the rolls.</p>
               <figure class="dr-shot-card">
                 <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-history.jpg" data-caption="Stats History: searchable 1,000-game log with time and result filters">
                   <img src="assets/deathroller/stats-history.jpg" alt="Deathroller Stats History tab with opponent search and All/Wins/Losses filters" loading="lazy">
@@ -1626,22 +1661,25 @@
               </figure>
             </div>
             <div class="dr-stats-panel" data-stats-panel="debts" hidden>
-              <p><strong>Debts:</strong> Who owes you and who you owe, with <strong>Mark paid</strong> and <strong>Forgive</strong> (for when a lil gup begs hard enough).</p>
+              <p><strong>Debts:</strong> Who owes you and who you owe across 1v1s and Free For Alls, with <strong>Mark paid</strong> and <strong>Forgive</strong> (for when a lil gup begs hard enough).</p>
               <figure class="dr-shot-card">
                 <button type="button" class="dr-shot-btn" data-full="assets/deathroller/stats-debts.jpg" data-caption="Stats Debts: unpaid deathrolls ledger with Mark paid and Forgive">
                   <img src="assets/deathroller/stats-debts.jpg" alt="Deathroller Stats Debts tab showing owed to you, you owe, Mark paid, and Forgive" loading="lazy">
                 </button>
               </figure>
             </div>
+            <div class="dr-stats-panel" data-stats-panel="live" hidden>
+              <p><strong>Live:</strong> Active 1v1 duels and Free For All lobbies happening right now in your guild or group, complete with stakes and roll ranges. Click any row to watch live from anywhere in the world.</p>
+            </div>
           </div>
           <div class="dr-utility-list">
             <div class="dr-utility-row">
-              <h3>Announcements (Optional)</h3>
-              <p>Your character can emote challenges, results, and milestones such as win streaks and your biggest pot to nearby players. Nothing goes to <code class="cmd">/say</code>, party, or guild chat.</p>
+              <h3>Announcements &amp; Enter Prompt</h3>
+              <p>The result screen's <strong>Announce</strong> button has an arrow menu to flex your win (and milestones like streaks or your biggest pot) to <strong>Emote</strong> (people nearby), <strong>Party</strong> (or Raid), or <strong>Guild</strong>. Since WoW Forever 1.60.1 requires a key press after a mouse click to post in chat, clicking an announcement dims the window and shows a brass confirmation box with a colored preview: press <strong>Enter</strong> to post or <strong>Esc</strong> to skip.</p>
             </div>
             <div class="dr-utility-row">
               <h3>Options</h3>
-              <p>Auto-focus the roll box, pre-fill <code class="cmd">/roll</code>, sounds, window size, and more, in its own window or under <strong>Options &gt; AddOns</strong>.</p>
+              <p>Auto-focus the roll box, pre-fill <code class="cmd">/roll</code>, pick where result announcements go, toggle <strong>Let others watch your games</strong>, and adjust close-call effects, sounds, and window size in its own window or under <strong>Options &gt; AddOns</strong>.</p>
             </div>
             <div class="dr-utility-row">
               <h3>Minimap Button</h3>
@@ -1671,7 +1709,19 @@
               </tr>
               <tr>
                 <td><span class="dr-cmd-wrap"><code class="cmd">/dr challenge First Last</code> <button type="button" class="dr-copy-btn" data-copy="/dr challenge ">Copy</button></span></td>
-                <td>Challenge someone you can't manage to click on.</td>
+                <td>Challenge someone you can't manage to click on (add-on or not).</td>
+              </tr>
+              <tr>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr ffa [roll]</code> <button type="button" class="dr-copy-btn" data-copy="/dr ffa 150">Copy</button></span></td>
+                <td>Start a Free For All lobby (anyone types <code class="cmd">1</code> to join, everyone rolls, lowest pays highest the difference).</td>
+              </tr>
+              <tr>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr watch [First Last]</code> <button type="button" class="dr-copy-btn" data-copy="/dr watch">Copy</button></span></td>
+                <td>Watch your target's (or that player's) live 1v1 or Free For All from anywhere. Close the window or type <code class="cmd">/dr unwatch</code> to stop.</td>
+              </tr>
+              <tr>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr open [gold]</code> <button type="button" class="dr-copy-btn" data-copy="/dr open ">Copy</button></span></td>
+                <td>Post an open 1v1 challenge. The first player nearby to type <code class="cmd">/roll 100</code> takes it on (no add-on needed).</td>
               </tr>
               <tr>
                 <td><span class="dr-cmd-wrap"><code class="cmd">/roll N</code> <button type="button" class="dr-copy-btn" data-copy="/roll 100">Copy</button></span></td>
@@ -1679,11 +1729,15 @@
               </tr>
               <tr>
                 <td><span class="dr-cmd-wrap"><code class="cmd">/dr forfeit</code> <button type="button" class="dr-copy-btn" data-copy="/dr forfeit">Copy</button></span></td>
-                <td>Wave the white flag, or cancel a pending challenge.</td>
+                <td>Wave the white flag, or cancel a pending challenge or Free For All.</td>
+              </tr>
+              <tr>
+                <td><span class="dr-cmd-wrap"><code class="cmd">/dr show</code> <button type="button" class="dr-copy-btn" data-copy="/dr show">Copy</button></span></td>
+                <td>Reopen your active game window if you closed it mid-sweat.</td>
               </tr>
               <tr>
                 <td><span class="dr-cmd-wrap"><code class="cmd">/dr stats</code> <button type="button" class="dr-copy-btn" data-copy="/dr stats">Copy</button></span></td>
-                <td>Open or close your ledger.</td>
+                <td>Open or close your ledger (Overview, History, Debts, and Live games).</td>
               </tr>
               <tr>
                 <td><span class="dr-cmd-wrap"><code class="cmd">/dr options</code> <button type="button" class="dr-copy-btn" data-copy="/dr options">Copy</button></span></td>
@@ -1706,10 +1760,10 @@
       <section class="dr-notice" aria-labelledby="notes-heading">
         <h3 id="notes-heading">Good to Know</h3>
         <ul>
-          <li><strong>Both players need the add-on.</strong> It checks before you challenge and calls out if the other gup is offline, busy, or on an outdated version.</li>
-          <li><strong>Group up or stand close.</strong> If you're in a party or raid together, you can deathroll from anywhere in Azeroth. If you aren't grouped, you'll have to actually stand near each other. System roll messages don't carry across continents for solo gups.</li>
-          <li><strong>It never moves gold on its own.</strong> Trades still require both players to click accept; wagers run on the honor system.</li>
-          <li><strong>No chat spam.</strong> Add-ons talk via hidden add-on messages. Emotes only fire if you explicitly turn them on.</li>
+          <li><strong>Opponents don't even need the add-on anymore.</strong> When both of you have it, you get the challenge popup, 50/50 coin flip, and synced dice reveal. If the other gup doesn't have it, use <strong>Challenge in chat</strong>, <code class="cmd">/dr open</code>, or <code class="cmd">/dr ffa</code> and your add-on referees their system <code class="cmd">/roll</code> lines straight from chat.</li>
+          <li><strong>Group up or stand close to play (spectate from anywhere).</strong> To read system <code class="cmd">/roll</code> lines in a match, you need to either be in a party/raid together or stand near each other. Spectators using <code class="cmd">/dr watch</code> or the <strong>Live</strong> tab get fed rolls over hidden add-on whispers, so they can watch from another continent.</li>
+          <li><strong>It never moves gold on its own.</strong> WoW doesn't let add-ons fill in trade gold for you. The trade banner tells you how much to type into the gold box, tracks it live, and settles the debt when both players click accept.</li>
+          <li><strong>No uninvited chat spam.</strong> Add-ons coordinate and stream spectator data via hidden add-on messages. Public emotes and party/guild victory announcements only fire when you ask for them.</li>
         </ul>
       </section>
 
@@ -1740,10 +1794,10 @@
   <script>
     const PROJECT_ID = '1803451';
     const FALLBACK = {
-      description: "Deathroll for gold in WoW Forever, with verified rolls, a suspenseful dice reveal and debt tracking.",
+      description: "Deathroll for gold in WoW Forever: 1v1 duels, Free For All lobbies, live spectating, verified rolls, dice reveal, and debt tracking.",
       downloads: '9',
-      version: 'v1.2.0-forever',
-      updated: 'Updated Nov 14, 2026'
+      version: 'v1.5.1',
+      updated: 'Updated Nov 18, 2026'
     };
 
     function renderStats(countStr, versionStr, updatedStr) {
