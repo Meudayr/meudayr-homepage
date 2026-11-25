@@ -3468,14 +3468,21 @@
       padding-right: 4px;
     }
 
+    .raid-pool-footer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
     .raid-add-alt-btn {
       width: 100%;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: var(--radius-sm);
       background: rgba(250, 204, 21, 0.08);
       border: 1px dashed rgba(250, 204, 21, 0.35);
       color: #facc15;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
@@ -3483,9 +3490,97 @@
       flex-shrink: 0;
     }
 
-    .raid-add-alt-btn:hover {
+    .raid-add-alt-btn:hover,
+    .raid-add-alt-btn.active {
       background: rgba(250, 204, 21, 0.16);
       border-color: #facc15;
+    }
+
+    .raid-add-pug-btn {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px dashed rgba(56, 189, 248, 0.38);
+      color: #38bdf8;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .raid-add-pug-btn:hover,
+    .raid-add-pug-btn.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: #38bdf8;
+    }
+
+    .raid-pug-popout {
+      border-color: rgba(56, 189, 248, 0.42);
+      width: 340px;
+    }
+
+    .raid-pug-role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .raid-pug-role-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .raid-pug-role-btn img {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+    }
+
+    .raid-pug-role-btn:hover:not(:disabled) {
+      border-color: rgba(56, 189, 248, 0.45);
+      color: var(--text-main);
+    }
+
+    .raid-pug-role-btn.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: #38bdf8;
+      color: #e0f2fe;
+      font-weight: 700;
+    }
+
+    .raid-pug-role-btn:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+    }
+
+    .raid-pug-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      flex-shrink: 0;
+    }
+
+    .raid-slot-row.pug-slot {
+      border-style: dashed;
     }
 
     .raid-alt-popout {
@@ -4827,6 +4922,9 @@
     let openRaidColorPopover = false;
     let openRaidAltPopout = false;
     let raidAltPopoutSearch = '';
+    let openRaidPugPopout = false;
+    let raidPugDraft = { role: 'Melee DPS', className: '', spec: '', label: '', group: '' };
+    let editingPugPlayerName = null;
     let openQuickSpecCardId = null;
     let activeRoleFilter = "all";
     let activeClassFilter = "all";
@@ -8487,9 +8585,10 @@
       const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase());
       if (item) {
         const gm = findGuildOrAltMember(playerName);
-        const allowed = getAllowedRolesForClass(gm ? gm.className : '');
+        const slotClass = gm ? gm.className : (item.className || '');
+        const allowed = getAllowedRolesForClass(slotClass);
         if (!allowed.includes(newRole)) {
-          showToast(`${gm ? gm.className : 'This class'} cannot be assigned as ${newRole}.`, true);
+          showToast(`${slotClass || 'This class'} cannot be assigned as ${newRole}.`, true);
           return;
         }
         item.role = newRole;
@@ -8508,9 +8607,13 @@
         const members = (team.assignments || []).filter(a => a.group === g);
         if (members.length === 0) continue;
         const names = members.map(a => {
-          const gm = rosterList.find(m => (m.playerName || '').toLowerCase() === a.playerName.toLowerCase());
-          const cls = gm ? gm.className : '';
-          return `${a.playerName} (${cls}${a.role ? ' - ' + a.role : ''})`;
+          const gm = findGuildOrAltMember(a.playerName);
+          const cls = gm ? gm.className : (a.className || '');
+          const specPart = a.spec ? `${a.spec} ` : '';
+          const classPart = cls ? `${specPart}${cls}` : (a.isPug ? 'Any Class' : '');
+          const meta = [classPart, a.role].filter(Boolean).join(' - ');
+          const displayName = (a.isPug && !/\bpug\b/i.test(a.playerName)) ? `[PUG] ${a.playerName}` : a.playerName;
+          return `${displayName}${meta ? ` (${meta})` : ''}`;
         });
         lines.push(`**Group ${g}:** ${names.join(', ')}`);
       }
@@ -8771,8 +8874,173 @@
     function toggleRaidAltPopout(e) {
       if (e) e.stopPropagation();
       openRaidAltPopout = !openRaidAltPopout;
+      openRaidPugPopout = false;
+      editingPugPlayerName = null;
       openRaidRolePopoverFor = null;
       openRaidColorPopover = false;
+      renderRaidRosterBuilder();
+    }
+
+    function toggleRaidPugPopout(e) {
+      if (e) e.stopPropagation();
+      if (openRaidPugPopout && !editingPugPlayerName) {
+        openRaidPugPopout = false;
+      } else {
+        openRaidPugPopout = true;
+        editingPugPlayerName = null;
+        raidPugDraft = { role: 'Melee DPS', className: '', spec: '', label: '', group: '' };
+      }
+      openRaidAltPopout = false;
+      openRaidRolePopoverFor = null;
+      openRaidColorPopover = false;
+      renderRaidRosterBuilder();
+    }
+
+    function openEditRaidPug(e, playerName) {
+      if (e) e.stopPropagation();
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const item = (team.assignments || []).find(a => a.playerName.toLowerCase() === playerName.toLowerCase() && a.isPug);
+      if (!item) return;
+      editingPugPlayerName = item.playerName;
+      raidPugDraft = {
+        role: item.role || 'Melee DPS',
+        className: item.className || '',
+        spec: item.spec || '',
+        label: item.pugLabel || '',
+        group: String(item.group || '')
+      };
+      openRaidPugPopout = true;
+      openRaidAltPopout = false;
+      openRaidRolePopoverFor = null;
+      openRaidColorPopover = false;
+      renderRaidRosterBuilder();
+    }
+
+    function setRaidPugDraftRole(role) {
+      raidPugDraft.role = role;
+      renderRaidRosterBuilder();
+    }
+
+    function setRaidPugDraftClass(className) {
+      raidPugDraft.className = className || '';
+      raidPugDraft.spec = '';
+      if (raidPugDraft.className) {
+        const allowed = getAllowedRolesForClass(raidPugDraft.className);
+        if (!allowed.includes(raidPugDraft.role)) {
+          raidPugDraft.role = allowed[0] || 'Melee DPS';
+        }
+      }
+      renderRaidRosterBuilder();
+    }
+
+    function setRaidPugDraftSpec(specName) {
+      raidPugDraft.spec = specName || '';
+      if (raidPugDraft.className && raidPugDraft.spec) {
+        const info = SPEC_DATA[raidPugDraft.className]?.[raidPugDraft.spec];
+        if (info && Array.isArray(info.defaultRoles) && info.defaultRoles.length > 0) {
+          if (!info.defaultRoles.includes(raidPugDraft.role)) {
+            raidPugDraft.role = info.defaultRoles[0];
+          }
+        }
+      }
+      renderRaidRosterBuilder();
+    }
+
+    function buildUniquePugName(team, customLabel, className, spec, role, ignoreName = null) {
+      const existing = new Set(
+        (team.assignments || [])
+          .filter(a => !ignoreName || a.playerName.toLowerCase() !== ignoreName.toLowerCase())
+          .map(a => a.playerName.toLowerCase())
+      );
+      const trimmedLabel = (customLabel || '').trim();
+      let base = trimmedLabel;
+      if (!base) {
+        const classSpec = [spec, className].filter(Boolean).join(' ');
+        base = classSpec ? `PUG ${classSpec}` : `PUG ${role || 'Slot'}`;
+      }
+      if (!existing.has(base.toLowerCase())) return base;
+      let idx = 2;
+      while (existing.has(`${base} #${idx}`.toLowerCase())) idx++;
+      return `${base} #${idx}`;
+    }
+
+    function addPugSlotToRaidRoster(options = null) {
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      team.assignments = team.assignments || [];
+
+      const cfg = options || raidPugDraft;
+      const className = (cfg.className || '').trim();
+      const spec = className ? (cfg.spec || '').trim() : '';
+      const allowed = getAllowedRolesForClass(className);
+      let role = (cfg.role || 'Melee DPS').trim();
+      if (!allowed.includes(role)) role = allowed[0] || 'Melee DPS';
+      const pugLabel = (cfg.label || '').trim();
+      const requestedGroup = cfg.group ? Number(cfg.group) : null;
+      const maxGroups = (team.size || 40) / 5;
+
+      if (editingPugPlayerName && !options) {
+        const existingItem = team.assignments.find(a => a.playerName.toLowerCase() === editingPugPlayerName.toLowerCase() && a.isPug);
+        if (existingItem) {
+          let nextGroup = existingItem.group;
+          if (requestedGroup && requestedGroup !== existingItem.group) {
+            const countInTarget = team.assignments.filter(a => a.group === requestedGroup).length;
+            if (countInTarget >= 5) {
+              showToast(`Group ${requestedGroup} is full (5/5).`, true);
+              return;
+            }
+            nextGroup = requestedGroup;
+          }
+          existingItem.playerName = buildUniquePugName(team, pugLabel, className, spec, role, existingItem.playerName);
+          existingItem.pugLabel = pugLabel;
+          existingItem.className = className;
+          existingItem.spec = spec;
+          existingItem.role = role;
+          existingItem.group = nextGroup;
+          team.updatedAt = new Date().toISOString();
+          editingPugPlayerName = null;
+          openRaidPugPopout = false;
+          markRaidRostersDirty();
+          renderRaidRosterBuilder();
+          return;
+        }
+      }
+
+      let chosenGroup = requestedGroup;
+      if (chosenGroup) {
+        const countInTarget = team.assignments.filter(a => a.group === chosenGroup).length;
+        if (countInTarget >= 5) {
+          showToast(`Group ${chosenGroup} is full (5/5).`, true);
+          return;
+        }
+      } else {
+        for (let g = 1; g <= maxGroups; g++) {
+          if (team.assignments.filter(a => a.group === g).length < 5) {
+            chosenGroup = g;
+            break;
+          }
+        }
+        if (!chosenGroup) {
+          showToast(`${team.name} is full (${team.size}/${team.size}).`, true);
+          return;
+        }
+      }
+
+      const playerName = buildUniquePugName(team, pugLabel, className, spec, role);
+      team.assignments.push({
+        playerName,
+        isPug: true,
+        pugLabel,
+        className,
+        spec,
+        role,
+        group: chosenGroup
+      });
+      team.updatedAt = new Date().toISOString();
+      openRaidPugPopout = false;
+      editingPugPlayerName = null;
+      markRaidRostersDirty();
       renderRaidRosterBuilder();
     }
 
@@ -8793,6 +9061,11 @@
       }
       if (openRaidAltPopout) {
         openRaidAltPopout = false;
+        needsRender = true;
+      }
+      if (openRaidPugPopout) {
+        openRaidPugPopout = false;
+        editingPugPlayerName = null;
         needsRender = true;
       }
       if (needsRender && (currentViewMode === 'raids' || (currentViewMode === 'table' && currentTableSubTab === 'raids'))) {
@@ -8955,6 +9228,8 @@
         const gm = findGuildOrAltMember(a.playerName);
         if (gm) {
           teamRosterObjects.push({ ...gm, role: a.role || gm.role, spec: a.spec || gm.spec });
+        } else if (a.isPug && a.className) {
+          teamRosterObjects.push({ playerName: a.playerName, className: a.className, role: a.role || '', spec: a.spec || '' });
         }
       });
 
@@ -8973,14 +9248,15 @@
       for (let g = 1; g <= maxGroups; g++) {
         const groupMembers = assignments.filter(a => a.group === g);
         let slotsHtml = groupMembers.map(a => {
-          const gm = findGuildOrAltMember(a.playerName);
-          const className = gm ? gm.className : '';
-          const classColor = CLASS_COLORS[className] || 'var(--text-main)';
-          const classIcon = CLASS_ICONS[className] || 'inv_misc_questionmark';
+          const isPug = Boolean(a.isPug);
+          const gm = isPug ? null : findGuildOrAltMember(a.playerName);
+          const className = gm ? gm.className : (a.className || '');
+          const classColor = className ? (CLASS_COLORS[className] || 'var(--text-main)') : '#38bdf8';
           const safeName = escapeHtml(a.playerName).replace(/'/g, "\\'");
 
           const allowedRoles = getAllowedRolesForClass(className);
-          const curRole = (a.role && allowedRoles.includes(a.role)) ? a.role : getDefaultRoleForMember(gm);
+          const curRole = (a.role && allowedRoles.includes(a.role)) ? a.role : getDefaultRoleForMember(gm || { className });
+          const classIcon = className ? (CLASS_ICONS[className] || 'inv_misc_questionmark') : (ROLE_ICONS[curRole] || 'inv_misc_questionmark');
           const roleMeta = ROLE_OPTIONS.find(r => r.role === curRole) || ROLE_OPTIONS[2];
           const roleIconUrl = getIconUrl(ROLE_ICONS[curRole] || 'ability_dualwield');
           const allowedOptions = ROLE_OPTIONS.filter(opt => allowedRoles.includes(opt.role));
@@ -9001,20 +9277,24 @@
             ? `title="Role: ${curRole} (click to change)" onclick="toggleRaidRolePopover(event, '${safeName}')"`
             : `title="Role: ${curRole} (${escapeHtml(className)} only has ${curRole})" style="cursor: default;"`;
 
-          const slotSpecText = `${className}${a.spec ? ' · ' + a.spec : ''}`;
-          const slotTitle = buildRaidPlayerTooltip(a.playerName, gm, slotSpecText ? [slotSpecText] : []);
+          const slotSpecText = `${className || (isPug ? 'Any Class' : '')}${a.spec ? ' · ' + a.spec : ''}`;
+          const slotTitle = isPug
+            ? [`PUG Slot`, slotSpecText, `Role: ${curRole}`, 'Right-click to remove'].filter(Boolean).join(' | ')
+            : buildRaidPlayerTooltip(a.playerName, gm, slotSpecText ? [slotSpecText] : []);
 
           return `
-            <div class="raid-slot-row ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" title="${escapeHtml(slotTitle)}" draggable="true" oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
+            <div class="raid-slot-row ${isPug ? 'pug-slot' : ''} ${isPopoverOpen ? 'popover-open' : ''}" style="--slot-class-color: ${classColor};" title="${escapeHtml(slotTitle)}" draggable="true" oncontextmenu="event.preventDefault(); removeMemberFromRaidRoster('${safeName}')" ondragstart="handleRaidDragStart(event, 'group', '${safeName}', ${g})" ondragend="handleRaidDragEnd()" ondragover="handleRaidSlotDragOver(event, this)" ondragleave="handleRaidSlotDragLeave(event, this)" ondrop="handleRaidDropOnSlot(event, ${g}, '${safeName}')">
               <div style="display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1;">
                 <span class="raid-slot-grip" title="Drag to reorder or move group">⋮⋮</span>
-                <img src="${getIconUrl(classIcon)}" style="width: 17px; height: 17px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(className)}">
+                <img src="${getIconUrl(classIcon)}" style="width: 17px; height: 17px; border-radius: 3px; border: 1px solid ${classColor}; flex-shrink: 0;" alt="${escapeHtml(className || curRole)}">
+                ${isPug ? `<span class="raid-pug-badge">PUG</span>` : ''}
                 <span style="color: ${classColor}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${escapeHtml(a.playerName)}
                 </span>
               </div>
               <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                ${(canAdminEdit && gm && gm.id) ? `<button type="button" class="raid-mini-edit-btn" onmousedown="event.stopPropagation();" onclick="event.stopPropagation(); startEdit('${escapeHtml(gm.id)}')" title="Edit ${escapeHtml(a.playerName)}'s roster card">${editPencilSvg}</button>` : ''}
+                ${isPug ? `<button type="button" class="raid-mini-edit-btn" onmousedown="event.stopPropagation();" onclick="openEditRaidPug(event, '${safeName}')" title="Edit PUG slot">${editPencilSvg}</button>` : ''}
+                ${(!isPug && canAdminEdit && gm && gm.id) ? `<button type="button" class="raid-mini-edit-btn" onmousedown="event.stopPropagation();" onclick="event.stopPropagation(); startEdit('${escapeHtml(gm.id)}')" title="Edit ${escapeHtml(a.playerName)}'s roster card">${editPencilSvg}</button>` : ''}
                 <div class="raid-role-wrap" onmousedown="event.stopPropagation(); const r=this.closest('.raid-slot-row'); if(r) r.setAttribute('draggable','false');" onmouseup="const r=this.closest('.raid-slot-row'); if(r) r.setAttribute('draggable','true');" onmouseleave="const r=this.closest('.raid-slot-row'); if(r) r.setAttribute('draggable','true');">
                   <button type="button" class="raid-role-icon-btn ${roleMeta.cls}" ${roleBtnAttrs}>
                     <img src="${roleIconUrl}" alt="${curRole}">
@@ -9116,6 +9396,74 @@
         </div>
       ` : '';
 
+      const pugAllowedRoles = getAllowedRolesForClass(raidPugDraft.className || '');
+      const pugClassSpecs = raidPugDraft.className ? Object.keys(SPEC_DATA[raidPugDraft.className] || {}) : [];
+      const pugGroupOptions = Array.from({ length: maxGroups }, (_, i) => i + 1)
+        .map(g => {
+          const count = assignments.filter(a => a.group === g).length;
+          return `<option value="${g}" ${String(raidPugDraft.group) === String(g) ? 'selected' : ''}>Group ${g} (${count}/5)</option>`;
+        }).join('');
+
+      const pugPopoutHtml = openRaidPugPopout ? `
+        <div id="raid-pug-popout" class="raid-alt-popout raid-pug-popout" onclick="event.stopPropagation()">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <strong style="font-size: 0.83rem; color: #38bdf8;">${editingPugPlayerName ? 'Edit PUG Slot' : 'Add PUG Slot'}</strong>
+            <button type="button" class="toolbar-action-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="openRaidPugPopout=false; editingPugPlayerName=null; renderRaidRosterBuilder();">Close</button>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px;">Role</span>
+            <div class="raid-pug-role-grid">
+              ${ROLE_OPTIONS.map(opt => {
+                const allowed = pugAllowedRoles.includes(opt.role);
+                const isActive = raidPugDraft.role === opt.role;
+                return `
+                  <button type="button" class="raid-pug-role-btn ${isActive ? 'active' : ''}" ${allowed ? '' : 'disabled'} onclick="setRaidPugDraftRole('${opt.role}')">
+                    <img src="${getIconUrl(ROLE_ICONS[opt.role])}" alt="${opt.label}">
+                    <span>${opt.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="raid-pug-class-select" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px;">Class (Optional)</label>
+              <select id="raid-pug-class-select" class="form-input" style="padding: 6px 8px; font-size: 0.78rem;" onchange="setRaidPugDraftClass(this.value)">
+                <option value="">Any Class</option>
+                ${Object.keys(SPEC_DATA).map(cls => `<option value="${escapeHtml(cls)}" ${raidPugDraft.className === cls ? 'selected' : ''}>${escapeHtml(cls)}</option>`).join('')}
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="raid-pug-spec-select" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px;">Spec (Optional)</label>
+              <select id="raid-pug-spec-select" class="form-input" style="padding: 6px 8px; font-size: 0.78rem;" ${raidPugDraft.className ? '' : 'disabled'} onchange="setRaidPugDraftSpec(this.value)">
+                <option value="">Any Spec</option>
+                ${pugClassSpecs.map(sp => `<option value="${escapeHtml(sp)}" ${raidPugDraft.spec === sp ? 'selected' : ''}>${escapeHtml(sp)}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 115px; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="raid-pug-label-input" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px;">Label (Optional)</label>
+              <input id="raid-pug-label-input" type="text" class="form-input" style="padding: 6px 8px; font-size: 0.78rem;" placeholder="e.g. PUG Healer" value="${escapeHtml(raidPugDraft.label || '')}" oninput="raidPugDraft.label=this.value;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="raid-pug-group-select" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px;">Group</label>
+              <select id="raid-pug-group-select" class="form-input" style="padding: 6px 8px; font-size: 0.78rem;" onchange="raidPugDraft.group=this.value;">
+                <option value="">Auto</option>
+                ${pugGroupOptions}
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="form-btn-submit" style="margin: 2px 0 0; padding: 8px 12px; font-size: 0.8rem; background: linear-gradient(135deg, #0284c7, #0369a1); border-color: #38bdf8;" onclick="addPugSlotToRaidRoster()">
+            ${editingPugPlayerName ? 'Save PUG Slot' : '+ Add PUG Slot'}
+          </button>
+        </div>
+      ` : '';
+
       container.innerHTML = `
         <div class="raid-builder-toolbar">
           <div class="raid-team-sections">
@@ -9152,10 +9500,16 @@
             <div class="raid-pool-list">
               ${poolHtml}
             </div>
-            <button type="button" class="raid-add-alt-btn ${openRaidAltPopout ? 'active' : ''}" onclick="toggleRaidAltPopout(event)">
-              + Add Alt (${altsList.length})
-            </button>
+            <div class="raid-pool-footer-actions">
+              <button type="button" class="raid-add-alt-btn ${openRaidAltPopout ? 'active' : ''}" onclick="toggleRaidAltPopout(event)">
+                + Add Alt (${altsList.length})
+              </button>
+              <button type="button" class="raid-add-pug-btn ${openRaidPugPopout ? 'active' : ''}" onclick="toggleRaidPugPopout(event)">
+                + Add PUG
+              </button>
+            </div>
             ${altPopoutHtml}
+            ${pugPopoutHtml}
           </div>
 
           <div class="raid-groups-panel">
