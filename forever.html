@@ -3227,6 +3227,83 @@
       margin-bottom: 14px;
     }
 
+    .raid-category-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+    }
+
+    .raid-category-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .raid-category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .raid-category-pill:hover {
+      color: var(--text-main);
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+
+    .raid-category-pill.active {
+      background: rgba(250, 204, 21, 0.14);
+      border-color: rgba(250, 204, 21, 0.55);
+      color: #facc15;
+      font-weight: 700;
+    }
+
+    .raid-category-count {
+      font-size: 0.66rem;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.32);
+      color: var(--text-muted);
+    }
+
+    .raid-category-pill.active .raid-category-count {
+      color: #fde68a;
+    }
+
+    .raid-category-popout {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      width: 320px;
+      max-width: 92vw;
+      background: #14161d;
+      border: 1px solid rgba(52, 211, 153, 0.42);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.78);
+      z-index: 85;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
     .raid-team-sections {
       display: flex;
       align-items: flex-end;
@@ -4993,6 +5070,10 @@
     let altsDirty = false;
     let rosterMeta = null;
     let raidRosters = [];
+    let raidCategories = [];
+    let activeRaidCategoryId = 'default';
+    let openRaidCategoryPopout = false;
+    let raidCategoryDraft = { date: '', name: '', cloneFromId: '', keepAssignments: true };
     let activeRaidRosterId = null;
     let currentTableSubTab = 'guild'; // 'guild' | 'raids'
     let raidPoolSearch = '';
@@ -8421,7 +8502,178 @@
       }
     }
 
+    function getRosterCategoryId(r) {
+      return (r && r.categoryId) ? String(r.categoryId) : 'default';
+    }
+
+    function getAllRaidCategories() {
+      const list = [{ id: 'default', name: 'General', date: '' }];
+      const seen = new Set(['default']);
+      (raidCategories || []).forEach(c => {
+        if (c && c.id && !seen.has(c.id)) {
+          seen.add(c.id);
+          list.push(c);
+        }
+      });
+      (raidRosters || []).forEach(r => {
+        const cid = getRosterCategoryId(r);
+        if (!seen.has(cid)) {
+          seen.add(cid);
+          list.push({ id: cid, name: cid, date: '' });
+        }
+      });
+      return list;
+    }
+
+    function getRostersInCategory(catId = activeRaidCategoryId) {
+      const target = catId || 'default';
+      return (raidRosters || []).filter(r => getRosterCategoryId(r) === target);
+    }
+
+    function formatCategoryDateLabel(isoDate) {
+      if (!isoDate) return '';
+      const parts = String(isoDate).split('-');
+      if (parts.length !== 3) return isoDate;
+      const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      if (isNaN(d.getTime())) return isoDate;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function setActiveRaidCategory(catId) {
+      activeRaidCategoryId = catId || 'default';
+      openRaidCategoryPopout = false;
+      openRaidColorPopover = false;
+      openRaidRolePopoverFor = null;
+      const inCat = getRostersInCategory(activeRaidCategoryId);
+      if (!inCat.some(r => r.id === activeRaidRosterId)) {
+        activeRaidRosterId = inCat[0]?.id || null;
+      }
+      renderRaidRosterBuilder();
+    }
+
+    function toggleRaidCategoryPopout(e) {
+      if (e) e.stopPropagation();
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to create weekly categories.', true);
+        openAdminModal();
+        return;
+      }
+      openRaidCategoryPopout = !openRaidCategoryPopout;
+      if (openRaidCategoryPopout) {
+        const today = new Date().toISOString().slice(0, 10);
+        raidCategoryDraft = { date: today, name: '', cloneFromId: '', keepAssignments: false };
+      }
+      openRaidAltPopout = false;
+      openRaidPugPopout = false;
+      openRaidColorPopover = false;
+      openRaidRolePopoverFor = null;
+      renderRaidRosterBuilder();
+    }
+
+    function createRaidCategory(options = null) {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to create weekly categories.', true);
+        openAdminModal();
+        return;
+      }
+      const cfg = options || raidCategoryDraft;
+      const dateStr = (cfg.date || '').trim();
+      let name = (cfg.name || '').trim();
+      if (!name && dateStr) {
+        name = `Week of ${formatCategoryDateLabel(dateStr)}`;
+      }
+      if (!name) {
+        showToast('Enter a date or category name.', true);
+        return;
+      }
+
+      const newCat = {
+        id: `cat-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
+        name,
+        date: dateStr
+      };
+      raidCategories.push(newCat);
+
+      const cloneFromId = (cfg.cloneFromId || '').trim();
+      const keepAssignments = Boolean(cfg.keepAssignments);
+      if (cloneFromId) {
+        const sourceRosters = getRostersInCategory(cloneFromId);
+        sourceRosters.forEach((src, idx) => {
+          raidRosters.push({
+            id: `raid-${Date.now()}-${idx}-${Math.random().toString(36).substring(2, 5)}`,
+            name: src.name,
+            size: src.size || 40,
+            color: src.color || '#facc15',
+            categoryId: newCat.id,
+            assignments: keepAssignments ? (src.assignments || []).map(a => ({ ...a })) : [],
+            updatedAt: new Date().toISOString()
+          });
+        });
+      }
+
+      activeRaidCategoryId = newCat.id;
+      const inNew = getRostersInCategory(newCat.id);
+      activeRaidRosterId = inNew[0]?.id || null;
+      openRaidCategoryPopout = false;
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+      showToast(`Created category "${newCat.name}"${cloneFromId ? ` (cloned ${inNew.length} rosters)` : ''}.`);
+    }
+
+    function renameActiveRaidCategory() {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to rename categories.', true);
+        openAdminModal();
+        return;
+      }
+      if (activeRaidCategoryId === 'default') return;
+      const cat = raidCategories.find(c => c.id === activeRaidCategoryId);
+      if (!cat) return;
+      const next = prompt('Rename weekly category:', cat.name);
+      if (!next || !next.trim()) return;
+      cat.name = next.trim();
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function deleteActiveRaidCategory() {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to delete categories.', true);
+        openAdminModal();
+        return;
+      }
+      if (activeRaidCategoryId === 'default') return;
+      const cat = raidCategories.find(c => c.id === activeRaidCategoryId);
+      if (!cat) return;
+      const count = getRostersInCategory(cat.id).length;
+      if (!confirm(`Delete category "${cat.name}"${count ? ` and its ${count} roster(s)` : ''}?`)) return;
+      raidCategories = raidCategories.filter(c => c.id !== cat.id);
+      raidRosters = raidRosters.filter(r => getRosterCategoryId(r) !== cat.id);
+      activeRaidCategoryId = 'default';
+      activeRaidRosterId = getRostersInCategory('default')[0]?.id || null;
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
+    function moveActiveRaidRosterToCategory(targetCatId) {
+      if (!(isAdminMode && adminPasskey)) {
+        showToast('Admin login required to move rosters between categories.', true);
+        openAdminModal();
+        return;
+      }
+      const team = getActiveRaidRoster();
+      if (!team) return;
+      const nextCat = targetCatId || 'default';
+      team.categoryId = nextCat === 'default' ? '' : nextCat;
+      team.updatedAt = new Date().toISOString();
+      activeRaidCategoryId = nextCat;
+      markRaidRostersDirty();
+      renderRaidRosterBuilder();
+    }
+
     function openRaidTeamById(teamId) {
+      const hit = raidRosters.find(r => r.id === teamId);
+      if (hit) activeRaidCategoryId = getRosterCategoryId(hit);
       activeRaidRosterId = teamId;
       setViewMode('raids');
     }
@@ -8435,6 +8687,13 @@
             if (Array.isArray(parsed)) raidRosters = parsed;
           } catch (e) {}
         }
+        const cachedCats = localStorage.getItem('tbs_forever_raid_categories');
+        if (cachedCats) {
+          try {
+            const parsedCats = JSON.parse(cachedCats);
+            if (Array.isArray(parsedCats)) raidCategories = parsedCats;
+          } catch (e) {}
+        }
         const res = await fetch('/api/raid-rosters', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
@@ -8442,18 +8701,28 @@
             raidRosters = data.rosters;
             localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
           }
+          if (data && Array.isArray(data.categories)) {
+            raidCategories = data.categories;
+            localStorage.setItem('tbs_forever_raid_categories', JSON.stringify(raidCategories));
+          }
         }
       } catch (e) {
         console.warn('Failed to load raid rosters:', e);
       }
 
-      if (raidRosters.length > 0 && !raidRosters.some(r => r.id === activeRaidRosterId)) {
+      const inCat = getRostersInCategory(activeRaidCategoryId);
+      if (inCat.length > 0 && !inCat.some(r => r.id === activeRaidRosterId)) {
+        activeRaidRosterId = inCat[0].id;
+      } else if (inCat.length === 0 && raidRosters.length > 0) {
+        activeRaidCategoryId = getRosterCategoryId(raidRosters[0]);
         activeRaidRosterId = raidRosters[0].id;
       }
       updateRaidTeamsCount();
       if (currentViewMode === 'table') {
         if (currentTableSubTab === 'raids') renderRaidRosterBuilder();
         else renderTable();
+      } else if (currentViewMode === 'raids') {
+        renderRaidRosterBuilder();
       }
     }
 
@@ -8463,13 +8732,15 @@
     }
 
     function getActiveRaidRoster() {
-      if (raidRosters.length === 0) return null;
-      return raidRosters.find(r => r.id === activeRaidRosterId) || raidRosters[0];
+      const inCat = getRostersInCategory(activeRaidCategoryId);
+      if (inCat.length === 0) return null;
+      return inCat.find(r => r.id === activeRaidRosterId) || inCat[0];
     }
 
     function markRaidRostersDirty() {
       raidRostersDirty = true;
       localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
+      localStorage.setItem('tbs_forever_raid_categories', JSON.stringify(raidCategories));
       updateRaidTeamsCount();
     }
 
@@ -8488,7 +8759,7 @@
             'Content-Type': 'application/json',
             'x-admin-key': keyToUse
           },
-          body: JSON.stringify({ rosters: raidRosters })
+          body: JSON.stringify({ rosters: raidRosters, categories: raidCategories })
         });
         const data = await res.json();
         if (!res.ok || !data.success) {
@@ -8496,6 +8767,7 @@
         }
         raidRostersDirty = false;
         localStorage.setItem('tbs_forever_raid_rosters', JSON.stringify(raidRosters));
+        localStorage.setItem('tbs_forever_raid_categories', JSON.stringify(raidCategories));
         showToast('Raid rosters saved to server!');
         renderRaidRosterBuilder();
       } catch (err) {
@@ -8509,12 +8781,14 @@
         openAdminModal();
         return;
       }
-      const name = prompt('Enter a name for the new Raid Roster (e.g. "Core 40-Man", "Karazhan Team A"):', `Raid Team ${raidRosters.length + 1}`);
+      const inCat = getRostersInCategory(activeRaidCategoryId);
+      const name = prompt('Enter a name for the new Raid Roster (e.g. "Core 40-Man", "Barrow Deeps Team A"):', `Raid Team ${inCat.length + 1}`);
       if (!name || !name.trim()) return;
       const newTeam = {
         id: `raid-${Date.now()}`,
         name: name.trim(),
         size: 40,
+        categoryId: activeRaidCategoryId === 'default' ? '' : activeRaidCategoryId,
         assignments: [],
         updatedAt: new Date().toISOString()
       };
@@ -8540,7 +8814,8 @@
       if (!team) return;
       if (!confirm(`Delete raid roster "${team.name}"?`)) return;
       raidRosters = raidRosters.filter(r => r.id !== team.id);
-      activeRaidRosterId = raidRosters[0]?.id || null;
+      const remainingInCat = getRostersInCategory(activeRaidCategoryId);
+      activeRaidRosterId = remainingInCat[0]?.id || null;
       markRaidRostersDirty();
       renderRaidRosterBuilder();
     }
@@ -9160,6 +9435,10 @@
         editingPugPlayerName = null;
         needsRender = true;
       }
+      if (openRaidCategoryPopout) {
+        openRaidCategoryPopout = false;
+        needsRender = true;
+      }
       if (needsRender && (currentViewMode === 'raids' || (currentViewMode === 'table' && currentTableSubTab === 'raids'))) {
         renderRaidRosterBuilder();
       }
@@ -9191,7 +9470,88 @@
       const wasAltSearchFocused = Boolean(activeEl && activeEl.id === 'raid-alt-popout-search');
       const altSearchCaret = wasAltSearchFocused && typeof activeEl.selectionStart === 'number' ? activeEl.selectionStart : null;
 
+      const canAdminEdit = Boolean(isAdminMode && adminPasskey);
+      const allCategories = getAllRaidCategories();
+      const activeCategoryObj = allCategories.find(c => c.id === activeRaidCategoryId) || allCategories[0];
+      const categoryRosters = getRostersInCategory(activeRaidCategoryId);
       const team = getActiveRaidRoster();
+
+      const categoryPillsHtml = allCategories.map(cat => {
+        const count = getRostersInCategory(cat.id).length;
+        const isActive = cat.id === activeRaidCategoryId;
+        const dateHint = (cat.date && !cat.name.includes(formatCategoryDateLabel(cat.date))) ? ` (${formatCategoryDateLabel(cat.date)})` : '';
+        return `
+          <button type="button"
+                  class="raid-category-pill ${isActive ? 'active' : ''}"
+                  onclick="setActiveRaidCategory('${escapeHtml(cat.id).replace(/'/g, "\\'")}')"
+                  title="${escapeHtml(cat.name)}${cat.date ? ' · ' + escapeHtml(cat.date) : ''}">
+            <span>${escapeHtml(cat.name)}${escapeHtml(dateHint)}</span>
+            <span class="raid-category-count">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      const cloneSourceOptions = allCategories
+        .filter(c => getRostersInCategory(c.id).length > 0)
+        .map(c => `<option value="${escapeHtml(c.id)}" ${raidCategoryDraft.cloneFromId === c.id ? 'selected' : ''}>${escapeHtml(c.name)} (${getRostersInCategory(c.id).length} rosters)</option>`)
+        .join('');
+
+      const categoryPopoutHtml = (canAdminEdit && openRaidCategoryPopout) ? `
+        <div id="raid-category-popout" class="raid-category-popout" onclick="event.stopPropagation()">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <strong style="font-size:0.83rem; color:#34d399;">New Weekly / Date Category</strong>
+            <button type="button" class="toolbar-action-btn" style="padding:2px 8px; font-size:0.72rem;" onclick="openRaidCategoryPopout=false; renderRaidRosterBuilder();">Close</button>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <label for="raid-cat-date-input" style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Raid Date</label>
+              <input id="raid-cat-date-input" type="date" class="form-input" style="padding:6px 8px; font-size:0.78rem;" value="${escapeHtml(raidCategoryDraft.date || '')}" oninput="raidCategoryDraft.date=this.value;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <label for="raid-cat-name-input" style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Label (Optional)</label>
+              <input id="raid-cat-name-input" type="text" class="form-input" style="padding:6px 8px; font-size:0.78rem;" placeholder="e.g. Week of Dec 17" value="${escapeHtml(raidCategoryDraft.name || '')}" oninput="raidCategoryDraft.name=this.value;">
+            </div>
+          </div>
+          ${cloneSourceOptions ? `
+            <div style="display:flex; flex-direction:column; gap:5px;">
+              <label for="raid-cat-clone-select" style="font-size:0.68rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Start From (Optional)</label>
+              <select id="raid-cat-clone-select" class="form-input" style="padding:6px 8px; font-size:0.78rem;" onchange="raidCategoryDraft.cloneFromId=this.value; renderRaidRosterBuilder();">
+                <option value="">Empty (Build fresh)</option>
+                ${cloneSourceOptions}
+              </select>
+              ${raidCategoryDraft.cloneFromId ? `
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--text-muted); cursor:pointer;">
+                  <input type="checkbox" ${raidCategoryDraft.keepAssignments ? 'checked' : ''} onchange="raidCategoryDraft.keepAssignments=this.checked;">
+                  <span>Copy player assignments (uncheck for empty squads)</span>
+                </label>
+              ` : ''}
+            </div>
+          ` : ''}
+          <button type="button" class="form-btn-submit" style="margin:2px 0 0; padding:7px 12px; font-size:0.8rem; background:linear-gradient(135deg, #10b981, #059669); border-color:#34d399;" onclick="createRaidCategory()">
+            + Create Category
+          </button>
+        </div>
+      ` : '';
+
+      const categoryBarHtml = `
+        <div class="raid-category-bar">
+          <div class="raid-category-pills">
+            <span style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:var(--text-dark); margin-right:2px;">Week / Date:</span>
+            ${categoryPillsHtml}
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            ${(canAdminEdit && activeRaidCategoryId !== 'default') ? `
+              <button type="button" class="toolbar-action-btn" style="padding:4px 9px; font-size:0.72rem;" onclick="renameActiveRaidCategory()">Rename Week</button>
+              <button type="button" class="toolbar-action-btn" style="padding:4px 9px; font-size:0.72rem; color:#f87171;" onclick="deleteActiveRaidCategory()">Delete Week</button>
+            ` : ''}
+            ${canAdminEdit ? `
+              <button type="button" class="toolbar-action-btn" style="padding:4px 10px; font-size:0.74rem; color:#6ee7b7; border-color:rgba(52,211,153,0.35);" onclick="toggleRaidCategoryPopout(event)">+ New Date</button>
+            ` : ''}
+          </div>
+          ${categoryPopoutHtml}
+        </div>
+      `;
+
       const renderTeamTabBtn = (r) => {
         const squadColor = r.color || '#facc15';
         const crestIcon = getSquadCrestIcon(r.size || 40);
@@ -9221,7 +9581,7 @@
         40: "Onyxia's Lair"
       };
       const sizeGroupsHtml = [10, 20, 40].map(size => {
-        const groupTeams = raidRosters.filter(r => (Number(r.size) || 40) === size);
+        const groupTeams = categoryRosters.filter(r => (Number(r.size) || 40) === size);
         if (groupTeams.length === 0) return '';
         const raidNames = RAID_SIZE_NAMES[size] || '';
         return `
@@ -9237,12 +9597,12 @@
         `;
       }).join('');
 
-      const canAdminEdit = Boolean(isAdminMode && adminPasskey);
       if (!team) {
         container.innerHTML = `
+          ${categoryBarHtml}
           <div style="text-align: center; padding: 48px 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);">
-            <h3 style="color: var(--text-main); margin-bottom: 8px;">No Raid Rosters Created Yet</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">${canAdminEdit ? 'Create a 10-man, 20-man, or 40-man raid roster and assign players directly from your exported guild roster.' : 'An admin can log in to create the first raid roster.'}</p>
+            <h3 style="color: var(--text-main); margin-bottom: 8px;">No Raid Rosters in "${escapeHtml(activeCategoryObj.name)}" Yet</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">${canAdminEdit ? 'Create a 10-man, 20-man, or 40-man raid roster for this date category and assign players from the guild pool.' : 'An admin can log in to create raid rosters for this category.'}</p>
             ${canAdminEdit ? `<button type="button" class="form-btn-submit" style="width: auto; padding: 9px 18px;" onclick="createNewRaidRoster()">+ Create First Raid Roster</button>` : ''}
           </div>
         `;
@@ -9255,7 +9615,7 @@
       const assignedSet = new Set(assignments.map(a => a.playerName.toLowerCase()));
       const inSameSizeSet = new Set();
       const inAnyRaidSet = new Set();
-      raidRosters.forEach(r => {
+      categoryRosters.forEach(r => {
         const sameSize = (r.size || 40) === activeSize;
         (r.assignments || []).forEach(a => {
           const lower = (a.playerName || '').toLowerCase();
@@ -9292,7 +9652,7 @@
         const assignedItem = assignments.find(a => a.playerName.toLowerCase() === lowerName);
         const activeSize = team.size || 40;
         const otherTeams = !assignedItem
-          ? raidRosters.filter(r => r.id !== team.id && (r.size || 40) === activeSize && (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
+          ? categoryRosters.filter(r => r.id !== team.id && (r.size || 40) === activeSize && (r.assignments || []).some(a => a.playerName.toLowerCase() === lowerName))
           : [];
         const isInOther = otherTeams.length > 0;
         const otherNamesStr = otherTeams.map(t => t.name).join(', ');
@@ -9577,6 +9937,7 @@
       ` : '';
 
       container.innerHTML = `
+        ${categoryBarHtml}
         <div class="raid-builder-toolbar">
           <div class="raid-team-sections">
             ${sizeGroupsHtml}
@@ -9586,6 +9947,11 @@
             <button type="button" class="raid-size-btn ${team.size === 10 ? 'active' : ''}" onclick="setActiveRaidSize(10)">10-Man</button>
             <button type="button" class="raid-size-btn ${team.size === 20 ? 'active' : ''}" onclick="setActiveRaidSize(20)">20-Man</button>
             <button type="button" class="raid-size-btn ${team.size === 40 ? 'active' : ''}" onclick="setActiveRaidSize(40)">40-Man</button>
+            ${(canAdminEdit && allCategories.length > 1) ? `
+              <select class="form-input" style="width:auto; padding:4px 8px; font-size:0.74rem;" title="Move roster to another weekly category" onchange="moveActiveRaidRosterToCategory(this.value)">
+                ${allCategories.map(c => `<option value="${escapeHtml(c.id)}" ${c.id === activeRaidCategoryId ? 'selected' : ''}>Week: ${escapeHtml(c.name)}</option>`).join('')}
+              </select>
+            ` : ''}
             <div class="raid-color-wrap">
               <button type="button" class="toolbar-action-btn raid-color-btn" onclick="toggleRaidColorPopover(event)" title="Change squad button color">
                 <span class="raid-color-dot" style="background:${escapeHtml(activeSquadColor)};"></span>

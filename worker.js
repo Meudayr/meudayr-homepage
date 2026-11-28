@@ -1576,13 +1576,18 @@ export default {
 
       if (request.method === 'GET') {
         let rosters = [];
+        let categories = [];
         if (env.LOGS_KV) {
           try {
             const data = await env.LOGS_KV.get('forever_raid_rosters', 'json');
             if (Array.isArray(data)) rosters = data;
           } catch (e) {}
+          try {
+            const catData = await env.LOGS_KV.get('forever_raid_categories', 'json');
+            if (Array.isArray(catData)) categories = catData;
+          } catch (e) {}
         }
-        return new Response(JSON.stringify({ success: true, rosters }), {
+        return new Response(JSON.stringify({ success: true, rosters, categories }), {
           status: 200,
           headers: raidCorsHeaders
         });
@@ -1600,11 +1605,15 @@ export default {
           }
 
           const rosters = Array.isArray(body.rosters) ? body.rosters : [];
+          const categories = Array.isArray(body.categories) ? body.categories : null;
           if (env.LOGS_KV) {
             await env.LOGS_KV.put('forever_raid_rosters', JSON.stringify(rosters));
+            if (categories !== null) {
+              await env.LOGS_KV.put('forever_raid_categories', JSON.stringify(categories));
+            }
           }
 
-          return new Response(JSON.stringify({ success: true, rosters }), {
+          return new Response(JSON.stringify({ success: true, rosters, categories: categories || [] }), {
             status: 200,
             headers: raidCorsHeaders
           });
