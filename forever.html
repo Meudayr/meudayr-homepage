@@ -3468,6 +3468,86 @@
       padding-right: 4px;
     }
 
+    .raid-pool-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .raid-pool-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .raid-pool-filter-pill {
+      padding: 3px 7px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text-muted);
+      font-size: 0.67rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .raid-pool-filter-pill:hover {
+      color: var(--text-main);
+      border-color: rgba(250, 204, 21, 0.35);
+    }
+
+    .raid-pool-filter-pill.active {
+      background: rgba(250, 204, 21, 0.14);
+      border-color: rgba(250, 204, 21, 0.5);
+      color: #facc15;
+      font-weight: 700;
+    }
+
+    .raid-pool-role-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .raid-pool-role-pill {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 3px 5px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-size: 0.66rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .raid-pool-role-pill img {
+      width: 13px;
+      height: 13px;
+      border-radius: 2px;
+    }
+
+    .raid-pool-role-pill:hover {
+      border-color: rgba(250, 204, 21, 0.35);
+      color: var(--text-main);
+    }
+
+    .raid-pool-role-pill.active {
+      background: rgba(250, 204, 21, 0.14);
+      border-color: rgba(250, 204, 21, 0.5);
+      color: #facc15;
+      font-weight: 700;
+    }
+
     .raid-pool-footer-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -4916,6 +4996,8 @@
     let activeRaidRosterId = null;
     let currentTableSubTab = 'guild'; // 'guild' | 'raids'
     let raidPoolSearch = '';
+    let raidPoolFilter = 'free_size'; // 'free_size' | 'not_in_current' | 'not_in_any' | 'all'
+    let raidPoolRoleFilter = 'all'; // 'all' | 'Tank' | 'Healer' | 'Melee DPS' | 'Ranged DPS'
     let raidRostersDirty = false;
     let draggedRaidPlayer = null;
     let draggedRaidTeamId = null;
@@ -8871,6 +8953,16 @@
       renderRaidRosterBuilder();
     }
 
+    function setRaidPoolFilter(mode) {
+      raidPoolFilter = mode || 'free_size';
+      renderRaidRosterBuilder();
+    }
+
+    function setRaidPoolRoleFilter(role) {
+      raidPoolRoleFilter = (raidPoolRoleFilter === role && role !== 'all') ? 'all' : (role || 'all');
+      renderRaidRosterBuilder();
+    }
+
     function toggleRaidAltPopout(e) {
       if (e) e.stopPropagation();
       openRaidAltPopout = !openRaidAltPopout;
@@ -9158,14 +9250,34 @@
       }
 
       const maxGroups = (team.size || 40) / 5;
+      const activeSize = team.size || 40;
       const assignments = team.assignments || [];
       const assignedSet = new Set(assignments.map(a => a.playerName.toLowerCase()));
+      const inSameSizeSet = new Set();
+      const inAnyRaidSet = new Set();
+      raidRosters.forEach(r => {
+        const sameSize = (r.size || 40) === activeSize;
+        (r.assignments || []).forEach(a => {
+          const lower = (a.playerName || '').toLowerCase();
+          if (!lower) return;
+          inAnyRaidSet.add(lower);
+          if (sameSize) inSameSizeSet.add(lower);
+        });
+      });
 
-      // Build Guild Pool filtered by search
+      // Build Guild Pool filtered by availability, role, and search
       const q = raidPoolSearch.toLowerCase().trim();
       const poolMembers = rosterList.filter(m => {
+        const lowerName = (m.playerName || '').toLowerCase();
+        if (raidPoolFilter === 'free_size' && inSameSizeSet.has(lowerName)) return false;
+        if (raidPoolFilter === 'not_in_current' && assignedSet.has(lowerName)) return false;
+        if (raidPoolFilter === 'not_in_any' && inAnyRaidSet.has(lowerName)) return false;
+        if (raidPoolRoleFilter !== 'all') {
+          const memberRole = m.role || getDefaultRoleForMember(m);
+          if (memberRole !== raidPoolRoleFilter) return false;
+        }
         if (!q) return true;
-        return (m.playerName || '').toLowerCase().includes(q) ||
+        return lowerName.includes(q) ||
                (m.className || '').toLowerCase().includes(q) ||
                (m.spec || '').toLowerCase().includes(q) ||
                (m.role || '').toLowerCase().includes(q);
@@ -9493,10 +9605,26 @@
         <div class="raid-builder-layout">
           <div class="raid-pool-panel" ondragover="handleRaidDragOver(event, this)" ondragleave="handleRaidDragLeave(event, this)" ondrop="handleRaidDropOnPool(event)">
             <div style="display: flex; align-items: center; justify-content: space-between;">
-              <strong style="font-size: 0.85rem; color: var(--text-main);">Guild Pool (${poolMembers.length})</strong>
+              <strong style="font-size: 0.85rem; color: var(--text-main);">Guild Pool (${poolMembers.length}/${rosterList.length})</strong>
               <span style="font-size: 0.72rem; color: var(--text-muted);">${assignments.length}/${team.size} Assigned</span>
             </div>
-            <input type="text" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Filter guild members..." value="${escapeHtml(raidPoolSearch)}" oninput="raidPoolSearch=this.value; renderRaidRosterBuilder();">
+            <input id="raid-pool-search-input" type="text" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Filter guild members..." value="${escapeHtml(raidPoolSearch)}" oninput="raidPoolSearch=this.value; renderRaidRosterBuilder();">
+            <div class="raid-pool-filters">
+              <div class="raid-pool-filter-row" role="group" aria-label="Pool availability filter">
+                <button type="button" class="raid-pool-filter-pill ${raidPoolFilter === 'free_size' ? 'active' : ''}" onclick="setRaidPoolFilter('free_size')" title="Show players not in any ${activeSize}-Man roster">Not in ${activeSize}m</button>
+                <button type="button" class="raid-pool-filter-pill ${raidPoolFilter === 'not_in_current' ? 'active' : ''}" onclick="setRaidPoolFilter('not_in_current')" title="Show players not in ${escapeHtml(team.name)}">Not in Roster</button>
+                <button type="button" class="raid-pool-filter-pill ${raidPoolFilter === 'not_in_any' ? 'active' : ''}" onclick="setRaidPoolFilter('not_in_any')" title="Show players not in any raid roster">Not in Any</button>
+                <button type="button" class="raid-pool-filter-pill ${raidPoolFilter === 'all' ? 'active' : ''}" onclick="setRaidPoolFilter('all')" title="Show all guild members">All</button>
+              </div>
+              <div class="raid-pool-role-row" role="group" aria-label="Pool role filter">
+                <button type="button" class="raid-pool-role-pill ${raidPoolRoleFilter === 'all' ? 'active' : ''}" onclick="setRaidPoolRoleFilter('all')" title="All roles">All</button>
+                ${ROLE_OPTIONS.map(opt => `
+                  <button type="button" class="raid-pool-role-pill ${raidPoolRoleFilter === opt.role ? 'active' : ''}" onclick="setRaidPoolRoleFilter('${opt.role}')" title="Filter by ${opt.label}">
+                    <img src="${getIconUrl(ROLE_ICONS[opt.role])}" alt="${opt.label}">
+                  </button>
+                `).join('')}
+              </div>
+            </div>
             <div class="raid-pool-list">
               ${poolHtml}
             </div>
